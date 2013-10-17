@@ -1,0 +1,73 @@
+@import "animate"
+@import "vendor/bootstrap"
+
+body
+	overflow-x: hidden
+
+.startHidden.ng-hide-add
+	@extend .animated
+	@extend .slideOutUp
+	opacity: 0
+
+.startHidden.ng-hide-add.ng-hide-add-active 
+	opacity: 0
+
+.startHidden.ng-hide-remove
+	-webkit-transition: 0.5s linear all
+	-moz-transition: 0.5s linear all
+	-o-transition: 0.5s linear all
+	transition: 0.5s linear all
+	display: block !important
+	opacity: 0
+
+.startHidden,
+.startHidden.ng-hide-remove.ng-hide-remove-active
+	opacity: 1
+
+.startHidden.ng-show
+	@extend .animated
+	@extend .fadeInDown
+	-webkit-animation-duration: 0.2s
+	-moz-animation-duration: 0.2s
+	-webkit-animation-delay: 0
+	-moz-animation-delay: 0
+
+.startHidden.ng-hide
+	@extend .animated
+	@extend .slideOutUp
+
+div.control
+	@extend .col-lg-8
+
+div.control.half
+	@extend .col-lg-4
+
+div.control.tiny
+	@extend .col-lg-2
+
+div.form-group>label
+	@extend .col-lg-4
+	@extend .control-label
+
+.control input.third, .control select.third
+	display: inline-block
+	box-sizing: border-box !important
+	width: 32.80%
+	margin: 0.05%
+
+.form-group.actions 
+	box-sizing: border-box
+	margin-top: 5em
+	background-color: #eee
+	padding: 3em
+	border-radius: 0.4em
+	.btn-group
+		@extend .col-lg-10
+		@extend .col-lg-offset-4
+
+.form-control.inline
+	display: inline-block
+	width: auto
+
+.input-group.small
+	max-width: 33%

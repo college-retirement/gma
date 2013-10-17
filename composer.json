@@ -4,7 +4,9 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
-		"laravel/framework": "4.0.*"
+		"laravel/framework": "4.0.*",
+		"jenssegers/mongodb": "dev-master",
+		"danielmewes/php-rql": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
@@ -14,7 +16,10 @@
 			"app/database/migrations",
 			"app/database/seeds",
 			"app/tests/TestCase.php"
-		]
+		],
+		"psr-0": {
+			"GMA": "app/lib"
+		}
 	},
 	"scripts": {
 		"post-install-cmd": [
@@ -33,5 +38,6 @@
 	"config": {
 		"preferred-install": "dist"
 	},
-	"minimum-stability": "dev"
+	"minimum-stability": "dev",
+	"prefer-stable": true
 }
