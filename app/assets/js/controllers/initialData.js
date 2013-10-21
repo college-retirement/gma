@@ -2,9 +2,19 @@ angular.module('gmaApp.controllers', []);
 angular.module('gmaApp.controllers').controller("InitialDataController", function($rootScope, $scope, states, $http){
 	$scope.states = states;
 	$scope.currentSchool = null;
+	$scope.collegeList = {};
+	$scope.collegesLoading = false;
 	
-	$http.get('/assets/js/colleges.json').then(function(obj){
-		$scope.collegeList = obj.data;
+	$scope.$watch('currentSchool', function(){
+		if ($scope.currentSchool != "" && typeof $scope.currentSchool !== "object") {
+			
+			$scope.collegesLoading = true;
+
+			$http.post('/colleges.json', {name: $scope.currentSchool}).then(function(obj){
+				$scope.collegeList = obj.data;
+				$scope.collegesLoading = false;
+			});
+		}
 	});
 	
 	$scope.ownershipTypes = [

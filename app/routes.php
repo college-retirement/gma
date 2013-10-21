@@ -15,3 +15,18 @@ Route::get('/', function()
 {
 	return View::make('hello');
 });
+
+Route::post('colleges.json', function(){
+	$q = College::where('name', 'like', '%' . Input::get('name') . '%')->orderBy('name', 'asc')->limit(10)->get();
+	$res = array();
+
+	foreach ($q as $row) {
+		$res[] = array(
+			'name' => $row->name,
+			'city' => $row->city,
+			'state' => $row->state
+		);
+	}
+
+	return Response::json($res);
+});

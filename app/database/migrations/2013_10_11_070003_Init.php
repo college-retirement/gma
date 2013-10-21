@@ -15,6 +15,10 @@ class Init extends Migration {
 			$collection->unique('email');
 		});
 
+		Schema::create('colleges', function($collection){
+			$collection->index('name');
+		});
+
 		Schema::create('drafts', function($collection){
 			$collection->index('last_modified');
 		});
@@ -33,6 +37,7 @@ class Init extends Migration {
 	public function down()
 	{
 		Schema::drop('users');
+		Schema::drop('colleges');
 		Schema::drop('drafts');
 		Schema::drop('profiles');
 	}

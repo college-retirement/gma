@@ -316,7 +316,7 @@
 				<tr>
 					<td colspan="6">
 						<div class="input-group input-append">
-							<input type="text" ng-model="currentSchool" class="form-control inline" typeahead="uni.name for uni in collegeList" typeahead-on-select="updateSchool($item, $index)" typeahead-editable="false">
+							<input type="text" ng-model="currentSchool" class="form-control inline" typeahead="uni.name for uni in collegeList" typeahead-min-length="3" typeahead-on-select="updateSchool($item, $index)" typeahead-loading="collegesLoading">
 							<span class="input-group-btn">
 								<button type="button" class="btn btn-default" ng-click="addSchool()" ng-disabled="currentSchool == null">
 									<i class="icon-plus"></i>
