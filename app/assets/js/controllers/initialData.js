@@ -83,9 +83,9 @@ angular.module('gmaApp.controllers').controller("InitialDataController", functio
 
 	$scope.updateSchool = function(school, index) {
 		$scope.currentSchool = school;
-		$scope.currentSchool.profile = true;
-		$scope.currentSchool.ncProfile = false;
-		$scope.currentSchool.idoc = true;
+		// $scope.currentSchool.profile = true;
+		// $scope.currentSchool.ncProfile = false;
+		// $scope.currentSchool.idoc = true;
 	};
 
 	$scope.dumpJSON = function() {

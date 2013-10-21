@@ -278,9 +278,9 @@
 				<th>College Name</th>
 				<th>City</th>
 				<th>State</th>
-				<th>Profile</th>
-				<th>Noncustodial Profile</th>
-				<th>IDOC</th>
+				<!-- <th>Profile</th> -->
+				<!-- <th>Noncustodial Profile</th> -->
+				<!-- <th>IDOC</th> -->
 			</thead>
 			<tbody>
 				<tr ng-repeat="college in student.schools track by $index">
@@ -293,7 +293,7 @@
 					<td>
 						{{college.state | fullState}}
 					</td>
-					<td>
+<!-- 					<td>
 						<div type="button" class="" btn-checkbox ng-model="college.profile">
 							<i class="icon-check" ng-show="college.profile === true"></i>
 							<i class="icon-check-empty" ng-show="college.profile === false"></i>
@@ -310,7 +310,7 @@
 							<i class="icon-check" ng-show="college.idoc === true"></i>
 							<i class="icon-check-empty" ng-show="college.idoc === false"></i>
 						</div>
-					</td>
+					</td> -->
 				</tr>
 				<tr>
 					<td colspan="6">
