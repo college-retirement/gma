@@ -1,11 +1,9 @@
 <div class="row">
 	<div class="page-header">
-		<h1>Get Started
-			<small><!-- Account Basics --></small>
-		</h1>
+		<h1>Get Started</h1>
 	</div>
 	<blockquote>
-		To get you started with College & Retirement Solutions, we need to gather a few basic details about you.  Fill out the form below to get started!
+		Fill out the form below to get started with College & Retirement Solutions!
 		<br><br>
 		We suggest you view our <a href="#">Document Checklist</a> for documents that will assist in creating your profile.
 		<br><br>
@@ -30,15 +28,18 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label>Social Security Number</label>
-			<div class="control tiny">
-				<input type="text" ng-model="student.ssn" class="form-control" ui-mask="999-99-9999">
-			</div>
-		</div>
-		<div class="form-group">
 			<label>Primary Phone Number</label>
 			<div class="control tiny">
 				<input type="phone" ng-model="student.phone" ui-mask="(999) 999-9999" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<label>Gender</label>
+			<div class="control small">
+				<div class="btn-group">
+					<button type="button" class="btn btn-default" ng-model="student.gender" btn-radio="'M'">Male</button>
+					<button type="button" class="btn btn-default"  ng-model="student.gender" btn-radio="'F'">Female</button>
+				</div>
 			</div>
 		</div>
 		<br>
@@ -78,17 +79,34 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label>Drivers License State <small>(Optional)</small></label>
+			<label>Social Security Number</label>
 			<div class="control tiny">
-				<select ng-model="student.license.state" ng-options="state.abbreviation as state.name for state in states" class="form-control">
-					<option value="" style="display: none" disabled selected>State</option>
-				</select>
+				<input type="text" ng-model="student.ssn" class="form-control" ui-mask="999-99-9999">
 			</div>
 		</div>
 		<div class="form-group">
-			<label  class=" control-label">Drivers License Number <small>(Optional)</small></label>
-			<div class="control tiny">
-				<input type="text" ng-model="student.license.number" class="form-control">
+			<label>Do you have a Drivers License?</label>
+			<div class="control small">
+				<div class="btn-group">
+						<button type="button" class="btn btn-default" ng-model="student.license.issued" btn-radio="true">Yes</button>
+						<button type="button" class="btn btn-default" ng-model="student.license.issued" btn-radio="false">No</button>
+				</div>
+			</div>
+		</div>
+		<div ng-hide="!student.license.issued || student.license.issued === false">
+			<div class="form-group">
+				<label>Drivers License State</label>
+				<div class="control tiny">
+					<select ng-model="student.license.state" ng-options="state.abbreviation as state.name for state in states" class="form-control">
+						<option value="" style="display: none" disabled selected>State</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label  class=" control-label">Drivers License Number</label>
+				<div class="control tiny">
+					<input type="text" ng-model="student.license.number" class="form-control">
+				</div>
 			</div>
 		</div>
 		<div class="form-group">
@@ -112,8 +130,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="form-group">
-			<label>Are you Registered with Selective Services? <small>(Optional)</small></label>
+		<div class="form-group" ng-hide="student.gender === 'F' || !student.gender">
+			<label>Are you Registered with Selective Services?</label>
 			<div class="control">
 				<div class="btn-group">
 					<button type="button" class="btn btn-default" ng-model="student.sss" btn-radio="true">Yes</button>
@@ -136,26 +154,7 @@
 				<input type="number" ng-model="student.dependents" class="form-control">
 			</div>
 		</div>
-		<div class="form-group">
-			<label>How much does it cost to run your household (monthly)?</label>
-			<div class="control tiny">
-				<div class="input-group input-prepend input-append">
-					<span class="input-group-addon">$</span>
-					<input type="text" ng-model="student.monthlyHouseholdExpense" class="form-control">
-					<span class="input-group-addon">.00</span>
-				</div>
-			</div>
-		</div>
-		<div class="form-group">
-			<label>How much can you contribute to college (monthly)?</label>
-			<div class="control tiny">
-				<div class="input-group input-prepend input-append">
-					<span class="input-group-addon">$</span>
-					<input type="text" ng-model="student.contributionAbility" class="form-control">
-					<span class="input-group-addon">.00</span>
-				</div>
-			</div>
-		</div>
+
 		<div class="form-group">
 			<label>Marital Status</label>
 			<div class="control">
@@ -193,9 +192,9 @@
 			<label>Tax Status for 2012 Filing Year</label>
 			<div class="control">
 				<div class="btn-group">
-					<button type="button" class="btn btn-default" ng-model="student.income.taxFiling" btn-radio="0">Will Not File</button>
-					<button type="button" class="btn btn-default" ng-model="student.income.taxFiling" btn-radio="1">Will File, but Haven't Yet</button>
-					<button type="button" class="btn btn-default" ng-model="student.income.taxFiling" btn-radio="2">Filed</button>
+					<button type="button" class="btn btn-default" ng-model="student.income.taxFiling" btn-radio="'Not Filing'">Will Not File</button>
+					<button type="button" class="btn btn-default" ng-model="student.income.taxFiling" btn-radio="'Will File'">Will File, but Haven't Yet</button>
+					<button type="button" class="btn btn-default" ng-model="student.income.taxFiling" btn-radio="'Filed'">Filed</button>
 				</div>
 			</div>
 		</div>
@@ -351,6 +350,26 @@
 			</p>
 		</div>
 		<div class="form-group">
+			<label>How much does it cost to run your household (monthly)?</label>
+			<div class="control tiny">
+				<div class="input-group input-prepend input-append">
+					<span class="input-group-addon">$</span>
+					<input type="text" ng-model="family.monthlyHouseholdExpense" class="form-control">
+					<span class="input-group-addon">.00</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label>How much can you contribute to college (monthly)?</label>
+			<div class="control tiny">
+				<div class="input-group input-prepend input-append">
+					<span class="input-group-addon">$</span>
+					<input type="text" ng-model="family.contributionAbility" class="form-control">
+					<span class="input-group-addon">.00</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
 			<label>Parent's Date of State Residency</label>
 			<div class="control tiny"><input type="text" ng-model="student.parents.residency" class="form-control" ui-mask="99/99/9999"></div>
 		</div>
@@ -367,10 +386,24 @@
 				</div>
 			</div>
 		</div>
-		<div class="form-group" ng-show="student.parents.marital !== 0">
+		<div class="form-group" ng-hide="!student.parents.marital" ng-show="student.parents.marital !== 1">
 			<label>Date of Marriage</label>
 			<div class="control tiny">
 				<input type="text" ng-model="student.parents.dom" class="form-control" ui-mask="99/99/9999">
+			</div>
+		</div>
+
+		<div class="form-group" ng-show="student.parents.marital == 3 || student.parents.marital == 4">
+			<label>Date of Divorce</label>
+			<div class="control tiny">
+				<input type="text" ng-model="student.parents.dod" class="form-control" ui-mask="99/99/99">
+			</div>
+		</div>
+
+		<div class="form-group" ng-show="student.parents.marital === 1">
+			<label>Date of Separation</label>
+			<div class="control tiny">
+				<input type="text" ng-model="student.parents.dos" class="form-control" ui-mask="99/99/99">
 			</div>
 		</div>
 

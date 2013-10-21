@@ -64,6 +64,7 @@ angular.module('gmaApp.controllers').controller("InitialDataController", functio
 	];
 	
 	$scope.student = {
+		// gender: null,
 		schools: [],
 		family: {
 			members: [],
