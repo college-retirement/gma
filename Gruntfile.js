@@ -12,7 +12,7 @@ module.exports = function (Grunt) {
 		},
 		"ngmin": {
 			"controllers": {
-				"src": 'app/assets/js/**/*.js',
+				"src": ['app/assets/js/main.js', 'app/assets/js/**/*.js'],
 				"dest": 'app/assets/js/components.js'
 			},
 		},

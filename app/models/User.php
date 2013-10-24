@@ -1,7 +1,10 @@
 <?php
+use Jenssegers\Mongodb\Model as Eloquent;
 
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
+
+
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
 
@@ -10,14 +13,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var string
 	 */
-	protected $table = 'users';
+	protected $collection = 'users';
+
+	public $appends = array("name", "is_admin");
 
 	/**
 	 * The attributes excluded from the model's JSON form.
 	 *
 	 * @var array
 	 */
-	protected $hidden = array('password');
+	protected $hidden = array();
 
 	/**
 	 * Get the unique identifier for the user.
@@ -49,4 +54,21 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->email;
 	}
 
+	public function drafts() {
+		return $this->hasMany('Draft');
+	}
+
+	public function getNameAttribute() {
+		if (array_key_exists('name', $this->attributes)) {
+			return $this->attributes['name']['first'] . ' ' . $this->attributes['name']['last'];
+		}
+		else {
+			return $this->attributes['email'];
+		}
+	}
+
+	public function getIsAdminAttribute() {
+		$admins = array('trea@treahauet.com');
+		return in_array($this->attributes['email'], $admins);
+	}
 }

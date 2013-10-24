@@ -1,9 +1,6 @@
-angular.module('gmaApp.controllers', []);
-angular.module('gmaApp.controllers').controller("InitialDataController", function($rootScope, $scope, states, $http, Persona){
+angular.module('gmaApp').controller('DraftCtrl', function($scope, $http, Persona, $location, states, $route){
 	Persona.status();
-	$scope.getUser = function() {
-		return Persona.getUser();
-	};
+
 
 	$scope.states = states;
 	$scope.currentSchool = null;
@@ -70,7 +67,7 @@ angular.module('gmaApp.controllers').controller("InitialDataController", functio
 	];
 	
 	$scope.student = {
-		email: $scope.getUser().email,
+		email: Persona.getUser().email,
 		schools: [],
 		family: {
 			members: [],
@@ -80,6 +77,14 @@ angular.module('gmaApp.controllers').controller("InitialDataController", functio
 			retirement: []
 		}
 	};
+
+	console.log($route);
+
+	$http.get('/drafts/' + $route.current.params.draft).then(function(obj){
+		$scope.student = obj.data;
+		$scope.continue = true;
+		$scope.draftLoaded = true;
+	});
 
 
 	$scope.addSchool = function() {
@@ -110,7 +115,7 @@ angular.module('gmaApp.controllers').controller("InitialDataController", functio
 		});
 	};
 	$scope.saveDraft = function() {
-		$http.post('/drafts', $scope.student);
+		$http.put('/drafts', $scope.student);
 	};
 
 	$scope.addFamily = function() {

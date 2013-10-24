@@ -3,16 +3,72 @@
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-	<title>Get More Aid</title>
+	<title>College & Retirement Solutions</title>
 	<!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"> -->
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.min.css">
 	<link rel="stylesheet" href="/assets/css/app.css">
 </head>
-<body>
-	<div class="container" ng-view>
+<body ng-controller="AppCtrl">
+	<div class="container">
+		
+		<nav class="navbar navbar-default" role="navigation">
+		  <!-- Brand and toggle get grouped for better mobile display -->
+		  <div class="navbar-header">
+		    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+		      <span class="sr-only">Toggle navigation</span>
+		      <span class="icon-bar"></span>
+		      <span class="icon-bar"></span>
+		      <span class="icon-bar"></span>
+		    </button>
+		    <a class="navbar-brand" href="#">College & Retirement Solutions</a>
+		  </div>
+
+		  <!-- Collect the nav links, forms, and other content for toggling -->
+		  <div class="collapse navbar-collapse navbar-ex1-collapse">
+		    <ul class="nav navbar-nav">
+		      </li>
+		    </ul>
+		    <div ng-controller="PersonaCtrl">
+			    <div class="navbar-right" ng-show="getUser() == false">
+			    	<a class="persona-button dark" ng-click="login()">
+			    		<span>Sign In</span>
+			    	</a>
+			    </div>
+		    	<ul class="nav navbar-nav navbar-right" ng-cloak ng-hide="getUser() == false">
+		    		<li class="dropdown">
+		    			<a class="dropdown-toggle" data-toggle="dropdown">
+		    				Logged in as {{getUser().name}}
+		    				<b class="caret"></b>
+		    			</a>
+		    			<ul class="dropdown-menu">
+		    				<li>
+		    					<a ng-click="logout()">Logout</a>
+		    				</li>
+		    			</ul>
+		    		</li>
+		    	</ul>
+		    </div>
+<!-- 		    <ul class="nav navbar-nav navbar-right">
+		      <li><a class="persona-button dark"><span>Sign In</a></li>
+		      <li class="dropdown">
+		        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+		        <ul class="dropdown-menu">
+		          <li><a href="#">Action</a></li>
+		          <li><a href="#">Another action</a></li>
+		          <li><a href="#">Something else here</a></li>
+		          <li><a href="#">Separated link</a></li>
+		        </ul>
+		      </li>
+		    </ul> -->
+		  </div><!-- /.navbar-collapse -->
+		</nav>
+	</div>
+	<div ng-view>
 
 	</div>
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.min.js"></script>
 	<script src="/assets/js/vendor/jquery.masked.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.3/angular.js"></script>
 	<script src="http://code.angularjs.org/1.2.0-rc.3/angular-route.js"></script>

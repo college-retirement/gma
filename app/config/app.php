@@ -113,7 +113,8 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
-		'Jenssegers\Mongodb\MongodbServiceProvider'
+		'Jenssegers\Mongodb\MongodbServiceProvider',
+		// 'Mozilla\Persona\Provider\Laravel\PersonaServiceProvider'
 
 	),
 

@@ -1,0 +1,38 @@
+<div class="container col-lg-12">
+	<div class="jumbotron">
+		<div class="container">
+			<div class="col-lg-6">
+				<h3>Create a Profile</h3>
+				<p>To begin working with College & Retirement Solutions, we'll need to gather some information about you.</p>
+				<a href="/#/initial" class="btn btn-primary">
+					Start Here
+					<i class="icon-angle-right"></i>
+				</a>
+
+			</div>
+			<div class="col-lg-6">
+				<h3>Already Started?</h3>
+				<div ng-show="getUser() === false">
+					<p>Have you started filling out a profile?  Click sign in to review your drafts.</p>
+					<a  class="persona-button dark" ng-click="login()">
+						<span>Sign In</span>
+					</a>
+				</div>
+				<div ng-show="getUser() !== false" >
+					<p ng-show="drafts.length > 0">
+						Welcome back!  You may continue one of the drafts below.
+
+						<ul class="nobull">
+							<li ng-repeat="draft in drafts">
+								<a ng-href="#/drafts/{{draft._id}}">{{draft.created | date}}</a>
+							</li>
+						</ul>
+					</p>
+					<p ng-show="drafts.length == 0">
+
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
