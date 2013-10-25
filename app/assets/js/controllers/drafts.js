@@ -155,5 +155,9 @@ angular.module('gmaApp').controller('DraftCtrl', function($scope, $http, Persona
 
 		jQuery(".ng-invalid:not(form)").first().focus();
 		$scope.submit = true;
+
+		if (!jQuery('form').hasClass('.ng-invalid')) {
+			$http.post('/profiles', $scope.student);
+		}
 	};
 });

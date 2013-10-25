@@ -137,11 +137,9 @@ angular.module('gmaApp').controller('ExtendedProfileController', [
         break;
       }
     };
-    $scope.$watch('mode', function (old, newV) {
-      console.log(old);
-      console.log(newV);
-      $location.search().mode = $scope.mode;
-    });
+    $scope.changeMode = function (mode) {
+      $location.search().mode = mode;
+    };
   }
 ]);angular.module('gmaApp').controller('DraftCtrl', [
   '$scope',
@@ -276,6 +274,9 @@ angular.module('gmaApp').controller('ExtendedProfileController', [
       });
       jQuery('.ng-invalid:not(form)').first().focus();
       $scope.submit = true;
+      if (!jQuery('form').hasClass('.ng-invalid')) {
+        $http.post('/profiles', $scope.student);
+      }
     };
   }
 ]);angular.module('gmaApp.controllers', []);

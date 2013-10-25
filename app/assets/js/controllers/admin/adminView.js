@@ -27,9 +27,7 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 		}
 	};
 
-	$scope.$watch('mode', function(old, newV){
-		console.log(old);
-		console.log(newV);
-		$location.search().mode = $scope.mode;
-	});
+	$scope.changeMode = function(mode) {
+		$location.search().mode = mode;
+	};
 });
