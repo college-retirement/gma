@@ -87,6 +87,10 @@ angular.module('gmaApp.controllers').controller("InitialDataController", functio
 		$scope.currentSchool = null;
 	};
 
+	$scope.deleteSchool = function(index) {
+		$scope.student.schools.splice(index, 1);
+	}
+
 	$scope.updateSchool = function(school, index) {
 		$scope.currentSchool = school;
 		// $scope.currentSchool.profile = true;
@@ -117,19 +121,58 @@ angular.module('gmaApp.controllers').controller("InitialDataController", functio
 		$scope.student.family.members.push({student: false});
 	};
 
+	$scope.deleteFamily = function(index) {
+		$scope.student.family.members.splice(index, 1);
+	}
+
 	$scope.addProperty = function() {
 		$scope.student.family.realEstate.push({});
 	};
+
+	$scope.deleteProperty = function(index) {
+		$scope.student.family.realEstate.splice(index, 1);
+	}
 
 	$scope.addAsset = function() {
 		$scope.student.family.assets.push({});
 	};
 
+	$scope.deleteAsset = function(index) {
+		$scope.student.family.assets.splice(index, 1);
+	}
+
 	$scope.addLiability = function() {
 		$scope.student.family.liabilities.push({});
 	};
 
+	$scope.deleteLiability = function(index) {
+		$scope.student.family.liabilities.splice(index, 1);
+	};
+
 	$scope.addRetirement = function() {
 		$scope.student.family.retirement.push({});
-	}
+	};
+
+	$scope.deleteRetirement = function(index) {
+		$scope.student.family.retirement.splice(index, 1);
+	};
+
+	$scope.submitProfile = function() {
+		jQuery('.has-error').removeClass('has-error');
+		
+		jQuery(".ng-invalid").each(function(e){
+			jQuery(this).parent('.control').parent('.form-group').addClass('has-error');
+		});
+		
+		jQuery(".btn.ng-invalid").each(function(e){
+			jQuery(this).parent('.btn-group').parent('.control').parent('.form-group').addClass('has-error');
+		});
+
+		jQuery('.input-group>.ng-invalid').each(function(e){
+			jQuery(this).parent('.input-group').parent('.control').parent('.form-group').addClass('has-error');
+		});
+
+		jQuery(".ng-invalid:not(form)").first().focus();
+		$scope.submit = true;
+	};
 });

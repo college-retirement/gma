@@ -137,4 +137,23 @@ angular.module('gmaApp').controller('DraftCtrl', function($scope, $http, Persona
 	$scope.addRetirement = function() {
 		$scope.student.family.retirement.push({});
 	}
+
+	$scope.submitProfile = function() {
+		jQuery('.has-error').removeClass('has-error');
+		
+		jQuery(".ng-invalid").each(function(e){
+			jQuery(this).parent('.control').parent('.form-group').addClass('has-error');
+		});
+		
+		jQuery(".btn.ng-invalid").each(function(e){
+			jQuery(this).parent('.btn-group').parent('.control').parent('.form-group').addClass('has-error');
+		});
+
+		jQuery('.input-group>.ng-invalid').each(function(e){
+			jQuery(this).parent('.input-group').parent('.control').parent('.form-group').addClass('has-error');
+		});
+
+		jQuery(".ng-invalid:not(form)").first().focus();
+		$scope.submit = true;
+	};
 });

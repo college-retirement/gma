@@ -17,34 +17,34 @@
 			</blockquote>
 			
 			<br>
-			<form action="#" class="form-horizontal">
+			<form novalidate class="form-horizontal" ng-class="{'ng-submitted': submit == true}">
 				<legend>Basic Student Information</legend>
 				<div class="form-group">
 					<label>Legal Name</label>
 					<div class="control">
-						<input type="text" ng-model="student.name.first" placeholder="First" required class="form-control third">
+						<input type="text" ng-model="student.name.first" placeholder="First" required class="form-control third" required>
 						<input type="text" ng-model="student.name.middle" placeholder="Middle" class="form-control third">
-						<input type="text" ng-model="student.name.last" placeholder="Last" required class="form-control third">
+						<input type="text" ng-model="student.name.last" placeholder="Last" required class="form-control third" required>
 					</div>
 				</div>
 				<div class="form-group" ng-show="student.email == null">
 					<label>Email Address</label>
 					<div class="control half">
-						<input type="email" ng-model="student.email" placeholder="name@example.com" class="form-control">
+						<input type="email" ng-model="student.email" placeholder="name@example.com" class="form-control" ng-required="student.email == null">
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Primary Phone Number</label>
 					<div class="control tiny">
-						<input type="phone" ng-model="student.phone" ui-mask="(999) 999-9999" class="form-control">
+						<input type="phone" ng-model="student.phone" ui-mask="(999) 999-9999" class="form-control" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Gender</label>
 					<div class="control small">
-						<div class="btn-group">
-							<button type="button" class="btn btn-default" ng-model="student.gender" btn-radio="'M'">Male</button>
-							<button type="button" class="btn btn-default"  ng-model="student.gender" btn-radio="'F'">Female</button>
+						<div class="btn-group" required>
+							<button type="button" class="btn btn-default" ng-model="student.gender" btn-radio="'M'" required>Male</button>
+							<button type="button" class="btn btn-default"  ng-model="student.gender" btn-radio="'F'" required>Female</button>
 						</div>
 					</div>
 				</div>
@@ -65,36 +65,36 @@
 					<label>Address</label>
 					<div class="control">
 						<p class="help-block">Please enter the address where the student lives <strong>most</strong> of the year.</p>
-						<input type="text" ng-model="student.address.line1" class="form-control" placeholder="Line 1"><br>
-						<input type="text" ng-model="student.address.line" class="form-control" placeholder="Line  (Optional)">
+						<input type="text" ng-model="student.address.line1" class="form-control" placeholder="Line 1" required><br>
+						<input type="text" ng-model="student.address.line" class="form-control" placeholder="Line 2 (Optional)">
 						<br>
 						<div>
 							<input type="text" ng-model="student.address.city" placeholder="City" class="form-control third">
-							<select ng-model="student.address.state" ng-options="state.abbreviation as state.name for state in states" class="form-control third" placeholder="State">
+							<select ng-model="student.address.state" ng-options="state.abbreviation as state.name for state in states" class="form-control third" placeholder="State" required>
 								<option value="" style="display: none" disabled selected>State</option>
 							</select>
-							<input type="text" ng-model="student.address.zipcode" class="form-control third" placeholder="Zipcode">
+							<input type="text" ng-model="student.address.zipcode" class="form-control third" placeholder="Zipcode" required>
 							</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Date of {{student.address.state | fullState}} Residency</label>
 					<div class="control tiny">
-						<input type="text" ng-model="student.state.residency" ui-mask="99/99/9999" class="form-control">
+						<input type="text" ng-model="student.state.residency" ui-mask="99/99/9999" class="form-control" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Social Security Number</label>
 					<div class="control tiny">
-						<input type="text" ng-model="student.ssn" class="form-control" ui-mask="999-99-9999">
+						<input type="text" ng-model="student.ssn" class="form-control" ui-mask="999-99-9999" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Do you have a Drivers License?</label>
 					<div class="control small">
 						<div class="btn-group">
-								<button type="button" class="btn btn-default" ng-model="student.license.issued" btn-radio="true">Yes</button>
-								<button type="button" class="btn btn-default" ng-model="student.license.issued" btn-radio="false">No</button>
+								<button type="button" class="btn btn-default" ng-model="student.license.issued" btn-radio="true" required>Yes</button>
+								<button type="button" class="btn btn-default" ng-model="student.license.issued" btn-radio="false" required>No</button>
 						</div>
 					</div>
 				</div>
@@ -102,7 +102,7 @@
 					<div class="form-group">
 						<label>Drivers License State</label>
 						<div class="control tiny">
-							<select ng-model="student.license.state" ng-options="state.abbreviation as state.name for state in states" class="form-control">
+							<select ng-model="student.license.state" ng-options="state.abbreviation as state.name for state in states" class="form-control" ng-required="student.license.issued == true">
 								<option value="" style="display: none" disabled selected>State</option>
 							</select>
 						</div>
@@ -110,28 +110,28 @@
 					<div class="form-group">
 						<label  class=" control-label">Drivers License Number</label>
 						<div class="control tiny">
-							<input type="text" ng-model="student.license.number" class="form-control">
+							<input type="text" ng-model="student.license.number" class="form-control" ng-required="student.license.issued == true">
 						</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Date of Birth</label>
 					<div class="control tiny">
-						<input type="text" ng-model="student.dob" class="form-control" ui-mask="99/99/9999">
+						<input type="text" ng-model="student.dob" class="form-control" ui-mask="99/99/9999" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>High School Graduation Year</label>
 					<div class="control tiny">
-						<input type="text" ng-model="student.hsGrad" maxlength="4" ui-mask="9999" placeholder="YYYY" class="form-control">
+						<input type="text" ng-model="student.hsGrad" maxlength="4" ui-mask="9999" placeholder="YYYY" class="form-control" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Are you a citizen of the United States?</label>
 					<div class="control">
 						<div class="btn-group">
-							<button type="button" class="btn btn-default" ng-model="student.citizen" btn-radio="true">Yes</button>
-							<button type="button" class="btn btn-default" ng-model="student.citizen" btn-radio="false">No</button>
+							<button type="button" class="btn btn-default" ng-model="student.citizen" btn-radio="true" required>Yes</button>
+							<button type="button" class="btn btn-default" ng-model="student.citizen" btn-radio="false" required>No</button>
 						</div>
 					</div>
 				</div>
@@ -139,8 +139,8 @@
 					<label>Are you Registered with Selective Services?</label>
 					<div class="control">
 						<div class="btn-group">
-							<button type="button" class="btn btn-default" ng-model="student.sss" btn-radio="true">Yes</button>
-							<button type="button" class="btn btn-default" ng-model="student.sss" btn-radio="false">No</button>
+							<button type="button" class="btn btn-default" ng-model="student.sss" btn-radio="true" ng-required="student.gender == 'M'">Yes</button>
+							<button type="button" class="btn btn-default" ng-model="student.sss" btn-radio="false" ng-required="student.gender == 'M'">No</button>
 						</div>
 					</div>
 				</div>
@@ -148,15 +148,15 @@
 					<label>Have you ever been convicted of a drug offense?</label>
 					<div class="control">
 						<div class="btn-group">
-							<button type="button" class="btn btn-default" ng-model="student.drugConviction" btn-radio="true">Yes</button>
-							<button type="button" class="btn btn-default" ng-model="student.drugConviction" btn-radio="false">No</button>
+							<button type="button" class="btn btn-default" ng-model="student.drugConviction" btn-radio="true" required>Yes</button>
+							<button type="button" class="btn btn-default" ng-model="student.drugConviction" btn-radio="false" required>No</button>
 						</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Number of Dependents</label>
 					<div class="control tiny">
-						<input type="number" ng-model="student.dependents" class="form-control">
+						<input type="number" ng-model="student.dependents" class="form-control" required>
 					</div>
 				</div>
 
@@ -164,8 +164,8 @@
 					<label>Marital Status</label>
 					<div class="control">
 						<div class="btn-group">
-							<button type="button" class="btn btn-default" ng-model="student.married" btn-radio="false">Single</button>
-							<button type="button" class="btn btn-default" ng-model="student.married" btn-radio="true">Married</button>
+							<button type="button" class="btn btn-default" ng-model="student.married" btn-radio="false" required>Single</button>
+							<button type="button" class="btn btn-default" ng-model="student.married" btn-radio="true" required>Married</button>
 						</div>
 					</div>
 				</div>
@@ -174,21 +174,21 @@
 					<div class="form-group">
 						<label>Legal Name</label>
 						<div class="control">
-							<input type="text" ng-model="student.spouse.name.first" placeholder="First" required class="form-control third">
+							<input type="text" ng-model="student.spouse.name.first" placeholder="First" required class="form-control third" ng-required="student.married">
 							<input type="text" ng-model="student.spouse.name.middle" placeholder="Middle" class="form-control third">
-							<input type="text" ng-model="student.spouse.name.last" placeholder="Last" required class="form-control third">
+							<input type="text" ng-model="student.spouse.name.last" placeholder="Last" required class="form-control third" ng-required="student.married">
 						</div>
 					</div>
 					<div class="form-group">
 						<label>Date of Birth</label>
 						<div class="control tiny">
-							<input type="text" ng-model="student.spouse.dob" class="form-control" ui-mask="99/99/9999">
+							<input type="text" ng-model="student.spouse.dob" class="form-control" ui-mask="99/99/9999" ng-required="student.married">
 						</div>
 					</div>
 					<div class="form-group">
 						<label>Social Security Number</label>
 						<div class="control tiny">
-							<input type="text" ng-model="student.spouse.ssn" class="form-control" ui-mask="999-99-9999">
+							<input type="text" ng-model="student.spouse.ssn" class="form-control" ui-mask="999-99-9999" ng-required="student.married">
 						</div>
 					</div>
 				</div>
@@ -197,9 +197,9 @@
 					<label>Tax Status for 2012 Filing Year</label>
 					<div class="control">
 						<div class="btn-group">
-							<button type="button" class="btn btn-default" ng-model="student.income.taxFiling" btn-radio="'Not Filing'">Will Not File</button>
-							<button type="button" class="btn btn-default" ng-model="student.income.taxFiling" btn-radio="'Will File'">Will File, but Haven't Yet</button>
-							<button type="button" class="btn btn-default" ng-model="student.income.taxFiling" btn-radio="'Filed'">Filed</button>
+							<button type="button" class="btn btn-default" ng-model="student.income.taxFiling" btn-radio="'Not Filing'" required>Will Not File</button>
+							<button type="button" class="btn btn-default" ng-model="student.income.taxFiling" btn-radio="'Will File'" required>Will File, but Haven't Yet</button>
+							<button type="button" class="btn btn-default" ng-model="student.income.taxFiling" btn-radio="'Filed'" required>Filed</button>
 						</div>
 					</div>
 				</div>
@@ -208,7 +208,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.income.earnedIncome" class="form-control">
+							<input type="text" ng-model="student.income.earnedIncome" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -218,7 +218,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.income.unearnedIncome" class="form-control">
+							<input type="text" ng-model="student.income.unearnedIncome" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -228,7 +228,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.income.taxPaid" class="form-control">
+							<input type="text" ng-model="student.income.taxPaid" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -238,7 +238,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.income.agi" class="form-control">
+							<input type="text" ng-model="student.income.agi" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -249,7 +249,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.income.itemizedDeductions" class="form-control">
+							<input type="text" ng-model="student.income.itemizedDeductions" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -261,7 +261,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.income.iraContribution" class="form-control">
+							<input type="text" ng-model="student.income.iraContribution" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -271,7 +271,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.income.ssBenefits" class="form-control">
+							<input type="text" ng-model="student.income.ssBenefits" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -280,9 +280,11 @@
 				<blockquote>Please list schools where you've applied or plan to apply to.</blockquote>
 				<table class="table table-striped">
 					<thead>
+						<!-- <th></th> -->
 						<th>College Name</th>
 						<th>City</th>
 						<th>State</th>
+						<th></th>
 						<!-- <th>Profile</th> -->
 						<!-- <th>Noncustodial Profile</th> -->
 						<!-- <th>IDOC</th> -->
@@ -297,6 +299,9 @@
 							</td>
 							<td>
 								{{college.state | fullState}}
+							</td>
+							<td>
+								<button class="btn btn-default" ng-click="deleteSchool($index)"><i class="icon-remove"></i></button>
 							</td>
 		<!-- 					<td>
 								<div type="button" class="" btn-checkbox ng-model="college.profile">
@@ -318,7 +323,7 @@
 							</td> -->
 						</tr>
 						<tr>
-							<td colspan="6">
+							<td colspan="4">
 								<div class="input-group input-append">
 									<input type="text" ng-model="currentSchool" class="form-control inline" typeahead="uni.name for uni in collegeList" typeahead-min-length="3" typeahead-on-select="updateSchool($item, $index)" typeahead-loading="collegesLoading">
 									<span class="input-group-btn">
@@ -336,19 +341,19 @@
 				<div class="form-group">
 					<label for="" class=" control-label">Number Living in Household</label>
 					<div class="control tiny">
-						<input type="number" class="form-control" ng-model="student.household.size">
+						<input type="number" class="form-control" ng-model="student.household.size" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Pre-College Age Children</label>
 					<div class="control tiny">
-						<input type="number" class="form-control" ng-model="student.household.preCollege">
+						<input type="number" class="form-control" ng-model="student.household.preCollege" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Household Members in College 2013-2014</label>
 					<div class="control tiny">
-						<input type="number" class="form-control" ng-model="student.household.collegeAttendees">
+						<input type="number" class="form-control" ng-model="student.household.collegeAttendees" required>
 					</div>
 					<p class="help-block">
 						Include yourself (the student), but not parents.	
@@ -359,7 +364,7 @@
 					<div class="control tiny">
 						<div class="input-group input-prepend input-append">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="family.monthlyHouseholdExpense" class="form-control">
+							<input type="text" ng-model="family.monthlyHouseholdExpense" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -369,46 +374,46 @@
 					<div class="control tiny">
 						<div class="input-group input-prepend input-append">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="family.contributionAbility" class="form-control">
+							<input type="text" ng-model="family.contributionAbility" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Parent's Date of State Residency</label>
-					<div class="control tiny"><input type="text" ng-model="student.parents.residency" class="form-control" ui-mask="99/99/9999"></div>
+					<div class="control tiny"><input type="text" ng-model="student.parents.residency" class="form-control" ui-mask="99/99/9999" required></div>
 				</div>
 				<div class="form-group">
 					<label>Parent's Marital Status</label>
 					<div class="control">
 						<div class="btn-group">
-							<button type="button"  class="btn btn-default" btn-radio="0" ng-model="student.parents.marital">Never Married</button>
-							<button type="button" class="btn btn-default" btn-radio="1" ng-model="student.parents.marital">Separated</button>
-							<button type="button" class="btn btn-default" btn-radio="2" ng-model="student.parents.marital">Widowed</button>
-							<button type="button" class="btn btn-default" btn-radio="3" ng-model="student.parents.marital">Divorced</button>
-							<button type="button" class="btn btn-default" btn-radio="4" ng-model="student.parents.marital">Remarried</button>
-							<button type="button" class="btn btn-default" btn-radio="5" ng-model="student.parents.marital">Married</button>
+							<button type="button"  class="btn btn-default" btn-radio="0" ng-model="student.parents.marital" required>Never Married</button>
+							<button type="button" class="btn btn-default" btn-radio="1" ng-model="student.parents.marital" required>Separated</button>
+							<button type="button" class="btn btn-default" btn-radio="2" ng-model="student.parents.marital" required>Widowed</button>
+							<button type="button" class="btn btn-default" btn-radio="3" ng-model="student.parents.marital" required>Divorced</button>
+							<button type="button" class="btn btn-default" btn-radio="4" ng-model="student.parents.marital" required>Remarried</button>
+							<button type="button" class="btn btn-default" btn-radio="5" ng-model="student.parents.marital" required>Married</button>
 						</div>
 					</div>
 				</div>
 				<div class="form-group" ng-hide="!student.parents.marital" ng-show="student.parents.marital !== 1">
 					<label>Date of Marriage</label>
 					<div class="control tiny">
-						<input type="text" ng-model="student.parents.dom" class="form-control" ui-mask="99/99/9999">
+						<input type="text" ng-model="student.parents.dom" class="form-control" ui-mask="99/99/9999" ng-required="student.parents.marital !== 1">
 					</div>
 				</div>
 
 				<div class="form-group" ng-show="student.parents.marital == 3 || student.parents.marital == 4">
 					<label>Date of Divorce</label>
 					<div class="control tiny">
-						<input type="text" ng-model="student.parents.dod" class="form-control" ui-mask="99/99/99">
+						<input type="text" ng-model="student.parents.dod" class="form-control" ui-mask="99/99/99" ng-required="student.parents.marital == 3 || student.parents.marital == 4">
 					</div>
 				</div>
 
 				<div class="form-group" ng-show="student.parents.marital === 1">
 					<label>Date of Separation</label>
 					<div class="control tiny">
-						<input type="text" ng-model="student.parents.dos" class="form-control" ui-mask="99/99/99">
+						<input type="text" ng-model="student.parents.dos" class="form-control" ui-mask="99/99/99" ng-required="student.parents.marital == 1">
 					</div>
 				</div>
 
@@ -416,47 +421,47 @@
 				<div class="form-group">
 					<label>Full Name</label>
 					<div class="control">
-						<input type="text" ng-model="student.parents.father.name.first" placeholder="First" class="form-control third">
+						<input type="text" ng-model="student.parents.father.name.first" placeholder="First" class="form-control third" required>
 						<input type="text" ng-model="student.parents.father.name.middle" placeholder="Middle" class="form-control third">
-						<input type="text" ng-model="student.parents.father.name.last" placeholder="Last" class="form-control third">
+						<input type="text" ng-model="student.parents.father.name.last" placeholder="Last" class="form-control third" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Date of Birth</label>
 					<div class="control tiny">
-						<input type="text" class="form-control" ng-model="student.parents.father.dob" ui-mask="99/99/9999">
+						<input type="text" class="form-control" ng-model="student.parents.father.dob" ui-mask="99/99/9999" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Social Security Number</label>
 					<div class="control tiny">
-						<input type="text" class="form-control" ng-model="student.parents.father.ssn" ui-mask="999-99-9999">
+						<input type="text" class="form-control" ng-model="student.parents.father.ssn" ui-mask="999-99-9999" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Occupation</label>
 					<div class="control half">
-						<input type="text" class="form-control" ng-model="student.parents.father.occupation">
+						<input type="text" class="form-control" ng-model="student.parents.father.occupation" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Employer</label>
 					<div class="control half">
-						<input type="text" ng-model="student.parents.father.employer.name" class="form-control">
+						<input type="text" ng-model="student.parents.father.employer.name" class="form-control" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Years with Employer</label>
 					<div class="control tiny">
-						<input type="number" class="form-control" ng-model="student.parents.father.employer.years">
+						<input type="number" class="form-control" ng-model="student.parents.father.employer.years" required>
 					</div> 
 				</div>
 				<div class="form-group">
 					<label>Changed Jobs in Last 5 Years?</label>
 					<div class="control">
 						<div class="btn-group">
-							<button class="btn btn-default" type="button" btn-radio="false" ng-model="student.parents.father.employer.changedLast5">No</button>
-							<button class="btn btn-default" type="button" btn-radio="true" ng-model="student.parents.father.employer.changedLast5">Yes</button>
+							<button class="btn btn-default" type="button" btn-radio="false" ng-model="student.parents.father.employer.changedLast5" required>No</button>
+							<button class="btn btn-default" type="button" btn-radio="true" ng-model="student.parents.father.employer.changedLast5" required>Yes</button>
 						</div>
 					</div>
 				</div>
@@ -464,24 +469,24 @@
 					<label>Job Change Anticipated?</label>
 					<div class="control">
 						<div class="btn-group">
-							<button type="button" class="btn btn-default" btn-radio="false" ng-model="parents.father.employer.changing">No</button>
-							<button type="button" class="btn btn-default" btn-radio="true" ng-model="parents.father.employer.changing">Yes</button>
+							<button type="button" class="btn btn-default" btn-radio="false" ng-model="parents.father.employer.changing" required>No</button>
+							<button type="button" class="btn btn-default" btn-radio="true" ng-model="parents.father.employer.changing" required>Yes</button>
 						</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Work Phone Number</label>
 					<div class="control tiny">
-						<input type="phone" class="form-control" ng-model="student.parents.father.employer.phone" ui-mask="(999) 999-9999">
+						<input type="phone" class="form-control" ng-model="student.parents.father.employer.phone" ui-mask="(999) 999-9999" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Highest Level of Education</label>
 					<div class="control">
 						<div class="btn-group">
-							<button type="button" class="btn btn-default" btn-radio="0" ng-model="students.parents.father.education">High School</button>
-							<button type="button" class="btn btn-default" btn-radio="1" ng-model="students.parents.father.education">College</button>
-							<button type="button" class="btn btn-default" btn-radio="2" ng-model="students.parents.father.education">College & Beyond</button>
+							<button type="button" class="btn btn-default" btn-radio="0" ng-model="students.parents.father.education" required>High School</button>
+							<button type="button" class="btn btn-default" btn-radio="1" ng-model="students.parents.father.education" required>College</button>
+							<button type="button" class="btn btn-default" btn-radio="2" ng-model="students.parents.father.education" required>College & Beyond</button>
 						</div>
 					</div>
 				</div>
@@ -489,47 +494,47 @@
 				<div class="form-group">
 					<label>Full Name</label>
 					<div class="control">
-						<input type="text" ng-model="student.parents.mother.name.first" placeholder="First" class="form-control third">
-						<input type="text" ng-model="student.parents.mother.name.middle" placeholder="Middle" class="form-control third">
-						<input type="text" ng-model="student.parents.mother.name.last" placeholder="Last" class="form-control third">
+						<input type="text" ng-model="student.parents.mother.name.first" placeholder="First" class="form-control third" required>
+						<input type="text" ng-model="student.parents.mother.name.middle" placeholder="Middle" class="form-control third" required>
+						<input type="text" ng-model="student.parents.mother.name.last" placeholder="Last" class="form-control third" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Date of Birth</label>
 					<div class="control tiny">
-						<input type="text" class="form-control" ng-model="student.parents.mother.dob" ui-mask="99/99/9999">
+						<input type="text" class="form-control" ng-model="student.parents.mother.dob" ui-mask="99/99/9999" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Social Security Number</label>
 					<div class="control tiny">
-						<input type="text" class="form-control" ng-model="student.parents.mother.ssn" ui-mask="999-99-9999">
+						<input type="text" class="form-control" ng-model="student.parents.mother.ssn" ui-mask="999-99-9999" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Occupation</label>
 					<div class="control half">
-						<input type="text" class="form-control" ng-model="student.parents.mother.occupation">
+						<input type="text" class="form-control" ng-model="student.parents.mother.occupation" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Employer</label>
 					<div class="control half">
-						<input type="text" ng-model="student.parents.mother.employer.name" class="form-control">
+						<input type="text" ng-model="student.parents.mother.employer.name" class="form-control" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Years with Employer</label>
 					<div class="control tiny">
-						<input type="number" class="form-control" ng-model="student.parents.mother.employer.years">
+						<input type="number" class="form-control" ng-model="student.parents.mother.employer.years" required>
 					</div> 
 				</div>
 				<div class="form-group">
 					<label>Changed Jobs in Last 5 Years?</label>
 					<div class="control">
 						<div class="btn-group">
-							<button class="btn btn-default" type="button" btn-radio="false" ng-model="student.parents.mother.employer.changedLast5">No</button>
-							<button class="btn btn-default" type="button" btn-radio="true" ng-model="student.parents.mother.employer.changedLast5">Yes</button>
+							<button class="btn btn-default" type="button" btn-radio="false" ng-model="student.parents.mother.employer.changedLast5" required>No</button>
+							<button class="btn btn-default" type="button" btn-radio="true" ng-model="student.parents.mother.employer.changedLast5" required>Yes</button>
 						</div>
 					</div>
 				</div>
@@ -537,24 +542,24 @@
 					<label>Job Change Anticipated?</label>
 					<div class="control">
 						<div class="btn-group">
-							<button type="button" class="btn btn-default" btn-radio="false" ng-model="parents.mother.employer.changing">No</button>
-							<button type="button" class="btn btn-default" btn-radio="true" ng-model="parents.mother.employer.changing">Yes</button>
+							<button type="button" class="btn btn-default" btn-radio="false" ng-model="parents.mother.employer.changing" required>No</button>
+							<button type="button" class="btn btn-default" btn-radio="true" ng-model="parents.mother.employer.changing" required>Yes</button>
 						</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Work Phone Number</label>
 					<div class="control tiny">
-						<input type="phone" class="form-control" ng-model="student.parents.mother.employer.phone" ui-mask="(999) 999-9999">
+						<input type="phone" class="form-control" ng-model="student.parents.mother.employer.phone" ui-mask="(999) 999-9999" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Highest Level of Education</label>
 					<div class="control">
 						<div class="btn-group">
-							<button type="button" class="btn btn-default" btn-radio="0" ng-model="students.parents.mother.education">High School</button>
-							<button type="button" class="btn btn-default" btn-radio="1" ng-model="students.parents.mother.education">College</button>
-							<button type="button" class="btn btn-default" btn-radio="2" ng-model="students.parents.mother.education">College & Beyond</button>
+							<button type="button" class="btn btn-default" btn-radio="0" ng-model="students.parents.mother.education" required>High School</button>
+							<button type="button" class="btn btn-default" btn-radio="1" ng-model="students.parents.mother.education" required>College</button>
+							<button type="button" class="btn btn-default" btn-radio="2" ng-model="students.parents.mother.education" required>College & Beyond</button>
 						</div>
 					</div>
 				</div>
@@ -570,6 +575,7 @@
 						<th>School or College</th>
 						<th>Grade</th>
 						<th>Tuition Paid by Parents</th>
+						<th></th>
 					</thead>
 					<tbody>
 						<tr ng-repeat="member in student.family.members">
@@ -624,6 +630,9 @@
 									<span class="input-group-addon">.00</span>
 								</div>
 							</td>
+							<td>
+								<button class="btn btn-default" ng-click="deleteFamily($index)"><i class="icon-remove"></i></button>
+							</td>
 						</tr>
 						<tr>
 							<td colspan="6">
@@ -647,7 +656,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.father.current" class="form-control">
+							<input type="text" ng-model="student.parents.income.father.current" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -657,7 +666,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.father.anticipated" class="form-control">
+							<input type="text" ng-model="student.parents.income.father.anticipated" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -667,7 +676,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.father.retirement" class="form-control">
+							<input type="text" ng-model="student.parents.income.father.retirement" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -679,7 +688,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.mother.current" class="form-control">
+							<input type="text" ng-model="student.parents.income.mother.current" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -689,7 +698,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.mother.anticipated" class="form-control">
+							<input type="text" ng-model="student.parents.income.mother.anticipated" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -699,7 +708,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.mother.retirement" class="form-control">
+							<input type="text" ng-model="student.parents.income.mother.retirement" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -711,7 +720,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.combined.other" class="form-control">
+							<input type="text" ng-model="student.parents.income.combined.other" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -721,7 +730,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.combined.untaxed" class="form-control">
+							<input type="text" ng-model="student.parents.income.combined.untaxed" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -731,7 +740,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.combined.childSupport.received" class="form-control">
+							<input type="text" ng-model="student.parents.income.combined.childSupport.received" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -741,7 +750,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.combined.childSupport.paid" class="form-control">
+							<input type="text" ng-model="student.parents.income.combined.childSupport.paid" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -751,7 +760,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.combined.housing" class="form-control">
+							<input type="text" ng-model="student.parents.income.combined.housing" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -763,7 +772,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.combined.medical" class="form-control">
+							<input type="text" ng-model="student.parents.income.combined.medical" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -773,7 +782,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.combined.deductions" class="form-control">
+							<input type="text" ng-model="student.parents.income.combined.deductions" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -783,7 +792,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.combined.taxPaid" class="form-control">
+							<input type="text" ng-model="student.parents.income.combined.taxPaid" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -793,7 +802,7 @@
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.combined.agi" class="form-control">
+							<input type="text" ng-model="student.parents.income.combined.agi" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -804,8 +813,8 @@
 					<label>Does your family own a home?</label>
 					<div class="control">
 						<div class="btn-group">
-							<button type="button" class="btn btn-default" btn-radio="true" ng-model="student.family.home.owned">Yes</button>
-							<button type="button" class="btn btn-default" btn-radio="false" ng-model="student.family.home.owned">No</button>
+							<button type="button" class="btn btn-default" btn-radio="true" ng-model="student.family.home.owned" required>Yes</button>
+							<button type="button" class="btn btn-default" btn-radio="false" ng-model="student.family.home.owned" required>No</button>
 						</div>
 					</div>
 				</div>
@@ -815,7 +824,7 @@
 						<div class="control tiny">
 							<div class="input-prepend input-append input-group">
 								<span class="input-group-addon">$</span>
-								<input type="text" ng-model="student.home.price" class="form-control">
+								<input type="text" ng-model="student.home.price" class="form-control" ng-required="student.family.home.owned == true">
 								<span class="input-group-addon">.00</span>
 							</div>	
 						</div>
@@ -825,7 +834,7 @@
 						<div class="control tiny">
 							<div class="input-prepend input-append input-group">
 								<span class="input-group-addon">$</span>
-								<input type="text" ng-model="student.home.value" class="form-control">
+								<input type="text" ng-model="student.home.value" class="form-control" ng-required="student.family.home.owned == true">
 								<span class="input-group-addon">.00</span>
 							</div>	
 						</div>
@@ -833,7 +842,7 @@
 					<div class="form-group">
 						<label>Year of Purchase</label>
 						<div class="control tiny">
-							<input type="text" ng-model="student.home.purchasedYear" ui-mask="9999" class="form-control">
+							<input type="text" ng-model="student.home.purchasedYear" ui-mask="9999" class="form-control" ng-required="student.family.home.owned == true">
 						</div>
 					</div>
 					<div class="form-group">
@@ -841,7 +850,7 @@
 						<div class="control tiny">
 							<div class="input-prepend input-append input-group">
 								<span class="input-group-addon">$</span>
-								<input type="text" ng-model="student.home.propertyTax" class="form-control">
+								<input type="text" ng-model="student.home.propertyTax" class="form-control" ng-required="student.family.home.owned == true">
 								<span class="input-group-addon">.00</span>
 							</div>	
 						</div>
@@ -855,17 +864,18 @@
 						<th>Current Market Value</th>
 						<th>Amount Owed</th>
 						<th>Year Purchased</th>
+						<th></th>
 					</thead>
 					<tbody>
 						<tr ng-repeat="property in student.family.realEstate">
 							<td>
-								<select ng-model="property.ownershipType" class="form-control inline">
+								<select ng-model="property.ownershipType" class="form-control inline" required>
 									<option value="">--Select One--</option>
 									<option ng-repeat="type in ownershipTypes">{{type}}</option>
 								</select>
 							</td>
 							<td>
-								<select ng-model="property.owner" class="form-control inline">
+								<select ng-model="property.owner" class="form-control inline" required>
 									<option value="">--Select One--</option>
 									<option value="student">Student</option>
 									<option value="parent">Parent</option>
@@ -874,23 +884,26 @@
 							<td>
 								<div class="input-prepend input-append input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" ng-model="property.marketValue" class="form-control">
+									<input type="text" ng-model="property.marketValue" class="form-control" required>
 									<span class="input-group-addon">.00</span>
 								</div>	
 							</td>
 							<td>
 								<div class="input-prepend input-append input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" ng-model="property.amountOwed" class="form-control">
+									<input type="text" ng-model="property.amountOwed" class="form-control" required>
 									<span class="input-group-addon">.00</span>
 								</div>	
 							</td>
 							<td>
-								<input type="text"  ng-model="property.purchaseYear" class="form-control" ui-mask="9999">
+								<input type="text"  ng-model="property.purchaseYear" class="form-control" ui-mask="9999" required>
+							</td>
+							<td>
+								<button class="btn btn-default" ng-click="deleteProperty($index)"><i class="icon-remove"></i></button>
 							</td>
 						</tr>
 						<tr>
-							<td colspan="5">
+							<td colspan="6">
 								<button type="button" class="btn btn-default" ng-click="addProperty()">
 									<i class="icon-plus"></i>
 									Add Property
@@ -906,17 +919,18 @@
 						<th>Type</th>
 						<th>Owner</th>
 						<th>Value</th>
+						<th></th>
 					</thead>
 					<tbody>
 						<tr ng-repeat="asset in student.family.assets">
 							<td>
-								<select ng-model="asset.type" class="form-control inline">
+								<select ng-model="asset.type" class="form-control inline" required>
 									<option value="">--Select One--</option>
 									<option  ng-repeat="type in assetTypes">{{type}}</option>
 								</select>
 							</td>
 							<td>
-								<select class="form-control inline" ng-model="asset.owner">
+								<select class="form-control inline" ng-model="asset.owner" required>
 									<option value="">--Select One--</option>
 									<option>Student</option>
 									<option>Parents</option>
@@ -927,13 +941,18 @@
 							<td>
 								<div class="input-prepend input-append input-group small">
 									<span class="input-group-addon">$</span>
-									<input type="text" ng-model="asset.value" class="form-control">
+									<input type="text" ng-model="asset.value" class="form-control" required>
 									<span class="input-group-addon">.00</span>
 								</div>	
 							</td>
+							<td>
+								<button class="btn btn-default" ng-click="deleteAsset($index)">
+									<i class="icon-remove"></i>
+								</button>
+							</td>
 						</tr>
 						<tr>
-							<td colspan="3">
+							<td colspan="4">
 								<button type="button" class="btn btn-default" ng-click="addAsset()">
 									<i class="icon-plus"></i>
 									Add Asset
@@ -951,17 +970,18 @@
 						<th>Holder</th>
 						<th>Monthly Payment</th>
 						<th>Current Balance</th>
+						<th></th>
 					</thead>
 					<tbody>
 						<tr ng-repeat="liability in student.family.liabilities">
 							<td>
-								<select class="form-control inline" ng-model="liability.type">
+								<select class="form-control inline" ng-model="liability.type" required>
 									<option value="">--Select One--</option>
 									<option ng-repeat="type in liabilityTypes">{{type}}</option>
 								</select>
 							</td>
 							<td>
-								<select ng-model="liability.holder" class="form-control inline">
+								<select ng-model="liability.holder" class="form-control inline" required>
 									<option value="">--Select One--</option>
 									<option>Student</option>
 									<option>Parents</option>
@@ -970,20 +990,25 @@
 							<td>
 								<div class="input-group input-prepend input-append">
 									<span class="input-group-addon">$</span>
-									<input type="text" ng-model="liability.payment" class="form-control">
+									<input type="text" ng-model="liability.payment" class="form-control" required>
 									<span class="input-group-addon">.00</span>
 								</div>
 							</td>
 							<td>
 								<div class="input-group input-prepend input-append">
 									<span class="input-group-addon">$</span>
-									<input type="text" ng-model="liability.balance" class="form-control">
+									<input type="text" ng-model="liability.balance" class="form-control" required>
 									<span class="input-group-addon">.00</span>
 								</div>
 							</td>
+							<td>
+								<button class="btn btn-default" ng-click="deleteLiability($index)">
+									<i class="icon-remove"></i>
+								</button>
+							</td>
 						</tr>
 						<tr>
-							<td colspan="4">
+							<td colspan="5">
 								<button type="button" class="btn btn-default" ng-click="addLiability()">
 									<i class="icon-plus"></i>
 									Add Liability
@@ -1000,11 +1025,12 @@
 						<th>Owner</th>
 						<th>Type</th>
 						<th>Value</th>
+						<th></th>
 					</thead>
 					<tbody>
 						<tr ng-repeat="asset in student.family.retirement">
 							<td>
-								<select class="form-control inline" ng-model="asset.owner">
+								<select class="form-control inline" ng-model="asset.owner" required>
 									<option value="">--Select One--</option>
 									<option>Father</option>
 									<option>Mother</option>
@@ -1012,7 +1038,7 @@
 								</select>
 							</td>
 							<td>
-								<select class="form-control inline" ng-model="asset.type">
+								<select class="form-control inline" ng-model="asset.type" required>
 									<option value="">--Select One--</option>
 									<option ng-repeat="type in retirementTypes">{{type}}</option>
 								</select>
@@ -1020,14 +1046,19 @@
 							<td>
 								<div class="input-group input-prepend input-append small">
 									<span class="input-group-addon">$</span>
-									<input type="text" ng-model="asset.value" class="form-control">
+									<input type="text" ng-model="asset.value" class="form-control" required>
 									<span class="input-group-addon">.00</span>
 								</div>	
+							</td>
+							<td>
+								<button class="btn btn-default" ng-click="deleteRetirement($index)">
+									<i class="icon-remove"></i>
+								</button>
 							</td>
 
 						</tr>
 						<tr>
-							<td colspan="3">
+							<td colspan="4">
 								<button type="button" class="btn btn-default" ng-click="addRetirement()">
 									<i class="icon-plus"></i>
 									Add Retirement Asset
@@ -1053,14 +1084,14 @@
 				<div class="form-group">
 					<label>Do you agree to the Permissions & Disclosures?</label>
 					<div class="control">
-						<input type="checkbox"> Yes
+						<input type="checkbox" required> Yes
 					</div>
 
 				</div>
 
 				<div class="form-group actions">
 					<div class="btn-group">
-						<input type="submit" class="btn btn-primary" value="Validate & Submit">
+						<input type="submit" class="btn btn-primary" ng-click="submitProfile()" value="Validate & Submit">
 						<button type="button" class="btn btn-default" ng-click="saveDraft()">
 							Save Draft As Is
 						</button>
