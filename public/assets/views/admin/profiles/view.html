@@ -1,0 +1,22 @@
+<div class="container">
+	<ol class="breadcrumb">
+		<li>
+			<a href="#/admin">Admin</a>
+		</li>
+		<li>
+			<a href="#/admin/profiles">Profiles</a>
+		</li>
+		<li class="active">
+			Profile
+		</li>
+	</ol>
+	<div class="pull-right btn-group">
+		<div class="btn btn-default" ng-click="mode=report" ng-class="{'active': mode == null || mode == 'report'}">Report</div>
+		<div class="btn btn-default" ng-click="mode=fafsa" ng-class="{'active': mode == 'fafsa'}">FAFSA</div>
+		<div class="btn btn-default" ng-click="mode=css" ng-class="{'active': mode == 'css'}">CSS</div>
+	</div>
+	<legend>Profile for {{student.name.first}} {{student.name.last}}</legend>
+	<div ng-include="partial()">
+		
+	</div>
+</div>
