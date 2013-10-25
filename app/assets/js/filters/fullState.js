@@ -1,4 +1,4 @@
-angular.module('gmaApp.filters', []).filter('fullState', function(){
+angular.module('gmaApp.filters').filter('fullState', function(){
 	return function(input, length) {
 		var usStates = [
 			{ name: 'Alabama', abbreviation: 'AL'},

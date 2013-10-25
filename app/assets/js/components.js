@@ -6,7 +6,9 @@ angular.module('gmaApp', [
   'ui.utils',
   'ui.bootstrap',
   'persona'
-]).config([
+]);
+angular.module('gmaApp.filters', []);
+angular.module('gmaApp').config([
   '$routeProvider',
   function ($routeProvider) {
     $routeProvider.when('/', {
@@ -18,6 +20,15 @@ angular.module('gmaApp', [
     }).when('/drafts/:draft', {
       templateUrl: 'assets/views/initialData.html',
       controller: 'DraftCtrl'
+    }).when('/admin', {
+      templateUrl: 'assets/views/admin/home.html',
+      controller: 'AdminCtrl'
+    }).when('/admin/profiles', {
+      templateUrl: 'assets/views/admin/profiles/list.html',
+      controller: 'AdminListCtrl'
+    }).when('/admin/profiles/:profile', {
+      templateUrl: 'assets/views/admin/profiles/view.html',
+      controller: 'AdminViewCtrl'
     }).otherwise('/');
   }
 ]);
@@ -77,6 +88,60 @@ angular.module('gmaApp').controller('ExtendedProfileController', [
   '$rootScope',
   '$scope',
   function ($rootScope, $scope) {
+  }
+]);angular.module('gmaApp').controller('AdminCtrl', [
+  '$scope',
+  'Persona',
+  function ($scope, Persona) {
+  }
+]);angular.module('gmaApp').controller('AdminListCtrl', [
+  '$scope',
+  'Persona',
+  '$http',
+  '$location',
+  function ($scope, Persona, $http, $location) {
+    Persona.status();
+    $http.get('/admin/profiles').then(function (obj) {
+      $scope.profiles = obj.data;
+    });
+    $scope.viewProfile = function (profile) {
+      $location.path('/admin/profiles/' + profile._id);
+    };
+  }
+]);angular.module('gmaApp').controller('AdminViewCtrl', [
+  '$scope',
+  '$route',
+  '$http',
+  '$location',
+  'Persona',
+  function ($scope, $route, $http, $location, Persona) {
+    Persona.status();
+    var id = $route.current.params.profile;
+    $http.get('/admin/profiles/' + id).then(function (obj) {
+      $scope.student = obj.data;
+    });
+    $scope.$on('$routeChangeSuccess', function () {
+      $scope.mode = $location.search().mode;
+    });
+    $scope.partial = function () {
+      switch ($scope.mode) {
+      case 'css':
+        return 'assets/views/admin/profiles/partial/css.html';
+        break;
+      case 'fafsa':
+        return 'assets/views/admin/profiles/partial/fafsa.html';
+        break;
+      case 'report':
+      default:
+        return 'assets/views/admin/profiles/partial/report.html';
+        break;
+      }
+    };
+    $scope.$watch('mode', function (old, newV) {
+      console.log(old);
+      console.log(newV);
+      $location.search().mode = $scope.mode;
+    });
   }
 ]);angular.module('gmaApp').controller('DraftCtrl', [
   '$scope',
@@ -361,9 +426,17 @@ angular.module('gmaApp.controllers').controller('InitialDataController', [
       });
       jQuery('.ng-invalid:not(form)').first().focus();
       $scope.submit = true;
+      if (!jQuery('form').hasClass('.ng-invalid')) {
+        $http.post('/profiles', $scope.student);
+      }
     };
   }
-]);angular.module('gmaApp.filters', []).filter('fullState', function () {
+]);angular.module('gmaApp.filters').filter('dob', function () {
+  return function (input, length) {
+    var dob = input;
+    return dob.substr(0, 2) + '/' + dob.substr(2, 2) + '/' + dob.substr(4);
+  };
+});angular.module('gmaApp.filters').filter('fullState', function () {
   return function (input, length) {
     var usStates = [
         {
@@ -611,6 +684,11 @@ angular.module('gmaApp.controllers').controller('InitialDataController', [
     } else {
       return 'State';
     }
+  };
+});angular.module('gmaApp.filters').filter('phone', function () {
+  return function (input, length) {
+    var phone = input;
+    return '(' + phone.substr(0, 3) + ') ' + phone.substr(3, 3) + '-' + phone.substr(6);
   };
 });angular.module('persona', []);
 angular.module('persona').factory('Persona', [

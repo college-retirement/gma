@@ -68,7 +68,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	public function getIsAdminAttribute() {
-		$admins = array('trea@treahauet.com');
+		$admins = array('trea@treahauet.com', 'nziering@college-retirement.com', 'admin@college-retirement.com');
 		return in_array($this->attributes['email'], $admins);
 	}
 }

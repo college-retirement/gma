@@ -155,3 +155,49 @@ Route::put('/drafts', function(){
 		return Response::json(array(), 401);
 	}
 });
+
+Route::post('/profiles', function(){
+	if (Session::get('currentUser')) {
+		Profile::unguard();
+		$profile = Profile::create(array_merge(Input::all(), array('user_id' => Session::get('currentUser'))));
+		return Response::json($profile, 201);
+	}
+	else {
+		return Response::json(array(), 401);
+	}
+});
+
+
+Route::get('/admin/profiles', function(){
+	if (Session::get('currentUser')) {
+		$user = User::find(Session::get('currentUser'));
+
+		if ($user->is_admin) {
+			$profiles = Profile::all();
+			return $profiles;
+		}
+		else {
+			return Response::json(array(), 403);
+		}
+	}
+	else {
+		return Response::json(array(), 401);
+	}
+});
+
+Route::get('/admin/profiles/{profile}', function($profile){
+	if (Session::get('currentUser')) {
+		$user = User::find(Session::get('currentUser'));
+
+		if ($user->is_admin) {
+			$profile = Profile::find($profile);
+			return $profile;
+		}
+		else {
+			return Response::json(array(), 403);
+		}
+	}
+	else {
+		return Response::json(array(), 401);
+	}
+});

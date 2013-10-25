@@ -1,4 +1,7 @@
-angular.module('gmaApp', ['gmaApp.filters', 'gmaApp.controllers', 'ngRoute',  'ngAnimate', 'ui.utils', 'ui.bootstrap', 'persona']).config(['$routeProvider', function($routeProvider){
+angular.module('gmaApp', ['gmaApp.filters', 'gmaApp.controllers', 'ngRoute',  'ngAnimate', 'ui.utils', 'ui.bootstrap', 'persona']);
+angular.module('gmaApp.filters', []);
+
+angular.module('gmaApp').config(['$routeProvider', function($routeProvider){
 	$routeProvider.when('/', {
 		templateUrl: "assets/views/home.html",
 		controller: "MainCtrl"
@@ -8,6 +11,15 @@ angular.module('gmaApp', ['gmaApp.filters', 'gmaApp.controllers', 'ngRoute',  'n
 	}).when('/drafts/:draft',{
 		templateUrl: "assets/views/initialData.html",
 		controller: "DraftCtrl"
+	}).when('/admin', {
+		templateUrl: "assets/views/admin/home.html",
+		controller: "AdminCtrl"
+	}).when('/admin/profiles', {
+		templateUrl: "assets/views/admin/profiles/list.html",
+		controller: "AdminListCtrl"
+	}).when('/admin/profiles/:profile', {
+		templateUrl: "assets/views/admin/profiles/view.html",
+		controller: "AdminViewCtrl"
 	}).otherwise('/');
 }]);
 

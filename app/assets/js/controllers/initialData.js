@@ -174,5 +174,9 @@ angular.module('gmaApp.controllers').controller("InitialDataController", functio
 
 		jQuery(".ng-invalid:not(form)").first().focus();
 		$scope.submit = true;
+
+		if (!jQuery('form').hasClass('.ng-invalid')) {
+			$http.post('/profiles', $scope.student);
+		}
 	};
 });

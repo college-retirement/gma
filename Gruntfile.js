@@ -45,7 +45,7 @@ module.exports = function (Grunt) {
 				}
 			},
 			'js': {
-				'files': ['app/assets/js/**/*.js'],
+				'files': ['app/assets/js/**/*.js', '!app/assets/js/components.js'],
 				'tasks': ['clean', 'ngmin', 'uglify']
 			},
 			'jsBuild': {

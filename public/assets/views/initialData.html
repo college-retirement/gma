@@ -396,10 +396,10 @@
 						</div>
 					</div>
 				</div>
-				<div class="form-group" ng-hide="!student.parents.marital" ng-show="student.parents.marital !== 1">
+				<div class="form-group" ng-hide="!student.parents.marital" ng-show="student.parents.marital !== 0">
 					<label>Date of Marriage</label>
 					<div class="control tiny">
-						<input type="text" ng-model="student.parents.dom" class="form-control" ui-mask="99/99/9999" ng-required="student.parents.marital !== 1">
+						<input type="text" ng-model="student.parents.dom" class="form-control" ui-mask="99/99/9999" ng-required="student.parents.marital !== 0">
 					</div>
 				</div>
 
@@ -495,7 +495,7 @@
 					<label>Full Name</label>
 					<div class="control">
 						<input type="text" ng-model="student.parents.mother.name.first" placeholder="First" class="form-control third" required>
-						<input type="text" ng-model="student.parents.mother.name.middle" placeholder="Middle" class="form-control third" required>
+						<input type="text" ng-model="student.parents.mother.name.middle" placeholder="Middle" class="form-control third">
 						<input type="text" ng-model="student.parents.mother.name.last" placeholder="Last" class="form-control third" required>
 					</div>
 				</div>
