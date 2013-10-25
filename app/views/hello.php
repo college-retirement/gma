@@ -74,8 +74,8 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.min.js"></script>
 	<script src="/assets/js/vendor/jquery.masked.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.3/angular.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angular/1.2.0-rc.3/angular-route.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angular/1.2.0-rc.2/angular-animate.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.3/angular-route.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular-animate.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.6.0/ui-bootstrap-tpls.min.js"></script>
 	<script src="/assets/js/vendor/angular-ui-utils.min.js"></script>
