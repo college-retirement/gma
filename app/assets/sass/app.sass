@@ -50,6 +50,15 @@ div.form-group>label
 	@extend .col-lg-4
 	@extend .control-label
 
+div.form-group.has-error>label
+	color: #b94a48 !important
+
+div.form-group.has-error .btn-group .btn
+	border-color: #b94a48 !important
+
+form.ng-submitted .form-control.ng-invalid
+	border-color: #b94a48 !important
+
 .control input.third, .control select.third
 	display: inline-block
 	box-sizing: border-box !important

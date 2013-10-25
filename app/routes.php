@@ -29,6 +29,7 @@ Route::post('colleges.json', function(){
 	foreach ($q as $row) {
 		$res[] = array(
 			'name' => $row->name,
+			'cb_id' => $row->cb_id,
 			'city' => $row->city,
 			'state' => $row->state
 		);
