@@ -28,7 +28,8 @@ angular.module('gmaApp').config([
       controller: 'AdminListCtrl'
     }).when('/admin/profiles/:profile', {
       templateUrl: 'assets/views/admin/profiles/view.html',
-      controller: 'AdminViewCtrl'
+      controller: 'AdminViewCtrl',
+      reloadOnSearch: false
     }).otherwise('/');
   }
 ]);
@@ -116,15 +117,19 @@ angular.module('gmaApp').controller('ExtendedProfileController', [
   'Persona',
   function ($scope, $route, $http, $location, Persona) {
     Persona.status();
+    $scope.mode = $location.search().mode;
     var id = $route.current.params.profile;
     $http.get('/admin/profiles/' + id).then(function (obj) {
       $scope.student = obj.data;
     });
-    $scope.$on('$routeChangeSuccess', function () {
+    $scope.$on('$routeUpdate', function (e) {
       $scope.mode = $location.search().mode;
     });
     $scope.partial = function () {
       switch ($scope.mode) {
+      case 'edit':
+        return 'assets/views/admin/profiles/partial/edit.html';
+        break;
       case 'css':
         return 'assets/views/admin/profiles/partial/css.html';
         break;
@@ -138,7 +143,7 @@ angular.module('gmaApp').controller('ExtendedProfileController', [
       }
     };
     $scope.changeMode = function (mode) {
-      $location.search().mode = mode;
+      $location.search('mode', mode);
     };
   }
 ]);angular.module('gmaApp').controller('DraftCtrl', [
@@ -434,8 +439,10 @@ angular.module('gmaApp.controllers').controller('InitialDataController', [
   }
 ]);angular.module('gmaApp.filters').filter('dob', function () {
   return function (input, length) {
-    var dob = input;
-    return dob.substr(0, 2) + '/' + dob.substr(2, 2) + '/' + dob.substr(4);
+    if (input != undefined) {
+      var dob = input;
+      return dob.substr(0, 2) + '/' + dob.substr(2, 2) + '/' + dob.substr(4);
+    }
   };
 });angular.module('gmaApp.filters').filter('fullState', function () {
   return function (input, length) {
@@ -686,10 +693,49 @@ angular.module('gmaApp.controllers').controller('InitialDataController', [
       return 'State';
     }
   };
+});angular.module('gmaApp.filters').filter('gender', function () {
+  return function (input, length) {
+    var gender = input;
+    return gender == 'M' ? 'Male' : 'Female';
+  };
+});angular.module('gmaApp.filters').filter('marital', function () {
+  return function (input, length) {
+    if (input != undefined) {
+      switch (input) {
+      case 0:
+        return 'Never Married';
+        break;
+      case 1:
+        return 'Separated';
+        break;
+      case 2:
+        return 'Widowed';
+        break;
+      case 3:
+        return 'Divorced';
+        break;
+      case 4:
+        return 'Remarried';
+        break;
+      case 5:
+        return 'Married';
+        break;
+      }
+    }
+  };
 });angular.module('gmaApp.filters').filter('phone', function () {
   return function (input, length) {
-    var phone = input;
-    return '(' + phone.substr(0, 3) + ') ' + phone.substr(3, 3) + '-' + phone.substr(6);
+    if (input != undefined) {
+      var phone = input;
+      return '(' + phone.substr(0, 3) + ') ' + phone.substr(3, 3) + '-' + phone.substr(6);
+    }
+  };
+});angular.module('gmaApp.filters').filter('ssn', function () {
+  return function (input, length) {
+    if (input != undefined) {
+      var ssn = input;
+      return ssn.substr(0, 3) + '-' + ssn.substr(3, 2) + '-' + ssn.substr(5);
+    }
   };
 });angular.module('persona', []);
 angular.module('persona').factory('Persona', [

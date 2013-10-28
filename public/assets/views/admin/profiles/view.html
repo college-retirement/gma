@@ -15,6 +15,11 @@
 		<div class="btn btn-default" ng-click="changeMode('fafsa')" ng-class="{'active': mode == 'fafsa'}">FAFSA</div>
 		<div class="btn btn-default" ng-click="changeMode('css')" ng-class="{'active': mode == 'css'}">CSS</div>
 	</div>
+	<div class="pull-right btn-group" style="margin-right: 10px">
+		<div class="btn btn-primary" ng-click="changeMode('edit')" ng-class="{'active': mode == 'edit'}">
+			<i class="icon-pencil"></i>
+		Edit</div>
+	</div>
 	<legend>Profile for {{student.name.first}} {{student.name.last}}</legend>
 	<div ng-include="partial()">
 		

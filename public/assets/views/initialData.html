@@ -170,6 +170,12 @@
 					</div>
 				</div>
 				<div ng-show="student.married == true" class="startHidden">
+					<div class="form-group">
+						<label>Date of Marriage</label>
+						<div class="control tiny">
+							<input type="text" class="form-control" ng-model="student.dom" ng-required="student.married" ui-mask="99/99/9999">
+						</div>
+					</div>
 					<legend>Spouse Details</legend>
 					<div class="form-group">
 						<label>Legal Name</label>
@@ -466,9 +472,9 @@
 					<label>Highest Level of Education</label>
 					<div class="control">
 						<div class="btn-group">
-							<button type="button" class="btn btn-default" btn-radio="0" ng-model="students.parents.father.education" required>High School</button>
-							<button type="button" class="btn btn-default" btn-radio="1" ng-model="students.parents.father.education" required>College</button>
-							<button type="button" class="btn btn-default" btn-radio="2" ng-model="students.parents.father.education" required>College & Beyond</button>
+							<button type="button" class="btn btn-default" btn-radio="0" ng-model="student.parents.father.education" required>High School</button>
+							<button type="button" class="btn btn-default" btn-radio="1" ng-model="student.parents.father.education" required>College</button>
+							<button type="button" class="btn btn-default" btn-radio="2" ng-model="student.parents.father.education" required>College & Beyond</button>
 						</div>
 					</div>
 				</div>
@@ -539,9 +545,9 @@
 					<label>Highest Level of Education</label>
 					<div class="control">
 						<div class="btn-group">
-							<button type="button" class="btn btn-default" btn-radio="0" ng-model="students.parents.mother.education" required>High School</button>
-							<button type="button" class="btn btn-default" btn-radio="1" ng-model="students.parents.mother.education" required>College</button>
-							<button type="button" class="btn btn-default" btn-radio="2" ng-model="students.parents.mother.education" required>College & Beyond</button>
+							<button type="button" class="btn btn-default" btn-radio="0" ng-model="student.parents.mother.education" required>High School</button>
+							<button type="button" class="btn btn-default" btn-radio="1" ng-model="student.parents.mother.education" required>College</button>
+							<button type="button" class="btn btn-default" btn-radio="2" ng-model="student.parents.mother.education" required>College & Beyond</button>
 						</div>
 					</div>
 				</div>

@@ -21,7 +21,10 @@
 		      <span class="icon-bar"></span>
 		      <span class="icon-bar"></span>
 		    </button>
-		    <a class="navbar-brand" href="#">College & Retirement Solutions</a>
+		    <a class="navbar-brand" href="#">
+		    	<img src="assets/img/crs-logo.png" alt="College & Retirement Solutions"  class="logo">
+			    College & Retirement Solutions
+		    </a>
 		  </div>
 
 		  <!-- Collect the nav links, forms, and other content for toggling -->

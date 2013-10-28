@@ -19,7 +19,8 @@ angular.module('gmaApp').config(['$routeProvider', function($routeProvider){
 		controller: "AdminListCtrl"
 	}).when('/admin/profiles/:profile', {
 		templateUrl: "assets/views/admin/profiles/view.html",
-		controller: "AdminViewCtrl"
+		controller: "AdminViewCtrl",
+		reloadOnSearch: false
 	}).otherwise('/');
 }]);
 
