@@ -194,7 +194,7 @@
 				</div>
 				<legend>Student Income Information</legend>
 				<div class="form-group">
-					<label>Tax Status for 2012 Filing Year</label>
+					<label>Tax Status for 2013 Filing Year</label>
 					<div class="control">
 						<div class="btn-group">
 							<button type="button" class="btn btn-default" ng-model="student.income.taxFiling" btn-radio="'Not Filing'" required>Will Not File</button>
@@ -303,24 +303,6 @@
 							<td>
 								<button class="btn btn-default" ng-click="deleteSchool($index)"><i class="icon-remove"></i></button>
 							</td>
-		<!-- 					<td>
-								<div type="button" class="" btn-checkbox ng-model="college.profile">
-									<i class="icon-check" ng-show="college.profile === true"></i>
-									<i class="icon-check-empty" ng-show="college.profile === false"></i>
-								</div>
-							</td>
-							<td>
-								<div type="button" class="" btn-checkbox ng-model="college.ncProfile">
-									<i class="icon-check" ng-show="college.ncProfile === true"></i>
-									<i class="icon-check-empty" ng-show="college.ncProfile === false"></i>
-								</div>
-							</td>
-							<td>
-								<div type="button" class="" btn-checkbox ng-model="college.idoc">
-									<i class="icon-check" ng-show="college.idoc === true"></i>
-									<i class="icon-check-empty" ng-show="college.idoc === false"></i>
-								</div>
-							</td> -->
 						</tr>
 						<tr>
 							<td colspan="4">
@@ -364,7 +346,7 @@
 					<div class="control tiny">
 						<div class="input-group input-prepend input-append">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="family.monthlyHouseholdExpense" class="form-control" required>
+							<input type="text" ng-model="student.family.monthlyHouseholdExpense" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -374,7 +356,7 @@
 					<div class="control tiny">
 						<div class="input-group input-prepend input-append">
 							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="family.contributionAbility" class="form-control" required>
+							<input type="text" ng-model="student.family.contributionAbility" class="form-control" required>
 							<span class="input-group-addon">.00</span>
 						</div>
 					</div>
@@ -542,8 +524,8 @@
 					<label>Job Change Anticipated?</label>
 					<div class="control">
 						<div class="btn-group">
-							<button type="button" class="btn btn-default" btn-radio="false" ng-model="parents.mother.employer.changing" required>No</button>
-							<button type="button" class="btn btn-default" btn-radio="true" ng-model="parents.mother.employer.changing" required>Yes</button>
+							<button type="button" class="btn btn-default" btn-radio="false" ng-model="student.parents.mother.employer.changing" required>No</button>
+							<button type="button" class="btn btn-default" btn-radio="true" ng-model="student.parents.mother.employer.changing" required>Yes</button>
 						</div>
 					</div>
 				</div>
@@ -617,10 +599,10 @@
 									<option>10</option>
 									<option>11</option>
 									<option>12</option>
-									<option value="freshman">College Freshman</option>
-									<option value="sophomore">College Sophomore</option>
-									<option value="junior">College Junior</option>
-									<option value="senior">College Senior</option>
+									<option value="Freshman">College Freshman</option>
+									<option value="Sophomore">College Sophomore</option>
+									<option value="Junior">College Junior</option>
+									<option value="Senior">College Senior</option>
 								</select>
 							</td>
 							<td>
@@ -635,7 +617,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="6">
+							<td colspan="8">
 								<button type="button" class="btn btn-default" ng-click="addFamily()">
 									<i class="icon-plus"></i>
 									Add Member
@@ -645,14 +627,14 @@
 					</tbody>
 				</table>
 
-				<legend>2012-2013 Parents Income Information</legend>
+				<legend>2013-2014 Parents Income Information</legend>
 				<blockquote><strong>Please Note</strong><br>
 					Income estimates are perfectly acceptable.  We always use estimates to complete the financial aid forms so that you're "in line" for your share of the aid distribution.  You can use last year's tax return as a reference.
 				</blockquote>
 
 				<h4>Father's Income</h4>
 				<div class="form-group">
-					<label>Current 2012 Earnings</label>
+					<label>Current 2013 Earnings</label>
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
@@ -662,7 +644,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label>Anticipated 2013 Earnings</label>
+					<label>Anticipated 2014 Earnings</label>
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
@@ -684,7 +666,7 @@
 
 				<h4>Mother's Income</h4>
 				<div class="form-group">
-					<label>Current 2012 Earnings</label>
+					<label>Current 2013 Earnings</label>
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
@@ -694,7 +676,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label>Anticipated 2013 Earnings</label>
+					<label>Anticipated 2014 Earnings</label>
 					<div class="control tiny">
 						<div class="input-prepend input-append input-group">
 							<span class="input-group-addon">$</span>
