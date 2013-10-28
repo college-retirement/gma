@@ -193,7 +193,7 @@ Route::get('/admin/profiles/{profile}', array('https', function($profile){
 		$user = User::find(Session::get('currentUser'));
 
 		if ($user->is_admin) {
-			$profile = Profile::where('_id', $profile)->get();
+			$profile = Profile::where('_id', $profile)->get()->first();
 			return Response::json($profile);
 		}
 		else {
