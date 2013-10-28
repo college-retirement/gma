@@ -194,7 +194,7 @@ Route::get('/admin/profiles/{profile}', array('https', function($profile){
 
 		if ($user->is_admin) {
 			$profile = Profile::find($profile);
-			return $profile;
+			return Response::json($profile);
 		}
 		else {
 			return Response::json(array(), 403);
