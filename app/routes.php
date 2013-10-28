@@ -16,13 +16,16 @@ App::bind('persona.identity', function($app, $assertion){
  */
 Route::get('/', function()
 {
+	if (!Request::secure()) {
+		return Redirect::to('https://' . Request::getHost() . '/');
+	}
 	return View::make('hello');
 });
 
 /**
  * Provides college search for Typeahead
  */
-Route::post('colleges.json', function(){
+Route::post('colleges.json', array('https', function(){
 	$q = College::where('name', 'like', '%' . Input::get('name') . '%')->orderBy('name', 'asc')->limit(10)->get();
 	$res = array();
 
@@ -36,13 +39,13 @@ Route::post('colleges.json', function(){
 	}
 
 	return Response::json($res);
-});
+}));
 
 /**
  * Persona - Verifies assertions made by Persona JS and returns the
  * user account or creates it for them.
  */
-Route::post('persona/verify', function(){
+Route::post('persona/verify', array('https', function(){
 	$identity = App::make('persona.identity', Input::get('assertion'));
 	$verifier = App::make('persona.verifier');
 	$verifier->verify($identity);
@@ -69,12 +72,12 @@ Route::post('persona/verify', function(){
 			}
 		}
 	}
-});
+}));
 
 /**
  * Determines if the user has an existing session or not
  */
-Route::post('persona/status', function(){
+Route::post('persona/status', array('https', function(){
 	if (Session::has('currentUser')) {
 		$user = User::find(Session::get('currentUser'));
 		return Response::json(array('user' => $user->toArray()));
@@ -82,17 +85,17 @@ Route::post('persona/status', function(){
 	else {
 		return Response::json(array('user' => null), 401);
 	}
-});
+}));
 
 /**
  * Persona Logout - Removes user session
  */
-Route::post('persona/logout', function(){
+Route::post('persona/logout', array('https', function(){
 	Session::forget('currentUser');
 	return Response::json();
-});
+}));
 
-Route::put('/account', function(){
+Route::put('/account', array('https', function(){
 	$user = User::where('email', Input::get('email'))->get()->first();
 
 	if ($user) {
@@ -109,9 +112,9 @@ Route::put('/account', function(){
 		$user = User::create(Input::all());
 		return Response::json(array('user' => $user->toArray()), 201);
 	}
-});
+}));
 
-Route::get('/drafts', function() {
+Route::get('/drafts', array('https', function() {
 	if (Session::get('currentUser')) {
 		$user = User::with('drafts')->find(Session::get('currentUser'));
 		return Response::json(array('drafts' => $user->drafts->toArray()));
@@ -119,9 +122,9 @@ Route::get('/drafts', function() {
 	else {
 		return Response::json(array(), 401);
 	}
-});
+}));
 
-Route::get('/drafts/{id}', function($id){
+Route::get('/drafts/{id}', array('https', function($id){
 	if (Session::get('currentUser')) {
 		$draft = Draft::where('user_id', Session::get('currentUser'))->where('_id', $id)->get()->first();
 		return Response::json($draft);
@@ -129,9 +132,9 @@ Route::get('/drafts/{id}', function($id){
 	else {
 		return Response::json(array(), 401);
 	}
-});
+}));
 
-Route::post('/drafts', function(){
+Route::post('/drafts', array('https', function(){
 	if (Session::get('currentUser')) {
 		Draft::unguard();
 		$draft = Draft::create(array_merge(Input::all(), array('user_id' => Session::get('currentUser'))));
@@ -140,9 +143,9 @@ Route::post('/drafts', function(){
 	else {
 		return Response::json(array(), 401);
 	}	
-});
+}));
 
-Route::put('/drafts', function(){
+Route::put('/drafts', array('https', function(){
 	if (Session::get('currentUser')) {
 		Draft::unguard();
 
@@ -154,9 +157,9 @@ Route::put('/drafts', function(){
 	else{
 		return Response::json(array(), 401);
 	}
-});
+}));
 
-Route::post('/profiles', function(){
+Route::post('/profiles', array('https', function(){
 	if (Session::get('currentUser')) {
 		Profile::unguard();
 		$profile = Profile::create(array_merge(Input::all(), array('user_id' => Session::get('currentUser'))));
@@ -165,10 +168,10 @@ Route::post('/profiles', function(){
 	else {
 		return Response::json(array(), 401);
 	}
-});
+}));
 
 
-Route::get('/admin/profiles', function(){
+Route::get('/admin/profiles', array('https', function(){
 	if (Session::get('currentUser')) {
 		$user = User::find(Session::get('currentUser'));
 
@@ -183,9 +186,9 @@ Route::get('/admin/profiles', function(){
 	else {
 		return Response::json(array(), 401);
 	}
-});
+}));
 
-Route::get('/admin/profiles/{profile}', function($profile){
+Route::get('/admin/profiles/{profile}', array('https', function($profile){
 	if (Session::get('currentUser')) {
 		$user = User::find(Session::get('currentUser'));
 
@@ -200,4 +203,4 @@ Route::get('/admin/profiles/{profile}', function($profile){
 	else {
 		return Response::json(array(), 401);
 	}
-});
+}));
