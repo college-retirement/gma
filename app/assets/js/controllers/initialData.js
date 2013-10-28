@@ -70,14 +70,58 @@ angular.module('gmaApp.controllers').controller("InitialDataController", functio
 	];
 	
 	$scope.student = {
-		email: $scope.getUser().email,
+		email: null,
+		dependents: 0,
+		income: {
+			earnedIncome: 0,
+			unearnedIncome: 0,
+			taxPaid: 0,
+			agi: 0,
+			itemizedDeductions: 0,
+			ssBenefits: 0,
+			iraContribution: 0
+		},
 		schools: [],
 		family: {
+			monthlyHouseholdExpense: 0,
+			contributionAbility: 0,
 			members: [],
 			realEstate: [],
 			assets: [],
 			liabilities: [],
-			retirement: []
+			retirement: [],
+			home: {
+				price: 0,
+				value: 0,
+				propertyTax: 0
+			}
+		},
+		parents: {
+			income: {
+				father: {
+					current: 0,
+					anticipated: 0,
+					retirement: 0
+				},
+				mother: {
+					current: 0,
+					anticipated: 0,
+					retirement: 0
+				},
+				combined: {
+					other: 0,
+					untaxed: 0,
+					childSupport: {
+						received: 0,
+						paid: 0
+					},
+					housing: 0,
+					medical: 0,
+					deductions: 0,
+					taxPaid: 0,
+					agi: 0
+				}
+			}
 		}
 	};
 

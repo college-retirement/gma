@@ -27,10 +27,10 @@
 						<input type="text" ng-model="student.name.last" placeholder="Last" required class="form-control third" required>
 					</div>
 				</div>
-				<div class="form-group" ng-show="student.email == null">
+				<div class="form-group">
 					<label>Email Address</label>
 					<div class="control half">
-						<input type="email" ng-model="student.email" placeholder="name@example.com" class="form-control" ng-required="student.email == null">
+						<input type="email" ng-model="student.email" placeholder="name@example.com" class="form-control" required>
 					</div>
 				</div>
 				<div class="form-group">
@@ -394,14 +394,14 @@
 				<div class="form-group" ng-show="student.parents.marital == 3 || student.parents.marital == 4">
 					<label>Date of Divorce</label>
 					<div class="control tiny">
-						<input type="text" ng-model="student.parents.dod" class="form-control" ui-mask="99/99/99" ng-required="student.parents.marital == 3 || student.parents.marital == 4">
+						<input type="text" ng-model="student.parents.dod" class="form-control" ui-mask="99/99/9999" ng-required="student.parents.marital == 3 || student.parents.marital == 4">
 					</div>
 				</div>
 
 				<div class="form-group" ng-show="student.parents.marital === 1">
 					<label>Date of Separation</label>
 					<div class="control tiny">
-						<input type="text" ng-model="student.parents.dos" class="form-control" ui-mask="99/99/99" ng-required="student.parents.marital == 1">
+						<input type="text" ng-model="student.parents.dos" class="form-control" ui-mask="99/99/9999" ng-required="student.parents.marital == 1">
 					</div>
 				</div>
 
@@ -812,7 +812,7 @@
 						<div class="control tiny">
 							<div class="input-prepend input-append input-group">
 								<span class="input-group-addon">$</span>
-								<input type="text" ng-model="student.home.price" class="form-control" ng-required="student.family.home.owned == true">
+								<input type="text" ng-model="student.family.home.price" class="form-control" ng-required="student.family.home.owned == true">
 								<span class="input-group-addon">.00</span>
 							</div>	
 						</div>
@@ -822,7 +822,7 @@
 						<div class="control tiny">
 							<div class="input-prepend input-append input-group">
 								<span class="input-group-addon">$</span>
-								<input type="text" ng-model="student.home.value" class="form-control" ng-required="student.family.home.owned == true">
+								<input type="text" ng-model="student.family.home.value" class="form-control" ng-required="student.family.home.owned == true">
 								<span class="input-group-addon">.00</span>
 							</div>	
 						</div>
@@ -830,15 +830,15 @@
 					<div class="form-group">
 						<label>Year of Purchase</label>
 						<div class="control tiny">
-							<input type="text" ng-model="student.home.purchasedYear" ui-mask="9999" class="form-control" ng-required="student.family.home.owned == true">
+							<input type="text" ng-model="student.family.home.purchasedYear" ui-mask="9999" class="form-control" ng-required="student.family.home.owned == true">
 						</div>
 					</div>
 					<div class="form-group">
-						<label>Anual Real Estate Taxes</label>
+						<label>Annual Real Estate Taxes</label>
 						<div class="control tiny">
 							<div class="input-prepend input-append input-group">
 								<span class="input-group-addon">$</span>
-								<input type="text" ng-model="student.home.propertyTax" class="form-control" ng-required="student.family.home.owned == true">
+								<input type="text" ng-model="student.family.home.propertyTax" class="form-control" ng-required="student.family.home.owned == true">
 								<span class="input-group-addon">.00</span>
 							</div>	
 						</div>

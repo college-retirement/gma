@@ -365,14 +365,14 @@
 		<div class="form-group" ng-show="student.parents.marital == 3 || student.parents.marital == 4">
 			<label>Date of Divorce</label>
 			<div class="control tiny">
-				<input type="text" ng-model="student.parents.dod" class="form-control" ui-mask="99/99/99" ng-required="student.parents.marital == 3 || student.parents.marital == 4">
+				<input type="text" ng-model="student.parents.dod" class="form-control" ui-mask="99/99/9999" ng-required="student.parents.marital == 3 || student.parents.marital == 4">
 			</div>
 		</div>
 
 		<div class="form-group" ng-show="student.parents.marital === 1">
 			<label>Date of Separation</label>
 			<div class="control tiny">
-				<input type="text" ng-model="student.parents.dos" class="form-control" ui-mask="99/99/99" ng-required="student.parents.marital == 1">
+				<input type="text" ng-model="student.parents.dos" class="form-control" ui-mask="99/99/9999" ng-required="student.parents.marital == 1">
 			</div>
 		</div>
 
@@ -805,7 +805,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label>Anual Real Estate Taxes</label>
+				<label>Annual Real Estate Taxes</label>
 				<div class="control tiny">
 					<div class="input-prepend input-append input-group">
 						<span class="input-group-addon">$</span>

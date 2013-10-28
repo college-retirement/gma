@@ -138,6 +138,22 @@ angular.module('gmaApp').controller('DraftCtrl', function($scope, $http, Persona
 		$scope.student.family.retirement.push({});
 	}
 
+	$scope.deleteFamily = function(index) {
+		$scope.student.family.members.splice(index, 1);
+	}
+	$scope.deleteProperty = function(index) {
+		$scope.student.family.realEstate.splice(index, 1);
+	}
+	$scope.deleteAsset = function(index) {
+		$scope.student.family.assets.splice(index, 1);
+	}
+	$scope.deleteLiability = function(index) {
+		$scope.student.family.liabilities.splice(index, 1);
+	};
+	$scope.deleteRetirement = function(index) {
+		$scope.student.family.retirement.splice(index, 1);
+	};
+
 	$scope.submitProfile = function() {
 		jQuery('.has-error').removeClass('has-error');
 		

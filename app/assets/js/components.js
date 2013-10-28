@@ -266,6 +266,21 @@ angular.module('gmaApp').controller('ExtendedProfileController', [
     $scope.addRetirement = function () {
       $scope.student.family.retirement.push({});
     };
+    $scope.deleteFamily = function (index) {
+      $scope.student.family.members.splice(index, 1);
+    };
+    $scope.deleteProperty = function (index) {
+      $scope.student.family.realEstate.splice(index, 1);
+    };
+    $scope.deleteAsset = function (index) {
+      $scope.student.family.assets.splice(index, 1);
+    };
+    $scope.deleteLiability = function (index) {
+      $scope.student.family.liabilities.splice(index, 1);
+    };
+    $scope.deleteRetirement = function (index) {
+      $scope.student.family.retirement.splice(index, 1);
+    };
     $scope.submitProfile = function () {
       jQuery('.has-error').removeClass('has-error');
       jQuery('.ng-invalid').each(function (e) {
@@ -352,14 +367,58 @@ angular.module('gmaApp.controllers').controller('InitialDataController', [
       'Rollover'
     ];
     $scope.student = {
-      email: $scope.getUser().email,
+      email: null,
+      dependents: 0,
+      income: {
+        earnedIncome: 0,
+        unearnedIncome: 0,
+        taxPaid: 0,
+        agi: 0,
+        itemizedDeductions: 0,
+        ssBenefits: 0,
+        iraContribution: 0
+      },
       schools: [],
       family: {
+        monthlyHouseholdExpense: 0,
+        contributionAbility: 0,
         members: [],
         realEstate: [],
         assets: [],
         liabilities: [],
-        retirement: []
+        retirement: [],
+        home: {
+          price: 0,
+          value: 0,
+          propertyTax: 0
+        }
+      },
+      parents: {
+        income: {
+          father: {
+            current: 0,
+            anticipated: 0,
+            retirement: 0
+          },
+          mother: {
+            current: 0,
+            anticipated: 0,
+            retirement: 0
+          },
+          combined: {
+            other: 0,
+            untaxed: 0,
+            childSupport: {
+              received: 0,
+              paid: 0
+            },
+            housing: 0,
+            medical: 0,
+            deductions: 0,
+            taxPaid: 0,
+            agi: 0
+          }
+        }
       }
     };
     $scope.addSchool = function () {

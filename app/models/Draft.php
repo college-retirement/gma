@@ -6,7 +6,10 @@ class Draft extends Eloquent {
 	public $appends = array('created');
 
 	function getCreatedAttribute() {
-		$dt = new DateTime($this->attributes['created_at']);
-		return $dt->format('c');
+		if (array_key_exists('created_at', $this->attributes)) {
+			$dt = new DateTime($this->attributes['created_at']);
+			return $dt->format('c');
+		}
+		return null;
 	}
 }
