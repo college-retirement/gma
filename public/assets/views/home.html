@@ -24,7 +24,7 @@
 
 						<ul class="nobull">
 							<li ng-repeat="draft in drafts">
-								<a ng-href="#/drafts/{{draft._id}}">{{draft.created | date}}</a>
+								<a ng-href="#/drafts/{{draft._id}}">{{draft.created | date}} for {{draft.name.first}} {{draft.name.last}}</a>
 							</li>
 						</ul>
 					</p>
