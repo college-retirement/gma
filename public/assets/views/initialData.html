@@ -1,8 +1,17 @@
 <div class="container">
 	
-	<div class="row">
+	<div class="row" ng-show="finished">
 		<div class="col-lg-12">
-			
+			<div class="jumbotron">
+				<div class="container">
+					<h3>Thank You</h3>
+					<p>Thank you for submitting your profile to College & Retirement Solutions.  We'll contact you with any questions regarding information you've provided.  Should you have any questions, please call us at (973) 514-2002.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" ng-show="!finished">
+		<div class="col-lg-12">
 			<div class="page-header">
 				<h1 ng-show="!draftLoaded">Get Started</h1>
 				<h1 ng-show="draftLoaded">Welcome Back</h1>

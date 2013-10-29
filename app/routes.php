@@ -159,6 +159,15 @@ Route::put('/drafts', array('https', function(){
 	}
 }));
 
+Route::delete('/drafts/{id}', array('https', function($id){
+	if (Session::get('currentUser')) {
+		Draft::where('_id', $id)->where('user_id', Session::get('currentUser'))->delete();
+		return Response::json(array(), 200);
+	}
+	else {
+		return Response::json(array(), 401);
+	}
+}));
 Route::post('/profiles', array('https', function(){
 	if (Session::get('currentUser')) {
 		Profile::unguard();

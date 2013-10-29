@@ -226,7 +226,7 @@ angular.module('gmaApp.controllers').controller("InitialDataController", functio
 
 		if (!jQuery('form').hasClass('.ng-invalid')) {
 			$http.post('/profiles', $scope.student).success(function(){
-
+				$scope.finished = true;
 			}).error(function(){
 				toastr.error("Unable to submit profile.");
 			})
