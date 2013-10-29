@@ -26,7 +26,7 @@ Route::get('/', function()
  * Provides college search for Typeahead
  */
 Route::post('colleges.json', array('https', function(){
-	$q = College::where('name', 'like', '%' . Input::get('name') . '%')->orderBy('name', 'asc')->limit(10)->get();
+	$q = College::where('name', 'like', '%' . Input::get('name') . '%')->orderBy('name', 'asc')->limit(100)->get();
 	$res = array();
 
 	foreach ($q as $row) {

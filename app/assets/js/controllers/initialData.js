@@ -72,7 +72,7 @@ angular.module('gmaApp.controllers').controller("InitialDataController", functio
 	$scope.student = {
 		email: null,
 		dependents: 0,
-		livingArrangement: null.
+		livingArrangement: null,
 		income: {
 			earnedIncome: 0,
 			unearnedIncome: 0,
@@ -97,17 +97,27 @@ angular.module('gmaApp.controllers').controller("InitialDataController", functio
 				propertyTax: 0
 			}
 		},
+		guardian: {
+			income: {
+				current: 0,
+				anticipated: 0,
+				retirement: 0,
+				ssBenefits: 0
+			}
+		},
 		parents: {
 			income: {
 				father: {
 					current: 0,
 					anticipated: 0,
-					retirement: 0
+					retirement: 0,
+					ssBenefits: 0
 				},
 				mother: {
 					current: 0,
 					anticipated: 0,
-					retirement: 0
+					retirement: 0,
+					ssBenefits: 0
 				},
 				combined: {
 					other: 0,

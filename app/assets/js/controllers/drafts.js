@@ -78,8 +78,6 @@ angular.module('gmaApp').controller('DraftCtrl', function($scope, $http, Persona
 		}
 	};
 
-	console.log($route);
-
 	$http.get('/drafts/' + $route.current.params.draft).then(function(obj){
 		$scope.student = obj.data;
 		$scope.continue = true;
@@ -90,6 +88,10 @@ angular.module('gmaApp').controller('DraftCtrl', function($scope, $http, Persona
 	$scope.addSchool = function() {
 		$scope.student.schools.push($scope.currentSchool);
 		$scope.currentSchool = null;
+	};
+
+	$scope.deleteSchool = function(index) {
+		$scope.student.schools.splice(index, 1);
 	};
 
 	$scope.updateSchool = function(school, index) {

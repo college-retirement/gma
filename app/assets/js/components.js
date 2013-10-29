@@ -58,6 +58,14 @@ angular.module('gmaApp').controller('MainCtrl', [
     $http.get('/drafts').then(function (obj) {
       $scope.drafts = obj.data.drafts;
     });
+    $scope.draftDelete = function (draft) {
+      $http.delete('/drafts/' + draft['_id']).then(function (obj) {
+        toastr.success('Draft deleted successfully.');
+      });
+      $http.get('/drafts').then(function (obj) {
+        $scope.drafts = obj.data.drafts;
+      });
+    };
   }
 ]);
 angular.module('gmaApp').controller('PersonaCtrl', [
@@ -221,7 +229,6 @@ angular.module('gmaApp').controller('ExtendedProfileController', [
         retirement: []
       }
     };
-    console.log($route);
     $http.get('/drafts/' + $route.current.params.draft).then(function (obj) {
       $scope.student = obj.data;
       $scope.continue = true;
@@ -230,6 +237,9 @@ angular.module('gmaApp').controller('ExtendedProfileController', [
     $scope.addSchool = function () {
       $scope.student.schools.push($scope.currentSchool);
       $scope.currentSchool = null;
+    };
+    $scope.deleteSchool = function (index) {
+      $scope.student.schools.splice(index, 1);
     };
     $scope.updateSchool = function (school, index) {
       $scope.currentSchool = school;
@@ -369,6 +379,7 @@ angular.module('gmaApp.controllers').controller('InitialDataController', [
     $scope.student = {
       email: null,
       dependents: 0,
+      livingArrangement: null,
       income: {
         earnedIncome: 0,
         unearnedIncome: 0,
@@ -393,17 +404,27 @@ angular.module('gmaApp.controllers').controller('InitialDataController', [
           propertyTax: 0
         }
       },
+      guardian: {
+        income: {
+          current: 0,
+          anticipated: 0,
+          retirement: 0,
+          ssBenefits: 0
+        }
+      },
       parents: {
         income: {
           father: {
             current: 0,
             anticipated: 0,
-            retirement: 0
+            retirement: 0,
+            ssBenefits: 0
           },
           mother: {
             current: 0,
             anticipated: 0,
-            retirement: 0
+            retirement: 0,
+            ssBenefits: 0
           },
           combined: {
             other: 0,
@@ -446,7 +467,11 @@ angular.module('gmaApp.controllers').controller('InitialDataController', [
       });
     };
     $scope.saveDraft = function () {
-      $http.post('/drafts', $scope.student);
+      $http.post('/drafts', $scope.student).success(function () {
+        toastr.success('Draft saved successfully!');
+      }).error(function () {
+        toastr.warning('There were issues saving your draft.');
+      });
     };
     $scope.addFamily = function () {
       $scope.student.family.members.push({ student: false });
@@ -492,7 +517,11 @@ angular.module('gmaApp.controllers').controller('InitialDataController', [
       jQuery('.ng-invalid:not(form)').first().focus();
       $scope.submit = true;
       if (!jQuery('form').hasClass('.ng-invalid')) {
-        $http.post('/profiles', $scope.student);
+        $http.post('/profiles', $scope.student).success(function () {
+          $scope.finished = true;
+        }).error(function () {
+          toastr.error('Unable to submit profile.');
+        });
       }
     };
   }
