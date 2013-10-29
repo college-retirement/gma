@@ -72,6 +72,7 @@ angular.module('gmaApp.controllers').controller("InitialDataController", functio
 	$scope.student = {
 		email: null,
 		dependents: 0,
+		livingArrangement: null.
 		income: {
 			earnedIncome: 0,
 			unearnedIncome: 0,
@@ -158,7 +159,11 @@ angular.module('gmaApp.controllers').controller("InitialDataController", functio
 		});
 	};
 	$scope.saveDraft = function() {
-		$http.post('/drafts', $scope.student);
+		$http.post('/drafts', $scope.student).success(function(){
+			toastr.success("Draft saved successfully!");
+		}).error(function(){
+			toastr.warning("There were issues saving your draft.");
+		});
 	};
 
 	$scope.addFamily = function() {
@@ -220,7 +225,11 @@ angular.module('gmaApp.controllers').controller("InitialDataController", functio
 		$scope.submit = true;
 
 		if (!jQuery('form').hasClass('.ng-invalid')) {
-			$http.post('/profiles', $scope.student);
+			$http.post('/profiles', $scope.student).success(function(){
+
+			}).error(function(){
+				toastr.error("Unable to submit profile.");
+			})
 		}
 	};
 });

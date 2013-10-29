@@ -7,9 +7,15 @@ class Draft extends Eloquent {
 
 	function getCreatedAttribute() {
 		if (array_key_exists('created_at', $this->attributes)) {
-			$dt = new DateTime($this->attributes['created_at']);
-			return $dt->format('c');
+			if (is_string($this->attributes['created_at'])) {
+				$dt = new DateTime($this->attributes['created_at']);
+				return $dt->format('c');
+			}
+			if (is_object($this->attributes['created_at'])) {
+				$dt = new DateTime();
+				$dt->setTimestamp($this->attributes['created_at']->sec);
+				return $dt->format('c');
+			}
 		}
-		return null;
 	}
 }

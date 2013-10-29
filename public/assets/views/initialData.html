@@ -384,6 +384,18 @@
 						</div>
 					</div>
 				</div>
+				<div class="form-group" ng-show="student.parents.marital < 4">
+					<label>With Whom Do You Live?</label>
+					<div class="control">
+						<div class="btn-group">
+							<button type="button" class="btn btn-default" btn-radio="'Mother'" ng-model="student.livingArrangement">Mother</button>
+							<button type="button" class="btn btn-default" btn-radio="'Father'" ng-model="student.livingArrangement">Father</button>
+							<button type="button" class="btn btn-default" btn-radio="'Guardian'" ng-model="student.livingArrangement">Other Guardian</button>
+							<button type="button" class="btn btn-default" btn-radio="'Self'" ng-model="student.livingArrangement">By Self</button>
+							<button type="button" class="btn btn-default" btn-radio="'With Spouse'" ng-show="student.married" ng-model="student.livingArrangement">With Spouse</button>
+						</div>
+					</div>
+				</div>
 				<div class="form-group" ng-hide="!student.parents.marital" ng-show="student.parents.marital !== 0">
 					<label>Date of Marriage</label>
 					<div class="control tiny">
@@ -441,7 +453,9 @@
 				<div class="form-group">
 					<label>Years with Employer</label>
 					<div class="control tiny">
-						<input type="number" class="form-control" ng-model="student.parents.father.employer.years" required>
+						<input type="number" class="form-control" ng-model="student.parents.father.employer.years" required ng-disabled="student.parents.father.employer.lessThan1">
+						<input type="checkbox" ng-model="student.parents.father.employer.lessThan1" ng-value="true">Less Than One Year
+
 					</div> 
 				</div>
 				<div class="form-group">
@@ -514,7 +528,8 @@
 				<div class="form-group">
 					<label>Years with Employer</label>
 					<div class="control tiny">
-						<input type="number" class="form-control" ng-model="student.parents.mother.employer.years" required>
+						<input type="number" class="form-control" ng-model="student.parents.mother.employer.years" required ng-disabled="student.parents.mother.employer.lessThan1">
+						<input type="checkbox" ng-model="student.parents.mother.employer.lessThan1" ng-value="true">Less Than One Year
 					</div> 
 				</div>
 				<div class="form-group">

@@ -43,6 +43,15 @@ angular.module('gmaApp').controller("MainCtrl", function($rootScope, $scope, Per
 	$http.get('/drafts').then(function(obj){
 		$scope.drafts = obj.data.drafts;
 	});
+
+	$scope.draftDelete = function(draft) {
+		$http.delete('/drafts/' + draft['_id']).then(function(obj){
+			toastr.success("Draft deleted successfully.");
+		});
+		$http.get('/drafts').then(function(obj){
+			$scope.drafts = obj.data.drafts;
+		});
+	};
 });
 
 angular.module('gmaApp').controller("PersonaCtrl", function($rootScope, $scope, Persona){

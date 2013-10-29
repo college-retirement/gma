@@ -24,7 +24,13 @@
 
 						<ul class="nobull">
 							<li ng-repeat="draft in drafts">
-								<a ng-href="#/drafts/{{draft._id}}">{{draft.created | date}} for {{draft.name.first}} {{draft.name.last}}</a>
+								<a ng-href="#/drafts/{{draft._id}}">
+									{{draft.created | date}} for {{draft.name.first}} {{draft.name.last}}
+								</a>
+								<button class="btn btn-default pull-right" ng-click="draftDelete(draft)">
+									<i class="icon-remove"></i>
+									Delete
+								</button>
 							</li>
 						</ul>
 					</p>
