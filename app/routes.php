@@ -241,7 +241,11 @@ Route::get('test', function(){
 				'fafsa' => 14405
 			]
 		]);
-	$box->encryptAll();
-	dd($box);
+	$enc = $box->encryptAll()->toArray();
+
+	var_dump($enc);
+
+	$encBox = new Stronghold($enc);
+	var_dump($box->decryptAll()->toArray());
 	return Response::json($box->encryptAll());
 });

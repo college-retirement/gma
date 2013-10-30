@@ -24,13 +24,13 @@ class Draft extends Eloquent {
 		if (array_key_exists('stronghold', $this->attributes)) {
 			if (is_array($this->attributes['stronghold'])) {
 				$box = new Stronghold($this->attributes['stronghold']);
-				return $box->decryptAll();
+				return $box->decryptAll()->toArray();
 			}
 		}
 	}
 
 	function setStrongholdAttribute($values) {
 		$box = new Stronghold($values);
-		$this->attributes['stronghold'] = $box->encryptAll();
+		$this->attributes['stronghold'] = $box->encryptAll()->toArray();
 	}
 }
