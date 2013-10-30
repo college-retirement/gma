@@ -3,7 +3,7 @@ use Jenssegers\Mongodb\Model as Eloquent;
 
 class Draft extends Eloquent {
 	public $collection = "drafts";
-	public $appends = array('created', 'stronghold_decrypt');
+	public $appends = array('created');
 	public $fillable = array('email');
 
 	function getCreatedAttribute() {
@@ -20,13 +20,9 @@ class Draft extends Eloquent {
 		}
 	}
 
-	function getStrongholdDecryptAttribute() {
-		if (array_key_exists('stronghold', $this->attributes)) {
-			if (is_array($this->attributes['stronghold'])) {
-				$box = new Stronghold($this->attributes['stronghold']);
-				return $box->decryptAll()->toArray();
-			}
-		}
+	function getStrongholdAttribute($value) {
+		$box = new Stronghold($value);
+		return $box->decryptAll()->toArray();
 	}
 
 	function setStrongholdAttribute($values) {

@@ -140,14 +140,17 @@ Route::post('/drafts', array('https', function(){
 			$draft = DB::table('drafts')->where('_id', Input::get('_id'))->get();
 			if ($draft) {
 				$updatedAt = new DateTime();
+				$box = new Stronghold(Input::get('stronghold'));
 				$update = [
-					'updated_at' => $updatedAt->format('c')
+					'updated_at' => $updatedAt->format('c'),
+					'stronghold' => $box->encryptAll()->toArray()
 				];
-				$update = DB::table('drafts')->where('_id', Input::get('_id'))->update(array_merge(Input::except(array('_id', 'updated_at')), $update));
-				$newDraft = DB::table('drafts')->where('_id', Input::get('_id'))->get();
+				$update = DB::table('drafts')->where('_id', Input::get('_id'))->update(array_merge(Input::except(array('_id', 'updated_at', 'stronghold')), $update));
+
+				$newDraft = Draft::find(Input::get('_id'));
 
 
-				return Response::json($draft, 200);
+				return Response::json($newDraft, 200);
 			}
 		}
 		else {
