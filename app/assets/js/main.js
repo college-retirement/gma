@@ -1,4 +1,4 @@
-angular.module('gmaApp', ['gmaApp.filters', 'gmaApp.controllers', 'ngRoute',  'ngAnimate', 'ui.utils', 'ui.bootstrap', 'persona']);
+angular.module('gmaApp', ['gmaApp.filters', 'ngRoute',  'ngAnimate', 'ui.utils', 'ui.bootstrap', 'persona']);
 angular.module('gmaApp.filters', []);
 
 angular.module('gmaApp').config(['$routeProvider', function($routeProvider){
