@@ -1,74 +1,34 @@
-angular.module('gmaApp.controllers', []);
-angular.module('gmaApp.controllers').controller("InitialDataController", function($rootScope, $scope, states, $http, Persona){
+angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $route, $location, Persona, states, AssetTypes, OwnershipTypes, LiabilityTypes, RetirementTypes){
+	// Persona
 	Persona.status();
 	$scope.getUser = function() {
 		return Persona.getUser();
 	};
 
+	if ($route.current.params.hasOwnProperty('draft')) {
+		$http.get('/drafts/' + $route.current.params.draft).then(function(obj){
+			$scope.student = obj.data;
+			$scope.continue = true;
+			$scope.draftLoaded = true;
+		});
+	}
+
+
+	// States for state selection
 	$scope.states = states;
+
+	// Typeahead college name stuff
 	$scope.currentSchool = null;
 	$scope.collegeList = {};
 	$scope.collegesLoading = false;
-	
-	$scope.$watch('currentSchool', function(){
-		if ($scope.currentSchool != "" && typeof $scope.currentSchool !== "object") {
-			
-			$scope.collegesLoading = true;
 
-			$http.post('/colleges.json', {name: $scope.currentSchool}).then(function(obj){
-				$scope.collegeList = obj.data;
-				$scope.collegesLoading = false;
-			});
-		}
-	});
+	// Defined types
+	$scope.ownershipTypes = OwnershipTypes;
+	$scope.liabilityTypes = LiabilityTypes;
+	$scope.assetTypes = AssetTypes;
+	$scope.retirementTypes = RetirementTypes;
 
-	
-	$scope.ownershipTypes = [
-		'Personally',
-		'Jointly',
-		'LLC',
-		'S-Corp',
-		'Partnership',
-		'C-Corp',
-		'Other'
-	];
-
-	$scope.liabilityTypes = [
-		'Car Loan',
-		'Credit Card',
-		'First Mortgage',
-		'Home Equity Line Of Credit',
-		'Life Insurance Premium',
-		'Other',
-		'Second Mortgage'
-	];
-
-	$scope.assetTypes = [
-		'Annuities (Non Qualified - Not Retirement)',
-		'Bonds (including Tax - Exempt)',
-		'Business Assets',
-		'Cash, Savings',
-		'Certificates of Deposit',
-		'Checking',
-		'Money Market Funds',
-		'Mutual Funds',
-		'Other Assets',
-		'Pre-Paid Tuition Accounts (529 Plans)',
-		'Sibling Assets Held By Parents',
-		'Stocks',
-		'Treasury Bills'
-	];
-
-	$scope.retirementTypes = [
-		'401(k)',
-		'403(b)',
-		'IRA',
-		'Keogh/SEP/Simple',
-		'Pension Fund',
-		'Qualified Annuities',
-		'Rollover'
-	];
-	
+	$scope.stronghold = {};
 	$scope.student = {
 		email: null,
 		dependents: 0,
@@ -136,45 +96,31 @@ angular.module('gmaApp.controllers').controller("InitialDataController", functio
 		}
 	};
 
+	$scope.$watch('currentSchool', function(){
+		if ($scope.currentSchool != "" && typeof $scope.currentSchool !== "object") {
+			
+			$scope.collegesLoading = true;
+
+			$http.post('/colleges.json', {name: $scope.currentSchool}).then(function(obj){
+				$scope.collegeList = obj.data;
+				$scope.collegesLoading = false;
+			});
+		}
+	});
 
 	$scope.addSchool = function() {
 		$scope.student.schools.push($scope.currentSchool);
 		$scope.currentSchool = null;
 	};
 
-	$scope.deleteSchool = function(index) {
-		$scope.student.schools.splice(index, 1);
-	}
-
 	$scope.updateSchool = function(school, index) {
 		$scope.currentSchool = school;
-		// $scope.currentSchool.profile = true;
-		// $scope.currentSchool.ncProfile = false;
-		// $scope.currentSchool.idoc = true;
+	};
+	
+	$scope.deleteSchool = function(index) {
+		$scope.student.schools.splice(index, 1);
 	};
 
-	$scope.updateOrCreateAccount = function() {
-		var User = {
-			email: Persona.getUser().email || $scope.student.email,
-			name: {
-				first: $scope.student.name.first,
-				middle: $scope.student.name.middle,
-				last: $scope.student.name.last
-			},
-			gender: $scope.student.gender,
-			phone: $scope.student.phone
-		};
-		$http.put('/account', User).then(function(){
-
-		});
-	};
-	$scope.saveDraft = function() {
-		$http.post('/drafts', $scope.student).success(function(){
-			toastr.success("Draft saved successfully!");
-		}).error(function(){
-			toastr.warning("There were issues saving your draft.");
-		});
-	};
 
 	$scope.addFamily = function() {
 		$scope.student.family.members.push({student: false});
@@ -217,24 +163,29 @@ angular.module('gmaApp.controllers').controller("InitialDataController", functio
 	};
 
 	$scope.submitProfile = function() {
+		var errors = false;
+
 		jQuery('.has-error').removeClass('has-error');
 		
 		jQuery(".ng-invalid").each(function(e){
+			errors = true;
 			jQuery(this).parent('.control').parent('.form-group').addClass('has-error');
 		});
 		
 		jQuery(".btn.ng-invalid").each(function(e){
+			errors = true;
 			jQuery(this).parent('.btn-group').parent('.control').parent('.form-group').addClass('has-error');
 		});
 
 		jQuery('.input-group>.ng-invalid').each(function(e){
+			errors = true;
 			jQuery(this).parent('.input-group').parent('.control').parent('.form-group').addClass('has-error');
 		});
 
 		jQuery(".ng-invalid:not(form)").first().focus();
 		$scope.submit = true;
 
-		if (!jQuery('form').hasClass('.ng-invalid')) {
+		if (!errors) {
 			$http.post('/profiles', $scope.student).success(function(){
 				$scope.finished = true;
 			}).error(function(){
@@ -242,4 +193,15 @@ angular.module('gmaApp.controllers').controller("InitialDataController", functio
 			})
 		}
 	};
+
+	$scope.saveDraft = function() {
+		$http.post('/drafts', $scope.student).success(function(data){
+			toastr.success("Draft saved successfully!");
+			$scope.student = data;
+		}).error(function(){
+			toastr.warning("There were issues saving your draft.");
+		});
+	};
+
+
 });

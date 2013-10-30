@@ -8,9 +8,15 @@ angular.module('gmaApp').config(['$routeProvider', function($routeProvider){
 	}).when('/initial',{
 		templateUrl: "assets/views/initialData.html",
 		controller: "InitialDataController"
+	}).when('/profile', {
+		templateUrl: "assets/views/initialData.html",
+		controller: "ProfileCtrl"
+	}).when('/register', {
+		templateUrl: "assets/views/register.html",
+		controller: "RegisterCtrl"
 	}).when('/drafts/:draft',{
 		templateUrl: "assets/views/initialData.html",
-		controller: "DraftCtrl"
+		controller: "ProfileCtrl"
 	}).when('/admin', {
 		templateUrl: "assets/views/admin/home.html",
 		controller: "AdminCtrl"
@@ -40,16 +46,30 @@ angular.module('gmaApp').controller("MainCtrl", function($rootScope, $scope, Per
 		return Persona.getUser();
 	};
 
-	$http.get('/drafts').then(function(obj){
-		$scope.drafts = obj.data.drafts;
+	$scope.getDrafts = function() {
+		$http.get('/drafts').then(function(obj){
+			$scope.drafts = obj.data.drafts;
+		});
+	};
+
+	if ($scope.getUser() !== false) {
+		$scope.getDrafts();
+	}
+
+
+	$scope.$watch("getUser()", function(o){
+		$http.get('/drafts').then(function(obj){
+			$scope.drafts = obj.data.drafts;
+		});
 	});
+
 
 	$scope.draftDelete = function(draft) {
 		$http.delete('/drafts/' + draft['_id']).then(function(obj){
 			toastr.success("Draft deleted successfully.");
-		});
-		$http.get('/drafts').then(function(obj){
-			$scope.drafts = obj.data.drafts;
+			$http.get('/drafts').then(function(obj){
+				$scope.drafts = obj.data.drafts;
+			});
 		});
 	};
 });
@@ -65,10 +85,6 @@ angular.module('gmaApp').controller("PersonaCtrl", function($rootScope, $scope, 
 
 	$scope.status = function() {
 		Persona.status();
-	};
-
-	$scope.dumpStatus = function() {
-		console.log($scope.status());
 	};
 
 	$scope.getUser = function() {
