@@ -2,23 +2,32 @@
 	<div class="jumbotron">
 		<div class="container">
 			<div class="col-lg-6">
-				<h3>Create a Profile</h3>
-				<p>To begin working with College & Retirement Solutions, we'll need to gather some information about you.</p>
-				<a href="/#/initial" class="btn btn-primary">
-					Start Here
-					<i class="icon-angle-right"></i>
-				</a>
+				<div ng-show="getUser() === false">
+					<h3>Create an Account</h3>
+					<p>To begin working with College & Retirement Solutions, you'll need an account first.</p>
+					<a href="/#/register" class="btn btn-primary">
+						Start Here
+						<i class="icon-angle-right"></i>
+					</a>
+				</div>
+				<div ng-show="getUser() !== false">
+					<h3>Create a Profile</h3>
+					<p>To begin creating a student profile, click the button below.</p>
+					<a href="/#/profile" class="btn btn-primary">
+						Start Here
+						<i class="icon-angle-right"></i>
+					</a>
+				</div>
 
 			</div>
 			<div class="col-lg-6">
-				<h3>Already Started?</h3>
-				<div ng-show="getUser() === false">
-					<p>Have you started filling out a profile?  Click sign in to review your drafts.</p>
-					<a  class="persona-button dark" ng-click="login()">
-						<span>Sign In</span>
-					</a>
-				</div>
-				<div ng-show="getUser() !== false" >
+					<h3>Already Started?</h3>
+					<div ng-show="getUser() === false">
+						<p>Have you started filling out a profile?  Click sign in to review your drafts.</p>
+						<a  class="persona-button dark" ng-click="login()">
+							<span>Sign In</span>
+						</a>
+					</div>
 					<p ng-show="drafts.length > 0">
 						Welcome back!  You may continue one of the drafts below.
 
@@ -35,9 +44,8 @@
 						</ul>
 					</p>
 					<p ng-show="drafts.length == 0">
-
+						You don't have any open drafts yet.
 					</p>
-				</div>
 			</div>
 		</div>
 	</div>

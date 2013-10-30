@@ -136,9 +136,25 @@ Route::get('/drafts/{id}', array('https', function($id){
 
 Route::post('/drafts', array('https', function(){
 	if (Session::get('currentUser')) {
-		Draft::unguard();
-		$draft = Draft::create(array_merge(Input::all(), array('user_id' => Session::get('currentUser'))));
-		return Response::json($draft, 201);
+		if (Input::get('_id')) {
+			$draft = DB::table('drafts')->where('_id', Input::get('_id'))->get();
+			if ($draft) {
+				$updatedAt = new DateTime();
+				$update = [
+					'updated_at' => $updatedAt->format('c')
+				];
+				$update = DB::table('drafts')->where('_id', Input::get('_id'))->update(array_merge(Input::except(array('_id', 'updated_at')), $update));
+				$newDraft = DB::table('drafts')->where('_id', Input::get('_id'))->get();
+
+
+				return Response::json($draft, 200);
+			}
+		}
+		else {
+			Draft::unguard();
+			$draft = Draft::create(array_merge(Input::all(), array('user_id' => Session::get('currentUser'))));
+			return Response::json($draft, 201);
+		}
 	}
 	else {
 		return Response::json(array(), 401);
@@ -149,7 +165,7 @@ Route::put('/drafts', array('https', function(){
 	if (Session::get('currentUser')) {
 		Draft::unguard();
 
-		$draft = Draft::where('_id', Input::get('_id'));
+		$draft = Draft::where('_id', Input::get('_id'))->get()->first();
 		$draft->update(Input::except('_id'));
 
 		return Response::json($draft, 200);
@@ -213,3 +229,19 @@ Route::get('/admin/profiles/{profile}', array('https', function($profile){
 		return Response::json(array(), 401);
 	}
 }));
+
+Route::post('accounts', ['https', 'uses' => 'AccountsController@register']);
+
+Route::get('test', function(){
+	$box = new Stronghold([
+			'student' => [
+				'fafsa' => 12345
+			],
+			'parent' => [
+				'fafsa' => 14405
+			]
+		]);
+	$box->encryptAll();
+	dd($box);
+	return Response::json($box->encryptAll());
+});

@@ -4108,6 +4108,7 @@ pre code {
 .col-lg-2,
 div.control.tiny,
 .col-lg-3,
+.form-group.actions > input[type=submit],
 .col-lg-4,
 div.control.half,
 div.form-group > label,
@@ -4494,6 +4495,7 @@ div.control,
   .col-lg-2,
   div.control.tiny,
   .col-lg-3,
+  .form-group.actions > input[type=submit],
   .col-lg-4,
   div.control.half,
   div.form-group > label,
@@ -4514,7 +4516,7 @@ div.control,
   .col-lg-2, div.control.tiny {
     width: 16.666666666666664%; }
 
-  .col-lg-3 {
+  .col-lg-3, .form-group.actions > input[type=submit] {
     width: 25%; }
 
   .col-lg-4, div.control.half, div.form-group > label {
@@ -4628,7 +4630,7 @@ div.control,
   .col-lg-offset-3 {
     margin-left: 25%; }
 
-  .col-lg-offset-4, .form-group.actions .btn-group {
+  .col-lg-offset-4, .form-group.actions .btn-group, .form-group.actions > input[type=submit] {
     margin-left: 33.33333333333333%; }
 
   .col-lg-offset-5 {

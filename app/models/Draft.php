@@ -3,7 +3,8 @@ use Jenssegers\Mongodb\Model as Eloquent;
 
 class Draft extends Eloquent {
 	public $collection = "drafts";
-	public $appends = array('created');
+	public $appends = array('created', 'stronghold_decrypt');
+	public $fillable = array('email');
 
 	function getCreatedAttribute() {
 		if (array_key_exists('created_at', $this->attributes)) {
@@ -17,5 +18,19 @@ class Draft extends Eloquent {
 				return $dt->format('c');
 			}
 		}
+	}
+
+	function getStrongholdDecryptAttribute() {
+		if (array_key_exists('stronghold', $this->attributes)) {
+			if (is_array($this->attributes['stronghold'])) {
+				$box = new Stronghold($this->attributes['stronghold']);
+				return $box->decryptAll();
+			}
+		}
+	}
+
+	function setStrongholdAttribute($values) {
+		$box = new Stronghold($values);
+		$this->attributes['stronghold'] = $box->encryptAll();
 	}
 }
