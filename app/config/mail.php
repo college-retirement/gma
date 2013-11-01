@@ -28,7 +28,8 @@ return array(
 	|
 	*/
 
-	'host' => 'smtp.mailgun.org',
+	'host' => 'smtp.mandrillapp.com',
+	// 'host' => 'localhost',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -42,6 +43,7 @@ return array(
 	*/
 
 	'port' => 587,
+	// 'port' => 1025,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,7 +56,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => null, 'name' => null),
+	'from' => array('address' => "info@college-retirement.com", 'name' => "Clients Application"),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +82,8 @@ return array(
 	|
 	*/
 
-	'username' => null,
+	'username' => "info@college-retirement.com",
+	// 'username' => "",
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +96,8 @@ return array(
 	|
 	*/
 
-	'password' => null,
+	'password' => "xZnwspE7FHB57JkYFSH2JA",
+	// 'password' => "",
 
 	/*
 	|--------------------------------------------------------------------------

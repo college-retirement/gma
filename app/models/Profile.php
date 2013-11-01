@@ -14,4 +14,12 @@ class Profile extends Eloquent {
 		$box = new Stronghold($values);
 		$this->attributes['stronghold'] = $box->encryptAll()->toArray();
 	}
+
+	public static function boot() {
+		parent::boot();
+
+		static::created(function($profile){
+			Event::fire('profile.submit', [$profile]);
+		});
+	}
 }

@@ -81,3 +81,12 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+/*
+|--------------------------------------------------------------------------
+| Register Event Handlers
+|--------------------------------------------------------------------------
+*/
+
+$emailNotify = new GMA\Events\EmailNotify();
+Event::subscribe($emailNotify);

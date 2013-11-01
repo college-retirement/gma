@@ -71,4 +71,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		$admins = array('trea@treahauet.com', 'nziering@college-retirement.com', 'admin@college-retirement.com');
 		return in_array($this->attributes['email'], $admins);
 	}
+
+	public static function boot() {
+		parent::boot();
+
+		static::created(function($user){
+			Event::fire('user.create', [$user]);
+		});
+	}
 }
