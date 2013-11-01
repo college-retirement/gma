@@ -35,6 +35,9 @@ angular.module('gmaApp').controller('RegisterCtrl', function($scope, $http, $loc
 				}
 			});
 		}
+	};
 
-	}
+	$scope.login = function() {
+		$scope.$emit('loginClick');
+	};
 });
