@@ -234,21 +234,3 @@ Route::get('/admin/profiles/{profile}', array('https', function($profile){
 }));
 
 Route::post('accounts', ['https', 'uses' => 'AccountsController@register']);
-
-Route::get('test', function(){
-	$box = new Stronghold([
-			'student' => [
-				'fafsa' => 12345
-			],
-			'parent' => [
-				'fafsa' => 14405
-			]
-		]);
-	$enc = $box->encryptAll()->toArray();
-
-	var_dump($enc);
-
-	$encBox = new Stronghold($enc);
-	var_dump($box->decryptAll()->toArray());
-	return Response::json($box->encryptAll());
-});
