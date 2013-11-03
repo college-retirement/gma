@@ -46,7 +46,7 @@
 		    			</a>
 		    			<ul class="dropdown-menu">
 		    				<li ng-cloak ng-show="getUser().is_admin == true">
-		    					<a href="#/admin/profiles">Admin</a>
+		    					<a href="#/admin">Admin</a>
 		    				</li>
 		    				<li>
 		    					<a ng-click="logout()">Logout</a>

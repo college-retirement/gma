@@ -7,7 +7,8 @@
 		"laravel/framework": "4.0.*",
 		"jenssegers/mongodb": "dev-master",
 		"danielmewes/php-rql": "dev-master",
-		"mozilla/persona": "v1.0.0"
+		"mozilla/persona": "v1.0.0",
+		"trea/rest": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

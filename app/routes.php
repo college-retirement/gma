@@ -233,4 +233,7 @@ Route::get('/admin/profiles/{profile}', array('https', function($profile){
 	}
 }));
 
-Route::post('accounts', ['https', 'uses' => 'AccountsController@register']);
+Route::get('admin/drafts', ['before' => 'validUser|adminUser', 'uses' => 'AdminDraftsController@drafts']);
+Route::get('admin/drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminDraftsController@draft']);
+Route::put('admin/drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminDraftsController@saveDraft']);
+Route::delete('admin/drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminDraftsController@deleteDraft']);

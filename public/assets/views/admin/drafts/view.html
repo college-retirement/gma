@@ -1,0 +1,28 @@
+<div class="container">
+	<ol class="breadcrumb">
+		<li>
+			<a href="#/admin">Admin</a>
+		</li>
+		<li>
+			<a href="#/admin/drafts">Drafts</a>
+		</li>
+		<li class="active">
+			Draft for {{student.name.first}} {{student.name.last}}
+		</li>
+	</ol>
+	<div class="pull-right btn-group">
+	</div>
+	<div class="pull-right btn-group" style="margin-right: 10px">
+		<div class="btn btn-primary" ng-click="changeMode('edit')" ng-class="{'active': mode == 'edit'}">
+			<i class="icon-pencil"></i>
+		Edit</div>
+		<div class="btn btn-primary" ng-click="changeMode('')" ng-disabled="mode !== 'edit'">
+			<i class="icon-eye-open"></i>
+			View
+		</div>
+	</div>
+	<legend>Draft for {{student.name.first}} {{student.name.last}}</legend>
+	<div ng-include="partial()">
+		
+	</div>
+</div>

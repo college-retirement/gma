@@ -114,7 +114,7 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Jenssegers\Mongodb\MongodbServiceProvider',
-		// 'Mozilla\Persona\Provider\Laravel\PersonaServiceProvider'
+		'Trea\Rest\RestServiceProvider'
 
 	),
 
@@ -180,7 +180,7 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
-
+		'Rest'		=> 'Trea\Rest\Facades\RestFacade'
 	),
 
 );

@@ -78,3 +78,32 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+/**
+ * Custom Persona Authentication Filters
+ * (This way the filtering/responses don't have to go directly in the route)
+ */
+
+Route::filter('validUser', function(){
+	if (!Session::get('currentUser')) {
+		return Response::json(['error' => 'You must be authenticated to use this feature.'], 401);
+	}
+});
+
+Route::filter('adminUser', function(){
+	if (!Session::get('currentUser')) {
+		return Response::json(['error' => 'You must be authenticated to use this feature.'], 401);
+	}
+	else {
+		$user = User::find(Session::get('currentUser'));
+
+		if (!$user) {
+			return Response::json(['error' => 'You must be authenticated to use this feature.'], 401);
+		}
+		else {
+			if (!$user->is_admin) {
+				return Response::json(['error' => 'You must be an authenticated admin user to use this feature.'], 403);
+			}
+		}
+	}
+});

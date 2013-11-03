@@ -1,0 +1,48 @@
+<div class="container">
+	<ol class="breadcrumb">
+		<li>
+			<a href="#/admin">Admin</a>
+		</li>
+		<li class="active">
+			Drafts
+		</li>
+	</ol>
+	<legend>Drafts</legend>
+	<table class="table-striped table">
+		<thead>
+			<tr>
+				<th>User Name</th>	
+				<th>Role</th>
+				<th>Profile For</th>
+				<th>Created</th>
+				<th>Updated</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="profile in profiles" ng-dblclick="viewDraft(profile)">
+				<td>
+					{{profile.user.name}}
+				</td>
+				<td>
+					{{profile.user.role}}
+				</td>
+				<td>
+					{{profile.name.first}} {{profile.name.last}}
+				</td>
+				<td>
+					{{profile.created | date}}
+				</td>
+				<td>
+					{{profile.updated | date}}
+				</td>
+				<td>
+					<button class="btn btn-default" ng-click="viewDraft(profile)">
+						<i class="icon-eye-open"></i>
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<pagination total-items="pagination.totalItems" page="page" items-per-page="pagination.displayItems" on-select-page="newPage(page)"></pagination>
+</div>

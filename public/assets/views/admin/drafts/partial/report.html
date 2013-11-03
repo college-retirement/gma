@@ -1,0 +1,53 @@
+<div class="row">
+	<div class="col-lg-6">
+		<legend class="smaller">Student Basics</legend>
+		<table class="table table-striped">
+			<tbody>
+				<tr>
+					<th>Full Name</th>
+					<td>{{student.name.first}} {{student.name.middle}} {{student.name.last}}</td>
+				</tr>
+				<tr>
+					<th>Date of Birth</th>
+					<td>{{student.dob | dob}}</td>
+				</tr>
+				<tr>
+					<th>Gender</th>
+					<td>{{student.gender | gender}}</td>
+				</tr>
+				<tr>
+					<th>Phone</th>
+					<td>{{student.phone | phone}}</td>
+				</tr>
+				<tr>
+					<th>Marital Status</th>
+					<td>
+						<span ng-cloak ng-show="student.married">Married</span>
+						<span ng-cloak ng-show="!student.married">Single</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="col-lg-6">
+		<legend class="smaller">Parents</legend>
+		<table class="table table-striped">
+			<tbody>
+				<tr>
+					<th>Father's Name</th>
+					<td>{{student.parents.father.name.first}} {{student.parents.father.name.last}}</td>
+				</tr>
+				<tr>
+					<th>Mother's Name</th>
+					<td>{{student.parents.mother.name.first}} {{student.parents.mother.name.first}}</td>
+				</tr>
+				<tr>
+					<th>Marital Status</th>
+					<td>
+						{{student.parents.marital | marital}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
