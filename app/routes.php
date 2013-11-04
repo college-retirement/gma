@@ -60,16 +60,7 @@ Route::post('persona/verify', array('https', function(){
 			return Response::json(array('status' => 'okay', 'user' => $user->toArray()));
 		}
 		else {
-			$user = new User;
-			$user->email = $identity->getEmail();
-
-			if ($user->save()) {
-				Session::put('currentUser', $user->_id);
-				return Response::json(array('status' => 'okay', 'user' => $user->toArray()));
-			}
-			else {
-				return Response::json(array('error' => 'Unable to create account.'), 500);
-			}
+			return Rest::conflict();
 		}
 	}
 }));

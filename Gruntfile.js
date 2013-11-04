@@ -73,6 +73,7 @@ module.exports = function (Grunt) {
 	Grunt.loadNpmTasks('grunt-contrib-uglify');
 	Grunt.loadNpmTasks('grunt-contrib-concat');
 	Grunt.loadNpmTasks('grunt-contrib-clean');
+	Grunt.loadNpmTasks('grunt-notify');
 
 	Grunt.registerTask('generate', ['sass:dist', 'concat:dist', 'ngmin', 'uglify']);
 };

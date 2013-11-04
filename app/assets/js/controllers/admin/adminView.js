@@ -14,7 +14,7 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 	$scope.partial = function() {
 		switch ($scope.mode) {
 			case 'edit':
-				return 'assets/views/admin/profiles/partial/edit.html';
+				return 'assets/views/admin/drafts/partial/edit.html';
 			break;
 			
 			case 'css':
@@ -35,4 +35,5 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 	$scope.changeMode = function(mode) {
 		$location.search('mode', mode);
 	};
+
 });

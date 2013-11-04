@@ -14,7 +14,7 @@ angular.module('gmaApp').controller('AdminDraftViewCtrl', function($scope, $rout
 	$scope.partial = function() {
 		switch ($scope.mode) {
 			case 'edit':
-				return 'assets/views/admin/profiles/partial/edit.html';
+				return 'assets/views/admin/drafts/partial/edit.html';
 			break;
 			
 			case 'css':
@@ -33,6 +33,24 @@ angular.module('gmaApp').controller('AdminDraftViewCtrl', function($scope, $rout
 	};
 
 	$scope.changeMode = function(mode) {
-		$location.search('mode', mode);
+		if ($scope.mode == 'edit') {
+			if (jQuery('form').hasClass('ng-dirty') && !$scope.submit) {
+				if (confirm("Are you sure you want to change modes without saving?")) {
+					$location.search('mode', mode);
+				}
+			}
+		}
+		else {
+			$location.search('mode', mode);
+		}
 	};
+
+
+	$scope.saveDraft = function() {
+		$http.put('/admin/drafts/' + id, $scope.student).success(function(obj){
+			toastr.success('Draft saved.');
+		}).error(function(){
+			toastr.error('Unable to save draft.');
+		});
+	}
 });
