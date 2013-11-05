@@ -8,6 +8,15 @@ module.exports = function (Grunt) {
 				'files': {
 					'public/assets/css/app.css': 'app/assets/sass/app.sass'
 				}
+			},
+			"dist": {
+				'files': {
+					'public/assets/css/app.css': 'app/assets/sass/app.sass'
+				},
+				'options': {
+					'style': 'compressed'
+				}
+
 			}
 		},
 		"ngmin": {
@@ -22,6 +31,17 @@ module.exports = function (Grunt) {
 					'public/assets/js/application.min.js': [
 						'app/assets/js/components.js'
 					]
+				}
+			},
+			"dist": {
+				"files": {
+					'public/assets/js/application.min.js': [
+						'app/assets/js/components.js'
+					]
+				},
+				"options": {
+					'compress': true,
+					'mangle': true
 				}
 			}
 		},
@@ -75,5 +95,5 @@ module.exports = function (Grunt) {
 	Grunt.loadNpmTasks('grunt-contrib-clean');
 	Grunt.loadNpmTasks('grunt-notify');
 
-	Grunt.registerTask('generate', ['sass:dist', 'concat:dist', 'ngmin', 'uglify']);
+	Grunt.registerTask('dist', ['sass:dist', 'ngmin', 'uglify:dist']);
 };

@@ -13,5 +13,6 @@ node_modules
 *sublime*
 /app/assets/js/components.js
 /public/assets/js/application.min.js
+/public/assets/css/app.css
 .gitattributes
 
