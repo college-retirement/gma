@@ -10,3 +10,6 @@ composer.lock
 /app/storage/views/*
 node_modules
 *sass_cache*
+*sublime*
+*components.js
+*application.min.js
