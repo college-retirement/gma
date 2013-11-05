@@ -1,6 +1,13 @@
-angular.module('gmaApp').controller('AdminDraftViewCtrl', function($scope, $route, $http, $location, Persona){
+angular.module('gmaApp').controller('AdminDraftViewCtrl', function($scope, $route, $http, $location, Persona, states, AssetTypes, OwnershipTypes, LiabilityTypes, RetirementTypes){
 	Persona.status();
 	$scope.mode = $location.search().mode;
+
+	$scope.states = states;
+	$scope.ownershipTypes = OwnershipTypes;
+	$scope.liabilityTypes = LiabilityTypes;
+	$scope.assetTypes = AssetTypes;
+	$scope.retirementTypes = RetirementTypes;
+	
 
 	var id = $route.current.params.profile;
 	$http.get('/admin/drafts/' + id).then(function(obj){
