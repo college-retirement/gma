@@ -11,5 +11,5 @@ composer.lock
 node_modules
 *sass_cache*
 *sublime*
-*components.js
-*application.min.js
+/app/assets/js/components.js
+/public/assets/js/application.min.js
