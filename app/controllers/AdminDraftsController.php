@@ -26,12 +26,19 @@ class AdminDraftsController extends Controller {
 	function saveDraft($id) {
 		$draft = Draft::with('user')->find($id);
 
-		if (!$draft)  Rest::notFound();
+		if (!$draft)  return Rest::notFound();
+		$updatedAt = new DateTime();
+		$box = new Stronghold(Input::get('stronghold'));
+		$update = [
+				'updated_at' => $updatedAt->format('c'),
+				'stronghold' => $box->encryptAll()->toArray()
+		];
 
-		$update = $draft->update(Input::except(['_id', 'user']));
+		$update = DB::table('drafts')->where('_id', Input::get('_id'))->update(array_merge(Input::except(array('_id', 'updated_at', 'stronghold')), $update));
+		$newDraft = Draft::find($id);
 
 		if ($update) {
-			return Rest::okay($draft->toArray());
+			return Rest::okay($newDraft->toArray());
 		}
 		else {
 			return Rest::withErrors(['not_saved' => 'Unable to save draft.'])->conflict();
@@ -41,7 +48,7 @@ class AdminDraftsController extends Controller {
 	function deleteDraft($id) {
 		$draft = Draft::find($id);
 
-		if (!$draft) Rest::notFound();
+		if (!$draft) return Rest::notFound();
 
 		if ($draft->delete()) {
 			return Rest::gone();
