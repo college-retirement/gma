@@ -22,8 +22,8 @@
 				<tr>
 					<th>Marital Status</th>
 					<td>
-						<span ng-cloak ng-show="student.married">Married</span>
-						<span ng-cloak ng-show="!student.married">Single</span>
+						<span ng-cloak ng-show="student.married === true">Married</span>
+						<span ng-cloak ng-show="student.married === false">Single</span>
 					</td>
 				</tr>
 			</tbody>
