@@ -61,6 +61,12 @@
 				</td>
 			</tr>
 			<tr>
+				<th>Student Alien Registration Number</th>
+				<td>
+					{{student.arn}}
+				</td>
+			</tr>
+			<tr>
 				<th>Student Marital Status</th>
 				<td>
 					<span ng-cloak ng-show="student.married">Married</span>
@@ -172,8 +178,461 @@
 				<td>${{student.income.agi}}</td>
 			</tr>
 			<tr>
-				<th>Student Income Tax Paid</th>
+				<th>Student 2013 Income Tax Paid</th>
 				<td>${{student.income.taxPaid}}</td>
+			</tr>
+			<tr>
+				<th>Student 2013 Exemptions Claimed</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>Student's 2013 Income Earned</th>
+				<td>${{student.income.earnedIncome}}</td>
+			</tr>
+			<tr>
+				<th>Spouse's 2013 Income Earned</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>Student's Total of Cash, Savings, and Checking Accounts</th>
+				<td>
+					<a class="btn btn-default" ng-click="showAssets()">Show Student Assets</a>
+				</td>
+			</tr>
+			<tr>
+				<th>Student's Net Worth of Current Investments</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Student's Net Worth of Businesses/Investment Farms</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Student's Education Credits</th>
+				<td>
+					
+
+				</td>
+			</tr>
+			<tr>
+				<th>Student's Child Support Paid</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Student's Taxable Earnings from Need-Based Employment Programs</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Student's Grand and Scholarship Aid Reported in AGI</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Student's Taxable Combat Pay Reported in AGI</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Student's Cooperative Education Earnings</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Student's Payment to Tax-Deferred Pensions & Savings</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Student's Deductible Payments Payments to IRA/Keogh/Other</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Student's Child Support Received</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Student's Tax Exempt Interest Income</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Student's Untaxed Portions of IRA Distributions</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Student's Untaxed Portions of Pensions</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Student's Housing, Food, & Living Allowances</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Student's Veterans Noneducation Benefits</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>Student's Other Untaxed Income or Benefits</th>
+				<td>
+				</td>
+			</tr>
+			<tr>
+				<th>Money Received or Paid on Student's Behalf</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Student Born Before January 1, 1990</th>
+				<td>
+					{{student.dob | dob}}
+				</td>
+			</tr>
+			<tr>
+				<th>Is Student Married?</th>
+				<td>
+					<span ng-show="student.married === true">YES</span>
+					<span ng-show="student.married === false">NO</span>
+				</td>
+			</tr>
+			<tr>
+				<th>Working on Master's or Doctorate in 2013-2014?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Is Student on Active Duty in U.S. Armed Forces?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Is Student a Veteran?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Does Student have children he/she supports?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Does Student have dependents other than children/spouse?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Parents Deceased? Student Ward of Court? In Foster Care?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Is Student an Emancipated Minor?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Is or was Student in Legal Guardianship?</th>
+				<td>
+					<span ng-show="student.livingArrangement === 'Guardian'">YES</span>
+					<span ng-show="student.livingArrangement !== 'Guardian'">NO</span>
+				</td>
+			</tr>
+			<tr>
+				<th>Student is Unaccompanied Homeless Youth?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Student at risk of homelessness?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' Marital Status</th>
+				<td>
+					{{student.parents.marital | marital}}
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' Marital Date</th>
+				<td>
+					{{student.parents.dom | dob}}
+				</td>
+			</tr>
+			<tr>
+				<th>Father/Stepfather's Social Security Number</th>
+				<td>
+					{{student.stronghold.father.ssn | ssn}}
+				</td>
+			</tr>
+			<tr>
+				<th>Father/Stepfather's Last Name</th>
+				<td>
+					{{student.parents.father.name.last}}
+				</td>
+			</tr>
+			<tr>
+				<th>Father/Stepfather's First Name</th>
+				<td>
+					{{student.parents.father.name.first}}
+				</td>
+			</tr>
+			<tr>
+				<th>Father/Stepfather's Date of Birth</th>
+				<td>
+					{{student.parents.father.dob | dob}}
+				</td>
+			</tr>
+			<tr>
+				<th>Mother/Stepmother's Social Security Number</th>
+				<td>
+					{{student.parents.mother.ssn | ssn}}
+				</td>
+			</tr>
+			<tr>
+				<th>Mother/Stepmother's Last Name</th>
+				<td>
+					{{student.parents.mother.name.last}}
+				</td>
+			</tr>
+			<tr>
+				<th>Mother/Stepmother's First Name</th>
+				<td>
+					{{student.parents.mother.name.first}}
+				</td>
+			</tr>
+			<tr>
+				<th>Mother/Stepmother's Date of Birth</th>
+				<td>
+					{{student.parents.mother.dob | dob}}
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' Email Address</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' State of Legal Residence</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Were Parents legal residents before Jan. 1, 2008?</th>
+				<td>
+					{{student.parents.residency | dob}}
+				</td>
+			</tr>
+			<tr>
+				<th>Parents Legal Residence date</th>
+				<td>
+					{{student.parents.residency | dob}}
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' Number of Family Members in 2013-2014?</th>
+				<td>
+					{{student.household.size}}
+				</td>
+			</tr>
+			<tr>
+				<th>Number in College (Parents Excluded)</th>
+				<td>
+					{{student.household.collegeAttendees}}
+				</td>
+			</tr>
+			<tr>
+				<th>Parents Received Supplemental Security Income?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Parents Received SNAP?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Parents received free/reduced price lunch?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Parents received TANF?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Parents received WIC?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Parents Filed 2012 Income Tax Return?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Type of Tax Form Used</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Parents eligible to file a 1040A or 1040EZ?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Is Parent a dislocated worker?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' Adjusted Gross Income</th>
+				<td>
+					{{student.parents.income.combined.agi | currency}}
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' Income Tax Paid</th>
+				<td>
+					{{student.parents.income.combined.taxPaid | currency}}
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' Exemptions Claimed</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Father/Stepfather's Earned Income</th>
+				<td>
+				</td>
+			</tr>
+			<tr>
+				<th>Mother/Stepmother's Earned Income</th>
+				<td>
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' Total of Cash, Savings, and Checking</th>
+				<td>
+					<button class="btn btn-default">View Assets</button>
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' Net Worth of current investments</th>
+				<td>
+					<button class="btn btn-default">View Assets</button>
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' Net Worth of Businesses/Investment Farms</th>
+				<td>
+					<button class="btn btn-default">View Assets</button>
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' Education Credits</th>
+				<td>	
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' Child Support Paid</th>
+				<td>
+					{{student.parents.income.combined.childSupport.paid | currency}}
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' taxable earnings from need-based employment programs</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' Grand and Scholarship Aid Reported in AGI</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' Taxable Combat Pay Reported in AGI</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' Cooperative Education Earnings</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' Payments to Tax Deferred Pensions & Savings</th>
+				<td>
+					<button class="btn btn-default">View Retirement Assets</button>
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' Deductible Payments to IRA/Keogh/Other</th>
+				<td>
+					<button class="btn btn-default">View Retirement Assets</button>
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' Child Support Received</th>
+				<td>
+					{{student.parents.income.combined.childSupport.received | currency}}
+				</td>
+			</tr>
+			<tr>
+				<th>Parents' Tax Exempt Interest Income</th>
+				<td>
+					
+				</td>
 			</tr>
 		</table>
 	</div>
