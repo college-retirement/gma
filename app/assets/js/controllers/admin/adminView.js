@@ -36,4 +36,24 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 		$location.search('mode', mode);
 	};
 
+	$scope.type = function() {
+		switch ($scope.mode) {
+			case 'edit':
+				return 'Profile';
+			break;
+
+			case 'css':
+				return 'CSS Profile';
+			break;
+
+			case 'fafsa':
+				return 'FAFSA Profile';
+			break;
+
+			case 'report':
+				return 'Profile';
+			break;	
+		}
+	}
+
 });
