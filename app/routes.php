@@ -228,3 +228,5 @@ Route::get('admin/drafts', ['before' => 'validUser|adminUser', 'uses' => 'AdminD
 Route::get('admin/drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminDraftsController@draft']);
 Route::put('admin/drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminDraftsController@saveDraft']);
 Route::delete('admin/drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminDraftsController@deleteDraft']);
+
+Route::post('accounts', ['https', 'uses' => 'AccountsController@register']);
