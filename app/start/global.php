@@ -31,9 +31,23 @@ ClassLoader::addDirectories(array(
 |
 */
 
-$logFile = 'log-'.php_sapi_name().'.txt';
+// $logFile = 'log-'.php_sapi_name().'.txt';
 
-Log::useDailyFiles(storage_path().'/logs/'.$logFile);
+// Log::useDailyFiles(storage_path().'/logs/'.$logFile);
+
+$appName = 'GMA';
+$port = 31125;
+$connection = 'udp://logs.papertrailapp.com:' . $port;
+
+$format = '<22>%datetime% '
+        . $appName
+        . ' %channel%: Level[%level_name%]: %message% %context% %extra%';
+$dateFormat = 'M d H:i:s';
+
+$handler = new Monolog\Handler\SocketHandler($connection);
+$handler->setFormatter(new Monolog\Formatter\LineFormatter($format, $dateFormat));
+
+Log::getMonolog()->pushHandler($handler);
 
 /*
 |--------------------------------------------------------------------------

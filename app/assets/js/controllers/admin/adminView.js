@@ -1,4 +1,4 @@
-angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $http, $location, Persona){
+angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $http, $location, Persona, $modal){
 	Persona.status();
 	$scope.mode = $location.search().mode;
 
@@ -56,4 +56,75 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 		}
 	}
 
+	$scope.triggerDownload = function() {
+		window.open('/dl/' + id);
+	}
+
+	$scope.showStudentAssets = function() {
+		$modal.open({
+			templateUrl: 'assets/views/admin/profiles/modal/assets.html',
+			controller: "StudentAssetModal",
+			resolve: {
+				assets: function() {
+					return $scope.student.family.assets
+				}
+			}
+		});
+	};
+
+	$scope.showParentAssets = function() {
+		$modal.open({
+			templateUrl: 'assets/views/admin/profiles/modal/parentsAssets.html',
+			controller: "ParentAssetModal",
+			resolve: {
+				assets: function() {
+					return $scope.student.family.assets
+				}
+			}
+		});
+	};
+
+	$scope.showRetirementAssets = function() {
+		$modal.open({
+			templateUrl: 'assets/views/admin/profiles/modal/parentsAssets.html',
+			controller: "ParentAssetModal",
+			resolve: {
+				assets: function() {
+					return $scope.student.family.retirement
+				}
+			}
+		});
+	};
+});
+
+angular.module('gmaApp').controller('StudentAssetModal', function($scope, $modalInstance, assets){
+	$scope.assets = [];
+
+	for (asset in assets) {
+		var asset = assets[asset];
+
+		if (asset.owner == 'Student') {
+			$scope.assets.push(asset);
+		}
+	}
+
+	$scope.close = function() {
+		$modalInstance.close();
+	};
+});
+
+angular.module('gmaApp').controller('ParentAssetModal', function($scope, $modalInstance, assets){
+	$scope.assets = [];
+
+	for (asset in assets) {
+		var asset = assets[asset];
+
+		if (asset.owner != 'Student') {
+			$scope.assets.push(asset);
+		}
+	}
+
+	$scope.close = function() {
+		$modalInstance.close();
+	};
 });

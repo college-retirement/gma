@@ -25,4 +25,39 @@ class AccountsController extends Controller {
 			}
 		}
 	}
+
+	function personaVerify() {
+		$identity = App::make('persona.identity', Input::get('assertion'));
+		$verifier = App::make('persona.verifier');
+		$verifier->verify($identity);
+
+		if ($identity->getStatus() !== 'okay') {
+			return Response::json(array('status' => $identity->getStatus()));
+		}
+		else {
+			$user = User::where('email', $identity->getEmail())->get()->first();
+			if ($user) {
+				Session::put('currentUser', $user->_id);
+				return Response::json(array('status' => 'okay', 'user' => $user->toArray()));
+			}
+			else {
+				return Rest::conflict();
+			}
+		}
+	}
+
+	function personaStatus() {
+		if (Session::has('currentUser')) {
+			$user = User::find(Session::get('currentUser'));
+			return Response::json(array('user' => $user->toArray()));
+		}
+		else {
+			return Response::json(array('user' => null), 401);
+		}
+	}
+
+	function personaLogout() {
+		Session::forget('currentUser');
+		return Response::json();
+	}
 }

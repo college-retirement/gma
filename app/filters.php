@@ -107,3 +107,13 @@ Route::filter('adminUser', function(){
 		}
 	}
 });
+
+/**
+ * Custom HTTPS filter, only requires HTTPS in PRODUCTION
+ */
+
+Route::filter('secure', function(){
+	if (App::environment() == 'production' && Request::secure() == false) {
+		return Rest::withErrors(['method_not_allowed' => 'This route requires HTTPS.'])->methodNotAllowed();
+	}
+});

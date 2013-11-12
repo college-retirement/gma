@@ -1,0 +1,543 @@
+<div class="row">
+	<div class="col-lg-12">
+		<table class="table table-striped">
+			<tr>
+				<th colspan="2">
+					Student Information
+				</th>
+			</tr>
+			<tr>
+				<th>Social Security Number</th>
+				<td>
+					{{student.stronghold.student.ssn | ssn}}
+				</td>
+			</tr>
+			<tr>
+				<th>Full Name</th>
+				<td>
+					{{student.name.first}} {{student.name.middle}} {{student.name.last}}
+				</td>
+			</tr>
+			<tr>
+				<th>Title</th>
+				<td>
+					<div ng-show="student.gender == 'M'">Mr.</div>
+					<div ng-show="student.gender == 'F' && student.married == TRUE">Mrs.</div>
+					<div ng-show="student.gender == 'F' && student.married == FALSE">Ms.</div>
+				</td>
+			</tr>
+			<tr>
+				<th>Email Address</th>
+				<td>
+					{{student.email}}
+				</td>
+			</tr>
+			<tr>
+				<th>Permanent Address</th>
+				<td>
+					{{student.address.line1}}
+					<br ng-show="student.address.line2">
+					{{student.address.line2}}
+					<br>
+					{{student.address.city}}, {{student.address.state}} {{student.address.zipcode}}
+				</td>
+			</tr>
+			<tr>
+				<th>Mailing Address</th>
+				<td>
+					{{student.address.line1}}
+					<br ng-show="student.address.line2">
+					{{student.address.line2}}
+					<br>
+					{{student.address.city}}, {{student.address.state}} {{student.address.zipcode}}
+				</td>
+			</tr>
+			<tr>
+				<th>Phone</th>
+				<td>
+					{{student.phone | phone}}
+				</td>
+			</tr>
+			<tr>
+				<th>Year in School</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Aid Status</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>U.S. Citizenship</th>
+				<td>
+					<div ng-show="student.citizen == true">U.S. Citizen</div>
+					<div ng-show="student.citizen == false">NOT U.S. Citizen</div>
+				</td>
+			</tr>
+			<tr>
+				<th>Marital Status</th>
+				<td>
+					<div ng-show="student.married !== true">Single</div>
+					<div ng-show="student.married == true">Married</div>
+				</td>
+			</tr>
+			<tr>
+				<th>Veteran or Active Duty?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Parents deceased? Foster care? Ward of court?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Dependents Other Than Spouse?</th>
+				<td>
+					Total Dependents: {{student.dependents}}
+				</td>
+			</tr>
+			<tr>
+				<th>Tax Return Status</th>
+				<td>
+					{{student.income.taxFiling}}
+				</td>
+			</tr>
+			<tr>
+				<th>Student Owns Major Assets? Self Employed?</th>
+				<td>
+					<button class="btn btn-default" ng-click="viewAssets()">View Assets</button>
+				</td>
+			</tr>
+			<tr>
+				<th colspan="2">
+					Parent Information
+				</th>
+			</tr>
+			<tr>
+				<th>Marital Status of Parents</th>
+				<td>
+					{{student.parents.marital | marital}}
+				</td>
+			</tr>
+			<tr>
+				<th>Custodial Parent</th>
+				<td>
+					{{student.livingArrangement}}
+				</td>
+			</tr>
+			<tr>
+				<th>Parent that provides more financial support</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Custodial Parent Marital Status</th>
+				<td>
+					{{student.parents.marital | marital}}
+				</td>
+			</tr>
+			<tr>
+				<th>Parents Tax Filing Status</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Parents receive TANF?</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>Parents receive SSI?</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>Either Parent Self Employed?</th>
+				<td>
+					<table class="table">
+						<tr>
+							<th>Mother</th>
+							<td>
+								{{student.parents.mother.occupation}}
+								<br>
+								{{student.parents.mother.employer.name}}
+							</td>
+						</tr>
+						<tr>
+							<th>Father</th>
+							<td>
+								{{student.parents.father.occupation}} <br>
+								{{student.parents.father.employer.name}}
+							</td>
+						</tr>
+						<tr>
+							<th>Guardian</th>
+							<td>
+								{{student.guardian.occupation}}
+								<br>
+								{{student.guardian.employer.name}}
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<th>Parents Number of Businesses</th>
+				<td>
+					<button class="btn btn-default">View Assets</button>
+				</td>
+			</tr>
+			<tr>
+				<th>Parents Number of Farms</th>
+				<td>
+					<button class="btn btn-default">View Assets</button>
+				</td>
+			</tr>
+			<tr>
+				<th>Parents Housing</th>
+				<td>
+					<div ng-show="student.family.home.owned == true">Own Home</div>
+					<div ng-show="student.family.home.owned !== true">Rent Home / Other</div>
+				</td>
+			</tr>
+			<tr>
+				<th>Parents Country of Residence</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th colspan="2">
+					Student's Data
+				</th>
+			</tr>
+			<tr>
+				<th>Name of School Attended 2013-2014</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Year in School 2013-2014</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Scholarships, Grants or Gift Aid for previous school year?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Parent's Contribution</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>School ID (Other than SSN)</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Student State of Legal Residence</th>
+				<td>
+					{{student.address.state | fullState}}
+				</td>
+			</tr>
+			<tr>
+				<th>Ward of Court?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Homeless?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Federal Benefit Programs?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Dislocated Worker?</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Country of Citizenship</th>
+				<td>
+					<div ng-show="student.citizen == TRUE">United States</div>
+				</td>
+			</tr>
+			<tr>
+				<th>Visa Type</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Currency</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Currency converted from</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Conversion rate</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Number in Household</th>
+				<td>
+					{{student.household.size}}
+				</td>
+			</tr>
+			<tr>
+				<th>Number in College</th>
+				<td>
+					{{student.household.collegeAttendees}}
+				</td>
+			</tr>
+			<tr>
+				<th>AP Release</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th colspan="2">Students Income & Benefits</th>
+			</tr>
+			<tr>
+				<th>Number of Exemptions</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Adjusted Gross Income</th>
+				<td>
+					{{student.income.agi | currency}}
+				</td>
+			</tr>
+			<tr>
+				<th>Tax Paid</th>
+				<td>
+					{{student.income.taxPaid | currency}}
+				</td>
+			</tr>
+			<tr>
+				<th>Education Credits</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Deductions</th>
+				<td>
+					{{student.income.deductions | currency}}
+				</td>
+			</tr>
+			<tr>
+				<th>Earned Income</th>
+				<td>
+					{{student.income.earnedIncome | currency}}
+				</td>
+			</tr>
+			<tr>
+				<th>Spouse Income</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Combat Pay</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>Dividend and Interest Income</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>Social Security Benefits</th>
+				<td>
+					{{student.income.ssBenefits}}
+				</td>
+			</tr>
+			<tr>
+				<th>TANF</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Child Support Received</th>
+				<td>
+
+				</td>
+			</tr>
+			<tr>
+				<th>Earned Income Credit</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Untaxed Income</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Earnings from Work Study</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th colspan="2">Students Expected Resources</th>
+			</tr>
+			<tr>
+				<th>Veterans' Benefits</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Veterans' Benefits Total</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Veterans' Benefits Duration (Months)</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Expected Income - Summer</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Expected Income - School Year</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Spouse Expected Income - Summer</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Spouse Expected Income - School Year</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Other Income - Summer</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Other Income - School Year</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Untaxed Income - Summer</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Untaxed Income - School Year</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Grants, Scholarships, etc. expected</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Tuition Benefits</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Government Benefits</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Agency Benefits</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>Parents Expected Contribution</th>
+				<td>
+					{{student.family.contributionAbility | currency}}
+				</td>
+			</tr>
+			<tr>
+				<th>Other Resources</th>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<th>
+					Student's Assets
+				</th>
+				<td>
+					<button class="btn btn-default">View Assets</button>
+				</td>
+			</tr>
+			<tr>
+				<th colspan="2">Student's Expenses</th>
+			</tr>
+			<tr>
+				<th>Child Support Paid</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>Medical/Dental Expenses</th>
+				<td></td>
+			</tr>
+		</table>	
+	</div>
+</div>

@@ -73,6 +73,9 @@
 	<div ng-view>
 
 	</div>
+	<?php if (App::environment() == "local"): ?>
+		<script src="//localhost:35729/livereload.js"></script>
+	<?php endif; ?>
 	<script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.min.js"></script>
 	<script src="/assets/js/vendor/jquery.masked.js"></script>
