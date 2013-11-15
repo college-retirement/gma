@@ -39,6 +39,12 @@ class Deploy extends Command {
 	{
 		$this->info('Fetching latest release...');
 		`git pull`;
+
+		$this->info('Dumping Composer Autoloader...');
+		$cmd = '/usr/bin/php ' . base_path() . '/composer.phar dump';
+
+		$this->info(exec($cmd));
+
 		$this->info('Compiling assets...');
 		`grunt dist`;
 	}
