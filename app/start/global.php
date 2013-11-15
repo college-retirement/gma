@@ -35,7 +35,7 @@ ClassLoader::addDirectories(array(
 
 // Log::useDailyFiles(storage_path().'/logs/'.$logFile);
 
-$appName = 'GMA';
+$appName = 'GMA - ' . App::environment();
 $port = 31125;
 $connection = 'udp://logs.papertrailapp.com:' . $port;
 
