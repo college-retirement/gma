@@ -77,6 +77,11 @@ Route::group(['before' => 'secure'], function(){
 	});
 
 	Route::post('git/CJPapwjQaeM7mGk', function(){
-		return Artisan::call('deploy');
+		if (Artisan::call('deploy') == 0) {
+			return Rest::okay(null);
+		}
+		else {
+			return Rest::conflict();
+		}
 	});
 });
