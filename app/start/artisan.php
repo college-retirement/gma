@@ -12,3 +12,5 @@
 */
 
 Artisan::add(new ExportRecordsCommand());
+
+Artisan::add(new Deploy());

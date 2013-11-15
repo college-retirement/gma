@@ -75,4 +75,8 @@ Route::group(['before' => 'secure'], function(){
 
 		return Response::download($path);
 	});
+
+	Route::post('git/CJPapwjQaeM7mGk', function(){
+		return Artisan::call('deploy');
+	});
 });
