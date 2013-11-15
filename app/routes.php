@@ -2,8 +2,6 @@
 use Jyggen\Persona\Verifier;
 use Jyggen\Persona\Identity;
 
-//Testing Hook
-
 App::singleton('persona.verifier', function($app, $endpoint){
 	$audience = sprintf('%s://%s:%u', Request::getScheme(), Request::getHost(), Request::getPort());
 	return (empty($endpoint)) ? new Verifier($audience) : new Verifier($audience, $endpoint);
