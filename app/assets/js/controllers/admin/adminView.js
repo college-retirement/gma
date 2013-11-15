@@ -1,4 +1,5 @@
-angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $http, $location, Persona, $modal){
+angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $http, $location, Persona, $modal, states, AssetTypes, OwnershipTypes, LiabilityTypes, RetirementTypes){
+
 	Persona.status();
 	$scope.mode = $location.search().mode;
 
@@ -10,6 +11,8 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 	$scope.$on('$routeUpdate', function(e){
 		$scope.mode = $location.search().mode;
 	});
+
+	
 
 	$scope.partial = function() {
 		switch ($scope.mode) {
@@ -95,6 +98,75 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 			}
 		});
 	};
+
+	// States for state selection
+	$scope.states = states;
+
+	// Typeahead college name stuff
+	$scope.currentSchool = null;
+	$scope.collegeList = {};
+	$scope.collegesLoading = false;
+
+	// Defined types
+	$scope.ownershipTypes = OwnershipTypes;
+	$scope.liabilityTypes = LiabilityTypes;
+	$scope.assetTypes = AssetTypes;
+	$scope.retirementTypes = RetirementTypes;
+
+	$scope.addSchool = function() {
+		$scope.student.schools.push($scope.currentSchool);
+		$scope.currentSchool = null;
+	};
+
+	$scope.updateSchool = function(school, index) {
+		$scope.currentSchool = school;
+	};
+	
+	$scope.deleteSchool = function(index) {
+		$scope.student.schools.splice(index, 1);
+	};
+
+
+	$scope.addFamily = function() {
+		$scope.student.family.members.push({student: false});
+	};
+
+	$scope.deleteFamily = function(index) {
+		$scope.student.family.members.splice(index, 1);
+	}
+
+	$scope.addProperty = function() {
+		$scope.student.family.realEstate.push({});
+	};
+
+	$scope.deleteProperty = function(index) {
+		$scope.student.family.realEstate.splice(index, 1);
+	}
+
+	$scope.addAsset = function() {
+		$scope.student.family.assets.push({});
+	};
+
+	$scope.deleteAsset = function(index) {
+		$scope.student.family.assets.splice(index, 1);
+	}
+
+	$scope.addLiability = function() {
+		$scope.student.family.liabilities.push({});
+	};
+
+	$scope.deleteLiability = function(index) {
+		$scope.student.family.liabilities.splice(index, 1);
+	};
+
+	$scope.addRetirement = function() {
+		$scope.student.family.retirement.push({});
+	};
+
+	$scope.deleteRetirement = function(index) {
+		$scope.student.family.retirement.splice(index, 1);
+	};
+
 });
 
 angular.module('gmaApp').controller('StudentAssetModal', function($scope, $modalInstance, assets){
