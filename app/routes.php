@@ -11,9 +11,6 @@ App::bind('persona.identity', function($app, $assertion){
 	return new Identity($assertion);
 });
 
-/**
- * Index/Main Application View
- */
 Route::get('/', function()
 {
 	if (App::environment() == 'production' && !Request::secure()) {
