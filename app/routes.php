@@ -65,7 +65,7 @@ Route::group(['before' => 'secure'], function(){
 
 	Route::post('accounts', ['uses' => 'AccountsController@register']);
 
-	Route::get('dl/{id}', function($id){
+	Route::get('dl/{id}', ['before' => 'validUser|adminUser', function($id){
 		$profile = Profile::find($id);
 		$filename = $profile->name['last'] . '-' . $profile->name['first'] . '.csv';
 		$path = storage_path() . '/' . $filename;
@@ -74,7 +74,7 @@ Route::group(['before' => 'secure'], function(){
 		$export->export();
 
 		return Response::download($path);
-	});
+	}]);
 
 	Route::post('git/CJPapwjQaeM7mGk', function(){
 		if (Artisan::call('deploy') == 0) {
