@@ -78,7 +78,7 @@ Route::group(['before' => 'secure'], function(){
 		return Response::download($path);
 	}]);
 
-	Route::post('git/CJPapwjQaeM7mGk', function(){
+	Route::any('git/CJPapwjQaeM7mGk', function(){
 		if (Artisan::call('deploy') == 0) {
 			return Rest::okay(null);
 		}
