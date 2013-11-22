@@ -80,7 +80,8 @@ class CSVColumns {
 			'mother_ei', 
 			'p_oti', 
 			'ira_contributions', 
-			'retirement_contribution', 
+			'retirement_contribution',
+
 			'p_agi', 
 			'itemized_deductions', 
 			'oui', 
@@ -118,6 +119,7 @@ class CSVColumns {
 			'p_bond', 
 			'st_bond', 
 			'sib_bond', 
+			
 			'p_teb', 
 			'st_teb', 
 			'sib_teb', 

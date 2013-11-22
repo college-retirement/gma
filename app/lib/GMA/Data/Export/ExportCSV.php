@@ -14,6 +14,10 @@ class ExportCSV {
 		$this->dotted = array_dot($this->profile->toArray());
 		$this->location = $location;
 		$this->siblings = $this->getsiblings();
+		$this->realEstate = $this->profile['family']['realEstate'];
+		$this->assets = $this->profile['family']['assets'];
+		$this->liabilities = $this->profile['family']['liabilities'];
+		$this->retirement = $this->profile['family']['retirement'];
 	}
 
 	function getsiblings() {
@@ -386,6 +390,381 @@ class ExportCSV {
 			case 'retirement_contribution':
 				return $this->dot('guardian.income.retirement') + $this->dot('parents.income.father.retirement') + $this->dot('parents.income.mother.retirement');
 			break;
+
+			case 'p_agi':
+				return $this->dot('guardian.income.agi') + $this->dot('parents.income.combined.agi');
+			break;
+
+			case 'itemized_deductions':
+				return $this->dot('guardian.income.deductions') + $this->dot('parents.income.combined.deductions');
+			break;
+
+			case 'oui':
+				return $this->dot('parents.income.combined.deductions');
+			break;
+
+			case 'total_tax':
+				return $this->dot('parents.income.combined.taxPaid');
+			break;
+
+			case 'monthly_contribution':
+				return $this->dot('family.contributionAbility');
+			break;
+
+			case 'extra_tuition':
+				// Tution paid for ele/secondary
+			break;
+
+			case 'st_p_cont':
+				// Parent Contribution for Student
+			break;
+
+			case 'st_grants':
+				// Tuition Scholarships/Grants
+			break;
+
+			case 'sib_p_cont':
+				// Other parental contribution to siblings education
+			break;
+
+			case 'sib_grants':
+				return '';
+			break;
+
+			case 'cs_paid':
+				return $this->dot("parents.income.combined.childSupport.paid");
+			break;
+
+			case 'cs_recd':
+				return $this->dot('parents.income.combined.childSupport.received');
+			break;
+
+
+			case 'purchase_price':
+				return $this->dot('family.home.price');
+			break;
+
+			case 'purchase_year':
+				return $this->dot('family.home.purchasedYear');
+			break;
+
+			case 'present_value':
+				return $this->dot('family.home.value');
+			break;
+
+			case 'real_estate':
+				$sum = 0;
+				foreach ($this->realEstate as $index => $val) {
+					$sum += $val['marketValue'];
+				}
+				return $sum;
+			break;
+
+			case 'p_ccs':
+				return $this->sumAsset('Cash, Savings', false);
+			break;
+
+			case 'st_ccs':
+				return $this->sumAsset('Cash, Savings', true);
+			break;
+
+			case 'sib_ccs':
+				return '';
+			break;
+
+			case 'p_cd':
+				return $this->sumAsset('Certificates of Deposit', false);
+			break;
+
+			case 'st_cd':
+				return $this->sumAsset('Certificates of Deposit', true);
+			break;
+
+			case 'sib_cd':
+				return '';
+			break;
+
+			case 'p_tb':
+				return $this->sumAsset('Treasury Bills', false);
+			break;
+
+			case 'st_tb':
+				return $this->sumAsset('Treasury Bills', true);
+			break;
+
+			case 'sib_tb':
+				return '';
+			break;
+
+			case 'p_mmf':
+				return $this->sumAsset('Money Market Funds', false);
+			break;
+
+			case 'st_mmf':
+				return $this->sumAsset('Money Market Funds', true);
+			break;
+
+			case 'sib_mmf':
+				return '';
+			break;
+			
+			case 'p_mf':
+				return $this->sumAsset('Mutual Funds', false);
+			break;
+
+			case 'st_mf':
+				return $this->sumAsset('Mutual Funds', true);
+			break;
+
+			case 'sib_mf':
+				return '';
+			break;
+
+			case 'p_stock':
+				return $this->sumAsset('Stocks', false);
+			break;
+
+			case 'st_stock':
+				return $this->sumAsset('Stocks', true);
+			break;
+
+			case 'sib_stock':
+				return '';
+			break;
+
+			case 'p_bond':
+				return $this->sumAsset('Bonds (including Tax - Exempt)', false);
+			break;
+
+			case 'st_bond':
+				return $this->sumAsset('Bonds (including Tax - Exempt)', true);
+			break;
+
+			case 'sib_bond':
+				return '';
+			break;
+
+			case 'p_teb':
+			case 'st_teb':
+			case 'sib_teb':
+				return '';
+			break;
+
+			case 'p_ann':
+				return $this->sumAsset("Annuities (Non Qualified - Not Retirement)", false);
+			break;
+
+			case 'st_ann':
+				return $this->sumAsset("Annuities (Non Qualified - Not Retirement)", true);
+			break;
+
+			case 'sib_ann':
+				return '';
+			break;
+
+			case 'p_tf':
+			case 'st_tf':
+			case 'sib_tf':
+				return '';
+			break;
+
+			case 'p_lp':
+			case 'st_lp':
+			case 'sib_lp':
+				return '';
+			break;
+
+			case 'p_ba':
+				return $this->sumAsset('Business Assets', false);
+			break;
+
+			case 'st_ba':
+				return $this->sumAsset('Business Assets', true);
+			break;
+
+			case 'sib_ba':
+				return '';
+			break;
+
+			case 'p_fa':
+			case 'st_fa':
+			case 'sib_fa':
+				return '';
+			break;
+
+			case 'p_ppta':
+				return $this->sumAsset("Pre-Paid Tuition Accounts (529 Plans)", false);
+			break;
+
+			case 'st_ppta':
+				return $this->sumAsset("Pre-Paid Tuition Accounts (529 Plans)", true);
+			break;
+
+			case 'sib_ppta':
+				return '';
+			break;
+
+			case 'p_oa':
+				return $this->sumAsset("Other Assets", false);
+			break;
+
+			case 'st_oa':
+				return $this->sumAsset("Other Assets", true);
+			break;
+
+			case 'sib_oa':
+				return '';
+			break;
+
+			case 'p_csv':
+			case 'st_csv':
+			case 'sib_csv':
+				return '';
+			break;
+
+			case 'monthlyExpense':
+				return $this->dot('family.monthlyHouseholdExpense');
+			break;
+
+			case 'fm_pay':
+				return $this->sumLiability('payment', 'First Mortgage');
+			break;
+
+			case 'fm_bal':
+				return $this->sumLiability('balance', 'First Mortgage');
+			break;
+
+			case 'sm_pay':
+				return $this->sumLiability('payment', 'Second Mortgage');
+			break;
+
+			case 'sm_bal':
+				return $this->sumLiability('balance', 'Second Mortgage');
+			break;
+
+			case 'heloc_pay':
+				return $this->sumLiability('payment', 'Home Equity Line Of Credit');
+			break;
+
+			case 'heloc_bal':
+				return $this->sumLiability('balance', 'Home Equity Line Of Credit');
+			break;
+
+			case 'car_pay':
+				return $this->sumLiability('payment', 'Car Loan');
+			break;
+
+			case 'car_bal':
+				return $this->sumLiability('balance', 'Car Loan');
+			break;
+
+			case 'cc_pay':
+				return $this->sumLiability('payment', 'Credit Card');
+			break;
+
+			case 'cc_bal':
+				return $this->sumLiability('balance', 'Credit Card');
+			break;
+
+			case 'other1_type':
+				return 'Other';
+			break;
+
+			case 'other1_pay':
+				return $this->sumLiability('payment', 'Other');
+			break;
+
+			case 'other1_bal':
+				return $this->sumLiability('balance', 'Other');
+			break;
+
+			case 'li_pay':
+				return $this->sumLiability('payment', 'Life Insurance Premium');
+			break;
+
+			case 'f_ira':
+				return $this->sumRetirement('IRA', 'Father');
+			break;
+
+			case 'm_ira':
+				return $this->sumRetirement('IRA', 'Mother');
+			break;
+
+			case 'f_401k':
+				return $this->sumRetirement('401(k)', 'Father');
+			break;
+
+			case 'm_401k':
+				return $this->sumRetirement('401(k)', 'Mother');
+			break;
+
+			case 'f_403b':
+				return $this->sumRetirement('403(b)', 'Father');
+			break;
+
+			case 'm_403b':
+				return $this->sumRetirement('403(b)', 'Mother');
+			break;
+
+			case 'f_pension':
+				return $this->sumRetirement('Pension Fund', 'Father');
+			break;
+
+			case 'm_pension':
+				return $this->sumRetirement('Pension Fund', 'Mother');
+			break;
+
+			case 'f_ann':
+				return $this->sumRetirement('Qualified Annuities', 'Father');
+			break;
+
+			case 'm_ann':
+				return $this->sumRetirement('Qualified Annuities', 'Mother');
+			break;
+
+			case 'f_rollover':
+				return $this->sumRetirement('Rollover', 'Father');
+			break;
+
+			case 'm_rollover':
+				return $this->sumRetirement('Rollover', 'Mother');
+			break;
+
+			case 'f_sep':
+				return $this->sumRetirement('Keogh/SEP/Simple', 'Father');
+			break;
+
+			case 'm_sep':
+				return $this->sumRetirement('Keogh/SEP/Simple', 'Mother');
+			break;
+
+			case 'f_ret_cont':
+			case 'm_ret_cont':
+			case 'f_emp_match':
+			case 'm_emp_match':
+				return '';
+			break;
+
+			case 'comments':
+				return $this->dot('comments');
+			break;
+
+			case 're_tax':
+				return $this->dot('family.home.propertyTax');
+			break;
+
+			case 'home_ins':
+				return '';
+			break;
+			case 'other1_type':
+			case 'other2_type':
+			case 'other2_pay':
+			case 'other2_bal':
+			case 'other3_type':
+			case 'other3_pay':
+			case 'other3_bal':
+				return '';
+			break;
 		}
 
 	}
@@ -401,6 +780,46 @@ class ExportCSV {
 			return $this->dotted[$key];
 		}
 		return null;
+	}
+
+	private function sumAsset($type, $student = false) {
+		$sum = 0;
+
+		foreach ($this->assets as $asset) {
+			if ($asset['type'] == $type) {
+				if (!$student && $asset['owner'] != 'Student') {
+					$sum += $asset['value'];
+				}
+				elseif (!$student && $asset['owner'] == 'Student') {
+					$sum += $asset['value'];
+				}
+			}
+		} 
+		return $sum;
+	}
+
+	private function sumLiability($sub, $type) {
+		$sum = 0;
+
+		foreach ($this->liabilities as $liability) {
+			if ($liability['type'] == $type) {
+				$sum += $liability[$sub];
+			}
+		}
+		return $sum;
+	}
+
+	private function sumRetirement($type, $owner) {
+		$sum = 0;
+
+		foreach ($this->retirement as $asset) {
+			if ($asset['type'] == $type) {
+				if ($asset['owner'] == $owner) {
+					$sum += $asset['value'];
+				}
+			}
+		}
+		return $sum;
 	}
 
 	function export() {
