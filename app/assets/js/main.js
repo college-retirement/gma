@@ -34,6 +34,12 @@ angular.module('gmaApp').config(['$routeProvider', function($routeProvider){
 		templateUrl: "assets/views/admin/drafts/list.html",
 		controller: "AdminDraftListCtrl",
 		reloadOnSearch: false
+	}).when('/admin/users', {
+		templateUrl: "assets/views/admin/users/list.html",
+		controller: "AdminUserListCtrl"
+	}).when('/admin/users/:user', {
+		templateUrl: "assets/views/admin/users/view.html",
+		controller: "AdminUserViewCtrl"
 	}).otherwise('/');
 }]);
 

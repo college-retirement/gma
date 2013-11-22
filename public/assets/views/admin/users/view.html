@@ -1,0 +1,157 @@
+<div class="container">
+	<ol class="breadcrumb">
+		<li>
+			<a href="#/admin">Admin</a>
+		</li>
+		<li>
+			<a href="#/admin/users">Users</a>
+		</li>
+		<li class="active">
+			{{user.name}}
+		</li>
+	</ol>
+	<div class="pull-right btn-group" style="margin-right: 10px">
+		<button class="btn" ng-click="changeGroup('Administrator')" ng-disabled="user.role == 'Administrator'">
+			<i class="icon-briefcase"></i>
+			Make Administrator
+		<button class="btn btn-primary dropdown" data-toggle="dropdown">
+			<span class="dropdown-toggle">
+				<i class="icon-users"></i>
+				Change Group
+				<i class="icon-angle-down"></i>
+			</span>
+
+			<ul class="dropdown-menu" role="menu">
+				<li>
+					<a ng-click="changeGroup('Student')">Student</a>
+				</li>
+				<li>
+					<a ng-click="changeGroup('Parent')">Parent</a>
+				</li>
+				<li>
+					<a ng-click="changeGroup('Guardian')">Guardian</a>
+				</li>
+			</ul>
+		</button>
+	</div>
+	<legend>{{user.name}}</legend>
+	<div class="row">
+		<div class="col-lg-6">
+			<legend class="smaller">Basic Information</legend>
+			<table class="table table-striped">
+				<tr>
+					<th>Name</th>
+					<td>{{user.name}}</td>
+				</tr>
+				<tr>
+					<th>Email Address</th>
+					<td>{{user.email}}</td>
+				</tr>
+				<tr>
+					<th>Role</th>
+					<td>{{user.role}}</td>
+				</tr>
+			</table>
+		</div>
+		<div class="col-lg-6">
+			<legend class="smaller">Statistics</legend>
+			<table class="table table-striped">
+				<tr>
+					<th>Profiles</th>
+					<td>{{profiles.length}}</td>
+				</tr>
+				<tr>
+					<th>Drafts</th>
+					<td>{{drafts.length}}</td>
+				</tr>
+				<tr>
+					<th>Account Created</th>
+					<td>{{user.created | date}}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<legend class="smaller">Profiles</legend>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Name</th>	
+						<th>DOB</th>
+						<th>Phone</th>
+						<th>City</th>
+						<th>State</th>
+						<th>Submitted</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="profile in profiles">
+						<td>
+							{{profile.name.first}}&nbsp;{{profile.name.last}}
+						</td>
+						<td>
+							{{profile.dob | dob}}
+						</td>
+						<td>
+							{{profile.phone | phone}}
+						</td>
+						<td>
+							{{profile.address.city}}
+						</td>
+						<td>
+							{{profile.address.state}}
+						</td>
+						<td>
+							{{profile.created | date}}
+						</td>
+						<td>
+							<button class="btn btn-default" ng-click="viewProfile(profile)">
+								<i class="icon-eye-open"></i>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<legend class="smaller">Drafts</legend>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Profile For</th>
+						<th>DOB</th>
+						<th>Phone</th>
+						<th>Created</th>
+						<th>Updated</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="profile in drafts" ng-dblclick="viewDraft(profile)">
+						<td>
+							{{profile.name.first}} {{profile.name.last}}
+						</td>
+						<td>
+							{{profile.dob | dob}}
+						</td>
+						<td>
+							{{profile.phone | phone}}
+						</td>
+						<td>
+							{{profile.created | date}}
+						</td>
+						<td>
+							{{profile.updated | date}}
+						</td>
+						<td>
+							<button class="btn btn-default" ng-click="viewDraft(profile)">
+								<i class="icon-eye-open"></i>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

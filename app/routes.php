@@ -81,4 +81,8 @@ Route::group(['before' => 'secure'], function(){
 			return Rest::conflict();
 		}
 	});
+
+	Route::get('/admin/users', ['before' => 'validUser|adminUser', 'uses' => 'AdminUsersController@users']);
+	Route::get('/admin/users/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminUsersController@user']);
+	Route::put('/admin/users/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminUsersController@editUser']);
 });

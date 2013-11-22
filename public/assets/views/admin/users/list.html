@@ -1,0 +1,52 @@
+<div class="container">
+	<ol class="breadcrumb">
+		<li>
+			<a href="#/admin">Admin</a>
+		</li>
+		<li class="active">
+			Users
+		</li>
+	</ol>
+	<legend>Users</legend>
+	<table class="table-striped table">
+		<thead>
+			<tr>
+				<th>User Name</th>	
+				<th>Email Address</th>
+				<th>Role</th>
+				<th>Drafts</th>
+				<th>Profiles</th>
+				<th>Created</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="user in users" ng-dblclick="viewUser(user)">
+				<td>
+					{{user.name}}
+				</td>
+				<td>
+					{{user.email}}
+				</td>
+				<td>
+					{{user.role}}
+				</td>
+				<td>
+					{{user.drafts.length}}
+				</td>
+				<td>
+					{{user.profiles.length}}
+				</td>
+				<td>
+					{{user.created | date}}
+				</td>
+				<td>
+					<button class="btn btn-default" ng-click="viewUser(user)">
+						<i class="icon-eye-open"></i>
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<pagination total-items="pagination.totalItems" page="page" items-per-page="pagination.displayItems" on-select-page="newPage(page)"></pagination>
+</div>

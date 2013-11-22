@@ -15,7 +15,35 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	protected $collection = 'users';
 
-	public $appends = array("name", "is_admin");
+	public $appends = array("name", "is_admin", "created", "updated");
+
+	function getCreatedAttribute() {
+		if (array_key_exists('created_at', $this->attributes)) {
+			if (is_string($this->attributes['created_at'])) {
+				$dt = new DateTime($this->attributes['created_at']);
+				return $dt->format('c');
+			}
+			if (is_object($this->attributes['created_at'])) {
+				$dt = new DateTime();
+				$dt->setTimestamp($this->attributes['created_at']->sec);
+				return $dt->format('c');
+			}
+		}
+	}
+
+	function getUpdatedAttribute() {
+		if (array_key_exists('updated_at', $this->attributes)) {
+			if (is_string($this->attributes['updated_at'])) {
+				$dt = new DateTime($this->attributes['updated_at']);
+				return $dt->format('c');
+			}
+			if (is_object($this->attributes['updated_at'])) {
+				$dt = new DateTime();
+				$dt->setTimestamp($this->attributes['updated_at']->sec);
+				return $dt->format('c');
+			}
+		}	
+	}
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -58,6 +86,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->hasMany('Draft');
 	}
 
+	public function profiles() {
+		return $this->hasMany('Profile');
+	}
+
 	public function getNameAttribute() {
 		if (array_key_exists('name', $this->attributes)) {
 			return $this->attributes['name']['first'] . ' ' . $this->attributes['name']['last'];
@@ -68,8 +100,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	public function getIsAdminAttribute() {
-		$admins = array('trea@treahauet.com', 'nziering@college-retirement.com', 'admin@college-retirement.com');
-		return in_array($this->attributes['email'], $admins);
+		return $this->attributes['role'] == 'Administrator';
 	}
 
 	public static function boot() {
