@@ -100,7 +100,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	public function getIsAdminAttribute() {
-		return $this->attributes['role'] == 'Administrator';
+		if (array_key_exists('role', $this->attributes)) {
+			return $this->attributes['role'] == 'Administrator';
+		}
+		return false;
 	}
 
 	public static function boot() {
