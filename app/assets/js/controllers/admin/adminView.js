@@ -12,6 +12,12 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 		$scope.mode = $location.search().mode;
 	});
 
+	$scope.credentials = {
+		studentFAFSA: false,
+		parentFAFSA: false,
+		cssUsername: false,
+		cssPassword: false
+	};
 	
 
 	$scope.partial = function() {
