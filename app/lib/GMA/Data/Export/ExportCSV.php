@@ -33,6 +33,9 @@ class ExportCSV {
 	function translateColumn($col) {
 		$pro = $this->dotted;
 		switch ($col) {
+			case 'date':
+				return date('m/d/Y H:i');
+			break;
 			case 'st_Name':
 				return $pro['name.first'] . ' ' . $pro['name.last'];
 			break;
