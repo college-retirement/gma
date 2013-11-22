@@ -40,7 +40,11 @@ class Draft extends Eloquent {
 
 	function getStrongholdAttribute($value) {
 		$box = new Stronghold($value);
-		return $box->decryptAll()->toArray();
+		try {
+			return $box->decryptAll()->toArray();
+		} catch (Exception $e) {
+			return false;
+		}
 	}
 
 	function setStrongholdAttribute($values) {
