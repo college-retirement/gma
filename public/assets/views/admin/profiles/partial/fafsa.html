@@ -1,6 +1,40 @@
 <div class="row">
 	<div class="col-lg-12">
 		<table class="table table-striped">
+			<th colspan="2">
+				Credentials
+			</th>
+			<tr>
+				<th>Student FAFSA PIN</th>
+				<td style="width: 50%">
+					<span ng-show="student.stronghold.student.fafsaPIN && credentials.studentFAFSA == false" ng-click="credentials.studentFAFSA = true">
+						<i class="icon-lock" ></i>
+						Click to Show
+					</span>
+					<span ng-show="student.stronghold.student.fafsaPIN  && credentials.studentFAFSA == true" ng-click="credentials.studentFAFSA = false">
+						<i class="icon-unlock"></i>
+						<span ng-bind="student.stronghold.student.fafsaPIN"></span>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<th>Parent FAFSA PIN</th>
+				<td>
+					<span ng-show="student.stronghold.parent.fafsaPIN && credentials.parentFAFSA == false" ng-click="credentials.parentFAFSA = true">
+						<i class="icon-lock" ></i>
+						Click to Show
+					</span>
+					<span ng-show="student.stronghold.parent.fafsaPIN  && credentials.parentFAFSA == true" ng-click="credentials.parentFAFSA = false">
+						<i class="icon-unlock"></i>
+						<span ng-bind="student.stronghold.parent.fafsaPIN"></span>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<th colspan="2">
+					<br>
+				</th>
+			</tr>
 			<tr>
 				<th>Student Last Name</th>
 				<td>{{student.name.last}}</td>

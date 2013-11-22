@@ -11,9 +11,6 @@ App::bind('persona.identity', function($app, $assertion){
 	return new Identity($assertion);
 });
 
-/**
- * Index/Main Application View
- */
 Route::get('/', function()
 {
 	if (App::environment() == 'production' && !Request::secure()) {
@@ -76,7 +73,7 @@ Route::group(['before' => 'secure'], function(){
 		return Response::download($path);
 	}]);
 
-	Route::post('git/CJPapwjQaeM7mGk', function(){
+	Route::any('git/CJPapwjQaeM7mGk', function(){
 		if (Artisan::call('deploy') == 0) {
 			return Rest::okay(null);
 		}

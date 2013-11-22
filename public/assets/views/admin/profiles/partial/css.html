@@ -3,6 +3,37 @@
 		<table class="table table-striped">
 			<tr>
 				<th colspan="2">
+					Credentials
+				</th>
+			</tr>
+			<tr>
+				<th>CSS Username</th>
+				<td>
+					<span ng-show="student.stronghold.student.css.username && credentials.cssUsername == false" ng-click="credentials.cssUsername = true">
+						<i class="icon-lock" ></i>
+						Click to Show
+					</span>
+					<span ng-show="student.stronghold.student.css.username  && credentials.cssUsername == true" ng-click="credentials.cssUsername = false">
+						<i class="icon-unlock"></i>
+						<span ng-bind="student.stronghold.student.css.username"></span>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<th>CSS Username</th>
+				<td>
+					<span ng-show="student.stronghold.student.css.password && credentials.cssPassword == false" ng-click="credentials.cssPassword = true">
+						<i class="icon-lock" ></i>
+						Click to Show
+					</span>
+					<span ng-show="student.stronghold.student.css.password  && credentials.cssPassword == true" ng-click="credentials.cssPassword = false">
+						<i class="icon-unlock"></i>
+						<span ng-bind="student.stronghold.student.css.password"></span>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<th colspan="2">
 					Student Information
 				</th>
 			</tr>
@@ -111,7 +142,7 @@
 			<tr>
 				<th>Student Owns Major Assets? Self Employed?</th>
 				<td>
-					<button class="btn btn-default" ng-click="viewAssets()">View Assets</button>
+					<button class="btn btn-default" ng-click="showStudentAssets()">View Assets</button>
 				</td>
 			</tr>
 			<tr>
@@ -190,13 +221,13 @@
 			<tr>
 				<th>Parents Number of Businesses</th>
 				<td>
-					<button class="btn btn-default">View Assets</button>
+					<button class="btn btn-default" ng-click="showParentAssets()">View Assets</button>
 				</td>
 			</tr>
 			<tr>
 				<th>Parents Number of Farms</th>
 				<td>
-					<button class="btn btn-default">View Assets</button>
+					<button class="btn btn-default" ng-click="showParentAssets()">View Assets</button>
 				</td>
 			</tr>
 			<tr>
@@ -524,7 +555,7 @@
 					Student's Assets
 				</th>
 				<td>
-					<button class="btn btn-default">View Assets</button>
+					<button class="btn btn-default" ng-click="showParentAssets()">View Assets</button>
 				</td>
 			</tr>
 			<tr>

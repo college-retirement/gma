@@ -51,3 +51,64 @@
 		</table>
 	</div>
 </div>
+<div class="row">
+	<div class="col-lg-6">
+		<legend class="smaller">Credentials</legend>
+		<table class="table table-striped">
+			<tbody>
+				<tr>
+					<th>Student FAFSA PIN</th>
+					<td style="width: 50%">
+						<span ng-show="student.stronghold.student.fafsaPIN && credentials.studentFAFSA == false" ng-click="credentials.studentFAFSA = true">
+							<i class="icon-lock" ></i>
+							Click to Show
+						</span>
+						<span ng-show="student.stronghold.student.fafsaPIN  && credentials.studentFAFSA == true" ng-click="credentials.studentFAFSA = false">
+							<i class="icon-unlock"></i>
+							<span ng-bind="student.stronghold.student.fafsaPIN"></span>
+						</span>
+					</td>
+				</tr>
+				<tr>
+					<th>Parent FAFSA PIN</th>
+					<td>
+						<span ng-show="student.stronghold.parent.fafsaPIN && credentials.parentFAFSA == false" ng-click="credentials.parentFAFSA = true">
+							<i class="icon-lock" ></i>
+							Click to Show
+						</span>
+						<span ng-show="student.stronghold.parent.fafsaPIN  && credentials.parentFAFSA == true" ng-click="credentials.parentFAFSA = false">
+							<i class="icon-unlock"></i>
+							<span ng-bind="student.stronghold.parent.fafsaPIN"></span>
+						</span>
+					</td>
+				</tr>
+				<tr>
+					<th>CSS Username</th>
+					<td>
+						<span ng-show="student.stronghold.student.css.username && credentials.cssUsername == false" ng-click="credentials.cssUsername = true">
+							<i class="icon-lock" ></i>
+							Click to Show
+						</span>
+						<span ng-show="student.stronghold.student.css.username  && credentials.cssUsername == true" ng-click="credentials.cssUsername = false">
+							<i class="icon-unlock"></i>
+							<span ng-bind="student.stronghold.student.css.username"></span>
+						</span>
+					</td>
+				</tr>
+				<tr>
+					<th>CSS Username</th>
+					<td>
+						<span ng-show="student.stronghold.student.css.password && credentials.cssPassword == false" ng-click="credentials.cssPassword = true">
+							<i class="icon-lock" ></i>
+							Click to Show
+						</span>
+						<span ng-show="student.stronghold.student.css.password  && credentials.cssPassword == true" ng-click="credentials.cssPassword = false">
+							<i class="icon-unlock"></i>
+							<span ng-bind="student.stronghold.student.css.password"></span>
+						</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
