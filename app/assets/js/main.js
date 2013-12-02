@@ -1,7 +1,7 @@
 angular.module('gmaApp', ['gmaApp.filters', 'ngRoute',  'ngAnimate', 'ui.utils', 'ui.bootstrap', 'persona']);
 angular.module('gmaApp.filters', []);
 
-angular.module('gmaApp').config(['$routeProvider', function($routeProvider){
+angular.module('gmaApp').config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider){
 	$routeProvider.when('/', {
 		templateUrl: "assets/views/home.html",
 		controller: "MainCtrl"
@@ -44,9 +44,23 @@ angular.module('gmaApp').config(['$routeProvider', function($routeProvider){
 		templateUrl: "assets/views/admin/users/view.html",
 		controller: "AdminUserViewCtrl"
 	}).otherwise('/');
+	
+	$httpProvider.interceptors.push('UnauthorizedXHRInterceptor');
 }]);
 
+
+angular.module('gmaApp').factory('UnauthorizedXHRInterceptor', function($location){
+	return {
+		'responseError': function(o) {
+			if (o.url !== '/persona/status' && o.status == 401) {
+				$location.path('/');
+			}
+		}
+	};
+});
+
 angular.module('gmaApp').controller('AppCtrl', function($rootScope, $scope, Persona){
+
 });
 
 angular.module('gmaApp').controller("MainCtrl", function($rootScope, $scope, Persona, $timeout, $http){
@@ -74,9 +88,9 @@ angular.module('gmaApp').controller("MainCtrl", function($rootScope, $scope, Per
 
 
 	$scope.$watch("getUser()", function(o){
-		$http.get('/drafts').then(function(obj){
-			$scope.drafts = obj.data.drafts;
-		});
+		if (o !== false) {
+			$scope.getDrafts();
+		}
 	});
 
 
