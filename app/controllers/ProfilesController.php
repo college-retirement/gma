@@ -30,7 +30,8 @@ class ProfilesController extends Controller {
 		}
 
 		$updatedAt = new DateTime();
-		$box = new Stronghold(Input::get('stronghold'));
+		$strong = Input::get('stronghold') || array();
+		$box = new Stronghold($strong);
 		$update = [
 			'updated_at' => $updatedAt->format('c'),
 			'stronghold' => $box->encryptAll()->toArray()

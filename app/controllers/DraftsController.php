@@ -18,7 +18,8 @@ class DraftsController extends Controller {
 				$draft = DB::table('drafts')->where('_id', Input::get('_id'))->get();
 				if ($draft) {
 					$updatedAt = new DateTime();
-					$box = new Stronghold(Input::get('stronghold'));
+					$strong = Input::get('stronghold') || array();
+					$box = new Stronghold($strong);
 					$update = [
 						'updated_at' => $updatedAt->format('c'),
 						'stronghold' => $box->encryptAll()->toArray()
