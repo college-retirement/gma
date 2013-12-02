@@ -30,7 +30,7 @@ class ProfilesController extends Controller {
 		}
 
 		$updatedAt = new DateTime();
-		$strong = Input::get('stronghold') || array();
+		$strong = (Input::has('stronghold')) ? Input::get('stronghold') : array();
 		$box = new Stronghold($strong);
 		$update = [
 			'updated_at' => $updatedAt->format('c'),

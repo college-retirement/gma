@@ -18,7 +18,7 @@ class DraftsController extends Controller {
 				$draft = DB::table('drafts')->where('_id', Input::get('_id'))->get();
 				if ($draft) {
 					$updatedAt = new DateTime();
-					$strong = Input::get('stronghold') || array();
+					$strong = (Input::has('stronghold')) ? Input::get('stronghold') : array();
 					$box = new Stronghold($strong);
 					$update = [
 						'updated_at' => $updatedAt->format('c'),
