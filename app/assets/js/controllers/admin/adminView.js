@@ -105,6 +105,14 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 		});
 	};
 
+	$scope.notifyUser = function() {
+		$http.get('admin/notify/moreinfo/' + id).success(function(){
+			toastr.success("Notification email sent!");
+		}).error(function(){
+			toastr.error("Unable to send notification email.");
+		});
+	}
+
 	// States for state selection
 	$scope.states = states;
 
