@@ -11,6 +11,9 @@ angular.module('gmaApp').config(['$routeProvider', function($routeProvider){
 	}).when('/profile', {
 		templateUrl: "assets/views/initialData.html",
 		controller: "ProfileCtrl"
+	}).when('/moreinfo/:profileid', {
+		templateUrl: "assets/views/additionalInformation.html",
+		controller: "MoreInfoCtrl"
 	}).when('/register', {
 		templateUrl: "assets/views/register.html",
 		controller: "RegisterCtrl"

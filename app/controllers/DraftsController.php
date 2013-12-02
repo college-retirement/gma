@@ -13,7 +13,7 @@ class DraftsController extends Controller {
 	}
 
 	function create() {
-				if (Session::get('currentUser')) {
+		if (Session::get('currentUser')) {
 			if (Input::get('_id')) {
 				$draft = DB::table('drafts')->where('_id', Input::get('_id'))->get();
 				if ($draft) {

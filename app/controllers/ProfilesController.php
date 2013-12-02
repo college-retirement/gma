@@ -3,14 +3,47 @@
 class ProfilesController extends Controller {
 	
 	function create() {
-		if (Session::get('currentUser')) {
-			Profile::unguard();
-			$profile = Profile::create(array_merge(Input::all(), array('user_id' => Session::get('currentUser'))));
-			return Response::json($profile, 201);
-		}
-		else {
-			return Response::json(array(), 401);
+		Profile::unguard();
+		$profile = Profile::create(array_merge(Input::all(), array('user_id' => Session::get('currentUser'))));
+		return Response::json($profile, 201);
+	}
+
+	function get($id) {
+		$profile = Profile::find($id);
+
+		if (!$profile) return Rest::notFound();
+
+		if ($profile->user_id !== Session::get('currentUser')) {
+			return Rest::forbidden();
 		}
 
+		return Rest::okay($profile->toArray());
+	}
+
+	function update($id) {
+		$profile = Profile::find($id);
+
+		if (!$profile) return Rest::notFound();
+
+		if ($profile->user_id !== Session::get('currentUser')) {
+			return Rest::forbidden();
+		}
+
+		$updatedAt = new DateTime();
+		$box = new Stronghold(Input::get('stronghold'));
+		$update = [
+			'updated_at' => $updatedAt->format('c'),
+			'stronghold' => $box->encryptAll()->toArray()
+		];
+
+		$update = DB::table('profiles')->where('_id', $id)->update(array_merge(Input::except(array('_id', 'updated_at', 'stronghold', 'user')), $update));
+		$updatedProfile = Profile::find($id);
+
+		if ($update) {
+			return Rest::okay($updatedProfile->toArray());
+		}
+		else {
+			return Rest::withErrors(['database_save' => 'Unable to update profile in database'])->conflict();
+		}
 	}
 }

@@ -43,35 +43,52 @@ Route::group(['before' => 'secure'], function(){
 	 */
 	Route::post('persona/logout', ['uses' => 'AccountsController@personaLogout']);
 
-	
-	Route::get('drafts', ['uses' => 'DraftsController@all']);
-	Route::get('drafts/{id}', ['uses' => 'DraftsController@show']);
-	Route::post('drafts', ['uses' => 'DraftsController@create']);
-	Route::delete('drafts/{id}', ['uses' => 'DraftsController@delete']);
-
-	Route::post('profiles', ['uses' => 'ProfilesController@create']);
-
-
-	Route::get('/admin/profiles', ['uses' => 'AdminProfilesController@all']);
-	Route::get('/admin/profiles/{profile}', ['uses' => 'AdminProfilesController@view']);
-
-	Route::get('admin/drafts', ['before' => 'validUser|adminUser', 'uses' => 'AdminDraftsController@drafts']);
-	Route::get('admin/drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminDraftsController@draft']);
-	Route::put('admin/drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminDraftsController@saveDraft']);
-	Route::delete('admin/drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminDraftsController@deleteDraft']);
-
+	/**
+	 * Account registration
+	 */
 	Route::post('accounts', ['uses' => 'AccountsController@register']);
 
-	Route::get('dl/{id}', ['before' => 'validUser|adminUser', function($id){
-		$profile = Profile::find($id);
-		$filename = $profile->name['last'] . '-' . $profile->name['first'] . '.csv';
-		$path = storage_path() . '/' . $filename;
+	/**
+	 * Drafts REST Routes
+	 */
+	Route::get('drafts', ['before' => 'validUser', 'uses' => 'DraftsController@all']);
+	Route::get('drafts/{id}', ['before' => 'validUser', 'uses' => 'DraftsController@show']);
+	Route::post('drafts', ['before' => 'validUser', 'uses' => 'DraftsController@create']);
+	Route::delete('drafts/{id}', ['before' => 'validUser', 'uses' => 'DraftsController@delete']);
 
-		$export = new GMA\Data\Export\ExportCSV($profile, $path);
-		$export->export();
+	/**
+	 * Profiles REST Routes
+	 */
+	Route::post('profiles', ['before' => 'validUser', 'uses' => 'ProfilesController@create']);
+	Route::get('profiles/{id}', ['before' => 'validUser', 'uses' => 'ProfilesController@get']);
+	Route::put('profiles/{id}', ['before' => 'validUser', 'uses' => 'ProfilesController@update']);
 
-		return Response::download($path);
-	}]);
+
+	Route::group(['prefix' => 'admin', 'before' => 'validUser|adminUser'], function(){
+		Route::get('profiles', ['uses' => 'AdminProfilesController@all']);
+		Route::get('profiles/{profile}', ['uses' => 'AdminProfilesController@view']);
+
+		Route::get('drafts', ['before' => 'validUser|adminUser', 'uses' => 'AdminDraftsController@drafts']);
+		Route::get('drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminDraftsController@draft']);
+		Route::put('drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminDraftsController@saveDraft']);
+		Route::delete('drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminDraftsController@deleteDraft']);
+
+		Route::get('users', ['before' => 'validUser|adminUser', 'uses' => 'AdminUsersController@users']);
+		Route::get('users/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminUsersController@user']);
+		Route::put('users/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminUsersController@editUser']);
+
+		Route::get('dl/{id}', ['before' => 'validUser|adminUser', function($id){
+			$profile = Profile::find($id);
+			$filename = $profile->name['last'] . '-' . $profile->name['first'] . '.csv';
+			$path = storage_path() . '/' . $filename;
+
+			$export = new GMA\Data\Export\ExportCSV($profile, $path);
+			$export->export();
+
+			return Response::download($path);
+		}]);
+	});
+
 
 	Route::any('git/CJPapwjQaeM7mGk', function(){
 		if (Artisan::call('deploy') == 0) {
@@ -82,7 +99,4 @@ Route::group(['before' => 'secure'], function(){
 		}
 	});
 
-	Route::get('/admin/users', ['before' => 'validUser|adminUser', 'uses' => 'AdminUsersController@users']);
-	Route::get('/admin/users/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminUsersController@user']);
-	Route::put('/admin/users/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminUsersController@editUser']);
 });
