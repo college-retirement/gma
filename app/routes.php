@@ -68,16 +68,16 @@ Route::group(['before' => 'secure'], function(){
 		Route::get('profiles', ['uses' => 'AdminProfilesController@all']);
 		Route::get('profiles/{profile}', ['uses' => 'AdminProfilesController@view']);
 
-		Route::get('drafts', ['before' => 'validUser|adminUser', 'uses' => 'AdminDraftsController@drafts']);
-		Route::get('drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminDraftsController@draft']);
-		Route::put('drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminDraftsController@saveDraft']);
-		Route::delete('drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminDraftsController@deleteDraft']);
+		Route::get('drafts', ['uses' => 'AdminDraftsController@drafts']);
+		Route::get('drafts/{id}', ['uses' => 'AdminDraftsController@draft']);
+		Route::put('drafts/{id}', ['uses' => 'AdminDraftsController@saveDraft']);
+		Route::delete('drafts/{id}', ['uses' => 'AdminDraftsController@deleteDraft']);
 
-		Route::get('users', ['before' => 'validUser|adminUser', 'uses' => 'AdminUsersController@users']);
-		Route::get('users/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminUsersController@user']);
-		Route::put('users/{id}', ['before' => 'validUser|adminUser', 'uses' => 'AdminUsersController@editUser']);
+		Route::get('users', ['uses' => 'AdminUsersController@users']);
+		Route::get('users/{id}', ['uses' => 'AdminUsersController@user']);
+		Route::put('users/{id}', ['uses' => 'AdminUsersController@editUser']);
 
-		Route::get('dl/{id}', ['before' => 'validUser|adminUser', function($id){
+		Route::get('dl/{id}', function($id){
 			$profile = Profile::find($id);
 			$filename = $profile->name['last'] . '-' . $profile->name['first'] . '.csv';
 			$path = storage_path() . '/' . $filename;
@@ -86,7 +86,9 @@ Route::group(['before' => 'secure'], function(){
 			$export->export();
 
 			return Response::download($path);
-		}]);
+		});
+
+		Route::get('notify/moreinfo/{id}', ['uses' => 'NotifyController@moreInfo']);
 	});
 
 
