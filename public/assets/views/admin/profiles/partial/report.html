@@ -33,6 +33,12 @@
 		<legend class="smaller">Parents</legend>
 		<table class="table table-striped">
 			<tbody>
+				<tr ng-show="student.livingArrangement == 'Guardian'">
+					<th>Guardian's Name</th>
+					<td>
+						{{student.guardian.name.first}} {{student.guardian.name.last}}
+					</td>
+				</tr>
 				<tr>
 					<th>Father's Name</th>
 					<td>{{student.parents.father.name.first}} {{student.parents.father.name.last}}</td>

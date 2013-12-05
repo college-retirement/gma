@@ -379,7 +379,7 @@
 			<tr>
 				<th>Does Student have dependents other than children/spouse?</th>
 				<td>
-					
+					Total Dependents: {{student.dependents}}
 				</td>
 			</tr>
 			<tr>
@@ -584,11 +584,13 @@
 			<tr>
 				<th>Father/Stepfather's Earned Income</th>
 				<td>
+					{{student.parents.income.father.earnedIncome | currency}}
 				</td>
 			</tr>
 			<tr>
 				<th>Mother/Stepmother's Earned Income</th>
 				<td>
+					{{student.parents.income.mother.earnedIncome | currency}}
 				</td>
 			</tr>
 			<tr>
