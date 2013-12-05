@@ -1,4 +1,4 @@
-angular.module('gmaApp').controller('AdminUserViewCtrl', function($scope, $route, $http){
+angular.module('gmaApp').controller('AdminUserViewCtrl', function($scope, $route, $http, $location){
 	var id = $route.current.params.user;
 	$http.get('/admin/users/' + id).then(function(obj){
 		$scope.user = obj.data.result;
@@ -13,5 +13,13 @@ angular.module('gmaApp').controller('AdminUserViewCtrl', function($scope, $route
 		}).error(function(){
 			toastr.error('', 'Unable to update user.');
 		});
+	};
+
+	$scope.viewDraft = function(draft) {
+		$location.path('/admin/drafts/' + draft._id);
+	};
+
+	$scope.viewProfile = function(profile) {
+		$location.path('/admin/profiles/' + profile._id);
 	};
 });
