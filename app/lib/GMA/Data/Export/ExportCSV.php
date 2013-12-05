@@ -270,7 +270,7 @@ class ExportCSV {
 			break;
 
 			case 'credit':
-				return '';
+				return $this->dot('parents.credit');
 			break;
 
 			case 'household':
@@ -286,13 +286,30 @@ class ExportCSV {
 			break;
 
 			case 'test_type':
-			case 'sat_verbal':
-			case 'sat_math':
-			case 'sat_writing':
-			case 'act':
-			case 'class_rank':
-			case 'gpa':
 				return '';
+			break;
+
+			case 'sat_verbal':
+				return $this->dot('sat.verbal');
+			break;
+
+			case 'sat_math':
+				return $this->dot('sat.math');
+			break;
+
+			case 'sat_writing':
+				return $this->dot('sat.writing');
+			break;
+
+			case 'act':
+				return $this->dot('act.composite');
+			break;
+
+			case 'class_rank':
+				return $this->dot('class.rank') . '/' . $this->dot('class.size');
+
+			case 'gpa':
+				return $this->dot('gpa.score');
 			break;
 
 			case 'st_col1':
@@ -346,13 +363,42 @@ class ExportCSV {
 			break;
 
 			case 'sib_college_type':
+			break;
+
 			case 'sib_col1':
+				if ($this->dot('siblings.schools.0.name') != '') {
+					return $this->dot('siblings.schools.0.name');
+				}
+			break;
+
 			case 'sib_col2':
+				if ($this->dot('siblings.schools.1.name') != '') {
+					return $this->dot('siblings.schools.1.name');
+				}
+			break;
+
 			case 'sib_col3':
+				if ($this->dot('siblings.schools.2.name') != '') {
+					return $this->dot('siblings.schools.2.name');
+				}
+			break;
+
 			case 'sib_cyst1':
+				if ($this->dot('siblings.schools.0.name') != '') {
+					return $this->dot('siblings.schools.0.city') . ', ' . $this->dot('siblings.schools.0.state');
+				}
+			break;
+
 			case 'sib_cyst2':
+				if ($this->dot('siblings.schools.1.name') != '') {
+					return $this->dot('siblings.schools.1.city') . ', ' . $this->dot('siblings.schools.1.state');
+				}
+			break;			
 			case 'sib_cyst3':
-				return '';
+				if ($this->dot('siblings.schools.2.name') != '') {
+					return $this->dot('siblings.schools.2.city') . ', ' . $this->dot('siblings.schools.2.state');
+				}
+			break;
 			break;
 
 			case 'st_ei':
@@ -415,23 +461,33 @@ class ExportCSV {
 			break;
 
 			case 'extra_tuition':
-				// Tution paid for ele/secondary
+				return $this->dot('school.tuition');
 			break;
 
 			case 'st_p_cont':
-				// Parent Contribution for Student
+				return $this->dot('school.parentContribution');
 			break;
 
 			case 'st_grants':
-				// Tuition Scholarships/Grants
+				return $this->dot('school.scholarships');
 			break;
 
 			case 'sib_p_cont':
-				// Other parental contribution to siblings education
+				$amt = 0;
+
+				foreach ($this->siblings as $sib) {
+					$amt .= $sib['parentContribution'];
+				}
+
+				return $amt;
 			break;
 
 			case 'sib_grants':
-				return '';
+				$amt = 0;
+
+				foreach ($this->siblings as $sib) {
+					$amt .= $sib['scholarships'];
+				}
 			break;
 
 			case 'cs_paid':
@@ -743,9 +799,17 @@ class ExportCSV {
 
 			case 'f_ret_cont':
 			case 'm_ret_cont':
-			case 'f_emp_match':
-			case 'm_emp_match':
 				return '';
+			break;
+
+			case 'f_emp_match':
+				if ($pro['livingArrangement'] == 'Guardian') {
+					return $this->dot('guardian.employer.matches');
+				}
+				return $this->dot('parents.father.employer.matches');
+
+			case 'm_emp_match':
+				return $this->dot('parents.mother.employer.matches');
 			break;
 
 			case 'comments':
