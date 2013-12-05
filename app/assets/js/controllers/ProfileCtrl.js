@@ -1,9 +1,11 @@
-angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $route, $location, Persona, states, AssetTypes, OwnershipTypes, LiabilityTypes, RetirementTypes){
+angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $route, $location, Persona, states, AssetTypes, OwnershipTypes, LiabilityTypes, RetirementTypes, moreInfo, profile){
 	// Persona
 	Persona.status();
 	$scope.getUser = function() {
 		return Persona.getUser();
 	};
+
+	$scope.moreInfo = moreInfo;
 
 	if ($route.current.params.hasOwnProperty('draft')) {
 		$http.get('/drafts/' + $route.current.params.draft).then(function(obj){
@@ -19,6 +21,7 @@ angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $rout
 
 	// Typeahead college name stuff
 	$scope.currentSchool = null;
+	$scope.currentSibSchool = null;
 	$scope.collegeList = {};
 	$scope.collegesLoading = false;
 
@@ -29,72 +32,87 @@ angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $rout
 	$scope.retirementTypes = RetirementTypes;
 
 	$scope.stronghold = {};
-	$scope.student = {
-		email: null,
-		dependents: 0,
-		livingArrangement: null,
-		income: {
-			earnedIncome: 0,
-			unearnedIncome: 0,
-			taxPaid: 0,
-			agi: 0,
-			itemizedDeductions: 0,
-			ssBenefits: 0,
-			iraContribution: 0
-		},
-		schools: [],
-		family: {
-			monthlyHouseholdExpense: 0,
-			contributionAbility: 0,
-			members: [],
-			realEstate: [],
-			assets: [],
-			liabilities: [],
-			retirement: [],
-			home: {
-				price: 0,
-				value: 0,
-				propertyTax: 0
-			}
-		},
-		guardian: {
+
+	if (profile == false) {
+		$scope.student = {
+			email: null,
+			dependents: 0,
+			livingArrangement: null,
 			income: {
-				current: 0,
-				anticipated: 0,
-				retirement: 0,
-				ssBenefits: 0
-			}
-		},
-		parents: {
-			income: {
-				father: {
-					current: 0,
-					anticipated: 0,
-					retirement: 0,
-					ssBenefits: 0
-				},
-				mother: {
-					current: 0,
-					anticipated: 0,
-					retirement: 0,
-					ssBenefits: 0
-				},
-				combined: {
-					other: 0,
-					untaxed: 0,
-					childSupport: {
-						received: 0,
-						paid: 0
-					},
-					housing: 0,
-					medical: 0,
-					deductions: 0,
-					taxPaid: 0,
-					agi: 0
+				earnedIncome: 0,
+				unearnedIncome: 0,
+				taxPaid: 0,
+				agi: 0,
+				itemizedDeductions: 0,
+				ssBenefits: 0,
+				iraContribution: 0
+			},
+			schools: [],
+			siblings: {
+				schools: []
+			},
+			family: {
+				monthlyHouseholdExpense: 0,
+				contributionAbility: 0,
+				members: [],
+				realEstate: [],
+				assets: [],
+				liabilities: [],
+				retirement: [],
+				home: {
+					price: 0,
+					value: 0,
+					propertyTax: 0
 				}
+			},
+			guardian: {
+				income: {
+					current: 0,
+					anticipated: 0,
+					retirement: 0,
+					ssBenefits: 0
+				}
+			},
+			parents: {
+				income: {
+					father: {
+						current: 0,
+						anticipated: 0,
+						retirement: 0,
+						ssBenefits: 0
+					},
+					mother: {
+						current: 0,
+						anticipated: 0,
+						retirement: 0,
+						ssBenefits: 0
+					},
+					combined: {
+						other: 0,
+						untaxed: 0,
+						childSupport: {
+							received: 0,
+							paid: 0
+						},
+						housing: 0,
+						medical: 0,
+						deductions: 0,
+						taxPaid: 0,
+						agi: 0
+					}
+				}
+			},
+			school: {
+				current: false,
+				name: null,
+				grade: null,
+				parentContribution: 0
 			}
-		}
-	};
+		};
+	}
+	else {
+		$scope.student = profile;
+	}
 
 	$scope.$watch('currentSchool', function(){
 		if ($scope.currentSchool != "" && typeof $scope.currentSchool !== "object") {
@@ -108,17 +126,46 @@ angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $rout
 		}
 	});
 
-	$scope.addSchool = function() {
-		$scope.student.schools.push($scope.currentSchool);
-		$scope.currentSchool = null;
+	$scope.$watch('currentSibSchool', function(){
+		if ($scope.currentSibSchool != "" && typeof $scope.currentSibSchool !== "object") {
+			
+			$scope.collegesLoading = true;
+
+			$http.post('/colleges.json', {name: $scope.currentSibSchool}).then(function(obj){
+				$scope.collegeSibList = obj.data;
+				$scope.collegesLoading = false;
+			});
+		}
+	});
+
+	$scope.addSchool = function(siblings) {
+		if (siblings === true) {
+			$scope.student.siblings.schools.push($scope.currentSibSchool);
+			$scope.currentSibSchool = null;
+		}
+		else {
+			$scope.student.schools.push($scope.currentSchool);
+			$scope.currentSchool = null;
+		}
+
 	};
 
-	$scope.updateSchool = function(school, index) {
-		$scope.currentSchool = school;
+	$scope.updateSchool = function(school, index, siblings) {
+		if (siblings === true) {
+			$scope.currentSibSchool = school;
+		}
+		else {
+			$scope.currentSchool = school;
+		}
 	};
 	
-	$scope.deleteSchool = function(index) {
-		$scope.student.schools.splice(index, 1);
+	$scope.deleteSchool = function(index, siblings) {
+		if (siblings) {
+			$scope.student.siblings.schools.splice(index, 1);
+		}
+		else {
+			$scope.student.schools.splice(index, 1);
+		}
 	};
 
 

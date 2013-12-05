@@ -13,12 +13,14 @@
 	<div class="row" ng-show="!finished">
 		<div class="col-lg-12">
 			<div class="page-header">
-				<h1 ng-show="!draftLoaded">Get Started</h1>
+				<h1 ng-show="!draftLoaded && !moreInfo">Get Started</h1>
 				<h1 ng-show="draftLoaded">Welcome Back</h1>
+				<h1 ng-show="moreInfo">We Need More Information</h1>
 			</div>
 			<blockquote>
-				<span ng-show="!draftLoaded">Fill out the form below to get started with College & Retirement Solutions!</span>
+				<span ng-show="!draftLoaded && !moreInfo">Fill out the form below to get started with College & Retirement Solutions!</span>
 				<span ng-show="draftLoaded">Continue your form below, and save to come back later, or submit when you're done!</span>
+				<span ng-show="moreInfo">In order to service your account, we're going to need a few more details.  Please double check information you've already provided us, and fill out the rest of the form.</span>
 				<br><br>
 				We suggest you view our <a href="https://college-retirement.com/CRS%20Document%20Checklist.pdf">Document Checklist</a> for documents that will assist in creating your profile.
 				<br><br>
@@ -120,10 +122,54 @@
 					</div>
 				</div>
 
+				<div ng-show="moreInfo">
+					<div class="form-group">
+						<label>Social Security Number</label>
+						<div class="control tiny">
+							<input type="text" ng-model="student.stronghold.student.ssn" class="form-control" ui-mask="999-99-9999" required="moreInfo">
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Do you have a Drivers License?</label>
+						<div class="control small">
+							<div class="btn-group">
+									<button type="button" class="btn btn-default" ng-model="student.license.issued" btn-radio="true" required="moreInfo">Yes</button>
+									<button type="button" class="btn btn-default" ng-model="student.license.issued" btn-radio="false" required="moreInfo">No</button>
+							</div>
+						</div>
+					</div>
+					<div ng-hide="!student.license.issued || student.license.issued === false">
+						<div class="form-group">
+							<label>Drivers License State</label>
+							<div class="control tiny">
+								<select ng-model="student.license.state" ng-options="state.abbreviation as state.name for state in states" class="form-control" ng-required="moreInfo == true &&student.license.issued == true">
+									<option value="" style="display: none" disabled selected>State</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label  class=" control-label">Drivers License Number</label>
+							<div class="control tiny">
+								<input type="text" ng-model="student.license.number" class="form-control" ng-required="moreInfo == true && student.license.issued == true">
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<div class="form-group">
 					<label>Number of Dependents</label>
 					<div class="control tiny">
 						<input type="number" ng-model="student.dependents" class="form-control" required min="0">
+					</div>
+				</div>
+
+				<div class="form-group" ng-show="moreInfo">
+					<label>Have you ever been convicted of a drug offense?</label>
+					<div class="control">
+						<div class="btn-group">
+							<button type="button" class="btn btn-default" ng-model="student.drugConviction" btn-radio="true" required="moreInfo">Yes</button>
+							<button type="button" class="btn btn-default" ng-model="student.drugConviction" btn-radio="false" required="moreInfo">No</button>
+						</div>
 					</div>
 				</div>
 
@@ -156,6 +202,12 @@
 						<label>Date of Birth</label>
 						<div class="control tiny">
 							<input type="text" ng-model="student.spouse.dob" class="form-control" ui-mask="99/99/9999" ng-required="student.married">
+						</div>
+					</div>
+					<div class="form-group" ng-show="moreInfo">
+						<label>Social Security Number</label>
+						<div class="control tiny">
+							<input type="text" ng-model="student.stronghold.spouse.ssn" class="form-control" ui-mask="999-99-9999" ng-required="student.married">
 						</div>
 					</div>
 				</div>
@@ -243,6 +295,75 @@
 						</div>
 					</div>
 				</div>
+				
+				<legend>SAT/PSAT Scores</legend>
+				<div class="form-group">
+					<label>Verbal</label>
+					<div class="control tiny">
+						<input type="text" ng-model="student.sat.verbal" class="form-control" ui-mask="999">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label>Math</label>
+					<div class="control tiny">
+						<input type="text" ng-model="student.sat.math" class="form-control" ui-mask="999">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label>Writing</label>
+					<div class="control tiny">
+						<input type="text" ng-model="student.sat.writing" class="form-control" ui-mask="999">
+					</div>
+				</div>
+
+				<legend>Other Academic Figures</legend>
+				
+				<div class="form-group">
+					<label>ACT Composite Score</label>
+					<div class="control tiny">
+						<input type="text" ng-model="student.act.composite" class="form-control" ui-mask="99">
+					</div>	
+				</div>
+
+				<div class="form-group">
+					<label>High School GPA Cumulative</label>
+					<div class="control tiny">
+						<input type="text" ng-model="student.gpa.score" class="form-control" ui-mask="9.9">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label>High School GPA Weighted?</label>
+					<div class="control">
+						<div class="btn-group">
+							<button type="button" class="btn btn-default" ng-model="student.gpa.weighted" btn-radio="'true'" required>Yes</button>
+							<button type="button" class="btn btn-default" ng-model="student.gpa.weighted" btn-radio="'false'" required>No</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label>High School Class Rank</label>
+					<div class="control">
+						<input type="text" class="form-control inline" ng-model="student.class.rank" size="5"> of 
+						<input type="text" class="form-control inline" ng-model="student.class.size" size="5"> students
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label>Tuition Paid by Parents<br> for Elementary/Secondary Education</label>
+					<div class="control tiny">
+						<div class="input-group input-prepend input-append">
+							<span class="input-group-addon">$</span>
+							<input type="text" ng-model="student.school.tuition" class="form-control" required>
+							<span class="input-group-addon">.00</span>
+						</div>
+					</div>
+				</div>
+
+				
 				<legend>Student's Colleges</legend>
 				<blockquote>Please list schools where you've applied or plan to apply to.</blockquote>
 				<table class="table table-striped">
@@ -277,6 +398,49 @@
 									<input type="text" ng-model="currentSchool" class="form-control inline" typeahead="uni.name for uni in collegeList" typeahead-min-length="3" typeahead-on-select="updateSchool($item, $index)" typeahead-loading="collegesLoading">
 									<span class="input-group-btn">
 										<button type="button" class="btn btn-default" ng-click="addSchool()" ng-disabled="currentSchool == null">
+											<i class="icon-plus"></i>
+											Add School
+										</button>
+									</span>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<legend>Siblings Colleges</legend>
+				<blockquote>Please list schools where your siblings have applied or plan to.</blockquote>
+				<table class="table table-striped">
+					<thead>
+						<!-- <th></th> -->
+						<th>College Name</th>
+						<th>City</th>
+						<th>State</th>
+						<th></th>
+						<!-- <th>Profile</th> -->
+						<!-- <th>Noncustodial Profile</th> -->
+						<!-- <th>IDOC</th> -->
+					</thead>
+					<tbody>
+						<tr ng-repeat="college in student.siblings.schools track by $index">
+							<td>
+								{{college.name}}
+							</td>
+							<td>
+								{{college.city}}
+							</td>
+							<td>
+								{{college.state | fullState}}
+							</td>
+							<td>
+								<button class="btn btn-default" ng-click="deleteSchool($index, true)"><i class="icon-remove"></i></button>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4">
+								<div class="input-group input-append">
+									<input type="text" ng-model="currentSibSchool" class="form-control inline" typeahead="uni.name for uni in collegeSibList" typeahead-min-length="3" typeahead-on-select="updateSchool($item, $index, true)" typeahead-loading="collegesLoading">
+									<span class="input-group-btn">
+										<button type="button" class="btn btn-default" ng-click="addSchool(true)" ng-disabled="currentSibSchool == null">
 											<i class="icon-plus"></i>
 											Add School
 										</button>
@@ -333,15 +497,26 @@
 					<div class="control tiny"><input type="text" ng-model="student.parents.residency" class="form-control" ui-mask="99/99/9999" required></div>
 				</div>
 				<div class="form-group">
+					<label>Parents Credit Rating</label>
+					<div class="control">
+						<div class="btn-group">
+							<button type="button" class="btn btn-default" btn-radio="'Poor'" ng-model="student.parents.credit" required>Poor</button>
+							<button type="button" class="btn btn-default" btn-radio="'Fair'" ng-model="student.parents.credit" required>Fair</button>
+							<button type="button" class="btn btn-default" btn-radio="'Good'" ng-model="student.parents.credit" required>Good</button>
+							<button type="button" class="btn btn-default" btn-radio="'Excellent'" ng-model="student.parents.credit" required>Excellent</button>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
 					<label>Parent's Marital Status</label>
 					<div class="control">
 						<div class="btn-group">
-							<button type="button"  class="btn btn-default" btn-radio="'0'" ng-model="student.parents.marital" required>Never Married</button>
-							<button type="button" class="btn btn-default" btn-radio="'1'" ng-model="student.parents.marital" required>Separated</button>
-							<button type="button" class="btn btn-default" btn-radio="'2'" ng-model="student.parents.marital" required>Widowed</button>
-							<button type="button" class="btn btn-default" btn-radio="'3'" ng-model="student.parents.marital" required>Divorced</button>
-							<button type="button" class="btn btn-default" btn-radio="'4'" ng-model="student.parents.marital" required>Remarried</button>
-							<button type="button" class="btn btn-default" btn-radio="'5'" ng-model="student.parents.marital" required>Married</button>
+							<button type="button"  class="btn btn-default" btn-radio="0" ng-model="student.parents.marital" required>Never Married</button>
+							<button type="button" class="btn btn-default" btn-radio="1" ng-model="student.parents.marital" required>Separated</button>
+							<button type="button" class="btn btn-default" btn-radio="2" ng-model="student.parents.marital" required>Widowed</button>
+							<button type="button" class="btn btn-default" btn-radio="3" ng-model="student.parents.marital" required>Divorced</button>
+							<button type="button" class="btn btn-default" btn-radio="4" ng-model="student.parents.marital" required>Remarried</button>
+							<button type="button" class="btn btn-default" btn-radio="5" ng-model="student.parents.marital" required>Married</button>
 						</div>
 					</div>
 				</div>
@@ -399,6 +574,13 @@
 						<label>Date of Birth</label>
 						<div class="control tiny">
 							<input type="text" class="form-control" ng-model="student.guardian.dob" ui-mask="99/99/9999" ng-required="student.parents.marital < 4 && student.livingArrangement == 'Guardian'">
+						</div>
+					</div>
+
+					<div class="form-group" ng-show="moreInfo">
+						<label>Social Security Number</label>
+						<div class="control tiny">
+							<input type="text" class="form-control" ng-model="student.stronghold.guardian.ssn" ui-mask="999-99-9999" ng-required="moreInfo == true && (student.parents.marital < 4 && student.livingArrangement == 'Guardian')">
 						</div>
 					</div>
 
@@ -475,7 +657,12 @@
 							<input type="text" class="form-control" ng-model="student.parents.father.dob" ui-mask="99/99/9999" ng-required="student.parents.marital > 3 || student.livingArrangement == 'Father'">
 						</div>
 					</div>
-
+					<div class="form-group" ng-show="moreInfo">
+						<label>Social Security Number</label>
+						<div class="control tiny">
+							<input type="text" class="form-control" ng-model="student.stronghold.father.ssn" ui-mask="999-99-9999" ng-required="moreInfo == true && (student.parents.marital > 3 || student.livingArrangement == 'Father')">
+						</div>
+					</div>
 					<div class="form-group">
 						<label>Occupation</label>
 						<div class="control half">
@@ -549,7 +736,12 @@
 							<input type="text" class="form-control" ng-model="student.parents.mother.dob" ui-mask="99/99/9999" ng-required="student.parents.marital > 3 || student.livingArrangement == 'Mother'">
 						</div>
 					</div>
-
+					<div class="form-group" ng-show="moreInfo">
+						<label>Social Security Number</label>
+						<div class="control tiny">
+							<input type="text" class="form-control" ng-model="student.stronghold.mother.ssn" ui-mask="999-99-9999" ng-required="moreInfo == true && (student.parents.marital > 3 || student.livingArrangement == 'Mother')">
+						</div>
+					</div>
 					<div class="form-group">
 						<label>Occupation</label>
 						<div class="control half">
@@ -610,16 +802,65 @@
 				<blockquote>Please give information for all family members, including parents.  For children changing schools from this year to next, please note the name of both schools.</blockquote>
 				<table class="table table-striped">
 					<thead>
-						<th>Name of Family Member</th>
+						<th>Name</th>
 						<th>Relationship to Student</th>
 						<th>Date of Birth</th>
 						<th>Student?</th>
-						<th>School or College</th>
+						<th>School</th>
 						<th>Grade</th>
 						<th>Tuition Paid by Parents</th>
+						<!-- <th>Scholarship/Grants</th> -->
 						<th></th>
 					</thead>
 					<tbody>
+						<tr>
+							<td>{{student.name.first}} {{student.name.last}}</td>
+							<td>Student</td>
+							<td>{{student.dob | dob}}</td>
+							<td>
+								<input type="checkbox" ng-model="student.school.current" checked="false">
+							</td>
+							<td>
+								<input type="text" class="form-control inline" ng-model="student.school.name" ng-disabled="student.school.current === false">
+							</td>
+							<td>
+								<select class="form-control inline" ng-model="student.school.grade" ng-disabled="student.school.current === false">
+									<option value="">--Select One--</option>
+									<option>Pre-K</option>
+									<option>K</option>
+									<option>1</option>
+									<option>2</option>
+									<option>3</option>
+									<option>4</option>
+									<option>5</option>
+									<option>6</option>
+									<option>7</option>
+									<option>8</option>
+									<option>9</option>
+									<option>10</option>
+									<option>11</option>
+									<option>12</option>
+									<option value="Freshman">College Freshman</option>
+									<option value="Sophomore">College Sophomore</option>
+									<option value="Junior">College Junior</option>
+									<option value="Senior">College Senior</option>
+								</select>
+							</td>
+							<td>
+								<input type="text" class="form-control" ng-disabled="student.school.current === false" ng-model="student.school.parentContribution">
+							</td>
+							<!-- <td> -->
+								<!-- <div class="input-group input-append input-prepend"> -->
+									<!-- <span class="input-group-addon">$</span> -->
+									<!-- <input type="text" class="form-control inline" ng-disabled="student.school.current === false"  ng-model="student.school.scholarships"> -->
+									<!-- <span class="input-group-addon">.00</span> -->
+								<!-- </div> -->
+							<!-- </td> -->
+							<td>
+								
+							</td>
+
+						</tr>
 						<tr ng-repeat="member in student.family.members">
 							<td>
 								<input type="text" class="form-control inline" ng-model="member.name">
@@ -668,10 +909,17 @@
 							<td>
 								<div class="input-group input-append input-prepend">
 									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control inline" ng-disabled="member.student === false">
+									<input type="text" class="form-control inline" ng-disabled="member.student === false" ng-model="member.parentContribution">
 									<span class="input-group-addon">.00</span>
 								</div>
 							</td>
+							<!-- <td> -->
+								<!-- <div class="input-group input-append input-prepend"> -->
+									<!-- <span class="input-group-addon">$</span> -->
+									<!-- <input type="text" class="form-control inline" ng-disabled="member.student === false"  ng-model="member.scholarships"> -->
+									<!-- <span class="input-group-addon">.00</span> -->
+								<!-- </div> -->
+							<!-- </td> -->
 							<td>
 								<button class="btn btn-default" ng-click="deleteFamily($index)"><i class="icon-remove"></i></button>
 							</td>
@@ -1190,6 +1438,40 @@
 					</tbody>
 				</table>
 
+				<div ng-show="moreInfo">
+					<legend>Credentials</legend>
+					<blockquote>
+						<strong>Current Graduating High School Students & College Students Must Provide This Information!</strong><br><br>
+						You will need to go to <a href="https://pin.ed.gov">https://pin.ed.gov</a> and apply for a PIN number for both the student and at least one custodial parent.  You will need (student and parent) social security numbers, name, address, phone number, e-mail address.  *Note: You will be prompted to pick a challenge question; please remember that this challenge question will be a question that both student and parent will need to know the answer to.  The answer is CASE SENSITIVE.
+					</blockquote>
+					<div class="form-group">
+						<label>Parent FAFSA Pin</label>
+						<div class="control tiny">
+							<input type="text" class="form-control" ng-model="student.stronghold.parent.fafsaPIN" maxlength="4" ui-mask="9999">
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Student FAFSA Pin</label>
+						<div class="control tiny">
+							<input type="text" class="form-control" ng-model="student.stronghold.student.fafsaPIN" maxlength="4" ui-mask="9999">
+						</div>
+					</div>
+					<blockquote>
+						The CSS Profile Username and CSS Profile Password are the same as the login used when the student registered for the SAT's.  If the student DID NOT take the SAT's and DOES NOT have an account one needs to be <a href="https://account.collegeboard.org/iamweb/smartRegister">created</a>.
+					</blockquote>
+					<div class="form-group">
+						<label>CSS Profile Username</label>
+						<div class="control tiny">
+							<input type="text" class="form-control" ng-model="student.stronghold.student.css.username">
+						</div>
+					</div>
+					<div class="form-group">
+						<label>CSS Profile Password</label>
+						<div class="control tiny">
+							<input type="text" class="form-control" ng-model="student.stronghold.student.css.password">
+						</div>
+					</div>
+				</div>
 
 				<legend>Comments</legend>
 				<blockquote>Special Circumstances Or Considerations (Possibly Needed For Appeals)</blockquote>
@@ -1212,13 +1494,17 @@
 
 				</div>
 
-				<div class="form-group actions">
+				<div class="form-group actions" ng-show="!moreInfo">
 					<div class="btn-group">
 						<input type="submit" class="btn btn-primary" value="Validate & Submit">
 						<button type="button" class="btn btn-default" ng-click="saveDraft()">
 							Save Draft As Is
 						</button>
 					</div>
+				</div>
+
+				<div class="form-group actions" ng-show="moreInfo">
+					<input type="submit" class="btn btn-primary" value="Update Profile">
 				</div>
 
 			</form>

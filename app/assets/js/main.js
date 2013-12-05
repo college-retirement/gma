@@ -5,15 +5,30 @@ angular.module('gmaApp').config(['$routeProvider', '$httpProvider', function($ro
 	$routeProvider.when('/', {
 		templateUrl: "assets/views/home.html",
 		controller: "MainCtrl"
-	}).when('/initial',{
-		templateUrl: "assets/views/initialData.html",
-		controller: "InitialDataController"
 	}).when('/profile', {
 		templateUrl: "assets/views/initialData.html",
-		controller: "ProfileCtrl"
+		controller: "ProfileCtrl",
+		resolve: {
+			moreInfo: function() {
+				return false;
+			},
+			profile: function() {
+				return false;
+			}
+		}
 	}).when('/moreinfo/:profileid', {
-		templateUrl: "assets/views/additionalInformation.html",
-		controller: "MoreInfoCtrl"
+		templateUrl: "assets/views/initialData.html",
+		controller: "ProfileCtrl",
+		resolve: {
+			moreInfo: function() {
+				return true;
+			},
+			profile: ['$route', '$http', function($route, $http) {
+				return $http.get('/profiles/' + $route.current.params.profileid).then(function(obj){
+					return obj.data.result;
+				});
+			}]
+		}
 	}).when('/register', {
 		templateUrl: "assets/views/register.html",
 		controller: "RegisterCtrl"
