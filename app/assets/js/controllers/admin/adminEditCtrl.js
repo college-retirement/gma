@@ -75,4 +75,46 @@ angular.module('gmaApp').controller('AdminEditCtrl', function($scope, $route, $h
 	$scope.deleteRetirement = function(index) {
 		$scope.student.family.retirement.splice(index, 1);
 	};
+
+	$scope.submitProfile = function() {
+		var errors = false;
+
+		jQuery('.has-error').removeClass('has-error');
+		
+		jQuery(".ng-invalid").each(function(e){
+			errors = true;
+			jQuery(this).parent('.control').parent('.form-group').addClass('has-error');
+		});
+		
+		jQuery(".btn.ng-invalid").each(function(e){
+			errors = true;
+			jQuery(this).parent('.btn-group').parent('.control').parent('.form-group').addClass('has-error');
+		});
+
+		jQuery('.input-group>.ng-invalid').each(function(e){
+			errors = true;
+			jQuery(this).parent('.input-group').parent('.control').parent('.form-group').addClass('has-error');
+		});
+
+		jQuery(".ng-invalid:not(form)").first().focus();
+		$scope.submit = true;
+
+		if (!errors) {
+			$http.put('/admin/profiles', $scope.student).success(function(){
+				$scope.finished = true;
+			}).error(function(){
+				toastr.error("Unable to submit profile.");
+			})
+		}
+	};
+
+	$scope.saveDraft = function() {
+		$http.put('/admin/drafts', $scope.student).success(function(data){
+			toastr.success("Draft saved successfully!");
+			$scope.student = data;
+		}).error(function(){
+			toastr.warning("There were issues saving your draft.");
+		});
+	};
+
 });

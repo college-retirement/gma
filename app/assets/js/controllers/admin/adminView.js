@@ -60,6 +60,7 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 			break;
 
 			case 'report':
+			default:
 				return 'Profile';
 			break;	
 		}

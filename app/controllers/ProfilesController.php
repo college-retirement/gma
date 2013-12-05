@@ -20,7 +20,9 @@ class ProfilesController extends Controller {
 		return Rest::okay($profile->toArray());
 	}
 
-	function update($id) {
+	function save() {
+		$id = Input::get('_id');
+
 		$profile = Profile::find($id);
 
 		if (!$profile) return Rest::notFound();

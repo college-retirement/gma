@@ -45,6 +45,10 @@ class AdminDraftsController extends Controller {
 		}
 	}
 
+	function saveDraftByInput() {
+		return $this->saveDraft(Input::get('_id'));
+	}
+
 	function deleteDraft($id) {
 		$draft = Draft::find($id);
 
