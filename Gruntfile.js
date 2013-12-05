@@ -95,6 +95,6 @@ module.exports = function (Grunt) {
 	Grunt.loadNpmTasks('grunt-contrib-clean');
 	Grunt.loadNpmTasks('grunt-notify');
 
-	Grunt.registerTask('dist', ['sass:dist', 'ngmin', 'uglify:dist']);
-	Grunt.registerTask('default', ['sass:dev', 'ngmin', 'uglify:dev']);
+	Grunt.registerTask('dist', ['sass:dist', 'ngmin', 'uglify:dist', 'clean']);
+	Grunt.registerTask('default', ['sass:dev', 'ngmin', 'uglify:dev', 'clean']);
 };
