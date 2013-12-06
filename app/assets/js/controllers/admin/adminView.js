@@ -208,7 +208,40 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 		}).error(function(){
 			toastr.error('Unable to update account.');
 		});
-	}
+	};
+
+	$scope.submitProfile = function() {
+		var errors = false;
+
+		jQuery('.has-error').removeClass('has-error');
+		
+		jQuery(".ng-invalid").each(function(e){
+			errors = true;
+			jQuery(this).parent('.control').parent('.form-group').addClass('has-error');
+		});
+		
+		jQuery(".btn.ng-invalid").each(function(e){
+			errors = true;
+			jQuery(this).parent('.btn-group').parent('.control').parent('.form-group').addClass('has-error');
+		});
+
+		jQuery('.input-group>.ng-invalid').each(function(e){
+			errors = true;
+			jQuery(this).parent('.input-group').parent('.control').parent('.form-group').addClass('has-error');
+		});
+
+		jQuery(".ng-invalid:not(form)").first().focus();
+		$scope.submit = true;
+
+		if (!errors) {
+			$http.put('/admin/profiles', $scope.student).success(function(data){
+				$scope.student = data.result;
+				toastr.success('Profile updated.');
+			}).error(function(){
+				toastr.error("Unable to update profile.");
+			});
+		}
+	};
 
 });
 
