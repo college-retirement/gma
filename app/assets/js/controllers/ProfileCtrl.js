@@ -34,7 +34,9 @@ angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $rout
 	$scope.stronghold = {};
 
 	if (profile == false) {
+		$scope.makeNew = true;
 		$scope.student = {
+			prospect: true,
 			email: null,
 			dependents: 0,
 			livingArrangement: null,
@@ -112,6 +114,8 @@ angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $rout
 	}
 	else {
 		$scope.student = profile;
+		$scope.student.status = "Additional Information Received";
+		$scope.makeNew = false;
 	}
 
 	$scope.$watch('currentSchool', function(){
@@ -233,11 +237,20 @@ angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $rout
 		$scope.submit = true;
 
 		if (!errors) {
-			$http.post('/profiles', $scope.student).success(function(){
-				$scope.finished = true;
-			}).error(function(){
-				toastr.error("Unable to submit profile.");
-			})
+			if ($scope.makeNew) {
+				$http.post('/profiles', $scope.student).success(function(){
+					$scope.finished = true;
+				}).error(function(){
+					toastr.error("Unable to submit profile.");
+				});
+			}
+			else {
+				$http.put('/profiles/' + $scope.student._id, $scope.student).success(function(){
+					$scope.finished = true;
+				}).error(function(){
+					toastr.error("Unable to submit profile.");
+				});
+			}
 		}
 	};
 

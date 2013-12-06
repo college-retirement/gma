@@ -20,9 +20,7 @@ class ProfilesController extends Controller {
 		return Rest::okay($profile->toArray());
 	}
 
-	function save() {
-		$id = Input::get('_id');
-
+	function update($id) {
 		$profile = Profile::find($id);
 
 		if (!$profile) return Rest::notFound();
@@ -30,6 +28,7 @@ class ProfilesController extends Controller {
 		if ($profile->user_id !== Session::get('currentUser')) {
 			return Rest::forbidden();
 		}
+
 
 		$updatedAt = new DateTime();
 		$strong = (Input::has('stronghold')) ? Input::get('stronghold') : array();
@@ -43,6 +42,9 @@ class ProfilesController extends Controller {
 		$updatedProfile = Profile::find($id);
 
 		if ($update) {
+			if (Input::get('status') == 'Additional Information Received') {
+				Event::fire('profile.moreInfoRcd', $profile);
+			}
 			return Rest::okay($updatedProfile->toArray());
 		}
 		else {

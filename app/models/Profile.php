@@ -5,6 +5,23 @@ use Jenssegers\Mongodb\Model as Eloquent;
 class Profile extends Eloquent {
 	public $collection = "profiles";	
 	public $appends = array('created', 'updated');
+
+	function scopeProspect($query) {
+		return $query->where('prospect', true)->orWhereRaw(['prospect' => ['$exists' => false]]);
+	}
+
+	function scopeClient($query) {
+		return $query->where('prospect', false);
+	}
+
+	function getStatusAttribute() {
+		if (array_key_exists('status', $this->attributes)) {
+			return $this->attributes['status'];
+		}
+		elseif (array_key_exists('prospect', $this->attributes) && $this->attributes['prospect'] == true) {
+			return 'Initial Form Submitted';
+		}
+	}
 	
 	function getCreatedAttribute() {
 		if (array_key_exists('created_at', $this->attributes)) {

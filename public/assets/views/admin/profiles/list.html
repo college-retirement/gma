@@ -4,10 +4,10 @@
 			<a href="#/admin">Admin</a>
 		</li>
 		<li class="active">
-			Profiles
+			{{type}}
 		</li>
 	</ol>
-	<legend>Profiles</legend>
+	<legend>{{type}}</legend>
 	<table class="table-striped table">
 		<thead>
 			<tr>
@@ -16,6 +16,7 @@
 				<th>State</th>
 				<th>Phone</th>
 				<th>DOB</th>
+				<th ng-show="clients">Status</th>
 				<th></th>
 			</tr>
 		</thead>
@@ -36,9 +37,15 @@
 				<td>
 					{{profile.dob | dob}}
 				</td>
+				<td ng-show="clients">
+					{{profile.status}}
+				</td>
 				<td>
 					<button class="btn btn-default" ng-click="viewProfile(profile)">
 						<i class="icon-eye-open"></i>
+					</button>
+					<button class="btn btn-danger" ng-click="destroy(profile)" ng-show="!clients">
+						<i class="icon-minus"></i>
 					</button>
 				</td>
 			</tr>

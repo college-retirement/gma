@@ -6,6 +6,12 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 	var id = $route.current.params.profile;
 	$http.get('/admin/profiles/' + id).then(function(obj){
 		$scope.student = obj.data;
+		if ($scope.student.hasOwnProperty('prospect') && $scope.student.prospect == false) {
+			$scope.clients = true;
+		}
+		else {
+			$scope.clients = false;
+		}
 	});
 
 	$scope.$on('$routeUpdate', function(e){
@@ -107,7 +113,8 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 	};
 
 	$scope.notifyUser = function() {
-		$http.get('admin/notify/moreinfo/' + id).success(function(){
+		$http.get('admin/notify/moreinfo/' + id).success(function(obj){
+			$scope.student = obj.result;
 			toastr.success("Notification email sent!");
 		}).error(function(){
 			toastr.error("Unable to send notification email.");
@@ -181,6 +188,24 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 	$scope.deleteRetirement = function(index) {
 		$scope.student.family.retirement.splice(index, 1);
 	};
+
+	$scope.setClient = function() {
+		$scope.student.prospect = false;
+		$http.put('/admin/prospects/' + $scope.student._id, $scope.student).success(function(obj){
+			$scope.student = obj.result;
+
+			if ($scope.student.hasOwnProperty('prospect') && $scope.student.prospect == false) {
+				$scope.clients = true;
+			}
+			else {
+				$scope.clients = false;
+			}
+
+			toastr.success('Client updated successfully');
+		}).error(function(){
+			toastr.error('Unable to update account.');
+		});
+	}
 
 });
 

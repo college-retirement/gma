@@ -38,7 +38,7 @@ angular.module('gmaApp').config(['$routeProvider', '$httpProvider', function($ro
 	}).when('/admin', {
 		templateUrl: "assets/views/admin/home.html",
 		controller: "AdminCtrl"
-	}).when('/admin/profiles', {
+	}).when('/admin/list', {
 		templateUrl: "assets/views/admin/profiles/list.html",
 		controller: "AdminListCtrl"
 	}).when('/admin/profiles/:profile', {

@@ -69,6 +69,16 @@ Route::group(['before' => 'secure'], function(){
 		Route::get('profiles/{profile}', ['uses' => 'AdminProfilesController@view']);
 		Route::put('profiles', ['uses' => 'AdminProfilesController@save']);
 
+		Route::get('prospects', ['uses' => 'AdminProspectsController@all']);
+		Route::get('prospects/{id}', ['uses' => 'AdminProspectsController@get']);
+		Route::put('prospects/{id}', ['uses' => 'AdminProspectsController@update']);
+		Route::delete('prospects/{id}', ['uses' => 'AdminProspectsController@delete']);
+
+		Route::get('clients', ['uses' => 'AdminClientsController@all']);
+		Route::get('clients/{id}', ['uses' => 'AdminClientsController@get']);
+		Route::put('clients/{id}', ['uses' => 'AdminClientsController@update']);
+		Route::delete('clients/{id}', ['uses' => 'AdminClientsController@delete']);
+
 		Route::get('drafts', ['uses' => 'AdminDraftsController@drafts']);
 		Route::put('drafts', ['uses' => 'AdminDraftsController@saveDraftByInput']);
 		Route::get('drafts/{id}', ['uses' => 'AdminDraftsController@draft']);

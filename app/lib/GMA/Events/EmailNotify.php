@@ -22,9 +22,16 @@ class EmailNotify {
 		});
 	}
 
+	function moreInfoRecieved($event) {
+		\Mail::send('emails.moreInfoRcd', ['profile' => $event], function($mail) use ($event){
+			$mail->to($this->email, $this->name)->subject('Information Received for ' . $event['user']['name']);
+		});
+	}
+
 	function subscribe($events) {
 		$events->listen('user.create', 'GMA\Events\EmailNotify@userAccountCreated');
 		$events->listen('profile.submit', 'GMA\Events\EmailNotify@profileSubmitted');
 		$events->listen('profile.moreInfoRequired', 'GMA\Events\EmailNotify@moreInfoRequired');
+		$events->listen('profile.moreInfoRcd', 'GMA\Events\EmailNotify@moreInfoRecieved');
 	}
 }

@@ -4,10 +4,12 @@
 			<a href="#/admin">Admin</a>
 		</li>
 		<li>
-			<a href="#/admin/profiles">Profiles</a>
+			<a href="#/admin/list?clients=true" ng-show="clients">Clients</a>
+			<a href="#/admin/list" ng-show="!clients">Prospects</a>
 		</li>
 		<li class="active">
-			Profile
+			<span ng-show="clients">Client Profile</span>
+			<span ng-show="!clients">Prospect Profile</span>
 		</li>
 	</ol>
 	<div class="pull-right btn-group">
@@ -17,6 +19,10 @@
 		<div class="btn btn-default" ng-click="triggerDownload()">
 			<i class="icon-download"></i>
 			Download CSV
+		</div>
+		<div class="btn btn-success" ng-click="setClient()" ng-disabled="clients == true">
+			<i class="icon-check"></i>
+			Mark as Client
 		</div>
 		<div class="btn btn-default" ng-click="notifyUser()">
 			<i class="icon-envelope"></i>
