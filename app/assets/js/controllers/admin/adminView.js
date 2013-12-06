@@ -14,6 +14,9 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 		}
 	});
 
+
+	$scope.moreInfo = true;
+
 	$scope.$on('$routeUpdate', function(e){
 		$scope.mode = $location.search().mode;
 	});
@@ -73,7 +76,7 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 	}
 
 	$scope.triggerDownload = function() {
-		window.open('/dl/' + id);
+		window.open('/admin/dl/' + id);
 	}
 
 	$scope.showStudentAssets = function() {
