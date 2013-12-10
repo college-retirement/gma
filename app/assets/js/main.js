@@ -9,6 +9,9 @@ angular.module('gmaApp').config(['$routeProvider', '$httpProvider', function($ro
 		templateUrl: "assets/views/initialData.html",
 		controller: "ProfileCtrl",
 		resolve: {
+			isDraft: function() {
+				return true
+			},
 			moreInfo: function() {
 				return false;
 			},
@@ -20,6 +23,9 @@ angular.module('gmaApp').config(['$routeProvider', '$httpProvider', function($ro
 		templateUrl: "assets/views/initialData.html",
 		controller: "ProfileCtrl",
 		resolve: {
+			isDraft: function() {
+				return true
+			},
 			moreInfo: function() {
 				return true;
 			},
@@ -34,7 +40,20 @@ angular.module('gmaApp').config(['$routeProvider', '$httpProvider', function($ro
 		controller: "RegisterCtrl"
 	}).when('/drafts/:draft',{
 		templateUrl: "assets/views/initialData.html",
-		controller: "ProfileCtrl"
+		controller: "ProfileCtrl",
+		resolve: {
+			isDraft: function() {
+				return true
+			},
+			moreInfo: function() {
+				return false;
+			},
+			profile: ['$route', '$http', function($route, $http){
+				return $http.get('/drafts/' + $route.current.params.draft).then(function(obj){
+					return obj.data;
+				});
+			}]
+		}
 	}).when('/admin', {
 		templateUrl: "assets/views/admin/home.html",
 		controller: "AdminCtrl"

@@ -1,4 +1,4 @@
-angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $route, $location, Persona, states, AssetTypes, OwnershipTypes, LiabilityTypes, RetirementTypes, moreInfo, profile){
+angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $route, $location, Persona, states, AssetTypes, OwnershipTypes, LiabilityTypes, RetirementTypes, moreInfo, profile, isDraft){
 	// Persona
 	Persona.status();
 	$scope.getUser = function() {
@@ -111,6 +111,10 @@ angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $rout
 				parentContribution: 0
 			}
 		};
+	}
+	else if (isDraft) {
+		$scope.student = profile;
+		$scope.makeNew = true;
 	}
 	else {
 		$scope.student = profile;
