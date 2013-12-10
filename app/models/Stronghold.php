@@ -24,6 +24,11 @@ class Stronghold {
 	 */
 	function __construct($items = array()) {
 		$this->encrypted = false;
+
+		if (is_null($items)) {
+			$this->items = array();
+		}
+		
 		$this->items = $items; 
 		$this->iterator('isEncrypted', function(){});
 	}

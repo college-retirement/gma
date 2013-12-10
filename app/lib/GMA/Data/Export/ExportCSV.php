@@ -476,7 +476,9 @@ class ExportCSV {
 				$amt = 0;
 
 				foreach ($this->siblings as $sib) {
-					$amt .= $sib['parentContribution'];
+					if (array_key_exists('parentContribution', $sib)) {
+						$amt .= $sib['parentContribution'];
+					}
 				}
 
 				return $amt;
@@ -837,9 +839,15 @@ class ExportCSV {
 	}
 
 	function getAge($dob) {
-		return DateTime::createFromFormat('mdY', $dob)
-			->diff(new DateTime('now'))
-			->y;
+		$dt = DateTime::createFromFormat('mdY', $dob);
+
+		if ($dt) {
+			return $dt->diff(new DateTime('now'))->y;
+		}
+
+		else {
+			return '';
+		}
 	}
 
 	function dot($key) {
