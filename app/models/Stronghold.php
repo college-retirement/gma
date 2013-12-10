@@ -22,10 +22,10 @@ class Stronghold {
 	 * Initializing constructor dumps items into the Stronghold
 	 * @param array $items
 	 */
-	function __construct($items = array()) {
+	function __construct($items) {
 		$this->encrypted = false;
 
-		if (is_null($items)) {
+		if (is_null($items) && !is_array($items)) {
 			$this->items = array();
 		}
 		
