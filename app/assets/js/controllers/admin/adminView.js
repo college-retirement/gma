@@ -68,9 +68,9 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 				return 'FAFSA Profile';
 			break;
 
-			case 'report':
+			case 'summary':
 			default:
-				return 'Profile';
+				return 'Summary';
 			break;	
 		}
 	}
