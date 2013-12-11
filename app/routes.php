@@ -55,6 +55,7 @@ Route::group(['before' => 'secure'], function(){
 	Route::get('drafts/{id}', ['before' => 'validUser', 'uses' => 'DraftsController@show']);
 	Route::post('drafts', ['before' => 'validUser', 'uses' => 'DraftsController@create']);
 	Route::delete('drafts/{id}', ['before' => 'validUser', 'uses' => 'DraftsController@delete']);
+	Route::patch('drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'DraftsController@updateOwner']);
 
 	/**
 	 * Profiles REST Routes
@@ -62,6 +63,8 @@ Route::group(['before' => 'secure'], function(){
 	Route::post('profiles', ['before' => 'validUser', 'uses' => 'ProfilesController@create']);
 	Route::get('profiles/{id}', ['before' => 'validUser', 'uses' => 'ProfilesController@get']);
 	Route::put('profiles/{id}', ['before' => 'validUser', 'uses' => 'ProfilesController@update']);
+
+
 
 
 	Route::group(['prefix' => 'admin', 'before' => 'validUser|adminUser'], function(){
