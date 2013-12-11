@@ -62,4 +62,38 @@ class DraftsController extends Controller {
 			return Response::json(array(), 401);
 		}
 	}
+
+	function updateOwner($id) {
+		$userId = Input::get('user_id');
+
+		if ($userId == null || $userId == '') {
+			return Rest::withErrors(['invalid_user' => '`user_id` field required.'])->badRequest();
+		}
+
+		$user = User::find($userId);
+
+		if (!$user) {
+			return Rest::withErrors(['invalid_user' => "User ID '$userId' not found."])->notFound();
+		}
+
+		else {
+			$draft = Draft::find($id);
+
+			if (!$draft) {
+				return Rest::withErrors(['invalid_id' => "Draft ID '$id' not found."])->notFound();
+			}
+
+			$draft->user_id = $userId;
+
+			if ($draft->save()) {
+				return Rest::okay($draft->toArray());
+			}
+
+			else {
+				return Rest::withErrors(['unable_to_save' => 'Unable to save Draft.'])->conflict();
+			}
+		}
+
+		return Rest::okay([$userId]);
+	}
 }
