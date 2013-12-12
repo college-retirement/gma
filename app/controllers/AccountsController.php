@@ -17,10 +17,10 @@ class AccountsController extends Controller {
 			$user->phone = Input::get('phone');
 			$user->role = Input::get('role');
 
-			try {
-				$user->save();
+			if ($user->save()) {
 				return Response::json($user, 201);
-			} catch (Exception $e) {
+			}
+			else {
 				return Response::json(['messages' => ['db_error' => 'Unable to create account.']], 500);
 			}
 		}

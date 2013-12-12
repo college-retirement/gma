@@ -64,6 +64,8 @@ Route::group(['before' => 'secure'], function(){
 	Route::put('profiles/{id}', ['before' => 'validUser', 'uses' => 'ProfilesController@update']);
 
 
+
+
 	Route::group(['prefix' => 'admin', 'before' => 'validUser|adminUser'], function(){
 		Route::get('profiles', ['uses' => 'AdminProfilesController@all']);
 		Route::get('profiles/{profile}', ['uses' => 'AdminProfilesController@view']);
@@ -83,6 +85,7 @@ Route::group(['before' => 'secure'], function(){
 		Route::put('drafts', ['uses' => 'AdminDraftsController@saveDraftByInput']);
 		Route::get('drafts/{id}', ['uses' => 'AdminDraftsController@draft']);
 		Route::put('drafts/{id}', ['uses' => 'AdminDraftsController@saveDraft']);
+		Route::patch('drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'DraftsController@updateOwner']);
 		Route::delete('drafts/{id}', ['uses' => 'AdminDraftsController@deleteDraft']);
 
 		Route::get('users', ['uses' => 'AdminUsersController@users']);
