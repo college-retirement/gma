@@ -29,7 +29,8 @@ class AdminProspectsController extends Controller {
 		if (!$profile)  return Rest::notFound();
 
 		$updatedAt = new DateTime();
-		$box = new Stronghold(Input::get('stronghold'));
+		$strong = (is_array(Input::get('stronghold'))) ? Input::get('stronghold') : array();
+		$box = new Stronghold($strong);
 		
 		$update = [
 				'updated_at' => $updatedAt->format('c'),
