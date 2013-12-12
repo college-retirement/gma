@@ -62,7 +62,7 @@ angular.module('gmaApp').controller('AdminDraftViewCtrl', function($scope, $rout
 	}
 
 	$scope.changeOwner = function() {
-		$modal.open({
+		var modal =  $modal.open({
 			templateUrl: 'assets/views/admin/drafts/modal/changeOwner.html',
 			controller: "ChangeOwnerCtrl",
 			resolve: {
@@ -71,6 +71,12 @@ angular.module('gmaApp').controller('AdminDraftViewCtrl', function($scope, $rout
 				}
 			}
 		});
+
+		modal.result.then(function(){
+			$http.get('/admin/drafts/' + id).then(function(obj){
+				$scope.student = obj.data.result;
+			});
+		})
 	}
 
 });
