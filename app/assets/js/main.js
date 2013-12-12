@@ -83,12 +83,14 @@ angular.module('gmaApp').config(['$routeProvider', '$httpProvider', function($ro
 }]);
 
 
-angular.module('gmaApp').factory('UnauthorizedXHRInterceptor', function($location){
+angular.module('gmaApp').factory('UnauthorizedXHRInterceptor', function($location, $q){
 	return {
 		'responseError': function(o) {
 			if (o.url !== '/persona/status' && o.status == 401) {
+				$q.reject(o);
 				$location.path('/');
 			}
+			return $q.reject(o);
 		}
 	};
 });
