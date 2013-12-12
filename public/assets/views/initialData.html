@@ -126,15 +126,15 @@
 					<div class="form-group">
 						<label>Social Security Number</label>
 						<div class="control tiny">
-							<input type="text" ng-model="student.stronghold.student.ssn" class="form-control" ui-mask="999-99-9999" required="moreInfo">
+							<input type="text" ng-model="student.stronghold.student.ssn" class="form-control" ui-mask="999-99-9999" ng-required="moreInfo">
 						</div>
 					</div>
 					<div class="form-group">
 						<label>Do you have a Drivers License?</label>
 						<div class="control small">
 							<div class="btn-group">
-									<button type="button" class="btn btn-default" ng-model="student.license.issued" btn-radio="true" required="moreInfo">Yes</button>
-									<button type="button" class="btn btn-default" ng-model="student.license.issued" btn-radio="false" required="moreInfo">No</button>
+									<button type="button" class="btn btn-default" ng-model="student.license.issued" btn-radio="true" ng-required="moreInfo">Yes</button>
+									<button type="button" class="btn btn-default" ng-model="student.license.issued" btn-radio="false" ng-required="moreInfo">No</button>
 							</div>
 						</div>
 					</div>
@@ -167,8 +167,8 @@
 					<label>Have you ever been convicted of a drug offense?</label>
 					<div class="control">
 						<div class="btn-group">
-							<button type="button" class="btn btn-default" ng-model="student.drugConviction" btn-radio="true" required="moreInfo">Yes</button>
-							<button type="button" class="btn btn-default" ng-model="student.drugConviction" btn-radio="false" required="moreInfo">No</button>
+							<button type="button" class="btn btn-default" ng-model="student.drugConviction" btn-radio="true" ng-required="moreInfo">Yes</button>
+							<button type="button" class="btn btn-default" ng-model="student.drugConviction" btn-radio="false" ng-required="moreInfo">No</button>
 						</div>
 					</div>
 				</div>
