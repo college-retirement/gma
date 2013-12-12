@@ -1,4 +1,4 @@
-angular.module('gmaApp').controller('AdminDraftViewCtrl', function($scope, $route, $http, $location, Persona, states, AssetTypes, OwnershipTypes, LiabilityTypes, RetirementTypes){
+angular.module('gmaApp').controller('AdminDraftViewCtrl', function($scope, $route, $http, $location, Persona, states, AssetTypes, OwnershipTypes, LiabilityTypes, RetirementTypes, $modal){
 	Persona.status();
 	$scope.mode = $location.search().mode;
 
@@ -60,4 +60,89 @@ angular.module('gmaApp').controller('AdminDraftViewCtrl', function($scope, $rout
 			toastr.error('Unable to save draft.');
 		});
 	}
+
+	$scope.changeOwner = function() {
+		$modal.open({
+			templateUrl: 'assets/views/admin/drafts/modal/changeOwner.html',
+			controller: "ChangeOwnerCtrl",
+			resolve: {
+				draft: function() {
+					return $scope.student;
+				}
+			}
+		});
+	}
+
+});
+
+angular.module('gmaApp').controller('ChangeOwnerCtrl', function($rootScope, $scope, $modalInstance, $http, draft){
+	$scope.data = {
+		draft: draft
+	};
+	$scope.users = {
+		list: []
+	};
+
+	$scope.user = {
+		name: null,
+		isSelected: false,
+		selected: {}
+	};
+
+	$scope.$watch('user.name', function(val){
+		if (val !== undefined && val !== '') {
+			$http.get('/admin/users', {params: {name: $scope.user.name}}).success(function(data){
+				$scope.users.list = data.result;
+			});
+		}
+	});
+
+	$scope.updateUser = function(user, index) {
+		$scope.user.isSelected = true;
+		$scope.user.selected = user;
+	};
+
+	$scope.doUpdateUser = function() {
+		$http({
+			method: 'PATCH',
+			url: '/admin/drafts/' + $scope.data.draft._id,
+			data: {
+				'user_id': $scope.user.selected._id
+			},
+		}).success(function() {
+			$modalInstance.close();
+			toastr.success('Draft reassigned successfully');
+		});
+	};
+
+	
+	$scope.$on('newUserCreate', function(e, data){
+		$scope.user.selected = data;
+		$scope.doUpdateUser();
+	});
+
+	$scope.close = function() {
+		$modalInstance.close();
+	};
+});
+
+angular.module('gmaApp').controller('NewUserFormCtrl', function($scope, $rootScope, $http){
+	$scope.newUser = {};
+
+	$scope.tryCreateUser = function() {
+		if ($scope.userForm.$valid) {
+			$http.post('/accounts', $scope.newUser).success(function(data, status){
+				if (status == 201) {
+					toastr.success('New user created successfully.');
+					$scope.$emit('newUserCreate', data);
+				}
+			}).error(function(data, status){
+				if (status == 409) {
+					$scope.userForm.email.$setValidity(false);
+					toastr.error("This email address belongs to an existing user.");
+				}
+			});
+		}
+	};
+
 });
