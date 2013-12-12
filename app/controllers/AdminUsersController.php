@@ -2,15 +2,23 @@
 
 class AdminUsersController extends Controller {
 	function users() {
-		$page = Input::get('page') ?: 1;
-		$total = User::count();
-		$pagesCount = ceil($total / 20);
+		if (Input::get('name')) {
+			$name = Input::get('name');
+			$users = User::where('name.first', 'like', '%' . $name . '%')->orWhere('name.last', 'like', '%' . $name . '%')->get();
+			return Rest::okay($users->toArray());
 
-		$offset = (($page - 1) * 20);
-		$offset = ($offset >= 20) ? $offset : 0;
+		}
+		else {
+			$page = Input::get('page') ?: 1;
+			$total = User::count();
+			$pagesCount = ceil($total / 20);
 
-		$users = User::with(['drafts', 'profiles'])->skip($offset)->take(20)->get();
-		return Rest::currentPage($page)->of($pagesCount)->limited(20)->totalItems($total)->okay($users->toArray());
+			$offset = (($page - 1) * 20);
+			$offset = ($offset >= 20) ? $offset : 0;
+
+			$users = User::with(['drafts', 'profiles'])->skip($offset)->take(20)->get();
+			return Rest::currentPage($page)->of($pagesCount)->limited(20)->totalItems($total)->okay($users->toArray());
+		}
 	}
 
 	function user($id) {
