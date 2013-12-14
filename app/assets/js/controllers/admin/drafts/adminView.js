@@ -23,16 +23,8 @@ angular.module('gmaApp').controller('AdminDraftViewCtrl', function($scope, $rout
 			case 'edit':
 				return 'assets/views/admin/drafts/partial/edit.html';
 			break;
-			
-			case 'css':
-				return 'assets/views/admin/profiles/partial/css.html';
-			break;
 
-			case 'fafsa':
-				return 'assets/views/admin/profiles/partial/fafsa.html';
-			break;
-
-			case 'report':
+			case 'view':
 			default:
 				return 'assets/views/admin/profiles/partial/report.html';
 			break;
@@ -45,6 +37,9 @@ angular.module('gmaApp').controller('AdminDraftViewCtrl', function($scope, $rout
 				if (confirm("Are you sure you want to change modes without saving?")) {
 					$location.search('mode', mode);
 				}
+			}
+			else {
+				$location.search('mode', mode);
 			}
 		}
 		else {
