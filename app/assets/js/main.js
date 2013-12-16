@@ -161,10 +161,3 @@ angular.module('gmaApp').controller("PersonaCtrl", function($rootScope, $scope, 
 		$scope.login();
 	});
 });
-
-
-
-
-angular.module('gmaApp').controller("ExtendedProfileController", function($rootScope, $scope){
-
-});

@@ -2,6 +2,8 @@ angular.module('gmaApp').controller('AdminDraftViewCtrl', function($scope, $rout
 	Persona.status();
 	$scope.mode = $location.search().mode;
 
+	$scope.profileCreated = false;
+
 	$scope.states = states;
 	$scope.ownershipTypes = OwnershipTypes;
 	$scope.liabilityTypes = LiabilityTypes;
@@ -54,7 +56,49 @@ angular.module('gmaApp').controller('AdminDraftViewCtrl', function($scope, $rout
 		}).error(function(){
 			toastr.error('Unable to save draft.');
 		});
-	}
+	};
+
+
+	$scope.submitProfile = function() {
+		var errors = false;
+
+		jQuery('.has-error').removeClass('has-error');
+		
+		jQuery(".ng-invalid").each(function(e){
+			errors = true;
+			jQuery(this).parent('.control').parent('.form-group').addClass('has-error');
+		});
+		
+		jQuery(".btn.ng-invalid").each(function(e){
+			errors = true;
+			jQuery(this).parent('.btn-group').parent('.control').parent('.form-group').addClass('has-error');
+		});
+
+		jQuery('.input-group>.ng-invalid').each(function(e){
+			errors = true;
+			jQuery(this).parent('.input-group').parent('.control').parent('.form-group').addClass('has-error');
+		});
+
+		jQuery(".ng-invalid:not(form)").first().focus();
+		$scope.submit = true;
+
+		if (!errors) {
+			if ($scope.profileCreated) {
+				$http.put('/admin/profiles', $scope.student).success(function(data){
+					$scope.student = data.result;
+					toastr.success('Profile updated.');
+				}).error(function(){
+					toastr.error("Unable to update profile.");
+				});
+			}
+			else {
+				$http.post('/admin/profiles', $scope.student).success(function(data, obj){
+					$location.search('mode', null);
+					$location.path('/admin/profiles/' + data.result._id);
+				});
+			}
+		}
+	};
 
 	$scope.changeOwner = function() {
 		var modal =  $modal.open({

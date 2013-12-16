@@ -68,27 +68,35 @@ Route::group(['before' => 'secure'], function(){
 
 	Route::group(['prefix' => 'admin', 'before' => 'validUser|adminUser'], function(){
 		Route::get('profiles', ['uses' => 'AdminProfilesController@all']);
-		Route::get('profiles/{profile}', ['uses' => 'AdminProfilesController@view']);
+		Route::post('profiles', ['uses' => 'AdminProfilesController@create']);
 		Route::put('profiles', ['uses' => 'AdminProfilesController@save']);
+		
+		Route::get('profiles/{id}', ['uses' => 'AdminProfilesController@view']);
 
 		Route::get('prospects', ['uses' => 'AdminProspectsController@all']);
+		
 		Route::get('prospects/{id}', ['uses' => 'AdminProspectsController@get']);
 		Route::put('prospects/{id}', ['uses' => 'AdminProspectsController@update']);
 		Route::delete('prospects/{id}', ['uses' => 'AdminProspectsController@delete']);
 
 		Route::get('clients', ['uses' => 'AdminClientsController@all']);
+		
 		Route::get('clients/{id}', ['uses' => 'AdminClientsController@get']);
 		Route::put('clients/{id}', ['uses' => 'AdminClientsController@update']);
 		Route::delete('clients/{id}', ['uses' => 'AdminClientsController@delete']);
 
 		Route::get('drafts', ['uses' => 'AdminDraftsController@drafts']);
+		Route::post('drafts', ['uses' => 'AdminDraftsController@createDraft']);
 		Route::put('drafts', ['uses' => 'AdminDraftsController@saveDraftByInput']);
+
 		Route::get('drafts/{id}', ['uses' => 'AdminDraftsController@draft']);
+		
 		Route::put('drafts/{id}', ['uses' => 'AdminDraftsController@saveDraft']);
 		Route::patch('drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'DraftsController@updateOwner']);
 		Route::delete('drafts/{id}', ['uses' => 'AdminDraftsController@deleteDraft']);
 
 		Route::get('users', ['uses' => 'AdminUsersController@users']);
+		
 		Route::get('users/{id}', ['uses' => 'AdminUsersController@user']);
 		Route::put('users/{id}', ['uses' => 'AdminUsersController@editUser']);
 
