@@ -3,6 +3,7 @@ angular.module('gmaApp').controller('AdminDraftViewCtrl', function($scope, $rout
 	$scope.mode = $location.search().mode;
 
 	$scope.profileCreated = false;
+	$scope.moreInfo = true;
 
 	$scope.states = states;
 	$scope.ownershipTypes = OwnershipTypes;
