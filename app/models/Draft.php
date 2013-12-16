@@ -4,7 +4,7 @@ use Jenssegers\Mongodb\Model as Eloquent;
 class Draft extends Eloquent {
 	public $collection = "drafts";
 	public $appends = array('created', 'updated');
-	public $fillable = array('email');
+	public $guarded = array('_id');
 
 	function user() {
 		return $this->belongsTo('User');

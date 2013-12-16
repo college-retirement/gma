@@ -5,6 +5,7 @@ use Jenssegers\Mongodb\Model as Eloquent;
 class Profile extends Eloquent {
 	public $collection = "profiles";	
 	public $appends = array('created', 'updated');
+	public $guarded = ['_id'];
 
 	function scopeProspect($query) {
 		return $query->where('prospect', true)->orWhereRaw(['prospect' => ['$exists' => false]]);
