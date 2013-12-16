@@ -3,37 +3,24 @@
 class AdminProfilesController extends Controller {
 	
 	function all() {
-		if (Session::get('currentUser')) {
-			$user = User::find(Session::get('currentUser'));
+		return Profile::all();
+	}
 
-			if ($user->is_admin) {
-				$profiles = Profile::all();
-				return $profiles;
-			}
-			else {
-				return Response::json(array(), 403);
-			}
+	function create() {
+		$profile = Profile::create(Input::except(['_id', 'updated_at', 'stronghold', 'user']));
+
+		if ($profile) {
+			return Rest::created($profile->toArray());
 		}
+
 		else {
-			return Response::json(array(), 401);
+			return Rest::conflict();
 		}
 	}
 
 	function view($profile) {
-		if (Session::get('currentUser')) {
-			$user = User::find(Session::get('currentUser'));
-
-			if ($user->is_admin) {
-				$profile = Profile::where('_id', $profile)->get()->first();
-				return Response::json($profile);
-			}
-			else {
-				return Response::json(array(), 403);
-			}
-		}
-		else {
-			return Response::json(array(), 401);
-		}
+		$profile = Profile::where('_id', $profile)->get()->first();
+		return Response::json($profile);
 	}
 
 	function save() {
