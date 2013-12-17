@@ -15,11 +15,119 @@ angular.module('gmaApp').controller('AdminDraftViewCtrl', function($scope, $rout
 	var id = $route.current.params.profile;
 	$http.get('/admin/drafts/' + id).then(function(obj){
 		$scope.student = obj.data.result;
+
+		if (!$scope.student.hasOwnProperty('siblings')) {
+			$scope.student.siblings = {
+				schools: []
+			};
+		}
 	});
 
 	$scope.$on('$routeUpdate', function(e){
 		$scope.mode = $location.search().mode;
 	});
+
+	// Typeahead college name stuff
+	$scope.currentSchool = null;
+	$scope.currentSibSchool = null;
+	$scope.collegeList = [];
+	$scope.collegeSibList = [];
+	$scope.collegesLoading = false;
+
+	$scope.$watch('currentSchool', function(){
+		if ($scope.currentSchool != "" && typeof $scope.currentSchool !== "object") {
+			
+			$scope.collegesLoading = true;
+
+			$http.post('/colleges.json', {name: $scope.currentSchool}).then(function(obj){
+				$scope.collegeList = obj.data;
+				$scope.collegesLoading = false;
+			});
+		}
+	});
+
+	$scope.$watch('currentSibSchool', function(){
+		if ($scope.currentSibSchool != "" && typeof $scope.currentSibSchool !== "object") {
+			
+			$scope.collegesLoading = true;
+
+			$http.post('/colleges.json', {name: $scope.currentSibSchool}).then(function(obj){
+				$scope.collegeSibList = obj.data;
+				$scope.collegesLoading = false;
+			});
+		}
+	});
+
+	$scope.addSchool = function(siblings) {
+		if (siblings === true) {
+			$scope.student.siblings.schools.push($scope.currentSibSchool);
+			$scope.currentSibSchool = null;
+		}
+		else {
+			$scope.student.schools.push($scope.currentSchool);
+			$scope.currentSchool = null;
+		}
+
+	};
+
+	$scope.updateSchool = function(school, index, siblings) {
+		if (siblings === true) {
+			$scope.currentSibSchool = school;
+		}
+		else {
+			$scope.currentSchool = school;
+		}
+	};
+	
+	$scope.deleteSchool = function(index, siblings) {
+		if (siblings) {
+			$scope.student.siblings.schools.splice(index, 1);
+		}
+		else {
+			$scope.student.schools.splice(index, 1);
+		}
+	};
+
+
+	$scope.addFamily = function() {
+		$scope.student.family.members.push({student: false});
+	};
+
+	$scope.deleteFamily = function(index) {
+		$scope.student.family.members.splice(index, 1);
+	}
+
+	$scope.addProperty = function() {
+		$scope.student.family.realEstate.push({});
+	};
+
+	$scope.deleteProperty = function(index) {
+		$scope.student.family.realEstate.splice(index, 1);
+	}
+
+	$scope.addAsset = function() {
+		$scope.student.family.assets.push({});
+	};
+
+	$scope.deleteAsset = function(index) {
+		$scope.student.family.assets.splice(index, 1);
+	}
+
+	$scope.addLiability = function() {
+		$scope.student.family.liabilities.push({});
+	};
+
+	$scope.deleteLiability = function(index) {
+		$scope.student.family.liabilities.splice(index, 1);
+	};
+
+	$scope.addRetirement = function() {
+		$scope.student.family.retirement.push({});
+	};
+
+	$scope.deleteRetirement = function(index) {
+		$scope.student.family.retirement.splice(index, 1);
+	};
 
 	$scope.partial = function() {
 		switch ($scope.mode) {
@@ -58,7 +166,7 @@ angular.module('gmaApp').controller('AdminDraftViewCtrl', function($scope, $rout
 			toastr.error('Unable to save draft.');
 		});
 	};
-
+	
 
 	$scope.submitProfile = function() {
 		var errors = false;

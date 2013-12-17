@@ -365,9 +365,9 @@
 			<tr>
 				<td colspan="4">
 					<div class="input-group input-append">
-						<input type="text" ng-model="currentSchool" class="form-control inline" typeahead="uni.name for uni in collegeList" typeahead-min-length="3" typeahead-on-select="updateSchool($item, $index)" typeahead-loading="collegesLoading">
+						<input type="text" ng-model="$parent.currentSchool" class="form-control inline" typeahead="uni.name for uni in $parent.collegeList" typeahead-min-length="3" typeahead-on-select="$parent.updateSchool($item, $index)" typeahead-loading="$parent.collegesLoading">
 						<span class="input-group-btn">
-							<button type="button" class="btn btn-default" ng-click="addSchool()" ng-disabled="currentSchool == null">
+							<button type="button" class="btn btn-default" ng-click="$parent.addSchool()" ng-disabled="$parent.currentSchool == null">
 								<i class="icon-plus"></i>
 								Add School
 							</button>
@@ -408,9 +408,9 @@
 			<tr>
 				<td colspan="4">
 					<div class="input-group input-append">
-						<input type="text" ng-model="currentSibSchool" class="form-control inline" typeahead="uni.name for uni in collegeSibList" typeahead-min-length="3" typeahead-on-select="updateSchool($item, $index, true)" typeahead-loading="collegesLoading">
+						<input type="text" ng-model="$parent.currentSibSchool" class="form-control inline" typeahead="uni.name for uni in $parent.collegeSibList" typeahead-min-length="3" typeahead-on-select="$parent.updateSchool($item, $index, true)" typeahead-loading="$parent.collegesLoading">
 						<span class="input-group-btn">
-							<button type="button" class="btn btn-default" ng-click="addSchool(true)" ng-disabled="currentSibSchool == null">
+							<button type="button" class="btn btn-default" ng-click="$parent.addSchool(true)" ng-disabled="$parent.currentSibSchool == null">
 								<i class="icon-plus"></i>
 								Add School
 							</button>
