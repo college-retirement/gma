@@ -12,6 +12,12 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 		else {
 			$scope.clients = false;
 		}
+
+		if (!$scope.student.hasOwnProperty('siblings')) {
+			$scope.student.siblings = {
+				schools: []
+			}
+		}
 	});
 
 
@@ -129,27 +135,71 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 
 	// Typeahead college name stuff
 	$scope.currentSchool = null;
-	$scope.collegeList = {};
+	$scope.currentSibSchool = null;
+	$scope.collegeList = [];
+	$scope.collegeSibList = [];
 	$scope.collegesLoading = false;
 
+	
+	$scope.$watch('currentSchool', function(){
+		if ($scope.currentSchool != "" && typeof $scope.currentSchool !== "object") {
+			
+			$scope.collegesLoading = true;
+
+			$http.post('/colleges.json', {name: $scope.currentSchool}).then(function(obj){
+				$scope.collegeList = obj.data;
+				$scope.collegesLoading = false;
+			});
+		}
+	});
+
+	$scope.$watch('currentSibSchool', function(){
+		if ($scope.currentSibSchool != "" && typeof $scope.currentSibSchool !== "object") {
+			
+			$scope.collegesLoading = true;
+
+			$http.post('/colleges.json', {name: $scope.currentSibSchool}).then(function(obj){
+				$scope.collegeSibList = obj.data;
+				$scope.collegesLoading = false;
+			});
+		}
+	});
 	// Defined types
 	$scope.ownershipTypes = OwnershipTypes;
 	$scope.liabilityTypes = LiabilityTypes;
 	$scope.assetTypes = AssetTypes;
 	$scope.retirementTypes = RetirementTypes;
 
-	$scope.addSchool = function() {
-		$scope.student.schools.push($scope.currentSchool);
-		$scope.currentSchool = null;
+	$scope.addSchool = function(siblings) {
+		if (siblings === true) {
+			$scope.student.siblings.schools.push($scope.currentSibSchool);
+			$scope.currentSibSchool = null;
+		}
+		else {
+			$scope.student.schools.push($scope.currentSchool);
+			$scope.currentSchool = null;
+		}
+
 	};
 
-	$scope.updateSchool = function(school, index) {
-		$scope.currentSchool = school;
+	$scope.updateSchool = function(school, index, siblings) {
+		if (siblings === true) {
+			$scope.currentSibSchool = school;
+		}
+		else {
+			$scope.currentSchool = school;
+		}
 	};
 	
-	$scope.deleteSchool = function(index) {
-		$scope.student.schools.splice(index, 1);
+	$scope.deleteSchool = function(index, siblings) {
+		if (siblings) {
+			$scope.student.siblings.schools.splice(index, 1);
+		}
+		else {
+			$scope.student.schools.splice(index, 1);
+		}
 	};
+
 
 
 	$scope.addFamily = function() {
