@@ -2,122 +2,132 @@
 use Jyggen\Persona\Verifier;
 use Jyggen\Persona\Identity;
 
-
+// Set domain namespace for namespaced controllers
 $GmaControllers = "GMA\Controllers\\";
 
-App::singleton('persona.verifier', function($app, $endpoint){
-	$audience = sprintf('%s://%s:%u', Request::getScheme(), Request::getHost(), Request::getPort());
-	return (empty($endpoint)) ? new Verifier($audience) : new Verifier($audience, $endpoint);
+/**
+ * Setup application bindings for Persona
+ */
+App::singleton('persona.verifier', function ($app, $endpoint) {
+    $audience = sprintf('%s://%s:%u', Request::getScheme(), Request::getHost(), Request::getPort());
+    return (empty($endpoint)) ? new Verifier($audience) : new Verifier($audience, $endpoint);
 });
 
-App::bind('persona.identity', function($app, $assertion){
-	return new Identity($assertion);
+App::bind('persona.identity', function ($app, $assertion) {
+    return new Identity($assertion);
 });
 
-Route::get('/', function()
-{
-	if (App::environment() == 'production' && !Request::secure()) {
-		return Redirect::to('https://' . Request::getHost() . '/');
-	}
-	return View::make('hello');
+
+/**
+ * Begin Routing
+ */
+Route::get('/', function () {
+    if (App::environment() == 'production' && !Request::secure()) {
+        return Redirect::to('https://' . Request::getHost() . '/');
+    }
+    return View::make('hello');
 });
 
-// dd($GmaControllers . 'Accounts@getAll');
+/**
+ * Enforce HTTPS on all API routes in production
+ */
+Route::group(['before' => 'secure'], function () use ($GmaControllers) {
 
+    /**
+     * Provides college search for Typeahead
+     */
+    Route::post('colleges.json', ['uses' => 'CollegesController@findCollege']);
 
-Route::group(['before' => 'secure'], function() use ($GmaControllers) {
+    /**
+     * Persona - Verifies assertions made by Persona JS and returns the
+     * user account or creates it for them.
+     */
+    Route::post('persona/verify', ['uses' => 'AccountsController@personaVerify']);
 
-	/**
-	 * Provides college search for Typeahead
-	 */
-	Route::post('colleges.json', ['uses' => 'CollegesController@findCollege']);
+    /**
+     * Determines if the user has an existing session or not
+     */
+    Route::post('persona/status', ['uses' => 'AccountsController@personaStatus']);
 
-	/**
-	 * Persona - Verifies assertions made by Persona JS and returns the
-	 * user account or creates it for them.
-	 */
-	Route::post('persona/verify', ['uses' => 'AccountsController@personaVerify']);
+    /**
+     * Persona Logout - Removes user session
+     */
+    Route::post('persona/logout', ['uses' => 'AccountsController@personaLogout']);
 
-	/**
-	 * Determines if the user has an existing session or not
-	 */
-	Route::post('persona/status', ['uses' => 'AccountsController@personaStatus']);
+    /**
+     * Account registration
+     */
+    Route::post('accounts', ['uses' => 'AccountsController@register']);
 
-	/**
-	 * Persona Logout - Removes user session
-	 */
-	Route::post('persona/logout', ['uses' => 'AccountsController@personaLogout']);
+    /**
+     * Accounts (For Future Use)
+     */
+    // Route::get('accounts', ['uses' => $GmaControllers . 'AccountsController@showAll']);
+    // Route::get('accounts/{id}', ['uses' => $GmaControllers . 'AccountsController@show']);
+    // Route::put('accounts/{id}', ['uses' => $GmaControllers . 'AccountsController@update']);
+    // Route::delete('accounts/{id}', ['uses' => $GmaControllers . 'AccountsController@delete']);
 
-	/**
-	 * Account registration
-	 */
-	Route::get('accounts', ['uses' => $GmaControllers . 'Accounts@show']);
-	Route::post('accounts', ['uses' => 'AccountsController@register']);
+    /**
+     * Drafts REST Routes
+     */
+    Route::get('drafts', ['before' => 'validUser', 'uses' => 'DraftsController@all']);
+    Route::get('drafts/{id}', ['before' => 'validUser', 'uses' => 'DraftsController@show']);
+    Route::post('drafts', ['before' => 'validUser', 'uses' => 'DraftsController@create']);
+    Route::delete('drafts/{id}', ['before' => 'validUser', 'uses' => 'DraftsController@delete']);
 
-	/**
-	 * Drafts REST Routes
-	 */
-	Route::get('drafts', ['before' => 'validUser', 'uses' => 'DraftsController@all']);
-	Route::get('drafts/{id}', ['before' => 'validUser', 'uses' => 'DraftsController@show']);
-	Route::post('drafts', ['before' => 'validUser', 'uses' => 'DraftsController@create']);
-	Route::delete('drafts/{id}', ['before' => 'validUser', 'uses' => 'DraftsController@delete']);
+    /**
+     * Profiles REST Routes
+     */
+    Route::post('profiles', ['before' => 'validUser', 'uses' => 'ProfilesController@create']);
+    Route::get('profiles/{id}', ['before' => 'validUser', 'uses' => 'ProfilesController@get']);
+    Route::put('profiles/{id}', ['before' => 'validUser', 'uses' => 'ProfilesController@update']);
 
-	/**
-	 * Profiles REST Routes
-	 */
-	Route::post('profiles', ['before' => 'validUser', 'uses' => 'ProfilesController@create']);
-	Route::get('profiles/{id}', ['before' => 'validUser', 'uses' => 'ProfilesController@get']);
-	Route::put('profiles/{id}', ['before' => 'validUser', 'uses' => 'ProfilesController@update']);
+    /**
+     * Begin admin routes
+     * (Prefixed by /admin)
+     */
+    Route::group(['prefix' => 'admin', 'before' => 'validUser|adminUser'], function () use ($GmaControllers) {
+        Route::get('profiles', ['uses' => $GmaControllers . 'Admin\ProfileController@all']);
+        Route::post('profiles', ['uses' => 'AdminProfilesController@create']);
+        Route::put('profiles', ['uses' => 'AdminProfilesController@save']);
+        
+        Route::get('profiles/{id}', ['uses' => 'AdminProfilesController@view']);
 
+        
+        Route::get('prospects', ['uses' => $GmaControllers . 'Admin\ProspectController@all']);
+        Route::get('prospects/{id}', ['uses' => 'AdminProspectsController@get']);
+        Route::put('prospects/{id}', ['uses' => 'AdminProspectsController@update']);
+        Route::delete('prospects/{id}', ['uses' => 'AdminProspectsController@delete']);
 
+        Route::get('clients', ['uses' => 'AdminClientsController@all']);
+        Route::get('clients/{id}', ['uses' => 'AdminClientsController@get']);
+        Route::put('clients/{id}', ['uses' => 'AdminClientsController@update']);
+        Route::delete('clients/{id}', ['uses' => 'AdminClientsController@delete']);
 
+        Route::get('drafts', ['uses' => $GmaControllers . 'Admin\DraftController@all']);
+        Route::post('drafts', ['uses' => 'AdminDraftsController@createDraft']);
+        Route::get('drafts/{id}', ['uses' => 'AdminDraftsController@draft']);
+        Route::put('drafts', ['uses' => 'AdminDraftsController@saveDraftByInput']);
+        Route::put('drafts/{id}', ['uses' => 'AdminDraftsController@saveDraft']);
+        Route::patch('drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'DraftsController@updateOwner']);
+        Route::delete('drafts/{id}', ['uses' => 'AdminDraftsController@deleteDraft']);
 
-	Route::group(['prefix' => 'admin', 'before' => 'validUser|adminUser'], function(){
-		Route::get('profiles', ['uses' => 'AdminProfilesController@all']);
-		Route::post('profiles', ['uses' => 'AdminProfilesController@create']);
-		Route::put('profiles', ['uses' => 'AdminProfilesController@save']);
-		
-		Route::get('profiles/{id}', ['uses' => 'AdminProfilesController@view']);
+        Route::get('users', ['uses' => $GmaControllers . 'Admin\UserController@all']);
+        Route::get('users/{id}', ['uses' => 'AdminUsersController@user']);
+        Route::put('users/{id}', ['uses' => 'AdminUsersController@editUser']);
 
-		Route::get('prospects', ['uses' => 'AdminProspectsController@all']);
-		
-		Route::get('prospects/{id}', ['uses' => 'AdminProspectsController@get']);
-		Route::put('prospects/{id}', ['uses' => 'AdminProspectsController@update']);
-		Route::delete('prospects/{id}', ['uses' => 'AdminProspectsController@delete']);
+        Route::get('dl/{id}', function ($id) {
+            $profile = Profile::find($id);
+            $filename = $profile->name['last'] . '-' . $profile->name['first'] . '.csv';
+            $path = storage_path() . '/' . $filename;
 
-		Route::get('clients', ['uses' => 'AdminClientsController@all']);
-		
-		Route::get('clients/{id}', ['uses' => 'AdminClientsController@get']);
-		Route::put('clients/{id}', ['uses' => 'AdminClientsController@update']);
-		Route::delete('clients/{id}', ['uses' => 'AdminClientsController@delete']);
+            $export = new GMA\Data\Export\ExportCSV($profile, $path);
+            $export->export();
 
-		Route::get('drafts', ['uses' => 'AdminDraftsController@drafts']);
-		Route::post('drafts', ['uses' => 'AdminDraftsController@createDraft']);
-		Route::put('drafts', ['uses' => 'AdminDraftsController@saveDraftByInput']);
+            return Response::download($path);
+        });
 
-		Route::get('drafts/{id}', ['uses' => 'AdminDraftsController@draft']);
-		
-		Route::put('drafts/{id}', ['uses' => 'AdminDraftsController@saveDraft']);
-		Route::patch('drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'DraftsController@updateOwner']);
-		Route::delete('drafts/{id}', ['uses' => 'AdminDraftsController@deleteDraft']);
-
-		Route::get('users', ['uses' => 'AdminUsersController@users']);
-		
-		Route::get('users/{id}', ['uses' => 'AdminUsersController@user']);
-		Route::put('users/{id}', ['uses' => 'AdminUsersController@editUser']);
-
-		Route::get('dl/{id}', function($id){
-			$profile = Profile::find($id);
-			$filename = $profile->name['last'] . '-' . $profile->name['first'] . '.csv';
-			$path = storage_path() . '/' . $filename;
-
-			$export = new GMA\Data\Export\ExportCSV($profile, $path);
-			$export->export();
-
-			return Response::download($path);
-		});
-
-		Route::get('notify/moreinfo/{id}', ['uses' => 'NotifyController@moreInfo']);
-	});
+        Route::get('notify/moreinfo/{id}', ['uses' => 'NotifyController@moreInfo']);
+    });
 
 });

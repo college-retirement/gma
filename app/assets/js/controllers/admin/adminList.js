@@ -31,7 +31,7 @@ angular.module('gmaApp').controller('AdminListCtrl', function($scope, Persona, $
 
 	$scope.viewProfile = function(profile) {
 		$location.path('/admin/profiles/' + profile._id);
-	}
+	};
 
 	$scope.destroy = function(profile) {
 		if (!$scope.clients) {
@@ -44,5 +44,5 @@ angular.module('gmaApp').controller('AdminListCtrl', function($scope, Persona, $
 				});
 			}
 		}
-	}
+	};
 });

@@ -10,7 +10,7 @@ angular.module('gmaApp').config(['$routeProvider', '$httpProvider', function($ro
 		controller: "ProfileCtrl",
 		resolve: {
 			isDraft: function() {
-				return true
+				return true;
 			},
 			moreInfo: function() {
 				return false;
@@ -24,7 +24,7 @@ angular.module('gmaApp').config(['$routeProvider', '$httpProvider', function($ro
 		controller: "ProfileCtrl",
 		resolve: {
 			isDraft: function() {
-				return true
+				return true;
 			},
 			moreInfo: function() {
 				return true;
@@ -43,7 +43,7 @@ angular.module('gmaApp').config(['$routeProvider', '$httpProvider', function($ro
 		controller: "ProfileCtrl",
 		resolve: {
 			isDraft: function() {
-				return true
+				return true;
 			},
 			moreInfo: function() {
 				return false;
@@ -131,7 +131,7 @@ angular.module('gmaApp').controller("MainCtrl", function($rootScope, $scope, Per
 
 
 	$scope.draftDelete = function(draft) {
-		$http.delete('/drafts/' + draft['_id']).then(function(obj){
+		$http.delete('/drafts/' + draft._id).then(function(obj){
 			toastr.success("Draft deleted successfully.");
 			$http.get('/drafts').then(function(obj){
 				$scope.drafts = obj.data.drafts;

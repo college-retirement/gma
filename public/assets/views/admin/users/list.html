@@ -11,19 +11,38 @@
 	<table class="table-striped table">
 		<thead>
 			<tr>
-				<th>User Name</th>	
+				<th ng-click="changeSort('name.first')" ng-dblclick="clearSort('name.first')">
+					First Name
+					<div class="sort">
+						<i ng-class="sortClass('name.first')"></i>
+					</div>
+				</th>	
+				<th ng-click="changeSort('name.last')" ng-dblclick="clearSort('name.last')">
+					Last Name
+					<div class="sort">
+						<i ng-class="sortClass('name.last')"></i>
+					</div>
+				</th>
 				<th>Email Address</th>
 				<th>Role</th>
 				<th>Drafts</th>
 				<th>Profiles</th>
-				<th>Created</th>
+				<th ng-click="changeSort('created_at')" ng-dblclick="clearSort('created_at')">
+					Created
+					<div class="sort">
+						<i ng-class="sortClass('created_at')"></i>
+					</div>
+				</th>
 				<th></th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="user in users" ng-dblclick="viewUser(user)">
 				<td>
-					{{user.name}}
+					{{user.name.first}}
+				</td>
+				<td>
+					{{user.name.last}}
 				</td>
 				<td>
 					{{user.email}}

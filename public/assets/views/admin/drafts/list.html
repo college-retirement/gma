@@ -11,24 +11,62 @@
 	<table class="table-striped table">
 		<thead>
 			<tr>
-				<th>User Name</th>	
+				<th ng-click="changeSort('user.name.last')" ng-dblclick="clearSort('user.name.last')">User Last
+					<div class="sort">
+						<i ng-class="sortClass('user.name.last')"></i>
+					</div>
+				</th>
+				<th ng-click="changeSort('user.name.first')" ng-dblclick="clearSort('user.name.first')">
+					User First
+					<div class="sort">
+						<i ng-class="sortClass('user.name.first')"></i>
+					</div>
+				</th>
 				<th>Role</th>
-				<th>Profile For</th>
-				<th>Created</th>
-				<th>Updated</th>
+				<th ng-click="changeSort('name.last')" ng-dblclick="clearSort('name.last')">
+					Student Last
+					<div class="sort">
+						<i ng-class="sortClass('name.last')"></i>
+					</div>
+				</th>
+				<th ng-click="changeSort('name.first')" ng-dblclick="clearSort('name.last')">
+					Student First
+					<div class="sort">
+						<i ng-class="sortClass('name.first')"></i>
+					</div>
+				</th>
+				<th ng-click="changeSort('created_at')" ng-dblclick="clearSort('created_at')">
+					Created
+					<div class="sort">
+						<i ng-class="sortClass('created_at')"></i>
+					</div>
+				</th>
+				<th ng-click="changeSort('updated_at')" ng-dblclick="clearSort('updated_at')">
+					Updated
+					<div class="sort">
+						<i ng-class="sortClass('updated_at')"></i>
+					</div>
+				</th>
 				<th></th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="profile in profiles" ng-dblclick="viewDraft(profile)">
 				<td>
-					{{profile.user.name}}
+					{{profile.user.name.last}}
+				</td>
+				<td>
+					{{profile.user.name.first}}
 				</td>
 				<td>
 					{{profile.user.role}}
 				</td>
 				<td>
-					{{profile.name.first}} {{profile.name.last}}
+					 {{profile.name.last}}
+				</td>
+				<td>
+					{{profile.name.first}}
+				</td>
 				</td>
 				<td>
 					{{profile.created | date}}

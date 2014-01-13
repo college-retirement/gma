@@ -4,8 +4,8 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
-		"laravel/framework": "4.0.*",
-		"jenssegers/mongodb": "dev-master",
+		"laravel/framework": "4.0.10",
+		"jenssegers/mongodb": "1.0.8",
 		"danielmewes/php-rql": "dev-master",
 		"jyggen/persona": "1.0.*",
 		"trea/rest": "dev-master",

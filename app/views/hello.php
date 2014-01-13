@@ -41,7 +41,7 @@
 		    	<ul class="nav navbar-nav navbar-right" ng-cloak ng-hide="getUser() == false">
 		    		<li class="dropdown">
 		    			<a class="dropdown-toggle" data-toggle="dropdown">
-		    				Logged in as {{getUser().name}}
+		    				Logged in as {{getUser().name.first}} {{getUser().name.last}}
 		    				<b class="caret"></b>
 		    			</a>
 		    			<ul class="dropdown-menu">
