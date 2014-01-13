@@ -1,0 +1,18 @@
+<?php namespace GMA\Controllers\Admin;
+
+use GMA\Controllers\Base;
+use GMA\Data\Models\Draft;
+use \Rest;
+
+class DraftController extends Base
+{
+    public function all()
+    {
+        if ($this->isSorting()) {
+            $query = Draft::with('user')->withSortables($this->sortableColumns())->paginate(20);
+            return Rest::okay($query);
+        } else {
+            return Rest::okay(Draft::with('user')->paginate(20));
+        }
+    }
+}
