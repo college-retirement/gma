@@ -27,6 +27,7 @@ angular.module('gmaApp').controller('AdminUserListCtrl', function($scope, $locat
 				$scope.users = obj.data.result;
 				$scope.pagination = obj.data.pagination;
 			}
+			toastr.clear();
 		});
 	};
 

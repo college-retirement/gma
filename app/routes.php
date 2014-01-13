@@ -2,6 +2,9 @@
 use Jyggen\Persona\Verifier;
 use Jyggen\Persona\Identity;
 
+
+$GmaControllers = "GMA\Controllers\\";
+
 App::singleton('persona.verifier', function($app, $endpoint){
 	$audience = sprintf('%s://%s:%u', Request::getScheme(), Request::getHost(), Request::getPort());
 	return (empty($endpoint)) ? new Verifier($audience) : new Verifier($audience, $endpoint);
@@ -19,8 +22,10 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
+// dd($GmaControllers . 'Accounts@getAll');
 
-Route::group(['before' => 'secure'], function(){
+
+Route::group(['before' => 'secure'], function() use ($GmaControllers) {
 
 	/**
 	 * Provides college search for Typeahead
@@ -46,6 +51,7 @@ Route::group(['before' => 'secure'], function(){
 	/**
 	 * Account registration
 	 */
+	Route::get('accounts', ['uses' => $GmaControllers . 'Accounts@show']);
 	Route::post('accounts', ['uses' => 'AccountsController@register']);
 
 	/**
@@ -112,16 +118,6 @@ Route::group(['before' => 'secure'], function(){
 		});
 
 		Route::get('notify/moreinfo/{id}', ['uses' => 'NotifyController@moreInfo']);
-	});
-
-
-	Route::any('git/CJPapwjQaeM7mGk', function(){
-		if (Artisan::call('deploy') == 0) {
-			return Rest::okay(null);
-		}
-		else {
-			return Rest::conflict();
-		}
 	});
 
 });
