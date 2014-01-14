@@ -11,6 +11,7 @@ angular.module('gmaApp').controller('AdminDraftListCtrl', function($scope, Perso
 		'user.name.first': false,
 		'name.last': false,
 		'name.first': false,
+		'hsGrad': false,
 		'created_at': false,
 		'updated_at': false
 	};

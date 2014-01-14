@@ -35,6 +35,12 @@
 						<i ng-class="sortClass('name.first')"></i>
 					</div>
 				</th>
+				<th ng-click="changeSort('hsGrad')" ng-dblclick="clearSort('hsGrad')">
+					HS Grad Yr
+					<div class="sort">
+						<i ng-class="sortClass('hsGrad')"></i>
+					</div>
+				</th>
 				<th ng-click="changeSort('created_at')" ng-dblclick="clearSort('created_at')">
 					Created
 					<div class="sort">
@@ -67,6 +73,8 @@
 				<td>
 					{{profile.name.first}}
 				</td>
+				<td>
+					{{profile.hsGrad}}
 				</td>
 				<td>
 					{{profile.created | date}}
