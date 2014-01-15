@@ -38,6 +38,8 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
      */
     Route::post('colleges.json', ['uses' => 'CollegesController@findCollege']);
 
+    Route::get('colleges/{cb_id}', ['uses' => 'CollegesController@collegeInfo']);
+
     /**
      * Persona - Verifies assertions made by Persona JS and returns the
      * user account or creates it for them.

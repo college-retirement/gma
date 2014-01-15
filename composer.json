@@ -9,7 +9,8 @@
 		"danielmewes/php-rql": "dev-master",
 		"jyggen/persona": "1.0.*",
 		"trea/rest": "dev-master",
-		"keboola/csv": "1.0.*"
+		"keboola/csv": "1.0.*",
+		"guzzle/guzzle": "3.8.0"
 	},
 	"autoload": {
 		"classmap": [

@@ -1,4 +1,4 @@
-angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $route, $location, Persona, states, AssetTypes, OwnershipTypes, LiabilityTypes, RetirementTypes, moreInfo, profile, isDraft){
+angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $route, $location, Persona, states, AssetTypes, OwnershipTypes, LiabilityTypes, RetirementTypes, moreInfo, profile, isDraft, Colleges){
 	// Persona
 	Persona.status();
 	$scope.getUser = function() {
@@ -14,6 +14,11 @@ angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $rout
 			$scope.draftLoaded = true;
 		});
 	}
+
+	$scope.variableRequirements = {
+		'fafsa': false,
+		'css': false
+	};
 
 
 	// States for state selection
@@ -122,6 +127,7 @@ angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $rout
 		$scope.makeNew = false;
 	}
 
+
 	$scope.$watch('currentSchool', function(){
 		if ($scope.currentSchool != "" && typeof $scope.currentSchool !== "object") {
 			
@@ -146,14 +152,45 @@ angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $rout
 		}
 	});
 
+	$scope.checkRequirements = function() {
+		if ($scope.moreInfo === false) {
+			return;
+		}
+		for (var index in $scope.student.schools) {
+			var college = $scope.student.schools[index];
+			if (college.hasOwnProperty('finAid')) {
+				if (college.finAid.css_profile === true) {
+					$scope.variableRequirements.css = true;
+				}
+
+				if (college.finAid.fafsa === true) {
+					$scope.variableRequirements.fafsa = true;
+				}
+			}
+			else {
+				var school = Colleges.getSchool(college.cb_id);
+				school.then(function(obj){
+					college.finAid = obj.data.result.college.financial_aid.requirements;
+				});
+			}
+		}
+	};
+	
+	$scope.checkRequirements();
+
 	$scope.addSchool = function(siblings) {
 		if (siblings === true) {
 			$scope.student.siblings.schools.push($scope.currentSibSchool);
 			$scope.currentSibSchool = null;
 		}
 		else {
-			$scope.student.schools.push($scope.currentSchool);
-			$scope.currentSchool = null;
+			var school = Colleges.getSchool($scope.currentSchool.cb_id);
+			school.then(function(obj){
+				$scope.currentSchool.finAid = obj.data.result.college.financial_aid.requirements;
+				$scope.student.schools.push($scope.currentSchool);
+				$scope.checkRequirements();
+				$scope.currentSchool = null;
+			});
 		}
 
 	};
@@ -183,7 +220,7 @@ angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $rout
 
 	$scope.deleteFamily = function(index) {
 		$scope.student.family.members.splice(index, 1);
-	}
+	};
 
 	$scope.addProperty = function() {
 		$scope.student.family.realEstate.push({});
@@ -191,7 +228,7 @@ angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $rout
 
 	$scope.deleteProperty = function(index) {
 		$scope.student.family.realEstate.splice(index, 1);
-	}
+	};
 
 	$scope.addAsset = function() {
 		$scope.student.family.assets.push({});
@@ -199,7 +236,7 @@ angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $rout
 
 	$scope.deleteAsset = function(index) {
 		$scope.student.family.assets.splice(index, 1);
-	}
+	};
 
 	$scope.addLiability = function() {
 		$scope.student.family.liabilities.push({});
