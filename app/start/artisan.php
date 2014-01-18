@@ -15,6 +15,6 @@ Artisan::add(new ExportRecordsCommand());
 
 Artisan::add(new Deploy());
 
-Artisan::add(new GetCollegeFinAid());
+// Artisan::add(new GetCollegeFinAid());
 
 Artisan::add(new CheckCollegeFinAid());
