@@ -11,11 +11,13 @@ class Draft extends SortableModel
     public $timestamps = true;
     public $appends = array('created', 'updated');
 
-    function user() {
+    public function user()
+    {
         return $this->belongsTo('User');
     }
 
-    function getCreatedAttribute() {
+    public function getCreatedAttribute()
+    {
         if (array_key_exists('created_at', $this->attributes)) {
             if (is_string($this->attributes['created_at'])) {
                 $dt = new DateTime($this->attributes['created_at']);
@@ -29,7 +31,8 @@ class Draft extends SortableModel
         }
     }
 
-    function getUpdatedAttribute() {
+    public function getUpdatedAttribute()
+    {
         if (array_key_exists('updated_at', $this->attributes)) {
             if (is_string($this->attributes['updated_at'])) {
                 $dt = new DateTime($this->attributes['updated_at']);
@@ -40,7 +43,7 @@ class Draft extends SortableModel
                 $dt->setTimestamp($this->attributes['updated_at']->sec);
                 return $dt->format('c');
             }
-        }   
+        }
     }
 
     public function getStrongholdAttribute($value)

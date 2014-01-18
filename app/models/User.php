@@ -4,7 +4,9 @@ use Jenssegers\Mongodb\Model as Eloquent;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class User extends Eloquent implements UserInterface, RemindableInterface
+use GMA\Data\Models\SortableModel;
+
+class User extends SortableModel implements UserInterface, RemindableInterface
 {
 
     /**

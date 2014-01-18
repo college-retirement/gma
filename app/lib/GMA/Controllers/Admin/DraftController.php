@@ -9,7 +9,10 @@ class DraftController extends Base
     public function all()
     {
         if ($this->isSorting()) {
-            $query = Draft::with('user')->withSortables($this->sortableColumns())->paginate(20);
+            $user = ['user' => function ($query) {
+                    $query->withSortables($this->sortableSubColumns('user'));
+            }];
+            $query = Draft::with($user)->withSortables($this->sortableColumns())->paginate(20);
             return Rest::okay($query);
         } else {
             return Rest::okay(Draft::with('user')->paginate(20));

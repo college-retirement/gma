@@ -65,6 +65,49 @@ class Base extends Controller
         }
     }
 
+    public function sortableSubColumns($collection)
+    {
+        $sortableCols = [];
+
+        if (stristr($this->sort, ',')) {
+            // Multiple columns
+            
+            $sortables = explode(',', $this->sort);
+
+            foreach ($sortables as $sortable) {
+                if (stristr($sortable, '.')) {
+                    $sort_parts = explode(':', $sortable);
+                    $col_parts = explode('.', $sort_parts[0]);
+
+                    if ($col_parts[0] == $collection) {
+                        array_shift($col_parts);
+                        $sortableCols[] = [
+                            'column' => implode('.', $col_parts),
+                            'order' => $sort_parts[1]
+                        ];
+                    }
+
+                }
+            }
+        } else {
+            // Single column
+            if (stristr($this->sort, '.')) {
+                $sort_parts = explode(':', $this->sort);
+                $col_parts = explode('.', $sort_parts[0]);
+
+                if ($col_parts[0] == $collection) {
+                    array_shift($col_parts);
+                    $sortableCols[] = [
+                        'column' => implode('.', $col_parts),
+                        'order' => $sort_parts[1]
+                    ];
+                }
+            }
+        }
+        
+        return $sortableCols;
+    }
+
     private function parseOrder($order)
     {
         $order = strtoupper($order);

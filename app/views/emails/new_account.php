@@ -1,6 +1,6 @@
 A new user account has been created!
 <br><br>
-Name: <?=$user->name?><br>
+Name: <?=$user->full_name?><br>
 Email: <?=$user->email?><br>
 Role: <?=$user->role?>
 <br><br>
