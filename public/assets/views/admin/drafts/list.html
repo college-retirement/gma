@@ -41,6 +41,9 @@
 						<i ng-class="sortClass('hsGrad')"></i>
 					</div>
 				</th>
+				<th>
+					Profile Schools
+				</th>
 				<th ng-click="changeSort('created_at')" ng-dblclick="clearSort('created_at')">
 					Created
 					<div class="sort">
@@ -76,6 +79,8 @@
 				<td>
 					{{profile.hsGrad}}
 				</td>
+				<td>
+					<i class="fa" ng-class="{'icon-question-sign': (profile.has_profile_school === null), 'icon-ok-circle': (profile.has_profile_school === true), 'icon-ban-circle': (profile.has_profile_school === false)}"></i>
 				<td>
 					{{profile.created | date}}
 				</td>
