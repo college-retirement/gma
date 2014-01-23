@@ -101,7 +101,7 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
         Route::put('prospects/{id}', ['uses' => 'AdminProspectsController@update']);
         Route::delete('prospects/{id}', ['uses' => 'AdminProspectsController@delete']);
 
-        Route::get('clients', ['uses' => 'AdminClientsController@all']);
+        Route::get('clients', ['uses' => $GmaControllers . 'Admin\ClientController@all']);
         Route::get('clients/{id}', ['uses' => 'AdminClientsController@get']);
         Route::put('clients/{id}', ['uses' => 'AdminClientsController@update']);
         Route::delete('clients/{id}', ['uses' => 'AdminClientsController@delete']);

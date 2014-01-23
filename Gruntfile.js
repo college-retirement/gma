@@ -53,6 +53,11 @@ module.exports = function (Grunt) {
 				}
 			}
 		},
+		"shell": {
+			"dump": {
+				'command': 'composer dump-autoload'
+			}
+		},
 		"watch": {
 			'sass': {
 				'files': ['**/*.sass', '**/*.scss'],
@@ -80,6 +85,10 @@ module.exports = function (Grunt) {
 					'livereload': true
 				}
 			},
+			'composer': {
+				'files': ['app/lib/**/*.php'],
+				'tasks': ['shell:dump']
+			}
 			// 'test': {
 			// 	'files': 'app/tests/*.php',
 			// 	'tasks': ['phpunit']
@@ -94,6 +103,7 @@ module.exports = function (Grunt) {
 	Grunt.loadNpmTasks('grunt-contrib-concat');
 	Grunt.loadNpmTasks('grunt-contrib-clean');
 	Grunt.loadNpmTasks('grunt-notify');
+	Grunt.loadNpmTasks('grunt-shell');
 
 	Grunt.registerTask('dist', ['sass:dist', 'ngmin', 'uglify:dist', 'clean']);
 	Grunt.registerTask('default', ['sass:dev', 'ngmin', 'uglify:dev', 'clean']);

@@ -9,7 +9,7 @@ class Draft extends SortableModel
     protected $softDelete = true;
     protected $guarded = ['_id'];
     public $timestamps = true;
-    public $appends = array('created', 'updated');
+    public $appends = array('created', 'updated', 'has_profile_school');
 
     public function user()
     {
@@ -64,5 +64,35 @@ class Draft extends SortableModel
             $stronghold = new Stronghold($value);
         }
         return $stronghold->encryptAll()->toArray();
+    }
+
+    public function getHasProfileSchoolAttribute()
+    {
+        $profileSchools = null;
+
+        if (isset($this->attributes['schools'])) {
+            foreach ($this->attributes['schools'] as $school) {
+                if (isset($school['finAid'])) {
+                    if (isset($school['finAid']['css_profile'])) {
+                        if ($school['finAid']['css_profile'] === true) {
+                            $profileSchools = true;
+                        }
+                        else {
+                            $profileSchools = false;
+                        }
+                    }
+                    else {
+                        return null;
+                    }
+                }
+                else {
+                    return null;
+                }
+            }
+            return $profileSchools;
+        }
+        else {
+            return false;
+        }
     }
 }
