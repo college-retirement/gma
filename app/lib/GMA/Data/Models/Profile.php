@@ -9,10 +9,9 @@ class Profile extends SortableModel
     use OwnedByUser;
 
     protected $collection = "profiles";
-    protected $softDelete = true;
     protected $guarded = ['_id'];
     public $timestamps = true;
-    public $appends = array('created', 'updated');
+    public $appends = array('created', 'updated', 'has_profile_school');
     
     /**
      * Query Scopes
@@ -28,6 +27,9 @@ class Profile extends SortableModel
         return $query->where('prospect', false);
     }
 
+    public function user() {
+        return $this->belongsTo('User');
+    }
     /**
      * Accessors and Mutators
      */
@@ -59,6 +61,36 @@ class Profile extends SortableModel
                 $dt->setTimestamp($this->attributes['updated_at']->sec);
                 return $dt->format('c');
             }
+        }
+    }
+
+    public function getHasProfileSchoolAttribute()
+    {
+        $profileSchools = null;
+
+        if (isset($this->attributes['schools'])) {
+            foreach ($this->attributes['schools'] as $school) {
+                if (isset($school['finAid'])) {
+                    if (isset($school['finAid']['css_profile'])) {
+                        if ($school['finAid']['css_profile'] === true) {
+                            $profileSchools = true;
+                        }
+                        else {
+                            $profileSchools = false;
+                        }
+                    }
+                    else {
+                        return null;
+                    }
+                }
+                else {
+                    return null;
+                }
+            }
+            return $profileSchools;
+        }
+        else {
+            return false;
         }
     }
 }
