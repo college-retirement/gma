@@ -7,7 +7,7 @@
 			<a href="#/admin/users">Users</a>
 		</li>
 		<li class="active">
-			{{user.name}}
+			{{user.full_name}}
 		</li>
 	</ol>
 	<div class="pull-right btn-group" style="margin-right: 10px">
@@ -34,14 +34,14 @@
 			</ul>
 		</button>
 	</div>
-	<legend>{{user.name}}</legend>
+	<legend>{{user.full_name}}</legend>
 	<div class="row">
 		<div class="col-lg-6">
 			<legend class="smaller">Basic Information</legend>
 			<table class="table table-striped">
 				<tr>
 					<th>Name</th>
-					<td>{{user.name}}</td>
+					<td>{{user.full_name}}</td>
 				</tr>
 				<tr>
 					<th>Email Address</th>
