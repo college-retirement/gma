@@ -874,7 +874,11 @@
 								</select>
 							</td>
 							<td>
-								<input type="text" class="form-control" ng-disabled="student.school.current === false" ng-model="student.school.parentContribution">
+								<div class="input-group input-append input-prepend">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="form-control" ng-disabled="student.school.current === false" ng-model="student.school.parentContribution">
+									<span class="input-group-addon">.00</span>
+								</div>
 							</td>
 							<!-- <td> -->
 								<!-- <div class="input-group input-append input-prepend"> -->
@@ -902,7 +906,7 @@
 								</select>
 							</td>
 							<td>
-								<input type="text" class="form-control inline" ng-model="member.dob" ui-mask="99/99/9999">
+								<input type="text" class="form-control inline" ng-model="member.dob" ui-mask="99/99/9999" size="8">
 							</td>
 							<td>
 								<input type="checkbox" ng-model="member.student">
