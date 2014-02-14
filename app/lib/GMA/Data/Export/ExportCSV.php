@@ -488,7 +488,9 @@ class ExportCSV {
 				$amt = 0;
 
 				foreach ($this->siblings as $sib) {
-					$amt .= $sib['scholarships'];
+					if (array_key_exists('scholarships', $sib)) {
+						$amt .= $sib['scholarships'];
+					}
 				}
 			break;
 
