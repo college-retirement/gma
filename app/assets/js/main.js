@@ -24,7 +24,7 @@ angular.module('gmaApp').config(['$routeProvider', '$httpProvider', function($ro
 		controller: "ProfileCtrl",
 		resolve: {
 			isDraft: function() {
-				return true;
+				return false;
 			},
 			moreInfo: function() {
 				return true;
