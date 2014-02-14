@@ -80,9 +80,9 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
     /**
      * Profiles REST Routes
      */
-    Route::post('profiles', ['before' => 'validUser', 'uses' => 'ProfilesController@create']);
-    Route::get('profiles/{id}', ['before' => 'validUser', 'uses' => 'ProfilesController@get']);
-    Route::put('profiles/{id}', ['before' => 'validUser', 'uses' => 'ProfilesController@update']);
+    Route::post('profiles', ['before' => 'validUser', 'uses' => $GmaControllers . 'ProfileController@create']);
+    Route::get('profiles/{id}', ['before' => 'validUser', 'uses' => $GmaControllers . 'ProfileController@read']);
+    Route::put('profiles/{id}', ['before' => 'validUser', 'uses' => $GmaControllers . 'ProfileController@update']);
 
     /**
      * Begin admin routes

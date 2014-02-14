@@ -2,6 +2,7 @@
 
 use GMA\Data\Security\OwnedByUser;
 use GMA\Data\Models\Common\FormatTimestamps;
+use GMA\Data\Security\Stronghold;
 use \DateTime;
 
 class Profile extends SortableModel
@@ -74,23 +75,33 @@ class Profile extends SortableModel
                     if (isset($school['finAid']['css_profile'])) {
                         if ($school['finAid']['css_profile'] === true) {
                             $profileSchools = true;
-                        }
-                        else {
+                        } else {
                             $profileSchools = false;
                         }
-                    }
-                    else {
+                    } else {
                         return null;
                     }
-                }
-                else {
+                } else {
                     return null;
                 }
             }
             return $profileSchools;
-        }
-        else {
+        } else {
             return false;
         }
+    }
+
+    public function getStrongholdAttribute($value)
+    {
+        $box = new Stronghold($value);
+        return $box->decryptAll()->toArray();
+    }
+
+    public function setStrongholdAttribute($values)
+    {
+
+        $box = new Stronghold($values);
+        $encrypted = $box->encryptAll()->toArray();
+        $this->attributes['stronghold'] = $box->encryptAll()->toArray();
     }
 }

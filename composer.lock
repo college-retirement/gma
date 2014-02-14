@@ -248,16 +248,16 @@
         },
         {
             "name": "doctrine/collections",
-            "version": "v1.1",
+            "version": "v1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/collections.git",
-                "reference": "560f29c39cfcfbcd210e5d549d993a39d898b04b"
+                "reference": "b99c5c46c87126201899afe88ec490a25eedd6a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/collections/zipball/560f29c39cfcfbcd210e5d549d993a39d898b04b",
-                "reference": "560f29c39cfcfbcd210e5d549d993a39d898b04b",
+                "url": "https://api.github.com/repos/doctrine/collections/zipball/b99c5c46c87126201899afe88ec490a25eedd6a2",
+                "reference": "b99c5c46c87126201899afe88ec490a25eedd6a2",
                 "shasum": ""
             },
             "require": {
@@ -266,7 +266,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "1.2.x-dev"
                 }
             },
             "autoload": {
@@ -280,7 +280,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan H. Wage",
+                    "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -312,7 +312,7 @@
                 "collections",
                 "iterator"
             ],
-            "time": "2013-03-07 12:15:54"
+            "time": "2014-02-03 23:07:43"
         },
         {
             "name": "doctrine/common",
@@ -1208,20 +1208,20 @@
         },
         {
             "name": "patchwork/utf8",
-            "version": "v1.1.17",
+            "version": "v1.1.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
-                "reference": "1396fedf134f71d479236fce0833dc4c88079391"
+                "reference": "66a936cc633fe13378c91f81030d5193be968480"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/1396fedf134f71d479236fce0833dc4c88079391",
-                "reference": "1396fedf134f71d479236fce0833dc4c88079391",
+                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/66a936cc633fe13378c91f81030d5193be968480",
+                "reference": "66a936cc633fe13378c91f81030d5193be968480",
                 "shasum": ""
             },
             "require": {
-                "lib-pcre": ">=7.9",
+                "lib-pcre": ">=7.3",
                 "php": ">=5.3.0"
             },
             "suggest": {
@@ -1255,20 +1255,20 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2014-01-02 10:19:36"
+            "time": "2014-02-02 17:09:49"
         },
         {
             "name": "predis/predis",
-            "version": "v0.8.4",
+            "version": "v0.8.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nrk/predis.git",
-                "reference": "cb18d67b6ab6b8e567c1ab50fe999d1d624f9884"
+                "reference": "5f2eea628eb465d866ad2771927d83769c8f956c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nrk/predis/zipball/cb18d67b6ab6b8e567c1ab50fe999d1d624f9884",
-                "reference": "cb18d67b6ab6b8e567c1ab50fe999d1d624f9884",
+                "url": "https://api.github.com/repos/nrk/predis/zipball/5f2eea628eb465d866ad2771927d83769c8f956c",
+                "reference": "5f2eea628eb465d866ad2771927d83769c8f956c",
                 "shasum": ""
             },
             "require": {
@@ -1302,7 +1302,7 @@
                 "predis",
                 "redis"
             ],
-            "time": "2013-07-27 09:13:54"
+            "time": "2014-01-16 14:10:29"
         },
         {
             "name": "psr/log",
@@ -2094,12 +2094,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/trea/rest.git",
-                "reference": "f1ca81f675576a390ec8d102f535fa2b6331a354"
+                "reference": "35aa5519f8ee9d942e2f85341bafa5f137cc826a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/trea/rest/zipball/f1ca81f675576a390ec8d102f535fa2b6331a354",
-                "reference": "f1ca81f675576a390ec8d102f535fa2b6331a354",
+                "url": "https://api.github.com/repos/trea/rest/zipball/35aa5519f8ee9d942e2f85341bafa5f137cc826a",
+                "reference": "35aa5519f8ee9d942e2f85341bafa5f137cc826a",
                 "shasum": ""
             },
             "require": {
@@ -2124,7 +2124,7 @@
                 }
             ],
             "description": "Helpers for generating RESTful Responses in Laravel 4",
-            "time": "2014-01-09 13:11:10"
+            "time": "2014-02-07 09:58:59"
         }
     ],
     "packages-dev": [

@@ -109,7 +109,7 @@ class Stronghold
     {
         $value = Crypt::decrypt($value);
     }
-
+    
     protected function isEncrypted(&$value, $index)
     {
         if (is_string($value)) {
