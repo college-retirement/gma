@@ -225,52 +225,32 @@
 				<div class="form-group">
 					<label>Earned Income</label>
 					<div class="control tiny">
-						<div class="input-prepend input-append input-group">
-							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.income.earnedIncome" class="form-control" required>
-							<span class="input-group-addon">.00</span>
-						</div>
+						<div ng-model="student.income.earnedIncome" currency></div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Unearned Income</label>
 					<div class="control tiny">
-						<div class="input-prepend input-append input-group">
-							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.income.unearnedIncome" class="form-control" required>
-							<span class="input-group-addon">.00</span>
-						</div>
+						<div ng-model="student.income.unearnedIncome" currency></div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Income Tax Paid</label>
 					<div class="control tiny">
-						<div class="input-prepend input-append input-group">
-							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.income.taxPaid" class="form-control" required>
-							<span class="input-group-addon">.00</span>
-						</div>
+						<div ng-model="student.income.taxPaid" currency></div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Adjusted Gross Income</label>
 					<div class="control tiny">
-						<div class="input-prepend input-append input-group">
-							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.income.agi" class="form-control" required>
-							<span class="input-group-addon">.00</span>
-						</div>
+						<div currency ng-model="student.income.agi"></div>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label>Itemized Deductions</label>
 					<div class="control tiny">
-						<div class="input-prepend input-append input-group">
-							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.income.itemizedDeductions" class="form-control" required>
-							<span class="input-group-addon">.00</span>
-						</div>
+						<div currency="" ng-model="student.income.itemizedDeductions"></div>
 					</div>
 				</div>
 
@@ -278,21 +258,13 @@
 				<div class="form-group">
 					<label>Contribution to IRA / Tax Deferred Plans</label>
 					<div class="control tiny">
-						<div class="input-prepend input-append input-group">
-							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.income.iraContribution" class="form-control" required>
-							<span class="input-group-addon">.00</span>
-						</div>
+						<div currency="" ng-model="student.income.iraContribution"></div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Social Security Benefits</label>
 					<div class="control tiny">
-						<div class="input-prepend input-append input-group">
-							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.income.ssBenefits" class="form-control" required>
-							<span class="input-group-addon">.00</span>
-						</div>
+						<div currency="" ng-model="student.income.ssBenefits"></div>
 					</div>
 				</div>
 				
@@ -475,21 +447,13 @@
 				<div class="form-group">
 					<label>How much does it cost to run your household (monthly)?</label>
 					<div class="control tiny">
-						<div class="input-group input-prepend input-append">
-							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.family.monthlyHouseholdExpense" class="form-control" required>
-							<span class="input-group-addon">.00</span>
-						</div>
+						<div currency="" ng-model="student.family.monthlyHouseholdExpense"></div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>How much can you contribute to college (monthly)?</label>
 					<div class="control tiny">
-						<div class="input-group input-prepend input-append">
-							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.family.contributionAbility" class="form-control" required>
-							<span class="input-group-addon">.00</span>
-						</div>
+						<div currency="" ng-model="student.family.contributionAbility"></div>
 					</div>
 				</div>
 				<div class="form-group">
@@ -874,11 +838,7 @@
 								</select>
 							</td>
 							<td>
-								<div class="input-group input-append input-prepend">
-									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control" ng-disabled="student.school.current === false" ng-model="student.school.parentContribution">
-									<span class="input-group-addon">.00</span>
-								</div>
+								<div currency="" ng-disabled="student.school.current === false" ng-model="student.school.parentContribution"></div>
 							</td>
 							<!-- <td> -->
 								<!-- <div class="input-group input-append input-prepend"> -->
@@ -938,11 +898,7 @@
 								</select>
 							</td>
 							<td>
-								<div class="input-group input-append input-prepend">
-									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control inline" ng-disabled="member.student === false" ng-model="member.parentContribution">
-									<span class="input-group-addon">.00</span>
-								</div>
+								<div currency="" ng-model="member.parentContribution" ng-disabled="member.student === false"></div>
 							</td>
 							<!-- <td> -->
 								<!-- <div class="input-group input-append input-prepend"> -->
@@ -976,41 +932,25 @@
 					<div class="form-group">
 						<label>Current 2013 Earnings</label>
 						<div class="control tiny">
-							<div class="input-prepend input-append input-group">
-								<span class="input-group-addon">$</span>
-								<input type="text" ng-model="student.parents.income.father.current" class="form-control" required>
-								<span class="input-group-addon">.00</span>
-							</div>
+							<div currency ng-model="student.parents.income.father.current" ng-required="true"></div>
 						</div>
 					</div>
 					<div class="form-group">
 						<label>Anticipated 2014 Earnings</label>
 						<div class="control tiny">
-							<div class="input-prepend input-append input-group">
-								<span class="input-group-addon">$</span>
-								<input type="text" ng-model="student.parents.income.father.anticipated" class="form-control" required>
-								<span class="input-group-addon">.00</span>
-							</div>
+							<div currency="" ng-model="student.parents.income.father.anticipated" ng-required="true"></div>
 						</div>
 					</div>
 					<div class="form-group">
 						<label>Retirement Account Contributions</label>
 						<div class="control tiny">
-							<div class="input-prepend input-append input-group">
-								<span class="input-group-addon">$</span>
-								<input type="text" ng-model="student.parents.income.father.retirement" class="form-control" required>
-								<span class="input-group-addon">.00</span>
-							</div>
+							<div currency="" ng-model="student.parents.income.retirement" ng-required="true"></div>
 						</div>
 					</div>
 					<div class="form-group">
 						<label>Social Security Benefits</label>
 						<div class="control tiny">
-							<div class="input-prepend input-append input-group">
-								<span class="input-group-addon">$</span>
-								<input type="text" ng-model="student.parents.income.father.ssBenefits" class="form-control" required>
-								<span class="input-group-addon">.00</span>
-							</div>
+							<div currency="" ng-model="student.parents.income.father.ssBenefits" ng-required="true"></div>
 						</div>
 					</div>
 				</div>
@@ -1020,11 +960,7 @@
 					<div class="form-group">
 						<label>Current 2013 Earnings</label>
 						<div class="control tiny">
-							<div class="input-prepend input-append input-group">
-								<span class="input-group-addon">$</span>
-								<input type="text" ng-model="student.parents.income.mother.current" class="form-control" ng-required="student.parents.marital > 3 || student.livingArrangement =='Mother'">
-								<span class="input-group-addon">.00</span>
-							</div>
+							<div currency="" ng-model="student.parents.income.mother.current" ng-required="student.parents.marital > 3 || student.livingArrangement =='Mother'"></div>
 						</div>
 					</div>
 					<div class="form-group">
@@ -1107,51 +1043,31 @@
 				<div class="form-group">
 					<label>Other Taxable Income</label>
 					<div class="control tiny">
-						<div class="input-prepend input-append input-group">
-							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.combined.other" class="form-control" required>
-							<span class="input-group-addon">.00</span>
-						</div>
+						<div currency="" ng-model="student.parents.income.combined.other" ng-required="true"></div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Untaxed Income</label>
 					<div class="control tiny">
-						<div class="input-prepend input-append input-group">
-							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.combined.untaxed" class="form-control" required>
-							<span class="input-group-addon">.00</span>
-						</div>
+						<div currency="" ng-model="student.parents.income.combined.untaxed" ng-required="true"></div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Child Support Received</label>
 					<div class="control tiny">
-						<div class="input-prepend input-append input-group">
-							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.combined.childSupport.received" class="form-control" required>
-							<span class="input-group-addon">.00</span>
-						</div>
+						<div currency="" ng-model="student.parents.income.combined.childSupport.received" ng-required="true"></div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Child Support Paid</label>
 					<div class="control tiny">
-						<div class="input-prepend input-append input-group">
-							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.combined.childSupport.paid" class="form-control" required>
-							<span class="input-group-addon">.00</span>
-						</div>
+						<div currency="" ng-model="student.parents.income.combined.childSupport.paid" ng-required="true"></div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Housing Allowance</label>
 					<div class="control tiny">
-						<div class="input-prepend input-append input-group">
-							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.combined.housing" class="form-control" required>
-							<span class="input-group-addon">.00</span>
-						</div>
+						<div currency="" ng-model="student.parents.income.combined.housing" ng-required="true"></div>
 					</div>
 				</div>
 
@@ -1159,41 +1075,25 @@
 				<div class="form-group">
 					<label>Unreimbursed Medical/Dental Expenses</label>
 					<div class="control tiny">
-						<div class="input-prepend input-append input-group">
-							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.combined.medical" class="form-control" required>
-							<span class="input-group-addon">.00</span>
-						</div>
+						<div currency="" ng-model="student.parents.income.combined.medical" ng-required="true"></div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Itemized Deductions</label>
 					<div class="control tiny">
-						<div class="input-prepend input-append input-group">
-							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.combined.deductions" class="form-control" required>
-							<span class="input-group-addon">.00</span>
-						</div>
+						<div currency="" ng-model="student.parents.income.combined.deductions" ng-required="true"></div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Total Income Tax Paid</label>
 					<div class="control tiny">
-						<div class="input-prepend input-append input-group">
-							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.combined.taxPaid" class="form-control" required>
-							<span class="input-group-addon">.00</span>
-						</div>
+						<div currency="" ng-model="student.parents.income.combined.taxPaid" ng-required="true"></div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Adjusted Gross Income</label>
 					<div class="control tiny">
-						<div class="input-prepend input-append input-group">
-							<span class="input-group-addon">$</span>
-							<input type="text" ng-model="student.parents.income.combined.agi" class="form-control" required>
-							<span class="input-group-addon">.00</span>
-						</div>
+						<div currency="" ng-model="student.parents.income.combined.agi" ng-required="true"></div>
 					</div>
 				</div>
 
@@ -1211,11 +1111,7 @@
 					<div class="form-group">
 						<label>Monthly Rent Payment</label>
 						<div class="control tiny">
-							<div class="input-prepend input-append input-group">
-								<span class="input-group-addon">$</span>
-								<input type="text" ng-model="student.family.home.rent" class="form-control" ng-required="student.family.home.owned == false">
-								<span class="input-group-addon">.00</span>
-							</div>	
+							<div currency="" ng-model="student.family.home.rent" ng-required="student.family.home.owned == false"></div>
 						</div>
 					</div>
 				</div>
@@ -1223,21 +1119,13 @@
 					<div class="form-group">
 						<label>Purchase Price</label>
 						<div class="control tiny">
-							<div class="input-prepend input-append input-group">
-								<span class="input-group-addon">$</span>
-								<input type="text" ng-model="student.family.home.price" class="form-control" ng-required="student.family.home.owned == true">
-								<span class="input-group-addon">.00</span>
-							</div>	
+							<div currency="" ng-model="student.family.home.price" ng-required="student.family.home.owned"></div>
 						</div>
 					</div>
 					<div class="form-group">
 						<label>Current Market Value</label>
 						<div class="control tiny">
-							<div class="input-prepend input-append input-group">
-								<span class="input-group-addon">$</span>
-								<input type="text" ng-model="student.family.home.value" class="form-control" ng-required="student.family.home.owned == true">
-								<span class="input-group-addon">.00</span>
-							</div>	
+							<div currency="" ng-model="student.family.home.value" ng-required="student.family.home.owned"></div>
 						</div>
 					</div>
 					<div class="form-group">
@@ -1249,11 +1137,7 @@
 					<div class="form-group">
 						<label>Annual Real Estate Taxes</label>
 						<div class="control tiny">
-							<div class="input-prepend input-append input-group">
-								<span class="input-group-addon">$</span>
-								<input type="text" ng-model="student.family.home.propertyTax" class="form-control" ng-required="student.family.home.owned == true">
-								<span class="input-group-addon">.00</span>
-							</div>	
+							<div currency="" ng-model="student.family.home.propertyTax" ng-required="student.family.home.owned"></div>
 						</div>
 					</div>
 				</div>
@@ -1283,18 +1167,10 @@
 								</select>
 							</td>
 							<td>
-								<div class="input-prepend input-append input-group">
-									<span class="input-group-addon">$</span>
-									<input type="text" ng-model="property.marketValue" class="form-control" required>
-									<span class="input-group-addon">.00</span>
-								</div>	
+								<div currency="" ng-model="property.marketValue" ng-required="true"></div>
 							</td>
 							<td>
-								<div class="input-prepend input-append input-group">
-									<span class="input-group-addon">$</span>
-									<input type="text" ng-model="property.amountOwed" class="form-control" required>
-									<span class="input-group-addon">.00</span>
-								</div>	
+								<div currency="" ng-model="property.amountOwed" ng-required="true"></div>
 							</td>
 							<td>
 								<input type="text"  ng-model="property.purchaseYear" class="form-control" ui-mask="9999" required>
@@ -1340,11 +1216,7 @@
 								</select>
 							</td>
 							<td>
-								<div class="input-prepend input-append input-group">
-									<span class="input-group-addon">$</span>
-									<input type="text" ng-model="asset.value" class="form-control" required>
-									<span class="input-group-addon">.00</span>
-								</div>	
+								<div currency="" ng-model="asset.value" ng-required="true"></div>
 							</td>
 							<td>
 								<button class="btn btn-default" ng-click="deleteAsset($index)">
@@ -1389,18 +1261,10 @@
 								</select>
 							</td>
 							<td>
-								<div class="input-group input-prepend input-append">
-									<span class="input-group-addon">$</span>
-									<input type="text" ng-model="liability.payment" class="form-control" required>
-									<span class="input-group-addon">.00</span>
-								</div>
+								<div currency="" ng-model="liability.payment" ng-required="true"></div>
 							</td>
 							<td>
-								<div class="input-group input-prepend input-append">
-									<span class="input-group-addon">$</span>
-									<input type="text" ng-model="liability.balance" class="form-control" required>
-									<span class="input-group-addon">.00</span>
-								</div>
+								<div currency="" ng-model="liability.balance" ng-required="true"></div>
 							</td>
 							<td>
 								<button class="btn btn-default" ng-click="deleteLiability($index)">
@@ -1445,11 +1309,7 @@
 								</select>
 							</td>
 							<td>
-								<div class="input-group input-prepend input-append">
-									<span class="input-group-addon">$</span>
-									<input type="text" ng-model="asset.value" class="form-control" required>
-									<span class="input-group-addon">.00</span>
-								</div>	
+								<div currency="" ng-model="asset.value" ng-required="true"></div>
 							</td>
 							<td>
 								<button class="btn btn-default" ng-click="deleteRetirement($index)">
