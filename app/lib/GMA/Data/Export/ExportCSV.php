@@ -421,13 +421,13 @@ class ExportCSV {
 
 			case 'father_ei':
 				if ($pro['livingArrangement'] == 'Guardian') {
-					return $this->csvSafe($this->dot('guardian.income.earnedIncome'));
+					return $this->csvSafe($this->dot('guardian.income.current'));
 				}
-				return $this->csvSafe($this->dot('parents.income.father.earnedIncome'));
+				return $this->csvSafe($this->dot('parents.income.father.current'));
 			break;
 
 			case 'mother_ei':
-				return $this->csvSafe($this->dot('parents.income.mother.earnedIncome'));
+				return $this->csvSafe($this->dot('parents.income.mother.current'));
 			break;
 
 			case 'p_oti':
