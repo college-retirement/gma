@@ -23,8 +23,10 @@ class ExportCSV {
 	function getsiblings() {
 		$siblings = [];
 		foreach ($this->profile->family['members'] as $member) {
-			if ($member['relationship'] == 'sibling') {
-				$siblings[] = $member;
+			if (array_key_exists('relationship', $member)) {
+				if ($member['relationship'] == 'sibling') {
+					$siblings[] = $member;
+				}
 			}
 		}
 		return $siblings;
@@ -402,7 +404,7 @@ class ExportCSV {
 			break;
 
 			case 'st_ei':
-				return $this->dot('income.earnedIncome');
+				return $this->csvSafe($this->dot('income.earnedIncome'));
 			break;
 
 			case 'st_ui':
@@ -414,22 +416,22 @@ class ExportCSV {
 			break;
 
 			case 'st_agi':
-				return $this->dot('income.agi');
+				return $this->csvSafe($this->dot('income.agi'));
 			break;
 
 			case 'father_ei':
 				if ($pro['livingArrangement'] == 'Guardian') {
-					return $this->dot('guardian.income.earnedIncome');
+					return $this->csvSafe($this->dot('guardian.income.current'));
 				}
-				return $this->dot('parents.income.father.earnedIncome');
+				return $this->csvSafe($this->dot('parents.income.father.current'));
 			break;
 
 			case 'mother_ei':
-				return $this->dot('parents.income.mother.earnedIncome');
+				return $this->csvSafe($this->dot('parents.income.mother.current'));
 			break;
 
 			case 'p_oti':
-				return $this->dot('parents.income.combined.other');
+				return $this->csvSafe($this->dot('parents.income.combined.other'));
 			break;
 
 			case 'ira_contributions':
@@ -437,39 +439,39 @@ class ExportCSV {
 			break;
 
 			case 'retirement_contribution':
-				return $this->dot('guardian.income.retirement') + $this->dot('parents.income.father.retirement') + $this->dot('parents.income.mother.retirement');
+				return $this->csvSafe($this->dot('guardian.income.retirement')) + $this->csvSafe($this->dot('parents.income.father.retirement')) + $this->csvSafe($this->dot('parents.income.mother.retirement'));
 			break;
 
 			case 'p_agi':
-				return $this->dot('guardian.income.agi') + $this->dot('parents.income.combined.agi');
+				return $this->csvSafe($this->dot('guardian.income.agi')) + $this->csvSafe($this->dot('parents.income.combined.agi'));
 			break;
 
 			case 'itemized_deductions':
-				return $this->dot('guardian.income.deductions') + $this->dot('parents.income.combined.deductions');
+				return $this->csvSafe($this->dot('guardian.income.deductions')) + $this->csvSafe($this->dot('parents.income.combined.deductions'));
 			break;
 
 			case 'oui':
-				return $this->dot('parents.income.combined.deductions');
+				return $this->csvSafe($this->dot('parents.income.combined.deductions'));
 			break;
 
 			case 'total_tax':
-				return $this->dot('parents.income.combined.taxPaid');
+				return $this->csvSafe($this->dot('parents.income.combined.taxPaid'));
 			break;
 
 			case 'monthly_contribution':
-				return $this->dot('family.contributionAbility');
+				return $this->csvSafe($this->dot('family.contributionAbility'));
 			break;
 
 			case 'extra_tuition':
-				return $this->dot('school.tuition');
+				return $this->csvSafe($this->dot('school.tuition'));
 			break;
 
 			case 'st_p_cont':
-				return $this->dot('school.parentContribution');
+				return $this->csvSafe($this->dot('school.parentContribution'));
 			break;
 
 			case 'st_grants':
-				return $this->dot('school.scholarships');
+				return $this->csSafe($this->dot('school.scholarships'));
 			break;
 
 			case 'sib_p_cont':
@@ -477,11 +479,11 @@ class ExportCSV {
 
 				foreach ($this->siblings as $sib) {
 					if (array_key_exists('parentContribution', $sib)) {
-						$amt .= $sib['parentContribution'];
+						$amt .= $this->csvSafe($sib['parentContribution']);
 					}
 				}
 
-				return $amt;
+				return $this->csvSafe($amt);
 			break;
 
 			case 'sib_grants':
@@ -489,22 +491,22 @@ class ExportCSV {
 
 				foreach ($this->siblings as $sib) {
 					if (array_key_exists('scholarships', $sib)) {
-						$amt .= $sib['scholarships'];
+						$amt .= $this->csvSafe($sib['scholarships']);
 					}
 				}
 			break;
 
 			case 'cs_paid':
-				return $this->dot("parents.income.combined.childSupport.paid");
+				return $this->csvSafe($this->dot("parents.income.combined.childSupport.paid"));
 			break;
 
 			case 'cs_recd':
-				return $this->dot('parents.income.combined.childSupport.received');
+				return $this->csvSafe($this->dot('parents.income.combined.childSupport.received'));
 			break;
 
 
 			case 'purchase_price':
-				return $this->dot('family.home.price');
+				return $this->csvSafe($this->dot('family.home.price'));
 			break;
 
 			case 'purchase_year':
@@ -512,15 +514,15 @@ class ExportCSV {
 			break;
 
 			case 'present_value':
-				return $this->dot('family.home.value');
+				return $this->csvSafe($this->dot('family.home.value'));
 			break;
 
 			case 'real_estate':
 				$sum = 0;
 				foreach ($this->realEstate as $index => $val) {
-					$sum += $val['marketValue'];
+					$sum += $this->csvSafe($val['marketValue']);
 				}
-				return $sum;
+				return $this->csvSafe($sum);
 			break;
 
 			case 'p_ccs':
@@ -686,7 +688,7 @@ class ExportCSV {
 			break;
 
 			case 'monthlyExpense':
-				return $this->dot('family.monthlyHouseholdExpense');
+				return $this->csvSafe($this->dot('family.monthlyHouseholdExpense'));
 			break;
 
 			case 'fm_pay':
@@ -821,7 +823,7 @@ class ExportCSV {
 			break;
 
 			case 're_tax':
-				return $this->dot('family.home.propertyTax');
+				return $this->csvSafe($this->dot('family.home.propertyTax'));
 			break;
 
 			case 'home_ins':
@@ -865,14 +867,14 @@ class ExportCSV {
 		foreach ($this->assets as $asset) {
 			if ($asset['type'] == $type) {
 				if (!$student && $asset['owner'] != 'Student') {
-					$sum += $asset['value'];
+					$sum += $this->csvSafe($asset['value']);
 				}
 				elseif (!$student && $asset['owner'] == 'Student') {
-					$sum += $asset['value'];
+					$sum += $this->csvSafe($asset['value']);
 				}
 			}
 		} 
-		return $sum;
+		return $this->csvSafe($sum);
 	}
 
 	private function sumLiability($sub, $type) {
@@ -880,10 +882,10 @@ class ExportCSV {
 
 		foreach ($this->liabilities as $liability) {
 			if ($liability['type'] == $type) {
-				$sum += $liability[$sub];
+				$sum += $this->csvSafe($liability[$sub]);
 			}
 		}
-		return $sum;
+		return $this->csvSafe($sum);
 	}
 
 	private function sumRetirement($type, $owner) {
@@ -892,11 +894,24 @@ class ExportCSV {
 		foreach ($this->retirement as $asset) {
 			if ($asset['type'] == $type) {
 				if ($asset['owner'] == $owner) {
-					$sum += $asset['value'];
+					$sum += $this->csvSafe($asset['value']);
 				}
 			}
 		}
-		return $sum;
+		return $this->csvSafe($sum);
+	}
+
+	private function csvSafe ($input)
+	{
+		$input = str_replace(',', '', $input);
+		$input = str_replace('$', '', $input);
+
+		return (int) $this->digitsOnly($input);
+	}
+
+	private function digitsOnly($input)
+	{
+		return preg_replace('/\D/', '', $input);
 	}
 
 	function export() {
