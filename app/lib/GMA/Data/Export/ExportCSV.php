@@ -471,7 +471,7 @@ class ExportCSV {
 			break;
 
 			case 'st_grants':
-				return $this->csSafe($this->dot('school.scholarships'));
+				return $this->csvSafe($this->dot('school.scholarships'));
 			break;
 
 			case 'sib_p_cont':
