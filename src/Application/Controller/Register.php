@@ -10,6 +10,9 @@ class Register extends Controller\Base {
     protected $form;
 
     public function index() {
+        $this->template->setData([
+            'messages' => [],
+        ]);
         $this->template->setInnerView('register.php');
         $this->template->setData(['user' => $this->form->getUser()]);
         $this->response->setContent($this->template->render());

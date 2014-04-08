@@ -33,10 +33,9 @@
             </td>
         </tr>
 
-        <?php (isset($this->messages['password_confirm'])) ? $class = 'invalid' : $class = ''; ?>
         <tr>
-            <td class="label <?= $class ?>"><label>Enter Your Password Again</label></td>
-            <td class="control <?= $class ?>">
+            <td class="label"><label>Enter Your Password Again</label></td>
+            <td class="control">
                 <?= $this->input(['type' => 'password', 'class' => 'half', 'placeholder' => 'you password', 'name' => 'password_match']); ?>
             </td>
         </tr>

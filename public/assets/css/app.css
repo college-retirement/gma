@@ -1,83 +1,143 @@
-/****************************************************************************************************
- * HTML Elements
- ****************************************************************************************************/
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     text-align: center;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    border-bottom: 1px solid #dedede;
-    font-weight: 400;
-    padding-bottom: 5px;
-}
-
-h1 {
-    font-size: 30pt;
-}
-
-h2 {
-    font-size: 24pt;
-}
-
-h3 {
-    font-size: 16pt;
-}
-
-h4 {
-    font-size: 12pt;
-}
-
-h5 {
-    font-size: 6pt;
-}
-
-table {
-    width: 100%;
-}
-
-blockquote {
-    padding: 10px 20px;
-    margin: 0px 0px 20px;
-    border-left: 5px solid #EEE;
+    background: #FAFAFA;
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
     font-size: 11pt;
 }
 
-/****************************************************************************************************
- * Classes and IDs
- ****************************************************************************************************/
+div {
+    background: #FFFFFF;
+}
+
+#main {
+    clear: both;
+    margin: 0 auto;
+    width: 1100px;
+}
 
 #header {
-    background: #f6f6f6;
-    border: 1px solid #e1e1e1;
-    width: 1150px;
-    margin: auto;
-    clear: both;
+    border-bottom: 2px solid #BCBCBC;
+    position: relative;
+    text-align: left;
+    padding: 10px;
+
+}
+
+#logo {
+    display: inline-block;
+    padding: 10px 10px 0px 0px;
+
+}
+
+#logo img {
+    width: 180px;
+}
+
+#menu {
+    display: inline-block;
+    width: 874px;
+    font-size: 16pt;
+    font-family: "Arial Bold", Arial;
+}
+
+#account-menu {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 10px 10px 0px 0px;
+    text-align: right;
+    font-size: 10pt;
+    font-family: Arial;
+}
+
+#account-menu a {
+    font-weight: bold;
+}
+
+ul.menu-list {
+    margin: 0;
+    padding: 0;
+}
+
+ul.menu-list li {
+    display: inline-block;
+    position: relative;
+    padding: 0.4em;
+}
+
+ul.menu-list li a {
+    color: Black;
+    text-decoration: none;
+}
+
+#main {
     text-align: left;
 }
 
-#header .logo {
-    font-size: 18px;
-    height: 68px;
-}
-
-#header .logo img {
+.column {
+    padding: 15px;
     float: left;
-    clear: left;
-    height: 38px;
-    margin: 15px 0px;
-    padding-left: 15px;
 }
 
-#header .logo a:hover {
-    color: #5E5E5E;
+.size-60 {
+    width: 657px;
 }
 
-#header .logo a {
-    color: #777;
-    text-decoration: none;
-    line-height: 68px;
-    padding-left: 15px;
+.size-40 {
+    width: 437px;
+}
+
+.size-70 {
+    width: 767px;
+
+}
+
+.size-30 {
+    width: 327px;
+}
+
+.size-50 {
+    width: 547px;
+}
+
+.size-20 {
+    width: 217px;
+}
+
+.size-80 {
+    width: 877px;
+}
+
+h1, h2, h3, h4 {
+    padding: 0px 0px 4px 0px;
+    margin: 0px 0px 15px 0px;
+    font-weight: normal;
+}
+
+h1 {
+    font-size: 19pt;
+}
+
+h2 {
+    font-size: 15pt;
+}
+
+h3 {
+    font-size: 11pt;
+}
+
+h4 {
+    font-size: 8pt;
+}
+
+.underline {
+    border-bottom: 1px solid #BCBCBC;
 }
 
 .clearing {
@@ -85,37 +145,34 @@ blockquote {
     height: 1px;
 }
 
-.button {
-    color: #FFFFFF;
-    background-color: #428BCA;
-    border-color: #357E8D;
-    display: inline-block;
-    padding: 6px 12px;
-    margin-bottom: 0px;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 1.5;
+ul.inner-menu {
+    margin: 0;
+    padding: 0;
+    width: 170px;
+}
+
+ul.inner-menu li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
     text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    cursor: pointer;
-    border: 1px solid transparent;
-    border-radius: 4px;
+    border: 1px solid #B2B2B2;
+    background: #969696;
+}
+
+ul.inner-menu li a {
+    line-height: 25pt;
+    color: White;
     text-decoration: none;
+    display: block;
+    width: 100%;
 }
 
-.button:hover {
-    color: #FFF;
-    background-color: #3276B1;
-    border-color: #285E8E;
+ul.inner-menu li.active a {
+    background-color: #FFFFFF;
+    color: Black;
 }
 
-#container {
-    clear: both;
-    margin: auto;
-    text-align: left;
-    width: 1150px;
-}
 
 td.label {
     width: 33%;
