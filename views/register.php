@@ -4,11 +4,19 @@
 
     <blockquote>Welcome! Please create your account using this form. This information will help us to service your account. You'll need to enter your student's information, and create a username and password.</blockquote>
 
-    <h2 class="underline">Your Account Information</h2>
+    <h2>Your Account Information</h2>
 
-    <blockquote>Use your email address to create your username, and select a password. Your email address must be unique!</blockquote>
+    <blockquote>Please provide us with some information about yourself. We'll use your email address as a username as well as to contact you about your account, so please provide your very best email address!</blockquote>
 
     <form method="post" action="/register/post">
+
+    <div class="form-control">
+        <label>Your Name</label>
+        <?= $this->input(['class' => 'half', 'placeholder' => 'First Name', 'name' => 'account_first_name'], $this->user->first_name); ?>
+        <?= $this->input(['class' => 'half', 'placeholder' => 'Last Name', 'name' => 'account_last_name'], $this->user->last_name); ?>
+    </div>
+
+
 
     <div class="form-control">
         <label>Email Address</label> <?= $this->input(['class' => 'half', 'placeholder' => 'your@email.com', 'name' => 'email'], $this->user->email); ?>
@@ -31,15 +39,15 @@
         <div class="help">Are you signing up as a parent, a student or a guardian? Let us know, so that we can provide the correct services.</div>
     </div>
 
-    <h2 class="underline">Student's Information</h2>
+    <h2>Student's Information</h2>
 
-        <blockquote>Please give us a little bit of information about the student that this account is for.</blockquote>
+        <blockquote><p>All accounts must be associated with at least one student, so please provide us with student information here.</p><p>Have more than one student? Don't worry; you can create additional students later once you're logged in.</p></blockquote>
         <div class="form-control">
 
         <label>Legal Name</label>
-        <?= $this->input(['class' => 'third', 'placeholder' => 'First Name', 'name' => 'first_name'], $this->user->first_name); ?>
-        <?= $this->input(['class' => 'third', 'placeholder' => 'Middle Name', 'name' => 'middle_name'], $this->user->middle_name); ?>
-        <?= $this->input(['class' => 'third', 'placeholder' => 'Last Name', 'name' => 'last_name'], $this->user->last_name); ?>
+        <?= $this->input(['class' => 'third', 'placeholder' => 'First Name', 'name' => 'student_first_name'], $this->user->first_name); ?>
+        <?= $this->input(['class' => 'third', 'placeholder' => 'Middle Name', 'name' => 'student_middle_name'], $this->user->middle_name); ?>
+        <?= $this->input(['class' => 'third', 'placeholder' => 'Last Name', 'name' => 'student_last_name'], $this->user->last_name); ?>
  </div>
             <div class="form-control">
 

@@ -15,6 +15,12 @@ div {
     background: #FFFFFF;
 }
 
+blockquote {
+    padding: 10px 0px 10px 40px;
+    margin: 0px 0px 20px;
+    border-left: 5px solid #EEEEEE;
+}
+
 #main {
     clear: both;
     margin: 0 auto;
@@ -199,6 +205,13 @@ ul.inner-menu li.active a {
     margin-left: 400px;
 }
 
+.error {
+    color: red;
+    font-weight: bold;
+    clear: both;
+    padding: 0px 0px 5px 405px;
+}
+
 .form-actions {
     box-sizing: border-box;
     margin-top: 30px;
@@ -248,7 +261,8 @@ ul.inner-menu li.active a {
 .form-control input.half, .form-control select.half {
     display: inline-block;
     box-sizing: border-box !important;
-    width: 340px;
+    width: 333px;
+    margin: 1px;
 }
 
 .invalid {
