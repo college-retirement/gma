@@ -34,6 +34,7 @@
             <a href=""><img src="/assets/img/crs-logo.png" /></a>
         </div>
 
+        <?php if(isset($this->user)) { ?>
         <div id="menu">
             <ul class="menu-list">
                 <li><a href="">Profile</a></li>
@@ -49,6 +50,13 @@
                 <li><a href="">Log Out</a></li>
             </ul>
         </div>
+        <?php } else { ?>
+            <div id="account-menu">
+                <ul class="menu-list">
+                    <li><a href="">Log In</a></li>
+                </ul>
+            </div>
+        <?php } ?>
     </div>
 
     <div id="main">

@@ -145,6 +145,10 @@ h4 {
     height: 1px;
 }
 
+#container {
+    padding: 20px 10px;
+}
+
 ul.inner-menu {
     margin: 0;
     padding: 0;
@@ -173,22 +177,18 @@ ul.inner-menu li.active a {
     color: Black;
 }
 
-
-td.label {
-    width: 33%;
-    text-align: right;
-    padding: 15px 0px;
+.form-control {
+    margin: 10px 0px;
 }
 
-td.label label {
+
+.form-control label {
     font-size: 11pt;
     font-weight: bold;
     padding-right: 15px;
-}
-
-td.control {
-    width: 67%;
-    padding-left: 5px;
+    display: inline-block;
+    width: 400px;
+    text-align: right;
 }
 
 .help {
@@ -196,6 +196,7 @@ td.control {
     color: #737373;
     font-size: 11pt;
     padding: 5px;
+    margin-left: 400px;
 }
 
 .form-actions {
@@ -215,7 +216,7 @@ td.control {
  * FORM CONTROLS
  ****************************************************************************************************/
 
-td.control input, td.control select {
+.form-control input, .form-control select {
     display: block;
     width: 100%;
     height: 34px;
@@ -231,23 +232,23 @@ td.control input, td.control select {
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
 }
 
-td.control input:focus, td.control select:focus  {
+.form-control input:focus, .form-control select:focus  {
     border-color: #66AFE9;
     outline: 0px none;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(102, 175, 233, 0.6);
 }
 
-td.control input.third, td.control select.third {
+.form-control input.third, .form-control select.third {
     display: inline-block;
     box-sizing: border-box !important;
-    width: 32.8%;
-    margin: 0.05%;
+    width: 220px;
+    margin: 1px;
 }
 
-td.control input.half, td.control select.half {
+.form-control input.half, .form-control select.half {
     display: inline-block;
     box-sizing: border-box !important;
-    width: 50%;
+    width: 340px;
 }
 
 .invalid {
