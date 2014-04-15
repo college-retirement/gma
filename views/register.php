@@ -1,60 +1,56 @@
 <div id="container">
 
-    <h3>Register an Account</h3>
+    <h1 class="underline">Create an Account</h1>
 
-    <blockquote>Registering an account with College & Retirement Solutions will allow you to securely create student profiles for use by CRS staff to assist in servicing your account.</blockquote>
+    <blockquote>Welcome! Please create your account using this form. This information will help us to service your account. You'll need to enter your student's information, and create a username and password.</blockquote>
+
+    <h2 class="underline">Your Account Information</h2>
+
+    <blockquote>Use your email address to create your username, and select a password. Your email address must be unique!</blockquote>
 
     <form method="post" action="/register/post">
-    <table>
-        <tr>
-            <td class="label"><label>Legal Name</label></td>
-            <td class="control">
-                <?= $this->input(['class' => 'third', 'placeholder' => 'First Name', 'name' => 'first_name'], $this->user->first_name); ?>
-                <?= $this->input(['class' => 'third', 'placeholder' => 'Middle Name', 'name' => 'middle_name'], $this->user->middle_name); ?>
-                <?= $this->input(['class' => 'third', 'placeholder' => 'Last Name', 'name' => 'last_name'], $this->user->last_name); ?>
 
-            </td>
-        </tr>
-        <tr>
-            <td class="label"><label>Email Address</label></td>
-            <td class="control">
-                <?= $this->input(['class' => 'half', 'placeholder' => 'your@email.com', 'name' => 'email'], $this->user->email); ?>
-            </td>
-        </tr>
-        <tr>
-            <td class="label"></td>
-            <td class="control"><span class="help">You'll use this email to access your account, so make sure this address works properly.</span></td>
-        </tr>
+    <div class="form-control">
+        <label>Email Address</label> <?= $this->input(['class' => 'half', 'placeholder' => 'your@email.com', 'name' => 'email'], $this->user->email); ?>
+        <div class="help">You'll use this email to access your account, so make sure this address works properly.</div>
+    </div>
 
-        <tr>
-            <td class="label"><label>Choose a Password</label></td>
-            <td class="control">
-                <?= $this->input(['type' => 'password', 'class' => 'half', 'placeholder' => 'your password', 'name' => 'password']); ?>
-            </td>
-        </tr>
+    <div class="form-control">
+        <label>Choose a Password</label>
+        <?= $this->input(['type' => 'password', 'class' => 'half', 'placeholder' => 'your password', 'name' => 'password']); ?>
+    </div>
 
-        <tr>
-            <td class="label"><label>Enter Your Password Again</label></td>
-            <td class="control">
-                <?= $this->input(['type' => 'password', 'class' => 'half', 'placeholder' => 'you password', 'name' => 'password_match']); ?>
-            </td>
-        </tr>
+    <div class="form-control">
+        <label>Enter Your Password Again</label>
+        <?= $this->input(['type' => 'password', 'class' => 'half', 'placeholder' => 'you password', 'name' => 'password_match']); ?>
+    </div>
 
-        <tr>
-            <td class="label"><label>Primary Phone Number</label></td>
-            <td class="control">
-                <?= $this->input(['class' => 'third', 'placeholder' => '(___) ___-____', 'name' => 'primary_phone'], $this->user->primary_phone); ?>
-            </td>
-        </tr>
-        <tr>
-            <td class="label"><label>Gender</label></td>
-            <td class="control"><?= $this->select(['name' => 'gender', 'class' => 'half'], ['M' => 'Male', 'F' => 'Female'], $this->user->gender); ?></td>
-        </tr>
-        <tr>
-            <td class="label"><label>Account Role</label></td>
-            <td class="control"><?= $this->select(['name' => 'role', 'class' => 'half'], ['Student' => 'Student', 'Parent' => 'Parent', 'Guardian' => 'Guardian'], $this->user->role); ?></td>
-        </tr>
-    </table>
+    <div class="form-control">
+        <label>Account Role</label>
+        <?= $this->select(['name' => 'role', 'class' => 'half'], ['Student' => 'Student', 'Parent' => 'Parent', 'Guardian' => 'Guardian'], $this->user->role); ?>
+        <div class="help">Are you signing up as a parent, a student or a guardian? Let us know, so that we can provide the correct services.</div>
+    </div>
+
+    <h2 class="underline">Student's Information</h2>
+
+        <blockquote>Please give us a little bit of information about the student that this account is for.</blockquote>
+        <div class="form-control">
+
+        <label>Legal Name</label>
+        <?= $this->input(['class' => 'third', 'placeholder' => 'First Name', 'name' => 'first_name'], $this->user->first_name); ?>
+        <?= $this->input(['class' => 'third', 'placeholder' => 'Middle Name', 'name' => 'middle_name'], $this->user->middle_name); ?>
+        <?= $this->input(['class' => 'third', 'placeholder' => 'Last Name', 'name' => 'last_name'], $this->user->last_name); ?>
+ </div>
+            <div class="form-control">
+
+        <label>Primary Phone Number</label>
+        <?= $this->input(['class' => 'third', 'placeholder' => '(___) ___-____', 'name' => 'primary_phone'], $this->user->primary_phone); ?>
+</div>
+                <div class="form-control">
+
+        <label>Gender</label>
+        <?= $this->select(['name' => 'gender', 'class' => 'half'], ['M' => 'Male', 'F' => 'Female'], $this->user->gender); ?>
+       </div>
 
     <div class="form-actions">
         <?= $this->input(['class' => 'button', 'value' => 'Register', 'type' => 'submit']); ?>
