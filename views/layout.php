@@ -31,10 +31,10 @@
 <div id="main">
     <div id="header">
         <div id="logo">
-            <a href=""><img src="/assets/img/crs-logo.png" /></a>
+            <a href="/"><img src="/assets/img/crs-logo.png" border="0" /></a>
         </div>
 
-        <?php if(isset($this->user)) { ?>
+        <?php if(isset($this->auth_user)) { ?>
         <div id="menu">
             <ul class="menu-list">
                 <li><a href="">Profile</a></li>
