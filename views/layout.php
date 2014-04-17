@@ -47,13 +47,13 @@
             <ul class="menu-list">
                 <li>Logged in as Brandon Savage</li>
                 <li><a href="">My Account</a></li>
-                <li><a href="">Log Out</a></li>
+                <li><a href="/logout">Log Out</a></li>
             </ul>
         </div>
         <?php } else { ?>
             <div id="account-menu">
                 <ul class="menu-list">
-                    <li><a href="">Log In</a></li>
+                    <li><a href="/login">Log In</a></li>
                 </ul>
             </div>
         <?php } ?>

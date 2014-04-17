@@ -229,9 +229,7 @@ ul.inner-menu li.active a {
  * FORM CONTROLS
  ****************************************************************************************************/
 
-.form-control input, .form-control select {
-    display: block;
-    width: 100%;
+input, select {
     height: 34px;
     padding: 6px 12px;
     font-size: 14px;
@@ -243,6 +241,14 @@ ul.inner-menu li.active a {
     border-radius: 4px;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+}
+
+input[type="button"], input[type="submit"] {
+    color: #FFF;
+    background-color: #428BCA;
+    border-color: #357EBD;
+    display: block;
+    padding: 0px 20px 0px 20px;
 }
 
 .form-control input:focus, .form-control select:focus  {

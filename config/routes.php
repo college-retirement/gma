@@ -1,7 +1,7 @@
 <?php
 
 return array(
-    "dashboard" => [
+    "home" => [
         "path" => "/",
         "args" => ["values" => ['controller' => 'index', 'action' => 'index']]
     ],
@@ -14,5 +14,10 @@ return array(
     "register_submit" => [
         "path" => "/register/post",
         "args" => ["values" => ['controller' => 'register', 'action' => 'register']]
+    ],
+
+    "login" => [
+        "path" => "/login",
+        "args" => ["values" => ['controller' => 'user', 'action' => 'login']]
     ],
 );
