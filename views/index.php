@@ -13,7 +13,7 @@
 
             <p>Have you started filling out a profile? Click sign in to review your drafts.</p>
 
-            <a class="button" href="">Sign In</a>
+            <a class="button" href="/login">Sign In</a>
         </div>
         <div class="clearing"></div>
 

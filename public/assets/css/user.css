@@ -1,0 +1,39 @@
+#login-box {
+    position: relative;
+    border: 1px solid #BCBCBC;
+    border-radius: 5px;
+    margin: 30px 200px;
+    padding: 40px 20px 20px 20px;
+}
+
+#login-header {
+    position: absolute;
+    left: 40px;
+    top: -24px;
+    padding: 10px 20px;
+    font-family: "Arial Bold", Arial;
+    font-size: 16pt;
+    border: 1px solid #BCBCBC;
+    background: #BCBCBC;
+    border-radius: 5px;
+}
+
+.user-form-control {
+    margin: 5px 0px;
+}
+
+.user-form-control label {
+    display: inline-block;
+    width: 200px;
+    font-weight: bold;
+    text-align: right;
+    padding-right: 5px;
+}
+
+.user-form-control input {
+    width: 430px;
+}
+
+.no-label {
+    margin-left: 204px;
+}
