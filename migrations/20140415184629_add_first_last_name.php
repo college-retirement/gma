@@ -15,8 +15,8 @@ class AddFirstLastName extends AbstractMigration
     public function change()
     {
         $table = $this->table('users');
-        $table->addColumn('first_name', 'string', array('default' => ' '))
-              ->addColumn('last_name', 'string', array('default' => ' '))
+        $table->addColumn('first_name', 'string', array('null' => true))
+              ->addColumn('last_name', 'string', array('null' => true))
               ->save();
     }
 

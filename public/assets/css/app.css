@@ -1,3 +1,7 @@
+/****************************************************************************************************
+ * HTML Tags
+ ****************************************************************************************************/
+
 * {
     box-sizing: border-box;
 }
@@ -20,6 +24,32 @@ blockquote {
     margin: 0px 0px 20px;
     border-left: 5px solid #EEEEEE;
 }
+
+h1, h2, h3, h4 {
+    padding: 0px 0px 4px 0px;
+    margin: 0px 0px 15px 0px;
+    font-weight: normal;
+}
+
+h1 {
+    font-size: 19pt;
+}
+
+h2 {
+    font-size: 15pt;
+}
+
+h3 {
+    font-size: 11pt;
+}
+
+h4 {
+    font-size: 8pt;
+}
+
+/****************************************************************************************************
+ * Page Layout
+ ****************************************************************************************************/
 
 #main {
     clear: both;
@@ -66,6 +96,51 @@ blockquote {
     font-weight: bold;
 }
 
+#container {
+    padding: 20px 10px;
+}
+
+#main {
+    text-align: left;
+}
+
+.column {
+    padding: 15px;
+    float: left;
+}
+
+.column .size-20 {
+    width: 217px;
+}
+
+.column .size-30 {
+    width: 327px;
+}
+
+.column .size-40 {
+    width: 437px;
+}
+
+.column .size-50 {
+    width: 547px;
+}
+
+.column .size-60 {
+    width: 657px;
+}
+
+.column .size-70 {
+    width: 767px;
+}
+
+.column .size-80 {
+    width: 877px;
+}
+
+/****************************************************************************************************
+ * Menu Layout
+ ****************************************************************************************************/
+
 ul.menu-list {
     margin: 0;
     padding: 0;
@@ -80,79 +155,6 @@ ul.menu-list li {
 ul.menu-list li a {
     color: Black;
     text-decoration: none;
-}
-
-#main {
-    text-align: left;
-}
-
-.column {
-    padding: 15px;
-    float: left;
-}
-
-.size-60 {
-    width: 657px;
-}
-
-.size-40 {
-    width: 437px;
-}
-
-.size-70 {
-    width: 767px;
-
-}
-
-.size-30 {
-    width: 327px;
-}
-
-.size-50 {
-    width: 547px;
-}
-
-.size-20 {
-    width: 217px;
-}
-
-.size-80 {
-    width: 877px;
-}
-
-h1, h2, h3, h4 {
-    padding: 0px 0px 4px 0px;
-    margin: 0px 0px 15px 0px;
-    font-weight: normal;
-}
-
-h1 {
-    font-size: 19pt;
-}
-
-h2 {
-    font-size: 15pt;
-}
-
-h3 {
-    font-size: 11pt;
-}
-
-h4 {
-    font-size: 8pt;
-}
-
-.underline {
-    border-bottom: 1px solid #BCBCBC;
-}
-
-.clearing {
-    clear: both;
-    height: 1px;
-}
-
-#container {
-    padding: 20px 10px;
 }
 
 ul.inner-menu {
@@ -182,6 +184,10 @@ ul.inner-menu li.active a {
     background-color: #FFFFFF;
     color: Black;
 }
+
+/****************************************************************************************************
+ * FORM CONTROLS
+ ****************************************************************************************************/
 
 .form-control {
     margin: 10px 0px;
@@ -224,10 +230,6 @@ ul.inner-menu li.active a {
 .form-actions .button {
     padding: 6px 40px;
 }
-
-/****************************************************************************************************
- * FORM CONTROLS
- ****************************************************************************************************/
 
 input, select {
     height: 34px;
@@ -274,4 +276,17 @@ input[type="button"], input[type="submit"] {
 .invalid {
     border-color: #B94A48 !important;
     color: #B94A48;
+}
+
+/****************************************************************************************************
+ * Misc Styles
+ ****************************************************************************************************/
+
+.underline {
+    border-bottom: 1px solid #BCBCBC;
+}
+
+.clearing {
+    clear: both;
+    height: 1px;
 }
