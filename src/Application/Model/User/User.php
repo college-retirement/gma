@@ -25,4 +25,8 @@ class User extends ModusUser\User {
     public function setAdmin($admin = true) {
         $this->is_admin = $admin;
     }
+    
+    public function getData(){
+    	return get_object_vars($this);
+    }
 }

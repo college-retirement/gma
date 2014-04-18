@@ -12,8 +12,8 @@
 
     <div class="form-control">
         <label>Your Name</label>
-        <?= $this->input(['class' => 'half', 'placeholder' => 'First Name', 'name' => 'account_first_name'], $this->user->first_name); ?>
-        <?= $this->input(['class' => 'half', 'placeholder' => 'Last Name', 'name' => 'account_last_name'], $this->user->last_name); ?>
+        <?= $this->input(['class' => 'half', 'placeholder' => 'First Name', 'name' => 'first_name'], $this->user->first_name); ?>
+        <?= $this->input(['class' => 'half', 'placeholder' => 'Last Name', 'name' => 'last_name'], $this->user->last_name); ?>
     </div>
 
 
@@ -30,7 +30,7 @@
 
     <div class="form-control">
         <label>Enter Your Password Again</label>
-        <?= $this->input(['type' => 'password', 'class' => 'half', 'placeholder' => 'you password', 'name' => 'password_match']); ?>
+        <?= $this->input(['type' => 'password', 'class' => 'half', 'placeholder' => 'you password', 'name' => 'password_confirm']); ?>
     </div>
 
     <div class="form-control">
@@ -45,19 +45,19 @@
         <div class="form-control">
 
         <label>Legal Name</label>
-        <?= $this->input(['class' => 'third', 'placeholder' => 'First Name', 'name' => 'student_first_name'], $this->user->first_name); ?>
-        <?= $this->input(['class' => 'third', 'placeholder' => 'Middle Name', 'name' => 'student_middle_name'], $this->user->middle_name); ?>
-        <?= $this->input(['class' => 'third', 'placeholder' => 'Last Name', 'name' => 'student_last_name'], $this->user->last_name); ?>
+        <?= $this->input(['class' => 'third', 'placeholder' => 'First Name', 'name' => 'student[first_name]'], $this->student->first_name); ?>
+        <?= $this->input(['class' => 'third', 'placeholder' => 'Middle Name', 'name' => 'student[middle_name]'], $this->student->middle_name); ?>
+        <?= $this->input(['class' => 'third', 'placeholder' => 'Last Name', 'name' => 'student[last_name]'], $this->student->last_name); ?>
  </div>
             <div class="form-control">
 
         <label>Primary Phone Number</label>
-        <?= $this->input(['class' => 'third', 'placeholder' => '(___) ___-____', 'name' => 'primary_phone'], $this->user->primary_phone); ?>
+        <?= $this->input(['class' => 'third', 'placeholder' => '(___) ___-____', 'name' => 'student[primary_phone]'], $this->student->primary_phone); ?>
 </div>
                 <div class="form-control">
 
         <label>Gender</label>
-        <?= $this->select(['name' => 'gender', 'class' => 'half'], ['M' => 'Male', 'F' => 'Female'], $this->user->gender); ?>
+        <?= $this->select(['name' => 'student[gender]', 'class' => 'half'], ['M' => 'Male', 'F' => 'Female'], $this->student->gender); ?>
        </div>
 
     <div class="form-actions">

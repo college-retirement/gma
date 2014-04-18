@@ -17,7 +17,6 @@ class Register {
 
     public function initValidation($validator) {
         $validator->addSoftRule('email', $validator::IS, 'email');
-
         $validator->addSoftRule('password', $validator::IS, 'strlenMin', 6);
         $validator->addSoftRule('password_confirm', $validator::IS, 'equalToField', 'password');
 
