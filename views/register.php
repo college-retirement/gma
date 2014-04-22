@@ -1,5 +1,8 @@
 <div id="container">
-
+	<?php if(isset($this->error) && sizeof($this->error)){
+		$errorlist = $this->__raw()->error;
+		
+	}?>
     <h1 class="underline">Create an Account</h1>
 
     <blockquote>Welcome! Please create your account using this form. This information will help us to service your account. You'll need to enter your student's information, and create a username and password.</blockquote>
@@ -7,12 +10,12 @@
     <h2>Your Account Information</h2>
 
     <blockquote>Please provide us with some information about yourself. We'll use your email address as a username as well as to contact you about your account, so please provide your very best email address!</blockquote>
-
+	
     <form method="post" action="/register/post">
 
     <div class="form-control">
         <label>Your Name</label>
-        <?= $this->input(['class' => 'half', 'placeholder' => 'First Name', 'name' => 'first_name'], $this->user->first_name); ?>
+        <?= $this->input(['class' => 'half', 'placeholder' => 'First Name', 'name' => 'first_name'], $this->user->first_name); ?>       
         <?= $this->input(['class' => 'half', 'placeholder' => 'Last Name', 'name' => 'last_name'], $this->user->last_name); ?>
     </div>
 
@@ -45,19 +48,19 @@
         <div class="form-control">
 
         <label>Legal Name</label>
-        <?= $this->input(['class' => 'third', 'placeholder' => 'First Name', 'name' => 'student[first_name]'], $this->student->first_name); ?>
-        <?= $this->input(['class' => 'third', 'placeholder' => 'Middle Name', 'name' => 'student[middle_name]'], $this->student->middle_name); ?>
-        <?= $this->input(['class' => 'third', 'placeholder' => 'Last Name', 'name' => 'student[last_name]'], $this->student->last_name); ?>
+        <?= $this->input(['class' => 'third', 'placeholder' => 'First Name', 'name' => 'student_first_name'], $this->student->student_first_name); ?>
+        <?= $this->input(['class' => 'third', 'placeholder' => 'Middle Name', 'name' => 'student_middle_name'], $this->student->student_middle_name); ?>
+        <?= $this->input(['class' => 'third', 'placeholder' => 'Last Name', 'name' => 'student_last_name'], $this->student->student_last_name); ?>
  </div>
             <div class="form-control">
 
         <label>Primary Phone Number</label>
-        <?= $this->input(['class' => 'third', 'placeholder' => '(___) ___-____', 'name' => 'student[primary_phone]'], $this->student->primary_phone); ?>
+        <?= $this->input(['class' => 'third', 'placeholder' => '(___) ___-____', 'name' => 'student_primary_phone'], $this->student->student_primary_phone); ?>
 </div>
                 <div class="form-control">
 
         <label>Gender</label>
-        <?= $this->select(['name' => 'student[gender]', 'class' => 'half'], ['M' => 'Male', 'F' => 'Female'], $this->student->gender); ?>
+        <?= $this->select(['name' => 'student_gender', 'class' => 'half'], ['M' => 'Male', 'F' => 'Female'], $this->student->student_gender); ?>
        </div>
 
     <div class="form-actions">

@@ -6,13 +6,13 @@ use Aura\Filter;
 
 class Student {
 
-	public $gender;
-	public $first_name;
-	public $middle_name;
-	public $last_name;
-	public $primary_phone;
-	public $updated_at;
-	public $created_at;
+	public $student_gender;
+	public $student_first_name;
+	public $student_middle_name;
+	public $student_last_name;
+	public $student_primary_phone;
+	public $student_updated_at;
+	public $student_created_at;
 
 	public function __construct() {
 		$this->created_at = new \DateTime();

@@ -70,11 +70,11 @@ class Storage extends DBStorage\Database {
 		updated_at,
 		created_at
 		) VALUES (
-		:first_name,
-		:middle_name,
-		:last_name,
-		:gender,
-		:primary_phone,
+		:student_first_name,
+		:student_middle_name,
+		:student_last_name,
+		:student_gender,
+		:student_primary_phone,
 		NOW(),
 		NOW()
 		)";

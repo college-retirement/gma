@@ -16,7 +16,7 @@ class Register extends Controller\Base {
             'messages' => [],
         ]);
         $this->template->setInnerView('register.php');
-        $this->template->setData(['user' => $this->form->getUser(),'student'=>new Student()]);
+        $this->template->setData(['user' => $this->form->getUser(),'student'=>$this->form->getStudent()]);
         $this->response->setContent($this->template->render());
         return $this->response;
     }
@@ -27,13 +27,11 @@ class Register extends Controller\Base {
         $result = $gateway->handleRegistration($data);        
         if(!$result['valid']) {        	
         	$form = $result['data'];
-        	$student = new Student();
-        	$student->configure($data['student']);
             $this->template->setInnerView('register.php');
             $this->template->setData([
                 'user' => $form->getUser(),
-            	'student'=>$student,
-                'messages' => $form->getErrors(),
+            	'student'=>$form->getStudent(),
+                'error' => $form->getErrors(),
             ]);
             $this->response->setContent($this->template->render());
             return $this->response;
