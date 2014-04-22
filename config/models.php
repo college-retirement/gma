@@ -11,7 +11,7 @@ $di->params['Modus\Common\Model\Factory'] = array(
     ),
 );
 
-$di->setter['Application\Model\User\Gateway']['setFilter'] = $di->lazyNew('Aura\Filter\RuleCollection');
+$di->setter['Application\Model\User\Gateway']['setForm'] = $di->lazyNew('Application\Form\Register');
 
 $di->params['Modus\Common\Model\Storage\Database'] = array(
     'master' => $di->lazyGet('master'),

@@ -13,7 +13,7 @@ $di->params['Aura\Filter\RuleCollection'] = [
     'translator' => $di->lazyNew('Aura\Filter\Translator'),
 ];
 
-/**
+	/**
  * Aura\Filter\RuleLocator
  */
 $di->params['Aura\Filter\RuleLocator']['registry'] = [
