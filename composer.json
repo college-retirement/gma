@@ -1,7 +1,7 @@
 {
     "minimum-stability": "dev",
     "require": {
-        "tailwindsllc/modus": "dev-master",
+        "tailwindsllc/modus": "2.1",
         "swiftmailer/swiftmailer": "v5.1.0"
     },
 
