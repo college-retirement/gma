@@ -13,7 +13,7 @@ class AdminDraftsController extends Controller
         $offset = ($offset >= 20) ? $offset : 0;
         
         $drafts = Draft::with('user')->skip($offset)->take(20)->get();
-
+		
         return Rest::currentPage($page)->of($pagesCount)->limited(20)->totalItems($total)->okay($drafts->toArray());
     }
 
