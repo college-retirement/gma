@@ -1,1 +1,58 @@
-test
+<div class="container">
+	<ol class="breadcrumb">
+		<li>
+			<a href="#/admin">Admin</a>
+		</li>
+		<li class="active">
+			{{type}}
+		</li>
+	</ol>
+	<legend>{{type}}</legend>
+	<table class="table-striped table">
+		<thead>
+			<tr>
+				<th>Name</th>	
+				<th>City</th>
+				<th>State</th>
+				<th>Phone</th>
+				<th>DOB</th>
+				<th>Profile School(s)</th>
+				<th ng-show="clients">Status</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="profile in profiles" ng-dblclick="viewProfile(profile)">
+				<td>
+					{{profile.name.first}}&nbsp;{{profile.name.last}}
+				</td>
+				<td>
+					{{profile.address.city}}
+				</td>
+				<td>
+					{{profile.address.state}}
+				</td>
+				<td>
+					{{profile.phone | phone}}
+				</td>
+				<td>
+					{{profile.dob | dob}}
+				</td>
+				<td>
+					<i ng-class="{'icon-question-sign': (profile.has_profile_school === null), 'icon-ok-circle': (profile.has_profile_school === true), 'icon-ban-circle': (profile.has_profile_school === false)}"></i>
+				</td>
+				<td ng-show="clients">
+					{{profile.status}}
+				</td>
+				<td>
+					<button class="btn btn-default" ng-click="viewProfile(profile)">
+						<i class="icon-eye-open"></i>
+					</button>
+					<button class="btn btn-danger" ng-click="destroy(profile)" ng-show="!clients">
+						<i class="icon-minus"></i>
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
