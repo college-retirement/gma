@@ -29,6 +29,7 @@ $app->redirectIfTrailingSlash();
 $env = $app->detectEnvironment(array(
 
 	'local' => ['gma.dev'],
+	'development' => ['dev.clients.college-retirement.com'],
 	'production' => ['clients.college-retirement.com'],
 	'staging' => ['crs.trea.ws']
 
