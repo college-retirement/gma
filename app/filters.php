@@ -41,7 +41,7 @@ Route::filter('auth', function()
 
 Route::filter('auth.basic', function()
 {
-	return Auth::basic('email');
+	return Auth::basic();
 });
 
 /*
@@ -102,7 +102,7 @@ Route::filter('adminUser', function(){
 		}
 		else {
 			if (!$user->is_admin) {
-				//return Response::json(['error' => 'You must be an authenticated admin user to use this feature.'], 403);
+				return Response::json(['error' => 'You must be an authenticated admin user to use this feature.'], 403);
 			}
 		}
 	}
