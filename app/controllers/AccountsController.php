@@ -31,15 +31,18 @@ class AccountsController extends Controller {
 		$data = Input::all();
 		
 		$email = $data[0]['value'];
-		$passwoed = $data[1]['value'];
+		$password = $data[1]['value'];
 		//$user = User::find('53998c05048321d65d0104d9');
-		$user = User::where('email', '=', "mahfuz@gmail.com")->take(10)->get();
+		$user = User::where('email', $email)->get()->first();
 		//$user = User::where('email', '=','mahfuz@gmail.com');
-		var_dump($user->email);
-		var_dump($user->_id);
+		// var_dump($user->email);
+		// var_dump($user->_id);
+		// var_dump($user->password);
+		// var_dump(Hash::make($password));
+		
 
 		
-		if (Hash::make($passwoed) === $user->email ) {
+		if (Auth::attempt(array('email' => $email, 'password' => $password))) {
 			
 			
 				Session::put('currentUser', $user->_id);
@@ -48,7 +51,7 @@ class AccountsController extends Controller {
 
 		}
 		else {
-			return Response::json(array('status' => 'error', 'user' => array()));
+			return Response::json(array('status' => 'error'));
 		}
 
 		// $identity = App::make('persona.identity', Input::get('assertion'));
