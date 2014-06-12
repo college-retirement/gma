@@ -28,13 +28,18 @@ class AccountsController extends Controller {
 	}
 
 	function personaVerify() {
-
-		$user = User::where('email', Input::get('email'));
+		$data = Input::all();
+		
+		$email = $data[0]['value'];
+		$passwoed = $data[1]['value'];
+		//$user = User::find('53998c05048321d65d0104d9');
+		$user = User::where('email', '=', "mahfuz@gmail.com")->take(10)->get();
+		//$user = User::where('email', '=','mahfuz@gmail.com');
 		var_dump($user->email);
 		var_dump($user->_id);
+
 		
-		
-		if (Hash::make(Input::get('password')) === $user->email ) {
+		if (Hash::make($passwoed) === $user->email ) {
 			
 			
 				Session::put('currentUser', $user->_id);
@@ -43,7 +48,7 @@ class AccountsController extends Controller {
 
 		}
 		else {
-			return Response::json(array('status' => 'error', 'user' => $user->toArray()));
+			return Response::json(array('status' => 'error', 'user' => array()));
 		}
 
 		// $identity = App::make('persona.identity', Input::get('assertion'));
