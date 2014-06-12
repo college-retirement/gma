@@ -48,37 +48,13 @@
 					</p>
 			</div>
 		</div>
+
 		<div ng-controller="ModalDemoCtrl">
 		    <script type="text/ng-template" id="myModalContent.html">
 		        <div class="modal-header">
 		            <h3 class="modal-title">I'm a modal!</h3>
 		        </div>
-		        <div class="modal-body">
-		            <form id="register" novalidate class="form-horizontal">
-				
-	                <div class="form-group">
-	                    <label>Password</label>
-	                    <div class="control half">
-	                        <input type="password" ng-model="user.password"  required class="form-control">
-	                        <span class="help-block">You'll use this password to access your account, so make sure this address works properly.</span>
-	                    </div>
-	                </div>
-
-					<div class="form-group">
-						<label>Email Address</label>
-						<div class="control half">
-							<input type="email" ng-model="user.email" placeholder="name@example.com" required class="form-control">
-							<span class="help-block">You'll use this email to access your account, so make sure this address works properly.</span>
-						</div>
-					</div>
-
-				
-
-					<div class="form-group actions">
-						<input type="submit" class="btn btn-primary" value="Login" ng-click="submit();">
-					</div>
-				</form>
-		        </div>
+		        
 		        <div class="modal-footer">
 		            <button class="btn btn-primary" ng-click="ok()">OK</button>
 		            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
@@ -86,6 +62,7 @@
 		    </script>
 
 		</div>
+		
 	</div>
 </div>
 
