@@ -38,6 +38,10 @@ angular.module('gmaApp').config(['$routeProvider', '$httpProvider', function($ro
 	}).when('/register', {
 		templateUrl: "assets/views/register.html",
 		controller: "RegisterCtrl"
+	})
+	when('/mlogin', {
+		templateUrl: "assets/views/mlogin.html",
+		controller: "LoginCtrl"
 	}).when('/drafts/:draft',{
 		templateUrl: "assets/views/initialData.html",
 		controller: "ProfileCtrl",
@@ -142,7 +146,7 @@ angular.module('gmaApp').controller("MainCtrl", function($rootScope, $scope, Per
 
 angular.module('gmaApp').controller("PersonaCtrl", function($rootScope, $scope, Persona){
 	$scope.login = function() {
-		Persona.verify();
+		$scope.$emit('loadWindow');
 	};
 
 	$scope.logout = function() {
@@ -155,6 +159,36 @@ angular.module('gmaApp').controller("PersonaCtrl", function($rootScope, $scope, 
 
 	$scope.getUser = function() {
 		return Persona.getUser();
+	};
+	$scope.poll = function(timeout, fn) {
+        var timeout = timeout,
+        fn = fn;
+
+        return {
+            start: function() {
+                var context = this,
+              data = arguments,
+              wrapper = function() {
+                  if (!fn.apply) {
+                      fn(data[0]);
+                  } else {
+                      fn.apply(context, data);
+                  }
+              };
+                this.curr_id = setInterval(wrapper, timeout);
+            },
+            cancel: function() {
+
+                clearInterval(this.curr_id);
+                document.location.reload();
+            }
+        };
+    };
+	$scope.loadWindow = function() {
+		var gw = window.open('/mlogin', '_blank', 'width=680,height=400,scrollbars=yes');
+        gw.focus();
+        var p = Poll(2000, tmpfn);
+        p.start(gw);
 	};
 	
 	$rootScope.$on('loginClick', function(){
