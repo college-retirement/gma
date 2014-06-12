@@ -28,13 +28,9 @@ class AccountsController extends Controller {
 	}
 
 	function personaVerify() {
-		var_dump(Input::all());die(Input::get('password'));
-		$identity = App::make('persona.identity', Input::get('assertion'));
-		$verifier = App::make('persona.verifier');
-		$verifier->verify($identity);
-
-		if ($identity->getStatus() !== 'okay') {
-			return Response::json(array('status' => $identity->getStatus()));
+		
+		if (!Auth::attempt(array('email'=>Input::get('email'), 'password'=>Input::get('password')))) {
+			echo 'fail';
 		}
 		else {
 			$user = User::where('email', $identity->getEmail())->get()->first();
@@ -46,6 +42,24 @@ class AccountsController extends Controller {
 				return Rest::conflict();
 			}
 		}
+
+		// $identity = App::make('persona.identity', Input::get('assertion'));
+		// $verifier = App::make('persona.verifier');
+		// $verifier->verify($identity);
+
+		// if ($identity->getStatus() !== 'okay') {
+		// 	return Response::json(array('status' => $identity->getStatus()));
+		// }
+		// else {
+		// 	$user = User::where('email', $identity->getEmail())->get()->first();
+		// 	if ($user) {
+		// 		Session::put('currentUser', $user->_id);
+		// 		return Response::json(array('status' => 'okay', 'user' => $user->toArray()));
+		// 	}
+		// 	else {
+		// 		return Rest::conflict();
+		// 	}
+		// }
 	}
 
 	function personaStatus() {
