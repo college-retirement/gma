@@ -85,7 +85,7 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.6.0/ui-bootstrap-tpls.min.js"></script>
 	<script src="/assets/js/vendor/angular-ui-utils.min.js"></script>
-	<script src="https://login.persona.org/include.js"></script>
+	<!-- <script src="https://login.persona.org/include.js"></script> -->
 	<script src="/assets/js/application.min.js"></script>
 </body>
 </html>
