@@ -24,7 +24,7 @@
 					<h3>Already Started?</h3>
 					<div ng-show="getUser() === false">
 						<p>Have you started filling out a profile?  Click sign in to review your drafts.</p>
-						<a  class="persona-button dark" ng-click="open()">
+						<a  class="persona-button dark" ng-click="login()">
 							<span>Sign In</span>
 						</a>
 					</div>
@@ -48,7 +48,7 @@
 					</p>
 			</div>
 		</div>
-		<div>
+		<div ng-controller="ModalDemoCtrl">
 		    <script type="text/ng-template" id="myModalContent.html">
 		        <div class="modal-header">
 		            <h3 class="modal-title">I'm a modal!</h3>
