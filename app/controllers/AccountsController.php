@@ -11,6 +11,7 @@ class AccountsController extends Controller {
 
 		else {
 			$user = new User;
+            var_dump(Input::get('password'));die();
 			$user->email = Input::get('email');
 			$user->gender = Input::get('gender');
 			$user->name = Input::get('name');
