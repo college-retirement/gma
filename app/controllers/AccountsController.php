@@ -28,19 +28,22 @@ class AccountsController extends Controller {
 	}
 
 	function personaVerify() {
+
+		$user = User::where('email', Input::get('email'));
+		var_dump($user->email);
+		var_dump($user->_id);
 		
-		if (!Auth::attempt(array('email'=>Input::get('email'), 'password'=>Input::get('password')))) {
-			echo 'fail';
-		}
-		else {
-			$user = User::where('email', $identity->getEmail())->get()->first();
-			if ($user) {
+		
+		if (Hash::make(Input::get('password')) === $user->email ) {
+			
+			
 				Session::put('currentUser', $user->_id);
 				return Response::json(array('status' => 'okay', 'user' => $user->toArray()));
-			}
-			else {
-				return Rest::conflict();
-			}
+			
+
+		}
+		else {
+			return Response::json(array('status' => 'error', 'user' => $user->toArray()));
 		}
 
 		// $identity = App::make('persona.identity', Input::get('assertion'));
