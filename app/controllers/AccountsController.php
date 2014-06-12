@@ -28,6 +28,7 @@ class AccountsController extends Controller {
 	}
 
 	function personaVerify() {
+		var_dump(Input::get('assertion'));die();
 		$identity = App::make('persona.identity', Input::get('assertion'));
 		$verifier = App::make('persona.verifier');
 		$verifier->verify($identity);
