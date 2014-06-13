@@ -20,6 +20,7 @@ class AccountsController extends Controller {
 
 			if ($user->save()) {
 				return Response::json($user, 201);
+
 			}
 			else {
 				return Response::json(['messages' => ['db_error' => 'Unable to create account.']], 500);
@@ -31,7 +32,24 @@ class AccountsController extends Controller {
 		if ($user) {
 			
 			$data['email'] = $user->email;
-			return Password::remind($data);
+			$reminder = new Reminder;
+			$reminder->email = $user->email;
+			$reminder->token = Hash::make(time());
+			$data['token'] = $reminder->token;
+
+			if($reminder->save()){
+				
+				Mail::send('emails.auth.reminder', $data, function($message) use ($reminder)
+				{
+				    $message->from('info@college-retirement.com', 'Dev');
+
+				    $message->to($reminder->email);
+
+				    
+				});
+				return Response::json(['message' => 'success'], 201);
+			}
+			//return Password::remind($data);
 		}
 		else{
 			return Response::json(['messages' => ['no_email' => 'There is no account with this email']], 409);
