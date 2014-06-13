@@ -93,7 +93,7 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
      * Begin admin routes
      * (Prefixed by /admin)
      */
-    Route::group(['prefix' => 'admin', 'before' => 'validUser|adminUser'], function () use ($GmaControllers) {
+    Route::group(['prefix' => 'admin', 'before' => ''], function () use ($GmaControllers) {
         Route::get('profiles', ['uses' => $GmaControllers . 'Admin\ProfileController@all']);
         Route::post('profiles', ['uses' => 'AdminProfilesController@create']);
         Route::put('profiles', ['uses' => 'AdminProfilesController@save']);
