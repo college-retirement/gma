@@ -60,6 +60,11 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
      * Account registration
      */
     Route::post('accounts', ['uses' => 'AccountsController@register']);
+	
+	/**
+	 * Account forgot password
+	 */
+	Route::post('forgot', ['uses' => 'AccountsController@forgot']);
 
     /**
      * Accounts (For Future Use)

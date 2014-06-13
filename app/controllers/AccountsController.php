@@ -26,6 +26,15 @@ class AccountsController extends Controller {
 			}
 		}
 	}
+	function forgot() {
+		$user = User::where('email', Input::get('email'))->get()->first();
+		if ($user) {
+			return Password::remind($credentials);
+		}
+		else{
+			return Response::json(['messages' => ['no_email' => 'There is no account with this email']], 409);
+		}
+	}
 
 	function personaVerify() {
 		$data = Input::all();
