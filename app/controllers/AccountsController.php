@@ -29,7 +29,9 @@ class AccountsController extends Controller {
 	function forgot() {
 		$user = User::where('email', Input::get('email'))->get()->first();
 		if ($user) {
-			return Password::remind($credentials);
+			
+			$data['email'] = $user->email;
+			return Password::remind($data);
 		}
 		else{
 			return Response::json(['messages' => ['no_email' => 'There is no account with this email']], 409);
