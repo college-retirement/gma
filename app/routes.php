@@ -65,6 +65,7 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
 	 * Account forgot password
 	 */
 	Route::post('forgot', ['uses' => 'AccountsController@forgot']);
+	Route::post('reset', ['uses' => 'AccountsController@reset']);
 
     /**
      * Accounts (For Future Use)
