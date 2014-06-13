@@ -37,6 +37,9 @@
 			    	<a class="persona-button dark" ng-click="login()">
 			    		<span>Sign In</span>
 			    	</a>
+			    	<a class="persona-button dark" href="#/forgot">
+			    		<span>Forgot Password</span>
+			    	</a>
 			    </div>
 		    	<ul class="nav navbar-nav navbar-right" ng-cloak ng-hide="getUser() == false">
 		    		<li class="dropdown">
