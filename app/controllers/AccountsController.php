@@ -2,7 +2,7 @@
 
 class AccountsController extends Controller {
 
-	function register() {
+    function register() {
 		$user = User::where('email', Input::get('email'))->get()->first();
 
 		if ($user) {
@@ -54,6 +54,38 @@ class AccountsController extends Controller {
 		else{
 			return Response::json(['messages' => ['no_email' => 'There is no account with this email']], 409);
 		}
+	}
+
+	function reset() {
+
+		$rules = array(
+                'token' => 'Required|Min:10',
+                'password'  =>'Required|Confirmed',
+                'password_confirmation'=>'Required'
+        );
+
+         $validator = Validator::make(Input::all(), $rules);
+
+	    if ($validator->fails())
+	    {
+	    	return Response::json(['messages' => ['error' => ['resone' => 'password did not match']]], 409);
+
+	    } else { 
+
+		$reminder = Reminder::where('token',Input::get('token'))->get()->first();
+		if($reminder){
+			$user = User::where('email', $reminder->email)->get()->first();
+			$user->password = Hash::make(Input::get('password'));
+			if ($user->save()) {
+				$reminder->delete();
+				return Response::json(['message' => 'success'], 201);
+
+			}
+			else {
+				return Response::json(['messages' => ['db_error' => 'Unable to update account.']], 500);
+			}
+		}
+	}
 	}
 
 	function personaVerify() {
