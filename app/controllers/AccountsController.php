@@ -57,7 +57,7 @@ class AccountsController extends Controller {
 	}
 
 	function reset() {
-		var_dump(Input::all());
+
 		$rules = array(
                 'token' => 'Required|Min:10',
                 'password'  =>'Required|Confirmed',
@@ -65,10 +65,10 @@ class AccountsController extends Controller {
         );
 
          $validator = Validator::make(Input::all(), $rules);
-
+         
 	    if ($validator->fails())
 	    {
-	    	return Response::json(['messages' => ['error' => ['resone' =>  $validator]]], 409);
+	    	return Response::json(['messages' => ['error' => ['resone' =>  'password does not match']]], 409);
 
 	    } else { 
 
