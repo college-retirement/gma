@@ -1,16 +1,16 @@
 <div class="container">
+
 	<ol class="breadcrumb">
+		
 		<li>
-			<a href="#/admin">Admin</a>
+			<a href="#/admin/list?clients=false">{{type}}</a>
+			 
 		</li>
 		<li class="active">
-			{{type}}
+			 Admin - {{type}}   / <input type="text" ng-model="query">
 		</li>
 	</ol>
-	<div id="adminList">
-		<legend>{{type}}</legend>
-		<input type="text" ng-model="query">
-	</div>
+	
 	<table class="table-striped table">
 		<thead>
 			<tr>
