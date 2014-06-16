@@ -42,7 +42,16 @@
 			    	</a>
 			    </div>
 		    	<ul class="nav navbar-nav navbar-right" ng-cloak ng-hide="getUser() == false">
+		    		<li><a href="#/admin/list?clients=false">Prospects</a></li>
+		    		<li><a href="#/admin/list?clients=true">Clients</a></li>
+		    		<li><a href="#/admin/drafts">Drafts</a></li>
+		    		<li><a href="#admin/users">Users</a></li>
 		    		<li class="dropdown">
+		    			
+		    			
+		    			
+		    			
+		    			
 		    			<a class="dropdown-toggle" data-toggle="dropdown">
 		    				Logged in as {{getUser().name.first}} {{getUser().name.last}}
 		    				<b class="caret"></b>

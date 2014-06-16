@@ -23,7 +23,7 @@ App::bind('persona.identity', function ($app, $assertion) {
  */
 Route::get('/', function () {
     if (App::environment() == 'production' && !Request::secure()) {
-        return Redirect::to('https://' . Request::getHost() . '/');
+        return Redirect::to('http://' . Request::getHost() . '/');
     }
     return View::make('hello');
 });
@@ -60,12 +60,18 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
      * Account registration
      */
     Route::post('accounts', ['uses' => 'AccountsController@register']);
-	
-	/**
-	 * Account forgot password
-	 */
-	Route::post('forgot', ['uses' => 'AccountsController@forgot']);
-	Route::post('reset', ['uses' => 'AccountsController@reset']);
+
+    /**
+     * Account forgot password
+     */
+    Route::post('forgot', ['uses' => 'AccountsController@forgot']);
+    Route::post('reset', ['uses' => 'AccountsController@reset']);
+
+    // Route::get('/mtest', function()
+    // {
+    //     var_dump(Hash::make('Shunp1ke'));
+    //     return "Hello";
+    // });
 
     /**
      * Accounts (For Future Use)
