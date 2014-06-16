@@ -1,4 +1,4 @@
-angular.module('gmaApp').controller('RegisterCtrl', function($scope, $http, $location, Persona){
+angular.module('gmaApp').controller('ForgotPasswordCtrl', function($scope, $http, $location, Persona){
 	$scope.done = false;
 	$scope.submit = function() {
 		var errors = false;
@@ -24,12 +24,12 @@ angular.module('gmaApp').controller('RegisterCtrl', function($scope, $http, $loc
 		$scope.submitted = true;
 
 		if (!errors) {
-			console.log($scope.user);
-			$http.post('/accounts', $scope.user).success(function(){
+			
+			$http.post('/forgot', $scope.user).success(function(){
 				$scope.done = true;
 			}).error(function(obj){
-				if (obj.hasOwnProperty('messages') && obj.messages.hasOwnProperty('duplicate_email')) {
-					toastr.error("There is an account with this email already.");
+				if (obj.hasOwnProperty('messages') && obj.messages.hasOwnProperty('no_email')) {
+					toastr.error("There is no account with this email.");
 				}
 				else {
 					toastr.error("Unable to create account.");

@@ -1,5 +1,10 @@
-angular.module('gmaApp').controller('RegisterCtrl', function($scope, $http, $location, Persona){
-	$scope.done = false;
+angular.module('gmaApp').controller('ResetCtrl', function($scope,$route, $http, $location, Persona){
+	$scope.show = false;
+	$scope.reset = {};
+	$scope.reset.token = $route.current.params.token;
+	
+		
+	
 	$scope.submit = function() {
 		var errors = false;
 
@@ -24,15 +29,16 @@ angular.module('gmaApp').controller('RegisterCtrl', function($scope, $http, $loc
 		$scope.submitted = true;
 
 		if (!errors) {
-			console.log($scope.user);
-			$http.post('/accounts', $scope.user).success(function(){
-				$scope.done = true;
+			
+			
+			$http.post('/reset', $scope.reset).success(function(){
+				$scope.show = true;
 			}).error(function(obj){
-				if (obj.hasOwnProperty('messages') && obj.messages.hasOwnProperty('duplicate_email')) {
-					toastr.error("There is an account with this email already.");
+				if (obj.hasOwnProperty('messages') && obj.messages.hasOwnProperty('error')) {
+					toastr.error(obj.messages.error.resone);
 				}
 				else {
-					toastr.error("Unable to create account.");
+					toastr.error("Unable to reset account.");
 				}
 			});
 		}

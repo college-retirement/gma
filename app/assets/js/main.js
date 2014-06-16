@@ -38,10 +38,12 @@ angular.module('gmaApp').config(['$routeProvider', '$httpProvider', function($ro
 	}).when('/register', {
 		templateUrl: "assets/views/register.html",
 		controller: "RegisterCtrl"
-	})
-	when('/mlogin', {
-		templateUrl: "assets/views/mlogin.html",
-		controller: "LoginCtrl"
+	}).when('/forgot', {
+		templateUrl: "assets/views/forgot.html",
+		controller: "ForgotPasswordCtrl"
+	}).when('/reset/:token', {
+		templateUrl: "assets/views/reset.html",
+		controller: "ResetCtrl"
 	}).when('/drafts/:draft',{
 		templateUrl: "assets/views/initialData.html",
 		controller: "ProfileCtrl",
@@ -144,9 +146,100 @@ angular.module('gmaApp').controller("MainCtrl", function($rootScope, $scope, Per
 	};
 });
 
+
+
+
+
+
+angular.module('gmaApp').controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'items','$location','Persona', function ($scope, $modalInstance, items,$location,Persona) {
+  $scope.items = items;
+  $scope.login = {};
+
+  $scope.done = false;
+    $scope.selected = {
+        item: $scope.items[0]
+    };
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+  $scope.submit = function () {
+  	    var errors = false;
+
+		jQuery('.has-error').removeClass('has-error');
+		
+		jQuery(".ng-invalid").each(function(e){
+			errors = true;
+			jQuery(this).parent('.control').parent('.form-group').addClass('has-error');
+		});
+		
+		jQuery(".btn.ng-invalid").each(function(e){
+			errors = true;
+			jQuery(this).parent('.btn-group').parent('.control').parent('.form-group').addClass('has-error');
+		});
+
+		jQuery('.input-group>.ng-invalid').each(function(e){
+			errors = true;
+			jQuery(this).parent('.input-group').parent('.control').parent('.form-group').addClass('has-error');
+		});
+
+		jQuery(".ng-invalid:not(form)").first().focus();
+		$scope.submitted = true;
+		
+		
+		if (!errors) {
+			
+			var promise = Persona.verify($scope.login);
+			promise.then(function(greeting) {
+				$modalInstance.close();
+    			$location.path('/');
+		    
+		  }, function(reason) {
+		  	toastr.error("email or password are not correct");
+		    
+		  }
+			
+		)};
+    };
+
+}]);
+
+angular.module('gmaApp').controller('ModalDemoCtrl', ['$rootScope','$scope', '$modal', '$log', 
+ function ($rootScope,$scope, $modal, $log) {
+ 	$scope.items = ['item1', 'item2', 'item3'];
+ 	
+  $scope.open = function (size) {
+  	
+    var modalInstance = $modal.open({
+      templateUrl: 'myModalContent.html',
+      controller: 'ModalInstanceCtrl',
+      size: 'sm',
+      resolve: {
+            items: function () {
+            return $scope.items;
+            }
+        }
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+      $scope.selected = selectedItem;
+    }, function () {
+      
+    });
+  };
+  
+   
+  $rootScope.$on('loginClick', function(){
+		$scope.open('sm');
+	});
+ }]);
+
+
+
 angular.module('gmaApp').controller("PersonaCtrl", function($rootScope, $scope, Persona){
+	
 	$scope.login = function() {
-		$scope.$emit('loadWindow');
+		$scope.$emit('loginClick');
 	};
 
 	$scope.logout = function() {
@@ -160,38 +253,7 @@ angular.module('gmaApp').controller("PersonaCtrl", function($rootScope, $scope, 
 	$scope.getUser = function() {
 		return Persona.getUser();
 	};
-	$scope.poll = function(timeout, fn) {
-        var timeout = timeout,
-        fn = fn;
-
-        return {
-            start: function() {
-                var context = this,
-              data = arguments,
-              wrapper = function() {
-                  if (!fn.apply) {
-                      fn(data[0]);
-                  } else {
-                      fn.apply(context, data);
-                  }
-              };
-                this.curr_id = setInterval(wrapper, timeout);
-            },
-            cancel: function() {
-
-                clearInterval(this.curr_id);
-                document.location.reload();
-            }
-        };
-    };
-	$scope.loadWindow = function() {
-		var gw = window.open('/mlogin', '_blank', 'width=680,height=400,scrollbars=yes');
-        gw.focus();
-        var p = Poll(2000, tmpfn);
-        p.start(gw);
-	};
 	
-	$rootScope.$on('loginClick', function(){
-		$scope.login();
-	});
+
+
 });
