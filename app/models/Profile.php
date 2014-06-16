@@ -10,7 +10,7 @@ class Profile extends Eloquent
 
     public function scopeProspect($query)
     {
-        return $query->where('prospect', true)->orWhereRaw(['prospect' => ['$exists' => false]]);
+        return $query->where('prospect', true)->orWhereRaw(['prospect' => ['$exists' => false]])->orderBy('updated_at', 'desc');
     }
 
     public function scopeClient($query)
