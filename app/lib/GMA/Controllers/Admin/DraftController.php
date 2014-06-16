@@ -12,10 +12,10 @@ class DraftController extends Base
             $user = ['user' => function ($query) {
                     $query->withSortables($this->sortableSubColumns('user'));
             }];
-            $query = Draft::with($user)->withSortables($this->sortableColumns())->paginate(20);
+            $query = Draft::with($user)->withSortables($this->sortableColumns())->paginate(30);
             return Rest::okay($query);
         } else {
-            return Rest::okay(Draft::with('user')->paginate(20));
+            return Rest::okay(Draft::with('user')->paginate(30));
         }
     }
 }

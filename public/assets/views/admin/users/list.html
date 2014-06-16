@@ -7,7 +7,11 @@
 			Users
 		</li>
 	</ol>
-	<legend>Users</legend>
+	<div id="adminList">
+		<legend>Users</legend>
+		<input type="text" ng-model="query">
+	</div>
+	
 	<table class="table-striped table">
 		<thead>
 			<tr>
@@ -37,7 +41,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="user in users" ng-dblclick="viewUser(user)">
+			<tr ng-repeat="user in users | filter:query" ng-dblclick="viewUser(user)">
 				<td>
 					{{user.name.first}}
 				</td>
@@ -60,7 +64,7 @@
 					{{user.created | date}}
 				</td>
 				<td>
-					<button class="btn btn-default" ng-click="viewUser(user)">
+					<button class="btn btn-default btn-eye" ng-click="viewUser(user)">
 						<i class="icon-eye-open"></i>
 					</button>
 				</td>

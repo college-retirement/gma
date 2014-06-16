@@ -7,7 +7,11 @@
 			Drafts
 		</li>
 	</ol>
-	<legend>Drafts</legend>
+	<div id="adminList">
+		<legend>Drafts</legend>
+		<input type="text" ng-model="query">
+	</div>
+	<legend></legend>
 	<table class="table-striped table">
 		<thead>
 			<tr>
@@ -60,7 +64,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="profile in profiles" ng-dblclick="viewDraft(profile)">
+			<tr ng-repeat="profile in profiles | filter:query" ng-dblclick="viewDraft(profile)">
 				<td>
 					{{profile.user.name.last}}
 				</td>
@@ -89,7 +93,7 @@
 					{{profile.updated | date}}
 				</td>
 				<td>
-					<button class="btn btn-default" ng-click="viewDraft(profile)">
+					<button class="btn btn-default btn-eye" ng-click="viewDraft(profile)">
 						<i class="icon-eye-open"></i>
 					</button>
 				</td>

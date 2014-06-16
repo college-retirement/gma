@@ -11,13 +11,13 @@ class ProspectController extends Base
     public function all()
     {
         if ($this->isSorting()) {
-            $query = Profile::prospect()->withSortables($this->sortableColumns)->paginate(20);
+            $query = Profile::prospect()->withSortables($this->sortableColumns)->paginate(30);
             return Rest::okay($query);
         } else {
             $sortableColumns = [['column' => 'created_at',
                     'order' => 'DESC']];
                     
-            $profiles = Profile::prospect()->withSortables($sortableColumns)->paginate(20);
+            $profiles = Profile::prospect()->withSortables($sortableColumns)->paginate(30);
             return Rest::okay($profiles);
         }
     }
