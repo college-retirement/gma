@@ -14,7 +14,10 @@ class ProspectController extends Base
             $query = Profile::prospect()->withSortables($this->sortableColumns)->paginate(20);
             return Rest::okay($query);
         } else {
-            $profiles = Profile::prospect()->with('user')->paginate(20);
+            $dat = ['column' => 'updated_at',
+                    'order' => 'ASC'];
+                    var_dump(count($sortables));
+            $profiles = Profile::prospect()->withSortables($dat)->paginate(10);
             return Rest::okay($profiles);
         }
     }
