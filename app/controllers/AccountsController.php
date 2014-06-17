@@ -20,10 +20,6 @@ class AccountsController extends Controller {
 
 			if ($user->save()) {
 				 
-				 $data = ['email'=> 'mahfuzcse05@gmail.com'];
-
-         		Event::fire('mmm.test', [$data ]);
-         		Event::fire('user.create', [$user]);
 				return Response::json($user, 201);
 			}
 			else {

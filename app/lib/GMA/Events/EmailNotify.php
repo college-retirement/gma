@@ -17,6 +17,7 @@ class EmailNotify {
 	}
 
 	function moreInfoRequired($event) {
+		$event['user']['name'] = $event['user']['name']['first']." ".$event['user']['name']['last'];
 		\Mail::send('emails.moreInfo', ['profile' => $event], function($mail) use ($event){
 			$mail->to($event['user']['email'], $event['user']['name'])->subject('More Information Required');
 		});
