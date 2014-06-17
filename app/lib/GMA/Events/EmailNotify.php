@@ -28,8 +28,15 @@ class EmailNotify {
 		});
 	}
 
+	function sendTestEmail($event) {
+		\Mail::send('emails.welcome', $data, function($message){
+            $message->to('mahfuzcse05@gmail.com', 'John Smith')->subject('Welcome 2!');
+        });
+	}
+
 	function subscribe($events) {
 		$events->listen('user.create', 'GMA\Events\EmailNotify@userAccountCreated');
+		$events->listen('mmm.test', 'GMA\Events\EmailNotify@sendTestEmail');
 		$events->listen('profile.submit', 'GMA\Events\EmailNotify@profileSubmitted');
 		$events->listen('profile.moreInfoRequired', 'GMA\Events\EmailNotify@moreInfoRequired');
 		$events->listen('profile.moreInfoRcd', 'GMA\Events\EmailNotify@moreInfoRecieved');

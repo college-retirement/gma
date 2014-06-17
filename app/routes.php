@@ -71,14 +71,7 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
     {
         $data = ['email'=> 'mahfuzcse05@gmail.com'];
 
-        if(Mail::send('emails.welcome', $data, function($message){
-            $message->to('mahfuzcse05@gmail.com', 'John Smith')->subject('Welcome 2!');
-        })){
-            echo "Done";
-        }
-        else{
-            echo 'error';
-        }
+         Event::fire('mmm.test', [$data ]);
         return "Hello";
     });
 
