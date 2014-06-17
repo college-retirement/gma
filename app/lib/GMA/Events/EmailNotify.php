@@ -29,7 +29,7 @@ class EmailNotify {
 	}
 
 	function sendTestEmail($event) {
-		\Mail::send('emails.welcome', $data, function($message){
+		\Mail::send('emails.welcome', ['profile' => $event], function($message){
             $message->to('mahfuzcse05@gmail.com', 'John Smith')->subject('Welcome 2!');
         });
 	}
