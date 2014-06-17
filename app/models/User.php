@@ -104,6 +104,11 @@ class User extends SortableModel implements UserInterface, RemindableInterface
         }
     }
 
+    public function getTest() 
+    {
+        return 'mahfuz';
+    }
+
     public function getIsAdminAttribute()
     {
         if (array_key_exists('role', $this->attributes)) {

@@ -69,7 +69,17 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
 
     Route::get('/mtest', function()
     {
-        
+        $user = User::where('email', 'mahfuz_cse05@yahoo.com')->get()->first();
+        var_dump($user->getTest());
+        var_dump($user instanceof RemindableInterface);die();
+        if ($user) {
+            
+            $data['email'] = $user->email;
+            return Password::remind($data);
+        }
+        else{
+            return Response::json(['messages' => ['no_email' => 'There is no account with this email']], 409);
+        }
         return "Hello";
     });
 
