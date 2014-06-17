@@ -67,11 +67,20 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
     Route::post('forgot', ['uses' => 'AccountsController@forgot']);
     Route::post('reset', ['uses' => 'AccountsController@reset']);
 
-    // Route::get('/mtest', function()
-    // {
-    //     var_dump(Hash::make('Shunp1ke'));
-    //     return "Hello";
-    // });
+    Route::get('/mtest', function()
+    {
+        $data = ['email'=> 'mahfuzcse05@gmail.com'];
+
+        if(Mail::send('emails.welcome', $data, function($message){
+            $message->to('mahfuzcse05@gmail.com', 'John Smith')->subject('Welcome 2!');
+        })){
+            echo "Done";
+        }
+        else{
+            echo 'error';
+        }
+        return "Hello";
+    });
 
     /**
      * Accounts (For Future Use)
