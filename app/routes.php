@@ -69,9 +69,10 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
 
     Route::get('/mtest', function()
     {
-        $data = ['email'=> 'mahfuzcse05@gmail.com'];
-
-         Event::fire('mmm.test', [$data ]);
+        $id = '539f3b927607ec875b1d3b7b';
+        $profile = Profile::with('user')->find($id);
+        var_dump($profile);die();
+        Event::fire('profile.moreInfoRequired', [$profile->toArray()]);
         return "Hello";
     });
 

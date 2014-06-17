@@ -19,6 +19,11 @@ class AccountsController extends Controller {
 			$user->role = Input::get('role');
 
 			if ($user->save()) {
+				 
+				 $data = ['email'=> 'mahfuzcse05@gmail.com'];
+
+         		Event::fire('mmm.test', [$data ]);
+         		Event::fire('user.create', [$user]);
 				return Response::json($user, 201);
 			}
 			else {
@@ -44,20 +49,13 @@ class AccountsController extends Controller {
 	}
 
 	function personaVerify() {
-		$data = Input::all();
-		
+
 		$email = Input::get('email');
 		$password = Input::get('password');
 
-		//$user = User::find('53998c05048321d65d0104d9');
-		$user = User::where('email', $email)->get()->first();
-		//$user = User::where('email', '=','mahfuz@gmail.com');
-		// var_dump($user->email);
-		// var_dump($user->_id);
-		// var_dump($user->password);
-		// var_dump(Hash::make($password));
 		
-
+		$user = User::where('email', $email)->get()->first();
+		
 		
 		if (Auth::attempt(array('email' => $email, 'password' => $password))) {
 			
@@ -71,26 +69,10 @@ class AccountsController extends Controller {
 			return Response::json(array('status' => 'error'));
 		}
 
-		// $identity = App::make('persona.identity', Input::get('assertion'));
-		// $verifier = App::make('persona.verifier');
-		// $verifier->verify($identity);
-
-		// if ($identity->getStatus() !== 'okay') {
-		// 	return Response::json(array('status' => $identity->getStatus()));
-		// }
-		// else {
-		// 	$user = User::where('email', $identity->getEmail())->get()->first();
-		// 	if ($user) {
-		// 		Session::put('currentUser', $user->_id);
-		// 		return Response::json(array('status' => 'okay', 'user' => $user->toArray()));
-		// 	}
-		// 	else {
-		// 		return Rest::conflict();
-		// 	}
-		// }
 	}
 
 	function personaStatus() {
+
 		if (Session::has('currentUser')) {
 			$user = User::find(Session::get('currentUser'));
 			return Response::json(array('user' => $user->toArray()));
