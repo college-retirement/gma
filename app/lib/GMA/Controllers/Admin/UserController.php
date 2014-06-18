@@ -9,6 +9,7 @@ class UserController extends Base
     public function all()
     {
         if ($this->isSorting()) {
+        	var_dump($this->sortableColumns());
             $query = User::with(['drafts', 'profiles'])->withSortables($this->sortableColumns())->paginate(30);
             return Rest::okay($query);
         } else {
