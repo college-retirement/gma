@@ -15,9 +15,21 @@
 	<table class="table-striped table">
 		<thead>
 			<tr>
-				<th>First Name</th>
-				<th>Last Name</th>	
-				<th>City</th>
+				<th ng-click="changeSort('name.first')" ng-dblclick="clearSort('name.first')">First Name
+					<div class="sort">
+						<i ng-class="sortClass('name.first')"></i>
+					</div>
+				</th>
+				<th ng-click="changeSort('name.last')" ng-dblclick="clearSort('name.last')">Last Name
+					<div class="sort">
+						<i ng-class="sortClass('name.last')"></i>
+					</div>
+				</th>	
+				<th ng-click="changeSort('address.city')" ng-dblclick="clearSort('address.city')">City
+					<div class="sort">
+						<i ng-class="sortClass('address.city')"></i>
+					</div>
+				</th>
 				<th>state</th>
 				<th>DOB</th>
 				<th>Profile School(s)</th>
