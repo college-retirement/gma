@@ -1,9 +1,9 @@
 <?php namespace GMA\Controllers\Admin;
 
-use GMA\Controllers\Base;
-use GMA\Data\Models\Profile;
-use \Rest;
 
+use GMA\Data\Models\Profile;
+use GMA\Controllers\Base;
+use \Rest;
 
 
 class ProspectController extends Base
@@ -11,7 +11,7 @@ class ProspectController extends Base
     public function all()
     {
         if ($this->isSorting()) {
-            var_dump($this->sortableColumns);
+            
             $query = Profile::prospect()->withSortables($this->sortableColumns)->paginate(30);
             return Rest::okay($query);
         } else {
