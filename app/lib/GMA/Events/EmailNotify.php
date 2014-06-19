@@ -17,7 +17,7 @@ class EmailNotify {
 	}
 
 	function moreInfoRequired($event) {
-		$event['user']['name'] = $event['user']['name']['first']." ".$event['user']['name']['last'];
+
 		\Mail::send('emails.moreInfo', ['profile' => $event], function($mail) use ($event){
 			$mail->to($event['user']['email'], $event['user']['name'])->subject('More Information Required');
 		});
@@ -30,8 +30,8 @@ class EmailNotify {
 	}
 
 	function sendTestEmail($event) {
-		\Mail::send('emails.welcome', ['profile' => $event], function($message){
-            $message->to('mahfuzcse05@gmail.com', 'John Smith')->subject('Welcome 2!');
+		\Mail::send('emails.moreInfo', ['profile' => $event], function($message) use ($event){
+            $message->to('mahfuzcse05@gmail.com', 'John Smith')->subject('More Information Required');
         });
 	}
 
