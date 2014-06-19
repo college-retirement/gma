@@ -28,6 +28,7 @@ class Base extends Controller
     public function sortableColumns()
     {
         if (stristr($this->sort, ',')) {
+          
             $columns = explode(',', $this->sort);
             $sortableCols = [];
 
@@ -50,13 +51,16 @@ class Base extends Controller
             return $sortableCols;
         } else {
             if (stristr($this->sort, ':')) {
+                
                 $column = explode(':', $this->sort);
+                
 
                 return [
                     ['column' => $column[0],
                     'order' => $this->parseOrder($column[1])]
                 ];
             } else {
+                
                 return [
                     ['column' => $this->sort,
                     'order' => 'ASC']
