@@ -10,7 +10,7 @@ class ClientController extends Base
     public function all()
     {
         if ($this->isSorting()) {
-            $query = Profile::client()->with('user')->withSortables($this->sortableColumns)->paginate(30);
+            $query = Profile::client()->with('user')->withSortables($this->sortableColumns())->paginate(30);
             return Rest::okay($query);
         } else {
             $sortableColumns = [['column' => 'created_at',

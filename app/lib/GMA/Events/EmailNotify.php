@@ -31,7 +31,11 @@ class EmailNotify {
 
 	function sendTestEmail($event) {
 		\Mail::send('emails.moreInfo', ['profile' => $event], function($message) use ($event){
-            $message->to('mahfuzcse05@gmail.com', 'John Smith')->subject('More Information Required');
+			$email = $event['user']['email'];
+			$name = $event['user']['name'];
+			
+
+            $message->to($email, $name)->subject('More Information Required');
         });
 	}
 

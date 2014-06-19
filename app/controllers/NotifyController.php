@@ -12,9 +12,9 @@ class NotifyController extends Controller {
 		if (!$profile) return Rest::notFound();
 
 		$event = $profile->toArray();
-		$d['user']['name'] = $event['user']['name']['first']." ".$event['user']['name']['last'];
+		$d['user']['name'] = $event['name']['first']." ".$event['name']['last'];
 		$d['_id'] = $event['_id'];
-		$d['user']['email'] = $event['user']['email'];
+		$d['user']['email'] = $event['email'];
 
 		Event::fire('profile.moreInfoRequired', [$d]);
 
@@ -22,7 +22,7 @@ class NotifyController extends Controller {
 
 		
 
-		Event::fire('mmm.test', [$d]);
+		//Event::fire('mmm.test', [$d]);
 		
 
 		return Rest::okay($profile->toArray());
