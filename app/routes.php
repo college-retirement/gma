@@ -147,6 +147,8 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
 
         Route::get('dl/{id}', function ($id) {
             $profile = Profile::find($id);
+           
+            if($profile):
             $filename = $profile->name['last'] . '-' . $profile->name['first'] . '.csv';
             $path = storage_path() . '/' . $filename;
 
@@ -154,6 +156,9 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
             $export->export();
 
             return Response::download($path);
+            else:
+                return Rest::notFound();
+            endif;    
         });
 
         Route::get('notify/moreinfo/{id}', ['uses' => 'NotifyController@moreInfo']);
