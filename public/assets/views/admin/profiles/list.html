@@ -30,7 +30,12 @@
 						<i ng-class="sortClass('address.city')"></i>
 					</div>
 				</th>
-				<th>state</th>
+				<th ng-click="changeSort('address.state')" ng-dblclick="clearSort('address.state')">State
+					<div class="sort">
+						<i ng-class="sortClass('address.state')"></i>
+					</div>
+				</th>
+				
 				
 				<th ng-click="changeSort('phone')" ng-dblclick="clearSort('phone')">Phone
 					<div class="sort">
