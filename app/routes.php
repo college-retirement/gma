@@ -136,6 +136,11 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
         Route::patch('drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'DraftsController@updateOwner']);
         Route::delete('drafts/{id}', ['uses' => 'AdminDraftsController@deleteDraft']);
 
+        Route::get('newsletters',['uses' => 'AdminNewslettersController@newsletters']);
+        Route::get('newsletter/{id}',['uses' => 'AdminNewslettersController@newsletter']);
+        Route::put('newsletter/{id}', ['uses' => 'AdminNewslettersController@saveNewsletter']);
+        Route::delete('newsletter/{id}',['uses' => 'AdminNewslettersController@deleteNewsletter']);
+
         Route::get('users', ['uses' => $GmaControllers . 'Admin\UserController@all']);
         Route::get('users/{id}', ['uses' => 'AdminUsersController@user']);
         Route::put('users/{id}', ['uses' => 'AdminUsersController@editUser']);

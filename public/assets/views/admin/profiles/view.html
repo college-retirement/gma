@@ -28,6 +28,21 @@
 			<i class="icon-envelope"></i>
 			Send Additional Information Email
 		</div>
+		<button class="btn btn-primary dropdown" data-toggle="dropdown">
+			<span class="dropdown-toggle">
+				<i class="icon-users"></i>
+				Email Template
+				<i class="icon-angle-down"></i>
+			</span>
+
+			<ul class="dropdown-menu" role="menu">
+
+				<li ng-repeat="newsletter in newsletters">
+					<a ng-click="previewNewsletter('{{newsletter._id}}')">{{newsletter.templateName}}</a>
+				</li>
+				
+			</ul>
+		</button>
 	</div>
 	<div class="pull-right btn-group" style="margin-right: 10px">
 		<div class="btn btn-primary" ng-click="changeMode('edit')" ng-class="{'active': mode == 'edit'}">

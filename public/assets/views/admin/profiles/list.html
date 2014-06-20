@@ -31,8 +31,18 @@
 					</div>
 				</th>
 				<th>state</th>
-				<th>Phone</th>
-				<th>DOB</th>
+				
+				<th ng-click="changeSort('phone')" ng-dblclick="clearSort('phone')">Phone
+					<div class="sort">
+						<i ng-class="sortClass('phone')"></i>
+					</div>
+				</th>
+				<th ng-click="changeSort('dob')" ng-dblclick="clearSort('dob')">DOB
+					<div class="sort">
+						<i ng-class="sortClass('dob')"></i>
+					</div>
+				</th>
+				
 				<th ng-show="clients">Status</th>
 				<th>Profile School(s)</th>
 				
