@@ -28,6 +28,12 @@
           </div>
       </nav>
 
+      @if(Session::has('error'))
+    <div class="alert-box error">
+        <h2>{{ Session::get('error') }}</h2>
+    </div>
+   @endif
+
  {{ Form::open(['method' => 'post']) }}
 
 

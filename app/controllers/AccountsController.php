@@ -44,6 +44,7 @@ class AccountsController extends Controller {
 
 		   
 			$reminder->token = hash_hmac('sha1', $value, 'EwXnBN7LYptXYUr5qRKT9P0IGJrRFQ7T');
+			
 			if($reminder->save()){
 				\Mail::send('emails.auth.reminder', ['token' => $reminder->token], function($mail) use ($user) {
 			        $mail->to($user->email, $user->full_name)->subject('User Account Reset');
@@ -86,24 +87,25 @@ class AccountsController extends Controller {
         'email' => 'required|email'];
 
         $validator = Validator::make(Input::all(), $rules);
+        $token = Input::get('token');
 
         if (!$validator->passes()) {
-        	return Response::json(['messages' => ['error' => $validator->messages()]], 409);
+        	 return Redirect::to("/reset/{$token}")->with('message', 'The following errors occurred')->withErrors($validator)->withInput();
          } else {	
 
                 $reminder = Reminder::where('token', Input::get('token'))->where('email', Input::get('email'))->get()->first();
         
 		        if(!$reminder) {
-		        	return Response::json(['messages' => ['error' => 'Invalid token']], 409);
+		        	return Redirect::to("/reset/{$token}")->with('message', 'Invalid token')->withInput();
 		        }
 
                 $user = User::where('email', Input::get('email'))->get()->first();
 
-                $user->password = Hash::make(Input::get('email'));
+                $user->password = Hash::make(Input::get('password'));
 
 		        if($user->save()) {
 		        	$reminder->delete();
-		        	return Response::json(['messages' => ['success' => 'true']], 202);
+		        	return Redirect::to('/');
 		        }
 		    }
 }

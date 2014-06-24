@@ -28,6 +28,9 @@ Route::get('/', function () {
     return View::make('hello');
 });
 
+ Route::get('reset/{token}', ['uses' => 'AccountsController@getReset']);
+ Route::post('reset/{token}', ['uses' => 'AccountsController@postReset']);
+
 /**
  * Enforce HTTPS on all API routes in production
  */
@@ -65,8 +68,7 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
      * Account forgot password
      */
     Route::post('forgot', ['uses' => 'AccountsController@forgot']);
-    Route::get('reset/{:token}', ['uses' => 'AccountsController@getReset']);
-    Route::post('reset/{:token}', ['uses' => 'AccountsController@postReset']);
+
 
     Route::get('/mtest', function()
     {
