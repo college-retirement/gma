@@ -43,7 +43,7 @@
 			    </div>
 		    	<ul class="nav navbar-nav navbar-right" ng-cloak ng-hide="getUser() == false">
 		    		
-		    		<li class="dropdown">
+		    		<li class="dropdown" ng-show="getUser().is_admin == true">
 		    			<a class="dropdown-toggle" data-toggle="dropdown">Change Level
 		    				<b class="caret"></b>
 		    			</a>
@@ -55,6 +55,9 @@
 		    				</li>
 		    				<li ng-cloak ng-show="getUser().is_admin == true">
 		    					<a href="#/admin/list?clients=true">Clients</a>
+		    				</li>
+		    				<li ng-cloak ng-show="getUser().is_admin == true">
+		    					<a href="#/admin/search">Search page</a>
 		    				</li>
 		    				<li ng-cloak ng-show="getUser().is_admin == true">
 		    					<a href="#/admin/drafts">Drafts</a>
@@ -85,7 +88,6 @@
 		    		</li>
 		    	</ul>
 		    </div>
-			
 <!-- 		    <ul class="nav navbar-nav navbar-right">
 		      <li><a class="persona-button dark"><span>Sign In</a></li>
 		      <li class="dropdown">
