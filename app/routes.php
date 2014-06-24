@@ -65,21 +65,22 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
      * Account forgot password
      */
     Route::post('forgot', ['uses' => 'AccountsController@forgot']);
-    Route::post('reset', ['uses' => 'AccountsController@reset']);
+    Route::get('reset/{:token}', ['uses' => 'AccountsController@getReset']);
+    Route::post('reset/{:token}', ['uses' => 'AccountsController@postReset']);
 
     Route::get('/mtest', function()
     {
-        $user = User::where('email', 'mahfuz_cse05@yahoo.com')->get()->first();
-        var_dump($user->getTest());
-        var_dump($user instanceof RemindableInterface);die();
-        if ($user) {
+        // $user = User::where('email', 'mahfuz_cse05@yahoo.com')->get()->first();
+        // var_dump($user->getTest());
+        // var_dump($user instanceof RemindableInterface);die();
+        // if ($user) {
             
-            $data['email'] = $user->email;
-            return Password::remind($data);
-        }
-        else{
-            return Response::json(['messages' => ['no_email' => 'There is no account with this email']], 409);
-        }
+        //     $data['email'] = $user->email;
+        //     return Password::remind($data);
+        // }
+        // else{
+        //     return Response::json(['messages' => ['no_email' => 'There is no account with this email']], 409);
+        // }
         return "Hello";
     });
 
