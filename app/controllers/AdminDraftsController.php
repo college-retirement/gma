@@ -47,6 +47,12 @@ class AdminDraftsController extends Controller
         $newDraft = Draft::find($id);
 
         if ($update) {
+            $log = new Log;
+            $log->action = "Update";
+            $log->details = "Draft Updated by Admin";
+            $log->user_id = Session::get('currentUser');
+            $log->save();
+
             return Rest::okay($newDraft->toArray());
         } else {
             return Rest::withErrors(['not_saved' => 'Unable to save draft.'])->conflict();
@@ -67,6 +73,12 @@ class AdminDraftsController extends Controller
         }
 
         if ($draft->delete()) {
+            $log = new Log;
+            $log->action = "Delete";
+            $log->details = "Draft Deleted by Admin";
+            $log->user_id = Session::get('currentUser');
+            $log->save();
+            
             return Rest::gone();
         } else {
             return Rest::withErrors(['not_deleted' => 'Unable to delete draft.'])->conflict();

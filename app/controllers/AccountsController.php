@@ -4,32 +4,49 @@ class AccountsController extends Controller {
 
     public function register()
     {
-		$user = User::where('email', Input::get('email'))->get()->first();
+        $user = User::where('email', Input::get('email'))->get()->first();
 
-		if ($user) {
-			return Response::json(['messages' => ['duplicate_email' => 'An account with that email already exists.']], 409);
-		}
+        $rules  = [
+        'name' => 'required',
+        'password' => 'Required|AlphaNum|min:6|Confirmed',
+        'password_confirmation' => 'required|min:6|AlphaNum',
+        'phone' => 'required',
+        'role' => 'required',
+        'gender' => 'required',
+        'email' => 'required|email'];
 
-		else {
-			$user = new User;
-            $user->password = $password = Hash::make( Input::get('password'));
-			$user->email = Input::get('email');
-			$user->gender = Input::get('gender');
-			$user->name = Input::get('name');
-			$user->phone = Input::get('phone');
-			$user->role = Input::get('role');
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails) {
+            return Response::json(['messages' => ['validation_error' => $validator->messages()]], 409);
+        } else {
 
-			if ($user->save()) {
-				 
-				return Response::json($user, 201);
-			}
-			else {
-				return Response::json(['messages' => ['db_error' => 'Unable to create account.']], 500);
-			}
-		}
-	}
+            if ($user) {
+                return Response::json(['messages' => ['duplicate_email' => 'An account with that email already exists.']], 409);
+            } else {
+                $user = new User;
+                $user->password = $password = Hash::make(Input::get('password'));
+                $user->email = Input::get('email');
+                $user->gender = Input::get('gender');
+                $user->name = Input::get('name');
+                $user->phone = Input::get('phone');
+                $user->role = Input::get('role');
 
-	/**
+                if ($user->save()) {
+                    $log = new Log;
+                    $log->action = 'Add';
+                    $log->details = "New User Created";
+                    $log->user_id = Session::get('currentUser');
+                    $log->save();
+                    
+                    return Response::json($user, 201);
+                } else {
+                    return Response::json(['messages' => ['db_error' => 'Unable to create account.']], 500);
+                }
+            }
+        }
+    }
+
+    /**
 	* as we are using previous version of enssegers/mongodb for that reasone we can not use password reminder 
 	*  so we are using manual password recovery
 	*/
@@ -104,6 +121,11 @@ class AccountsController extends Controller {
                 $user->password = Hash::make(Input::get('password'));
 
 		        if($user->save()) {
+		        	$log = new Log;
+                    $log->action = 'Update';
+                    $log->details = "User Password Reset";
+                    $log->user_id = Session::get('currentUser');
+                    $log->save();
 		        	$reminder->delete();
 		        	return Redirect::to('/');
 		        }

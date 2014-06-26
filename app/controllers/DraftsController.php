@@ -30,12 +30,23 @@ class DraftsController extends Controller
 
                     $newDraft = Draft::find(Input::get('_id'));
 
+                    $log = new Log;
+                    $log->action = 'Update';
+                    $log->details = "Draft Updated";
+                    $log->user_id = Session::get('currentUser');
+                    $log->save();
+
 
                     return Response::json($newDraft, 200);
                 }
             } else {
                 Draft::unguard();
                 $draft = Draft::create(array_merge(Input::all(), array('user_id' => Session::get('currentUser'))));
+                $log = new Log;
+                $log->action = 'Create';
+                $log->details = "New Draft Create";
+                $log->user_id = Session::get('currentUser');
+                $log->save();
                 return Response::json($draft, 201);
             }
         } else {
@@ -57,6 +68,11 @@ class DraftsController extends Controller
     {
         if (Session::get('currentUser')) {
             Draft::where('_id', $id)->where('user_id', Session::get('currentUser'))->delete();
+            $log = new Log;
+            $log->action = 'Delete';
+            $log->details = "Draft Deleted";
+            $log->user_id = Session::get('currentUser');
+            $log->save();
             return Response::json(array(), 200);
         } else {
             return Response::json(array(), 401);

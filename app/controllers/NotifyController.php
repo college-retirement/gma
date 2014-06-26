@@ -18,11 +18,11 @@ class NotifyController extends Controller {
 
 		Event::fire('profile.moreInfoRequired', [$d]);
 
-		
-
-		
-
-		//Event::fire('mmm.test', [$d]);
+		$log = new Log;
+		$log->action = "Update";
+		$log->details = "More Info Requested";
+		$log->user_id = Session::get('currentUser');
+		$log->save();
 		
 
 		return Rest::okay($profile->toArray());

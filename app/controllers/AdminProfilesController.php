@@ -10,6 +10,13 @@ class AdminProfilesController extends Controller {
 		$profile = Profile::create(Input::except(['_id', 'updated_at', 'stronghold', 'user']));
 
 		if ($profile) {
+			$log = new Log;
+			$log->action = "Admin Create";
+			$log->details = "New Profile Created";
+			$log->user_id = Session::get('currentUser');
+			$log->save();
+
+
 			return Rest::created($profile->toArray());
 		}
 
@@ -42,6 +49,12 @@ class AdminProfilesController extends Controller {
 		$updatedProfile = Profile::find($id);
 
 		if ($update) {
+			$log = new Log;
+			$log->action = 'Update';
+			$log->details = "Profile Updated by admin";
+			$log->user_id = Session::get('currentUser');
+			$log->save();
+			
 			return Rest::okay($updatedProfile->toArray());
 		}
 		else {

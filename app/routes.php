@@ -28,14 +28,18 @@ Route::get('/', function () {
     return View::make('hello');
 });
 
- Route::get('reset/{token}', ['uses' => 'AccountsController@getReset']);
- Route::post('reset/{token}', ['uses' => 'AccountsController@postReset']);
+ 
 
 /**
  * Enforce HTTPS on all API routes in production
  */
 Route::group(['before' => 'secure'], function () use ($GmaControllers) {
 
+    /**
+    *  For password Reminder
+    */
+    Route::get('reset/{token}', ['uses' => 'AccountsController@getReset']);
+    Route::post('reset/{token}', ['uses' => 'AccountsController@postReset']);
     /**
      * Provides college search for Typeahead
      */
@@ -69,9 +73,10 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
      */
     Route::post('forgot', ['uses' => 'AccountsController@forgot']);
 
-
-    Route::get('/mtest', function()
-    {
+     /**
+     *  Test Route
+     */
+    Route::get('/mtest', function () {
         // $user = User::where('email', 'mahfuz_cse05@yahoo.com')->get()->first();
         // var_dump($user->getTest());
         // var_dump($user instanceof RemindableInterface);die();
@@ -139,10 +144,12 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
         Route::patch('drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'DraftsController@updateOwner']);
         Route::delete('drafts/{id}', ['uses' => 'AdminDraftsController@deleteDraft']);
 
-        Route::get('newsletters',['uses' => 'AdminNewslettersController@newsletters']);
-        Route::get('newsletter/{id}',['uses' => 'AdminNewslettersController@newsletter']);
+        Route::get('newsletters', ['uses' => 'AdminNewslettersController@newsletters']);
+        Route::get('newsletter/{id}', ['uses' => 'AdminNewslettersController@newsletter']);
         Route::put('newsletter/{id}', ['uses' => 'AdminNewslettersController@saveNewsletter']);
-        Route::delete('newsletter/{id}',['uses' => 'AdminNewslettersController@deleteNewsletter']);
+        Route::delete('newsletter/{id}', ['uses' => 'AdminNewslettersController@deleteNewsletter']);
+
+        Route::get('logs', ['uses' => $GmaControllers . 'Admin\LogController@all']);
 
         Route::get('users', ['uses' => $GmaControllers . 'Admin\UserController@all']);
         Route::get('users/{id}', ['uses' => 'AdminUsersController@user']);
@@ -152,16 +159,16 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
             $profile = Profile::find($id);
            
             if($profile):
-            $filename = $profile->name['last'] . '-' . $profile->name['first'] . '.csv';
-            $path = storage_path() . '/' . $filename;
+                $filename = $profile->name['last'] . '-' . $profile->name['first'] . '.csv';
+                $path = storage_path() . '/' . $filename;
 
-            $export = new GMA\Data\Export\ExportCSV($profile, $path);
-            $export->export();
+                $export = new GMA\Data\Export\ExportCSV($profile, $path);
+                $export->export();
 
-            return Response::download($path);
+                return Response::download($path);
             else:
                 return Rest::notFound();
-            endif;    
+            endif;
         });
 
         Route::get('notify/moreinfo/{id}', ['uses' => 'NotifyController@moreInfo']);
