@@ -47,7 +47,7 @@ class AdminDraftsController extends Controller
         $newDraft = Draft::find($id);
 
         if ($update) {
-            $log = new Log;
+            $log = new UserLog;
             $log->action = "Update";
             $log->details = "Draft Updated by Admin";
             $log->user_id = Session::get('currentUser');
@@ -73,7 +73,7 @@ class AdminDraftsController extends Controller
         }
 
         if ($draft->delete()) {
-            $log = new Log;
+            $log = new UserLog;
             $log->action = "Delete";
             $log->details = "Draft Deleted by Admin";
             $log->user_id = Session::get('currentUser');

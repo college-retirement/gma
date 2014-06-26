@@ -95,6 +95,11 @@ class User extends SortableModel implements UserInterface, RemindableInterface
         return $this->hasMany('Profile');
     }
 
+    public function logs()
+    {
+        return $this->hasMany('Log');
+    }
+
     public function getFullNameAttribute()
     {
         if (array_key_exists('name', $this->attributes)) {
@@ -102,11 +107,6 @@ class User extends SortableModel implements UserInterface, RemindableInterface
         } else {
             return $this->attributes['email'];
         }
-    }
-
-    public function getTest() 
-    {
-        return 'mahfuz';
     }
 
     public function getIsAdminAttribute()

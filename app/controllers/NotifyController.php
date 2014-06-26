@@ -18,7 +18,7 @@ class NotifyController extends Controller {
 
 		Event::fire('profile.moreInfoRequired', [$d]);
 
-		$log = new Log;
+		$log = new UserLog;
 		$log->action = "Update";
 		$log->details = "More Info Requested";
 		$log->user_id = Session::get('currentUser');

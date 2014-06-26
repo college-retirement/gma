@@ -40,7 +40,7 @@ class AdminClientsController extends Controller {
 		$newProfile = Profile::find($id);
 
 		if ($update) {
-			$log = new Log;
+			$log = new UserLog;
 			$log->action = "Update";
 			$log->details = "Client Profile Updated";
 			$log->user_id = Session::get('currentUser');
@@ -60,7 +60,7 @@ class AdminClientsController extends Controller {
 
 		if ($profile->delete()) {
 
-			$log = new Log;
+			$log = new UserLog;
 			$log->action = "Delete";
 			$log->details = "Client Profile Delete";
 			$log->user_id = Session::get('currentUser');

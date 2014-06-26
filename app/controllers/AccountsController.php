@@ -32,7 +32,7 @@ class AccountsController extends Controller {
                 $user->role = Input::get('role');
 
                 if ($user->save()) {
-                    $log = new Log;
+                    $log = new UserLog;
                     $log->action = 'Add';
                     $log->details = "New User Created";
                     $log->user_id = Session::get('currentUser');
@@ -121,7 +121,7 @@ class AccountsController extends Controller {
                 $user->password = Hash::make(Input::get('password'));
 
 		        if($user->save()) {
-		        	$log = new Log;
+		        	$log = new UserLog;
                     $log->action = 'Update';
                     $log->details = "User Password Reset";
                     $log->user_id = Session::get('currentUser');

@@ -37,7 +37,7 @@ class AdminUsersController extends Controller {
 		$user->role = Input::get('role');
 
 		if ($user->save()) {
-			$log = new Log;
+			$log = new UserLog;
 			$log->action = "Edit";
 			$log->details = "User Profile Updated";
 			$log->user_id = Session::get('currentUser');
