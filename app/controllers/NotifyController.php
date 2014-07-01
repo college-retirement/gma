@@ -31,10 +31,11 @@ class NotifyController extends Controller {
     public function notifyUser()
     {
     	$id = Input::get('userid');
-        $profile = Profile::with('user')->find($id);
+    	$profile = Profile::with('user')->where('_id', $id)->get()->first();
+        //$profile = Profile::with('user')->find($id);
 
-        $p = Profile::where('_id' ,'52d29079d2ca70267f3b16bf')->get()->first();
-        var_dump($p->status);
+        $p = User::where('_id' ,'52d29079d2ca70267f3b16bf')->get()->first();
+        //var_dump($p->email);
         // $profile->prospect = false;
         // $profile->status = "More Info Requested";
         // $profile->save();
@@ -42,8 +43,9 @@ class NotifyController extends Controller {
         //if (!$profile) return Rest::notFound();
 
          $event = $profile->toArray();
+         //var_dump($event);
 
-         $html = View::make('emails.test',['data' => Input('templateBody'), 'profile' => $profile]);
+         $html = View::make('emails.test',['data' => Input::get('templateBody'), 'profile' => $profile]);
          var_dump($html);
 
     }
