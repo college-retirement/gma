@@ -11,14 +11,14 @@ class NewsletterController extends Base {
     {
         if ($this->isSorting()) {
             
-            $query = Template::withSortables($this->sortableColumns())->paginate(30);
+            $query = Template::withSortables($this->sortableColumns())->paginate(70);
             return Rest::okay($query);
         } else {
 
-            $sortableColumns = [['column' => 'created_at',
+            $sortableColumns = [['column' => 'templateType',
                     'order' => 'DESC']];
                     
-            $templates = Template::withSortables($sortableColumns)->paginate(30);
+            $templates = Template::withSortables($sortableColumns)->paginate(70);
             return Rest::okay($templates);
         }
     }
