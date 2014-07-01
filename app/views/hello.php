@@ -68,6 +68,9 @@
 		    				<li ng-cloak ng-show="getUser().is_admin == true">
 		    					<a href="#admin/logs">Logs</a>
 		    				</li>
+		    				<li ng-cloak ng-show="getUser().is_admin == true">
+		    					<a href="#admin/templates">Templates</a>
+		    				</li>
 		    			</ul>	
 		    		</li>	
 		    		<li class="dropdown">

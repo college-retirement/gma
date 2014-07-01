@@ -5,7 +5,7 @@ class AdminNewslettersController extends Controller {
 	public function newsletters()
 	{
 		
-		$newsletter = Newsletter::orderBy('templateType', 'desc')->get();
+		$newsletter = Newsletter::orderBy('templateType', 'desc')->paginate(30);
 
 		return Rest::okay($newsletter->toArray());
     }
