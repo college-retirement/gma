@@ -2,7 +2,7 @@
 namespace GMA\Data\Models;
 
 use GMA\Data\Models\Common\FormatTimestamps;
-use GMA\Data\Security\Stronghold;
+
 use \DateTime;
 
 class Log extends SortableModel {
@@ -46,23 +46,4 @@ class Log extends SortableModel {
         }
     }
 
-    public function getStrongholdAttribute($value)
-    {
-        if (!is_array($value)) {
-            $stronghold = new Stronghold([$value]);
-        } else {
-            $stronghold = new Stronghold($value);
-        }
-        return $stronghold->decryptAll()->toArray();
-    }
-
-    public function setStrongholdAttribute($value)
-    {
-        if (!is_array($value)) {
-            $stronghold = new Stronghold([$value]);
-        } else {
-            $stronghold = new Stronghold($value);
-        }
-        return $stronghold->encryptAll()->toArray();
-    }
 }
