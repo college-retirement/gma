@@ -1,6 +1,7 @@
 <?php
 namespace GMA\Data\Models;
 
+use GMA\Data\Models\Common\FormatTimestamps;
 use GMA\Data\Security\Stronghold;
 use \DateTime;
 

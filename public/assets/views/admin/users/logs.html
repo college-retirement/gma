@@ -9,7 +9,7 @@
 		<li class="active">
 			 Admin - Logs   
 		</li>
-		<span class="admin-search">Search - <input type="text" ng-model="query"></span>
+		<span class="admin-search"> Search - <input type="text" ng-model="query"></span>
 	</ol>
 	
 	<table class="table-striped table">
@@ -27,6 +27,12 @@
 						<i ng-class="sortClass('details')"></i>
 					</div>
 				</th>
+				<th ng-click="changeSort('user.name.first')" ng-dblclick="clearSort('user.name.first')">
+					User
+					<div class="sort">
+						<i ng-class="sortClass('user.name.first')"></i>
+					</div>
+				</th>
 				
 				<th ng-click="changeSort('created_at')" ng-dblclick="clearSort('created_at')">
 					Created
@@ -40,14 +46,17 @@
 		<tbody>
 			<tr ng-repeat="log in logs | filter:query">
 				<td>
-					{{log.action}}
+					{{ log.action }}
 				</td>
 				<td>
-					{{log.details}}
+					{{ log.details }}
+				</td>
+				<td>
+					{{ log.user.full_name }}
 				</td>
 				
 				<td>
-					{{log.created}}
+					{{ log.created }}
 				</td>
 				
 			</tr>
