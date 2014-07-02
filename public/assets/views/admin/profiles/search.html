@@ -9,7 +9,7 @@
 		<li class="active">
 			 Admin - {{type}}  
 		</li>
-		<span class="admin-search">Search - <input type="text" ng-model="query"></span>
+		<span class="admin-search">Search - <input type="text" ng-model="query.$"></span>
 	</ol>
 	
 	<table class="table-striped table">
@@ -70,10 +70,10 @@
 					{{profile.address.state}}
 				</td>
 				<td>
-					{{profile.phone | phone}}
+					{{profile.phone}}
 				</td>
 				<td>
-					{{ profile.hsGrad }}
+					{{profile.hsGrad}}
 				</td>
 				<td>
 					<i ng-class="{'icon-question-sign': (profile.has_profile_school === null), 'icon-ok-circle': (profile.has_profile_school === true), 'icon-ban-circle': (profile.has_profile_school === false)}"></i>
