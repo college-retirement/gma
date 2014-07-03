@@ -9,7 +9,7 @@
 		<li class="active">
 			 Admin - Templates   
 		</li>
-		<span class="admin-search">Search - <input type="text" ng-model="query"></span>
+		<span class="admin-search">Search <input type="text" ng-model="query"></span>
 	</ol>
 	
 	<table class="table-striped table">
@@ -28,13 +28,7 @@
 					</div>
 				</th>
 				
-				<th ng-click="changeSort('created_at')" ng-dblclick="clearSort('created_at')">
-					Created
-					<div class="sort">
-						<i ng-class="sortClass('created_at')"></i>
-					</div>
-
-
+				<th>Action	
 				</th>
 				<th></th>
 			</tr>

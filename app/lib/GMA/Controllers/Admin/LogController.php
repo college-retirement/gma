@@ -13,14 +13,14 @@ class LogController extends Base {
     {
     	if ($this->isSorting()) {
             
-            $query = Log::with('user')->withSortables($this->sortableColumns())->paginate(30);
+            $query = Log::with('user')->withSortables($this->sortableColumns())->paginate(80);
             return Rest::okay($query);
         } else {
 
             $sortableColumns = [['column' => 'created_at',
                     'order' => 'DESC']];
                     
-            $logs = Log::with('user')->withSortables($sortableColumns)->paginate(30);
+            $logs = Log::with('user')->withSortables($sortableColumns)->paginate(80);
             return Rest::okay($logs);
         }
     }

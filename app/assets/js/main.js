@@ -66,6 +66,10 @@ angular.module('gmaApp').config(['$routeProvider', '$httpProvider', function($ro
 	}).when('/admin/list', {
 		templateUrl: "assets/views/admin/profiles/list.html",
 		controller: "AdminListCtrl"
+	}).when('/admin/search', {
+		templateUrl: "assets/views/admin/profiles/search.html",
+		controller: "AdminSearchCtrl"
+		
 	}).when('/admin/profiles/:profile', {
 		templateUrl: "assets/views/admin/profiles/view.html",
 		controller: "AdminViewCtrl",
@@ -83,6 +87,15 @@ angular.module('gmaApp').config(['$routeProvider', '$httpProvider', function($ro
 	}).when('/admin/users/:user', {
 		templateUrl: "assets/views/admin/users/view.html",
 		controller: "AdminUserViewCtrl"
+	}).when('/admin/logs', {
+		templateUrl: "assets/views/admin/users/logs.html",
+		controller: "AdminUserLogCtrl"
+	}).when('/admin/templates', {
+		templateUrl: "assets/views/admin/template/list.html",
+		controller: "AdminTemplateListCtrl"
+	}).when('/admin/templates/:template', {
+		templateUrl: "assets/views/admin/template/view.html",
+		controller: "AdminTemplateViewCtrl"
 	}).otherwise('/');
 	
 	$httpProvider.interceptors.push('UnauthorizedXHRInterceptor');
@@ -92,7 +105,9 @@ angular.module('gmaApp').config(['$routeProvider', '$httpProvider', function($ro
 angular.module('gmaApp').factory('UnauthorizedXHRInterceptor', function($location, $q){
 	return {
 		'responseError': function(o) {
-			if (o.url !== '/persona/status' && o.status == 401) {
+
+			if (o.url !== '/persona/status'  && o.status == 401) {
+				
 				$q.reject(o);
 				$location.path('/');
 			}
@@ -192,7 +207,14 @@ angular.module('gmaApp').controller('ModalInstanceCtrl', ['$scope', '$modalInsta
 			var promise = Persona.verify($scope.login);
 			promise.then(function(greeting) {
 				$modalInstance.close();
-    			$location.path('/');
+				console.log(Persona.getUser().is_admin);
+				if(Persona.getUser().is_admin == true){
+					$location.path('/admin/list');
+				}
+				else{
+					$location.path('/');
+				}
+    			
 		    
 		  }, function(reason) {
 		  	toastr.error("email or password are not correct");
