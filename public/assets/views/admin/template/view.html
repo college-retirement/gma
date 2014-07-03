@@ -11,6 +11,33 @@
 <div>
 <form novalidate class="form-horizontal" ng-class="{'ng-submitted': submit == true}" ng-submit="submitTemplate();">
 	<legend>Edit Template Information</legend>
+    <div style="float:left;">
+    &#123;&#123;StudentFName&#125;&#125;<br />
+&#123;&#123;StudentLName&#125;&#125;<br />
+&#123;&#123;ParentFName&#125;&#125;<br />
+&#123;&#123;ParentLName&#125;&#125;<br />
+&#123;&#123;CaseID&#125;&#125;<br />
+&#123;&#123;Address&#125;&#125;<br />
+&#123;&#123;City&#125;&#125;<br />
+&#123;&#123;State&#125;&#125;<br />
+&#123;&#123;Zip&#125;&#125;<br />
+&#123;&#123;ApptDate&#125;&#125;<br />
+&#123;&#123;ApptLocation&#125;&#125;<br />
+&#123;&#123;ApptGoToMeetingID&#125;&#125;<br />
+&#123;&#123;Password&#125;&#125;<br />
+&#123;&#123;EmailAddress&#125;&#125;<br />
+&#123;&#123;HighSchool&#125;&#125;<br />
+&#123;&#123;GradYear&#125;&#125;<br />
+&#123;&#123;DataformLink&#125;&#125;<br />
+&#123;&#123;LearningStyleLink&#125;&#125;<br />
+&#123;&#123;WebinarDate&#125;&#125;<br />
+&#123;&#123;WebinarName&#125;&#125;<br />
+&#123;&#123;WebinarGoToMeetingID&#125;&#125;<br />
+&#123;&#123;HomePhone&#125;&#125;<br />
+&#123;&#123;WorkPhone1&#125;&#125;<br />
+&#123;&#123;WorkPhone2&#125;&#125;<br />
+&#123;&#123;BackEndScheduleLink&#125;&#125;<br />
+</div> 
 	<div class="form-group">
 		<label>Template Name</label>
 		<div class="control">
@@ -27,7 +54,7 @@
 	<div class="form-group">
 		<label>Template Body</label>
 		<div class="control">
-			<textarea ng-model="template.templateBody" rows="20"  class="form-control" required> {{ template.templateBody }} </textarea>
+			<textarea ng-model="template.templateBody" rows="20"  class="form-control" required> &#123;&#123; template.templateBody &#125;&#125; </textarea>
 			
 		</div>
 	</div>
@@ -40,6 +67,7 @@
 			
 		</div>
 	</div>
+   
 </form>
 </div>
 </div>
