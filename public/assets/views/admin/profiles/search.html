@@ -42,27 +42,17 @@
 						<i ng-class="sortClass('phone')"></i>
 					</div>
 				</th>
-            <th ng-click="changeSort('school.name')" ng-dblclick="clearSort('school.name')">
-					High School Name
-					<div class="sort">
-						<i ng-class="sortClass('school.name')"></i>
-					</div>
-				</th>
- 				   <th ng-click="changeSort('hsGrad')" ng-dblclick="clearSort('hsGrad')">
-					Grad
+				<th ng-click="changeSort('hsGrad')" ng-dblclick="clearSort('hsGrad')">
+					HS Grad Yr
 					<div class="sort">
 						<i ng-class="sortClass('hsGrad')"></i>
 					</div>
 				</th>
-				<th>Pr.</th>
-                <th>View</th>
-			 <th ng-click="changeSort('created_at')" ng-dblclick="clearSort('created_at')">
-					Created
-					<div class="sort">
-						<i ng-class="sortClass('created_at')"></i>
-					</div>
-				</th>
-                <th>Sib Grad</th>
+				
+				<th ng-show="clients">Status</th>
+				<th>Profile School(s)</th>
+				<th>Sib Grad</th>
+				
 				<th></th>
 			</tr>
 		</thead>
@@ -83,26 +73,24 @@
 				<td>
 					{{profile.phone}}
 				</td>
-               	<td>
-					{{profile.school.name}}
-				</td>
-        		<td>
+				<td>
 					{{profile.hsGrad}}
 				</td>
-			
 				<td>
 					<i ng-class="{'icon-question-sign': (profile.has_profile_school === null), 'icon-ok-circle': (profile.has_profile_school === true), 'icon-ban-circle': (profile.has_profile_school === false)}"></i>
 				</td>
 				<td ng-show="clients">
 					{{profile.status}}
 				</td>
+				<th>
+                   {{getGrade(profile)}}
+				</th>
 				<td>
 					<button class="btn btn-default btn-eye" ng-click="viewProfile(profile)">
 						<i class="icon-eye-open"></i>
 					</button>
+					
 				</td>
-	             <td>{{profile.created | date}}</td>
-    	         <th>Calc</th>
 			</tr>
 		</tbody>
 	</table>
