@@ -10,7 +10,7 @@ class UserController extends Base
     {
         if ($this->isSorting()) {
         	
-            $query = User::with(['drafts', 'profiles'])->withSortables($this->sortableColumns())->paginate(60);
+            $query = User::with(['drafts', 'profiles'])->withSortables($this->sortableColumns())->paginate(100);
             return Rest::okay($query);
         } else {
            

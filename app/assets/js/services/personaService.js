@@ -13,7 +13,7 @@ angular.module("persona").factory("Persona", ["$http", "$q", function ($http, $q
         },
         verify:function (user) {
             var deferred = $q.defer();
-            console.log(user);
+            //console.log(user);
                 $http.post("/persona/verify", user)
                     .then(function (response) {
                         if (response.data.status != "okay") {

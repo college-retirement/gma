@@ -8,6 +8,8 @@ angular.module('gmaApp').controller('AdminProfileListCtrl', function($scope, $lo
 
 	$scope.sortable = {
 		'address.city': false,
+		'name.first': false,
+		'name.last': false,
 		//'created_at': false,
 	};
 

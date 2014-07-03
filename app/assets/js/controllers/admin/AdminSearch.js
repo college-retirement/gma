@@ -1,30 +1,21 @@
-angular.module('gmaApp').controller('AdminListCtrl', function($scope, Persona, $http, $location){
+angular.module('gmaApp').controller('AdminSearchCtrl', function($scope, Persona, $http, $location){
 	Persona.status();
+    $scope.type = "Search";
 
-	$scope.getClients = function() {
-		$http.get('/admin/clients').then(function(obj){
-			$scope.profiles = obj.data.result;
-			$scope.pagination = obj.data.pagination;
-		});
-	};
+    $http.get('/admin/clients').then(function(obj){
+		$scope.profiles = obj.data.result;
+		$scope.pagination = obj.data.pagination;
+	});
 
-	$scope.getProspects = function() {
-		$http.get('/admin/prospects').then(function(obj){
-			$scope.profiles = obj.data.result;
-			$scope.pagination = obj.data.pagination;
-		});
-	};
-
-	
 
 	$scope.sortable = {
+		
+		'hsGrad': false,
 		'address.city': false,
 		'name.first': false,
 		'name.last': false,
-		'dob': false,
 		'phone' : false,
 		'address.state':false
-		//'created_at': false,
 	};
 
 	$scope.checkSort = function (column) {
@@ -65,22 +56,6 @@ angular.module('gmaApp').controller('AdminListCtrl', function($scope, Persona, $
 		$scope.newPage(1);
 	};
 
-	switch ($location.search().clients) {
-		case 'true':
-			$scope.getClients();
-			$scope.clients = true;
-		break;
-
-		case 'false':
-		default:
-			$scope.getProspects();
-			$scope.clients = false;
-		break;
-	}
-
-	$scope.type = ($scope.clients) ? 'Clients' : 'Prospects';
-
-
 	$scope.viewProfile = function(profile) {
 		$location.path('/admin/profiles/' + profile._id);
 	};
@@ -99,14 +74,8 @@ angular.module('gmaApp').controller('AdminListCtrl', function($scope, Persona, $
 				sort.push(key + ':' + sortCol);
 			}
 		}
-		var url;
-		if($scope.type == 'Clients')
-		{
-			url = '/admin/clients?page=';
-		}
-		else {
-			url = '/admin/prospects?page=';
-		}
+		var url = '/admin/clients?page=';
+		
 
 		$http.get(url + page + '&sort=' + sort.join(',')).then(function(obj){
 			if (!$scope.$$phase) {
@@ -123,16 +92,6 @@ angular.module('gmaApp').controller('AdminListCtrl', function($scope, Persona, $
 		});
 	};
 
-	$scope.destroy = function(profile) {
-		if (!$scope.clients) {
-			if (confirm('Are you sure you want to delete this prospect?')) {
-				$http.delete('/admin/prospects/' + profile._id).success(function(){
-					toastr.success('Prospect deleted.');
-					$scope.getProspects();
-				}).error(function(){
-					toastr.error('Unable to delete Prospect.');
-				});
-			}
-		}
-	};
+	
+
 });

@@ -18,6 +18,21 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 				schools: []
 			}
 		}
+
+		if (!$scope.student.hasOwnProperty('family')) {
+			$scope.student.family = {
+				members: [],
+				realEstate: [],
+				assets: [],
+				liabilities:[],
+				retirement:[]
+			}
+		}
+	});
+
+	$http.get('/admin/newsletters').then(function(obj){
+		$scope.newsletters = obj.data.result;
+		
 	});
 
 
@@ -121,6 +136,24 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 		});
 	};
 
+	$scope.previewNewsletter = function(newsletter) {
+		$modal.open({
+			templateUrl: 'assets/views/admin/profiles/modal/newsletterAssets.html',
+			controller: "NewsletterAssetModal",
+			resolve: {
+				newsletter: function() {
+					return newsletter;
+				},
+				userid: function() {
+					return id;
+				},
+				http: function() {
+					return $http;
+				}
+			}
+		});
+	}
+
 	$scope.notifyUser = function() {
 		$http.get('admin/notify/moreinfo/' + id).success(function(obj){
 			$scope.student = obj.result;
@@ -200,7 +233,11 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 		}
 	};
 
-
+	$scope.checkMember = function() {
+		if($scope.student.household.size != $scope.student.family.members.lenght){
+			toastr.error('Please add family member');
+		}
+	}
 
 	$scope.addFamily = function() {
 		$scope.student.family.members.push({student: false});
@@ -311,6 +348,16 @@ angular.module('gmaApp').controller('StudentAssetModal', function($scope, $modal
 	};
 });
 
+angular.module('gmaApp').controller('NewsletterAssetModal', function($scope, $modalInstance, newsletter,userid,http){
+	$scope.newsletter = newsletter;
+	$scope.close = function() {
+		$modalInstance.close();
+	};
+
+	$scope.submit = function() {
+		$modalInstance.close();
+	}
+});
 angular.module('gmaApp').controller('ParentAssetModal', function($scope, $modalInstance, assets){
 	$scope.assets = [];
 

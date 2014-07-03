@@ -1,15 +1,16 @@
-angular.module('gmaApp').controller('AdminUserListCtrl', function($scope, $location, $http, Persona){
+angular.module('gmaApp').controller('AdminTemplateListCtrl', function($scope, Persona, $http, $location, $route){
 	Persona.status();
 
-	$http.get('/admin/users').then(function(obj){
-		$scope.users = obj.data.result;
+	$http.get('/admin/newsletters').then(function(obj){
+		$scope.templates = obj.data.result;
 		$scope.pagination = obj.data.pagination;
 	});
 
 	$scope.sortable = {
-		'name.last': false,
-		'name.first': false,
+		
 		'created_at': false,
+		'template.templateName': false,
+		'template.templateSubject': false
 	};
 
 	$scope.checkSort = function (column) {
@@ -49,15 +50,15 @@ angular.module('gmaApp').controller('AdminUserListCtrl', function($scope, $locat
 		$scope.newPage(1);
 	};
 
-	$scope.viewUser = function(user) {
-		$location.path('/admin/users/' + user._id);
+	
+    $scope.viewTemplate = function(template) {
+		$location.path('/admin/templates/' + template._id);
 	};
 
 	$scope.newPage = function(page) {
-		
 		toastr.info('', 'Loading', {
 			timeOut: 0,
-			extendedTimeOut: 0
+			extendedTimeOut: 0,
 		});
 
 		var sort = [];
@@ -69,19 +70,31 @@ angular.module('gmaApp').controller('AdminUserListCtrl', function($scope, $locat
 			}
 		}
 
-		$http.get('/admin/users?page=' + page + '&sort=' + sort.join(',')).then(function(obj){
-			if (!$scope.$$phase) {
+		$http.get('/admin/newsletters?page=' + page + '&sort=' + sort.join(',')).then(function(obj){
+			if(!$scope.$$phase) {
 				$scope.$digest(function(){
-					$scope.users = obj.data.result;
+					$scope.profiles = obj.data.result;
 					$scope.pagination = obj.data.pagination;
 				});
 			}
 			else {
-				$scope.users = obj.data.result;
+				$scope.profiles = obj.data.result;
 				$scope.pagination = obj.data.pagination;
 			}
 			toastr.clear();
 		});
 	};
-
+	$scope.destroy = function() {
+		if (confirm('Are you sure you want to delete this template?')) {
+				$http.delete('/admin/newsletter/' + template._id).success(function(){
+					toastr.success('Template deleted.');
+					$http.get('/admin/newsletter/' + id).then(function(obj){
+						$scope.template = obj.data.result;
+						
+					});
+				}).error(function(){
+					toastr.error('Unable to delete Template.');
+				});
+			}
+	}
 });

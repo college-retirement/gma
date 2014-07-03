@@ -1,16 +1,18 @@
-angular.module('gmaApp').controller('AdminUserListCtrl', function($scope, $location, $http, Persona){
+angular.module('gmaApp').controller('AdminUserLogCtrl', function($scope, Persona, $http, $location){
 	Persona.status();
+    $scope.type = "Search";
 
-	$http.get('/admin/users').then(function(obj){
-		$scope.users = obj.data.result;
+    $http.get('/admin/logs').then(function(obj){
+		$scope.logs = obj.data.result;
 		$scope.pagination = obj.data.pagination;
 	});
 
 	$scope.sortable = {
-		'name.last': false,
-		'name.first': false,
 		'created_at': false,
-	};
+		'action': false,
+		'details': false,
+		'user.name.first': false
+		};
 
 	$scope.checkSort = function (column) {
 		return $scope.sortable[column];
@@ -31,8 +33,9 @@ angular.module('gmaApp').controller('AdminUserListCtrl', function($scope, $locat
 	};
 
 	$scope.changeSort = function (column) {
+		
 		var current = $scope.sortable[column];
-
+		
 		if (current === false) {
 			$scope.sortable[column] = 'asc';
 		} else if (current == 'desc') {
@@ -49,12 +52,7 @@ angular.module('gmaApp').controller('AdminUserListCtrl', function($scope, $locat
 		$scope.newPage(1);
 	};
 
-	$scope.viewUser = function(user) {
-		$location.path('/admin/users/' + user._id);
-	};
-
 	$scope.newPage = function(page) {
-		
 		toastr.info('', 'Loading', {
 			timeOut: 0,
 			extendedTimeOut: 0
@@ -68,20 +66,19 @@ angular.module('gmaApp').controller('AdminUserListCtrl', function($scope, $locat
 				sort.push(key + ':' + sortCol);
 			}
 		}
-
-		$http.get('/admin/users?page=' + page + '&sort=' + sort.join(',')).then(function(obj){
+		
+		$http.get('/admin/logs?page=' + page + '&sort=' + sort.join(',')).then(function(obj){
 			if (!$scope.$$phase) {
 				$scope.$digest(function(){
-					$scope.users = obj.data.result;
+					$scope.profiles = obj.data.result;
 					$scope.pagination = obj.data.pagination;
 				});
 			}
 			else {
-				$scope.users = obj.data.result;
+				$scope.profiles = obj.data.result;
 				$scope.pagination = obj.data.pagination;
 			}
 			toastr.clear();
 		});
 	};
-
 });
