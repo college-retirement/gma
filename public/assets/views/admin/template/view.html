@@ -11,8 +11,23 @@
 <div>
 <form novalidate class="form-horizontal" ng-class="{'ng-submitted': submit == true}" ng-submit="submitTemplate();">
 	<legend>Edit Template Information</legend>
-    <div style="float:left;">
-    &#123;&#123;StudentFName&#125;&#125;<br />
+
+	<div class="form-group">
+		<label>Template Name</label>
+		<div class="control">
+			<input type="text" ng-model="template.templateName"  required class="form-control" required>
+			
+		</div>
+	</div>
+	<div class="form-group">
+		<label>Template Subject</label>
+		<div class="control">
+			<input type="text" ng-model="template.templateSubject"  class="form-control" required>
+		</div>
+	</div>
+        <div class="form-group" style="float:left; font-size:12px;">
+&#123;&#123;StudentFName&#125;&#125;<br />
+&#123;&#123; Student F Name &#125;&#125;<br />
 &#123;&#123;StudentLName&#125;&#125;<br />
 &#123;&#123;ParentFName&#125;&#125;<br />
 &#123;&#123;ParentLName&#125;&#125;<br />
@@ -39,27 +54,12 @@
 &#123;&#123;BackEndScheduleLink&#125;&#125;<br />
 </div> 
 	<div class="form-group">
-		<label>Template Name</label>
-		<div class="control">
-			<input type="text" ng-model="template.templateName"  required class="form-control" required>
-			
-		</div>
-	</div>
-	<div class="form-group">
-		<label>Template Subject</label>
-		<div class="control">
-			<input type="text" ng-model="template.templateSubject"  class="form-control" required>
-		</div>
-	</div>
-	<div class="form-group">
 		<label>Template Body</label>
 		<div class="control">
-			<textarea ng-model="template.templateBody" rows="20"  class="form-control" required> &#123;&#123; template.templateBody &#125;&#125; </textarea>
+			<textarea ng-model="template.templateBody" rows="20"  class="form-control" required>  {{ template.templateBody }}</textarea>
 			
 		</div>
 	</div>
-	
-
 
 	<div class="form-group actions">
 		<div class="btn-group">

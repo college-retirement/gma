@@ -52,11 +52,11 @@
 					{{ log.details }}
 				</td>
 				<td>
-					{{ log.user.full_name }}
+					<a href="#/admin/profiles/{{ log.user._id }}"> {{ log.user.full_name }} </a>
 				</td>
 				
 				<td>
-					{{ log.created_at }}
+					{{ log.created }}
 				</td>
 				
 			</tr>

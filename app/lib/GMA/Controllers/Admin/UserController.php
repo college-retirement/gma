@@ -13,7 +13,7 @@ class UserController extends Base
             $query = User::with(['drafts', 'profiles'])->withSortables($this->sortableColumns())->paginate(30);
             return Rest::okay($query);
         } else {
-            return Rest::okay(User::with(['drafts', 'profiles'])->paginate(30));
+            return Rest::okay(User::with(['drafts', 'profiles'])->simplePaginate(30));
         }
     }
 }
