@@ -9,7 +9,12 @@ class AdminProfilesController extends Controller {
 	function create() {
 		$profile = Profile::create(Input::except(['_id', 'updated_at', 'stronghold', 'user']));
 
-		if ($profile) {
+		$pro2 = Profile::client()->orderBy('client_id','desc')->first();
+        $last_client_id = $pro2->client_id;
+        $profile->client_id =  $last_client_id + 1;
+
+
+		if ($profile->save()) {
 			$log = new UserLog;
 			$log->action = "Admin Create";
 			$log->details = "New Profile Created";
