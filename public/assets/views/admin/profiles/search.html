@@ -15,6 +15,11 @@
 	<table class="table-striped table">
 		<thead>
 			<tr>
+				<th ng-click="changeSort('client_id')" ng-dblclick="clearSort('client_id')">Client Id
+					<div class="sort">
+						<i ng-class="sortClass('client_id')"></i>
+					</div>
+				</th>
 				<th ng-click="changeSort('name.first')" ng-dblclick="clearSort('name.first')">First Name
 					<div class="sort">
 						<i ng-class="sortClass('name.first')"></i>
@@ -35,7 +40,11 @@
 						<i ng-class="sortClass('address.state')"></i>
 					</div>
 				</th>
-				
+				<th ng-click="changeSort('dob')" ng-dblclick="clearSort('dob')">DOB
+					<div class="sort">
+						<i ng-class="sortClass('dob')"></i>
+					</div>
+				</th>
 				
 				<th ng-click="changeSort('phone')" ng-dblclick="clearSort('phone')">Phone
 					<div class="sort">
@@ -70,7 +79,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="profile in profiles | filter:query" ng-dblclick="viewProfile(profile)">
+			<tr ng-repeat="profile in profiles | filter:query:true" ng-dblclick="viewProfile(profile)">
+				<td>
+					{{ profile.client_id }}
+				</td>
 				<td>
 					{{profile.name.first}}
 				</td>
@@ -82,6 +94,9 @@
 				</td>
 				<td>
 					{{profile.address.state}}
+				</td>
+				<td>
+					{{profile.dob}}
 				</td>
 				<td>
 					{{profile.phone}}
