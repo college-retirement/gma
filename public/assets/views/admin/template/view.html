@@ -8,10 +8,39 @@
 		</li>
 		
 	</ol>
-<div>
+</div>
+
+
 <form novalidate class="form-horizontal" ng-class="{'ng-submitted': submit == true}" ng-submit="submitTemplate();">
 	<legend>Edit Template Information</legend>
-
+	<div  style="float:left; font-size:12px;text-align:right">
+{StudentFName}<br />
+{Student F Name }<br />
+{StudentLName}<br />
+{ParentFName}<br />
+{ParentLName}<br />
+{CaseID}<br />
+{Address}<br />
+{City}<br />
+{State}<br />
+{Zip}<br />
+{ApptDate}<br />
+{ApptLocation}<br />
+{ApptGoToMeetingID}<br />
+{Password}<br />
+{EmailAddress}<br />
+{HighSchool}<br />
+{GradYear}<br />
+{DataformLink}<br />
+{LearningStyleLink}<br />
+{WebinarDate}<br />
+{WebinarName}<br />
+{WebinarGoToMeetingID}<br />
+{HomePhone}<br />
+{WorkPhone1}<br />
+{WorkPhone2}<br />
+{BackEndScheduleLink}<br />
+</div><div style="float:left">	
 	<div class="form-group">
 		<label>Template Name</label>
 		<div class="control">
@@ -25,34 +54,7 @@
 			<input type="text" ng-model="template.templateSubject"  class="form-control" required>
 		</div>
 	</div>
-        <div class="form-group" style="float:left; font-size:12px;">
-<!--{{StudentFName}}<br />
-{{Student F Name }}<br />
-{{StudentLName}}<br />
-{{ParentFName}}<br />
-{{ParentLName}}<br />
-{{CaseID}}<br />
-{{Address}}<br />
-{{City}}<br />
-{{State}}<br />
-{{Zip}}<br />
-{{ApptDate}}<br />
-{{ApptLocation}}<br />
-{{ApptGoToMeetingID}}<br />
-{{Password}}<br />
-{{EmailAddress}}<br />
-{{HighSchool}}<br />
-{{GradYear}}<br />
-{{DataformLink}}<br />
-{{LearningStyleLink}}<br />
-{{WebinarDate}}<br />
-{{WebinarName}}<br />
-{{WebinarGoToMeetingID}}<br />
-{{HomePhone}}<br />
-{{WorkPhone1}}<br />
-{{WorkPhone2}}<br />
-{{BackEndScheduleLink}}<br />-->
-</div> 
+         
 	<div class="form-group">
 		<label>Template Body</label>
 		<div class="control">
@@ -66,7 +68,7 @@
 			<input type="submit" class="btn btn-primary" value="Submit">
 			
 		</div>
-	</div>
+	</div></div>
    
 </form>
 </div>

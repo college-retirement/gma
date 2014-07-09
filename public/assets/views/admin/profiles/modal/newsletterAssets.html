@@ -1,4 +1,4 @@
-<div class="modal-dialog" style="width:750px">
+<div class="modal-dialog" style="width:700px">
 	<div class="modal-content">
 		
 	  <div class="modal-header">
@@ -7,27 +7,36 @@
 	  </div>
 	  <div class="modal-body" style="min-height:300px">
 
-	  	<form role="form">
-		  <div class="form-group">
-		    <label for="exampleInputEmail1">Email Subject</label><br/>
-			    <input type="text" ng-model="newsletter.templateSubject"  class="form-control" required>
-		  </div>
-		  <div class="form-group">
-		    <label for="exampleInputEmail1">Email Body</label><br/>
-			   
-			   <textarea ng-model="newsletter.templateBody"  rows="20"  class="form-control ck-editor" required></textarea>
-		  </div>
-		  
-		  
-		  <button type="submit" class="btn btn-default" ng-click="submit()">Send</button>
-		  <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="close()">Close</button>
+	  	<form role="form" class="form-horizontal">
+
+	  		
+			  <div class="form-group">
+					<label>Email Subject</label>
+					<div class="control">
+						<input type="text" class="form-control" ng-model="newsletter.templateSubject" required>
+					</div>
+				</div>
+
+			  
+			  <div class="form-group">
+				<label>Email Body</label>
+				<div class="control">
+					<textarea ng-model="newsletter.templateBody"  rows="20"  class="form-control ck-editor" required></textarea>
+					
+				</div>
+			</div>
+			<div class="form-group actions">
+				<div class="btn-group">
+					<button type="submit" class="btn btn-default" ng-click="submit()">Send</button>
+		            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="close()">Close</button>
+					
+				</div>
+			</div>
+
 		</form>
 
 	  	
 	  </div>
-	  <div class="modal-footer">
-	  	
-	  </div>
-	 
+	  
 	</div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
