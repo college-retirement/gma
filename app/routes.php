@@ -78,21 +78,7 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
      */
     Route::get('/mtest', function () {
         
-         $pro = Profile::first();
-         var_dump($pro->_id);
-
-         $pro2 = Profile::client()->orderBy('client_id','desc')->first();
-         var_dump($pro2->_id. " ". $pro2->client_id);
-
-        $prospects = Profile::client()->orderBy('client_id','desc')->get();
-        $i = 12500;
-        foreach ($prospects as $key => $prospect) {
-            //$prospect->client_id = $i;
-            //echo $prospect->_id;
-            echo $prospect->client_id. "<br />";
-            ++$i;
-           // var_dump($prospect->save());
-        }
+         
         return "Hello";
     });
 
