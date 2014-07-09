@@ -1,4 +1,4 @@
-<div class="modal-dialog">
+<div class="modal-dialog" style="width:750px">
 	<div class="modal-content">
 		
 	  <div class="modal-header">
@@ -10,11 +10,12 @@
 	  	<form role="form">
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">Email Subject</label><br/>
-			    <input type="text" ng-model="newsletter.templateSubject" value="{{newsletter.templateSubject}}" class="form-control" required>
+			    <input type="text" ng-model="newsletter.templateSubject"  class="form-control" required>
 		  </div>
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">Email Body</label><br/>
-			   <textarea ng-mode="newsletter.templateBody" class="form-control" required rows="8">{{newsletter.templateBody}}</textarea>
+			   
+			   <textarea ng-model="newsletter.templateBody"  rows="20"  class="form-control ck-editor" required></textarea>
 		  </div>
 		  
 		  
