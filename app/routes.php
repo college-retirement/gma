@@ -81,10 +81,10 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
          $pro = Profile::first();
          var_dump($pro->_id);
 
-         $pro2 = Profile::orderBy('created_at','desc')->first();
+         $pro2 = Profile::orderBy('client_id','desc')->first();
          var_dump($pro2->_id);
 
-        $prospects = Profile::all();
+        $prospects = Profile::orderBy('client_id','desc')->get();
         $i = 12500;
         foreach ($prospects as $key => $prospect) {
             //$prospect->client_id = $i;
