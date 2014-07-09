@@ -77,17 +77,15 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
      *  Test Route
      */
     Route::get('/mtest', function () {
-        // $user = User::where('email', 'mahfuz_cse05@yahoo.com')->get()->first();
-        // var_dump($user->getTest());
-        // var_dump($user instanceof RemindableInterface);die();
-        // if ($user) {
-            
-        //     $data['email'] = $user->email;
-        //     return Password::remind($data);
-        // }
-        // else{
-        //     return Response::json(['messages' => ['no_email' => 'There is no account with this email']], 409);
-        // }
+        
+        $prospects = Profile::all();
+        $i = 12500;
+        foreach ($prospects as $key => $prospect) {
+            $prospect->client_id = $i;
+            echo $prospect->_id. "<br />";
+            ++$i;
+            //$prospect->save();
+        }
         return "Hello";
     });
 
