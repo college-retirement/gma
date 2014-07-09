@@ -79,7 +79,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="profile in profiles | filter:query:true" ng-dblclick="viewProfile(profile)">
+			<tr ng-repeat="profile in profiles | filter:query" ng-dblclick="viewProfile(profile)">
 				<td>
 					{{ profile.client_id }}
 				</td>
