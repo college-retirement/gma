@@ -15,7 +15,10 @@ angular.module('gmaApp').controller('AdminSearchCtrl', function($scope, Persona,
 		'name.first': false,
 		'name.last': false,
 		'phone' : false,
-		'address.state':false
+		'address.state': false,
+		'school.name': false,
+		'dob': false,
+		'client_id': false
 	};
 
 	$scope.checkSort = function (column) {
@@ -59,6 +62,31 @@ angular.module('gmaApp').controller('AdminSearchCtrl', function($scope, Persona,
 	$scope.viewProfile = function(profile) {
 		$location.path('/admin/profiles/' + profile._id);
 	};
+
+	$scope.getGrade = function(profile) {
+		
+		if(profile.family.members.length > 0){
+			for (var i=0; i< profile.family.members.length ; i++){
+				//console.log(profile.family.members[i].relationship);
+				if(profile.family.members[i].relationship == 'sibling' && profile.family.members[i].grade) {
+					
+					var gd = 0;
+					if(profile.family.members[i].grade == 'Freshman' || 
+						profile.family.members[i].grade == 'Sophomore' || 
+						profile.family.members[i].grade == 'Junior' || 
+						profile.family.members[i].grade == 'Senior' ){
+						gd = 12;
+					} else {
+						gd = parseInt(profile.family.members[i].grade, 10);
+					}
+
+					//console.log(gd);
+					return 2014 + (12- gd);
+				}
+			}
+		}
+	//return 1;
+	}
 
 	$scope.newPage = function(page) {
 		toastr.info('', 'Loading', {

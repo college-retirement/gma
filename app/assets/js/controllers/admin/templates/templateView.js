@@ -4,9 +4,7 @@ angular.module('gmaApp').controller('AdminTemplateViewCtrl', function($scope, $r
 		$scope.template = obj.data.result;
 		
 	});
-
 	
-
 	$scope.submitTemplate = function() {
 
 		var errors = false;

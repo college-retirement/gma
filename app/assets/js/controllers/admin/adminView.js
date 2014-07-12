@@ -234,8 +234,11 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 	};
 
 	$scope.checkMember = function() {
-		if($scope.student.household.size != $scope.student.family.members.lenght){
-			toastr.error('Please add family member');
+		
+		if($scope.student.household.size != $scope.student.family.members.length){
+			toastr.error('Please add same number family member');
+			jQuery("#addfamily").focus();
+			
 		}
 	}
 
@@ -318,6 +321,13 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 		});
 
 		jQuery(".ng-invalid:not(form)").first().focus();
+
+		if($scope.student.household.size != $scope.student.family.members.length){
+			errors = true;
+			toastr.error('Please add same number family member');
+			jQuery("#addfamily").focus();
+
+		}
 		$scope.submit = true;
 
 		if (!errors) {

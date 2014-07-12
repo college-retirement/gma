@@ -23,7 +23,8 @@ angular.module('gmaApp').controller('AdminListCtrl', function($scope, Persona, $
 		'name.last': false,
 		'dob': false,
 		'phone' : false,
-		'address.state':false
+		'address.state':false,
+		'client_id':false
 		//'created_at': false,
 	};
 
