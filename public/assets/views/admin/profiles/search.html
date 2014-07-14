@@ -84,35 +84,35 @@
 					{{ profile.client_id }}
 				</td>
 				<td>
-					{{profile.name.first}}
+					{{ profile.name.first }}
 				</td>
 				<td>
-					{{profile.name.last}}
+					{{ profile.name.last }}
 				</td>
 				<td>
-					{{profile.address.city}}
+					{{ profile.address.city }}
 				</td>
 				<td>
-					{{profile.address.state}}
+					{{ profile.address.state }}
 				</td>
 				<td>
-					{{profile.dob}}
+					{{ profile.dob | dob }}
 				</td>
 				<td>
-					{{profile.phone}}
+					{{ profile.phone }}
 				</td>
 				<td>
-					{{profile.hsGrad}}
+					{{ profile.hsGrad }}
 				</td>
 				
 				<td ng-show="clients">
-					{{profile.status}}
+					{{ profile.status }}
 				</td>
 				<td>
-					{{profile.updated}}
+					{{ profile.updated }}
 				</td>
 				<td>
-					{{profile.school.name}}
+					{{ profile.school.name }}
 					
 				</td>
 				<td>
@@ -120,7 +120,7 @@
 				</td>
 					
 				<td>
-                   {{getGrade(profile)}}
+                   {{ getGrade(profile) }}
 				</td>
 
 				
