@@ -51,8 +51,29 @@ class NewsletterController extends Base {
         // {WorkPhone2}
         // {BackEndScheduleLink}
 
-        $query = Profile::client()->with('user')->where("_id" , $id)->paginate(1);
-        var_dump(Rest::okay($query));die();
+        $profiles = Profile::client()->with('user')->where("_id" , $id)->take(2)->get();
+        foreach ($profiles as $key => $profile) {
+            echo $profile['_id'] ."<br />";
+            echo $profile['client_id'] ."<br />";
+            echo $profile['name']['first'] ."<br />";
+            echo $profile['name']['last'] ."<br />";
+            if (isset($profile['parents']['father'])) {
+                echo $profile['parents']['father']['name']['first'];
+            } elseif (isset($profile['parents']['mother'])) {
+                echo $profile['parents']['mother']['name']['first'];
+            } else {
+                echo "no parents";
+            }
+            echo $profile['address']['city'] ."<br />";
+            echo $profile['address']['state'] ."<br />";
+            echo $profile['address']['zipcode'] ."<br />";
+            echo $profile['email'] ."<br />";
+            echo $profile['hsGrad'] ."<br />";
+            if (isset($profile['school']) && isset($profile['school']['name']))
+                echo $profile['school']['name']."<br />";
+             echo $profile['phone'] ."<br />";
+        }
+        die('ty');
 
         if ($this->isSorting()) {
             
