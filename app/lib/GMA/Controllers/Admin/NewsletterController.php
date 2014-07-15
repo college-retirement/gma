@@ -28,8 +28,13 @@ class NewsletterController extends Base {
 
      public function profile($id)
     {
-        // $profile['name']['first'] $profile['name']['last'] $profile['_id']
-        //ParentFName   ApptDate {CaseID}
+        
+        // {StudentFName}
+        // {Student F Name }
+        // {StudentLName}
+        // {ParentFName}
+        // {ParentLName}
+        // {CaseID}
         // {Address}
         // {City}
         // {State}
@@ -51,29 +56,55 @@ class NewsletterController extends Base {
         // {WorkPhone2}
         // {BackEndScheduleLink}
 
-        $profiles = Profile::client()->with('user')->where("_id" , $id)->take(2)->get();
-        foreach ($profiles as $key => $profile) {
-            echo $profile['_id'] ."<br />";
-            echo $profile['client_id'] ."<br />";
-            echo $profile['name']['first'] ."<br />";
-            echo $profile['name']['last'] ."<br />";
+        $profile = Profile::client()->with('user')->where("_id" , $id)->get()->first();
+        
+            $template['ID'] = $profile['_id'] ;
+            $template['CaseID'] = $profile['client_id'];
+            $template['StudentFName'] = $profile['name']['first'] ;
+            $template['StudentLName'] = $profile['name']['last'];
             if (isset($profile['parents']['father'])) {
-                echo $profile['parents']['father']['name']['first'];
+                $template['ParentFName'] = $profile['parents']['father']['name']['first'];
+                $template['ParentLName'] = $profile['parents']['father']['name']['first'];
             } elseif (isset($profile['parents']['mother'])) {
-                echo $profile['parents']['mother']['name']['first'];
+                $template['ParentFName'] = $profile['parents']['mother']['name']['first'];
+                $template['ParentLName'] = $profile['parents']['mother']['name']['first'];
             } else {
-                echo "no parents";
+                $template['ParentFName'] = "";
+                $template['ParentLName'] = "";
             }
-            echo $profile['address']['city'] ."<br />";
-            echo $profile['address']['state'] ."<br />";
-            echo $profile['address']['zipcode'] ."<br />";
-            echo $profile['email'] ."<br />";
-            echo $profile['hsGrad'] ."<br />";
+            $template['Address'] =  $profile['address']['line1'];
+            $template['City'] = $profile['address']['city'];
+            $template['State'] = $profile['address']['state'];
+            $template['Zip'] = $profile['address']['zipcode'];
+            $template['EmailAddress'] = $profile['email'] ;
+            $template['GradYear'] = $profile['hsGrad'];
+            $template['HighSchool'] = '';
             if (isset($profile['school']) && isset($profile['school']['name']))
-                echo $profile['school']['name']."<br />";
-             echo $profile['phone'] ."<br />";
-        }
-        die('ty');
+                $template['HighSchool'] = $profile['school']['name'];
+             $template['HomePhone'] = $profile['phone'];
+
+             //rest of the template are unknown now so just initialize it
+
+             $template['ApptDate'] = '';
+             $template['ApptLocation'] = '';
+             $template['ApptGoToMeetingID'] = '';
+             $template['Password'] ='';
+             $template['DataformLink'] = '';
+             $template['LearningStyleLink'] = '';
+             $template['WebinarDate'] = '';
+             $template['WebinarName'] = '';
+             $template['WebinarGoToMeetingID'] = '';
+             $template['WorkPhone1'] = '';
+             $template['WorkPhone2'] = '';
+             $template['BackEndScheduleLink'] = '';
+
+              $query = Template::withSortables($this->sortableColumns())->paginate(2);
+
+              foreach ($query as $key => $value) {
+                 var_dump($value);
+              }
+        
+            die();
 
         if ($this->isSorting()) {
             
