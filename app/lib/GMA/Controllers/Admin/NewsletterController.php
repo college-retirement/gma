@@ -56,8 +56,8 @@ class NewsletterController extends Base {
         // {WorkPhone2}
         // {BackEndScheduleLink}
 
-        $profile = Profile::client()->where("_id" , $id)->get()->first();
-        var_dump($profile);die();
+        $profile = Profile::where("_id" , $id)->get()->first();
+        
             $variables['ID'] = $profile['_id'] ;
             $variables['CaseID'] = $profile['client_id'];
             $variables['StudentFName'] = $profile['name']['first'] ;
@@ -99,7 +99,7 @@ class NewsletterController extends Base {
              $variables['BackEndScheduleLink'] = '';
 
               
-         var_dump($variables);die();
+         
             
 
             $sortableColumns = [['column' => 'templateType',
@@ -115,7 +115,7 @@ class NewsletterController extends Base {
                         'templateBody' => $this->parsetemplate($variables, $value['templateBody']),
                         'templateID' => $value['templateID'],
                         'templateName' => $value['templateName'],
-                        'templateSubject' => $value['templateSubject'],
+                        'templateSubject' => $this->parsetemplate($variables, $value['templateSubject']),
                         'templateType' => $value['templateType'],
                         'updated' => $value['updated'],
                         'updated_at' => $value['updated_at'],
@@ -128,10 +128,11 @@ class NewsletterController extends Base {
 
     public function parsetemplate($variables, $template)
     {
-        var_dump($variables);die();
+        
         foreach($variables as $key => $val)
         {
             $template = str_replace('{'.$key.'}', $val, $template);
+            $template = str_replace('##'.$key.'##', $val, $template);
         }
 
         return $template;
