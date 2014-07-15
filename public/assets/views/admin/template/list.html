@@ -27,10 +27,10 @@
 						<i ng-class="sortClass('template.templateSubject')"></i>
 					</div>
 				</th>
-				
+				<th>Updated</th>
 				<th>Action	
 				</th>
-				<th></th>
+				
 			</tr>
 		</thead>
 		<tbody>
@@ -43,7 +43,7 @@
 				</td>
 				
 				<td>
-					{{template.created | date}}
+					{{template.updated | date}}
 				</td>
 				<td>
 					<button class="btn btn-default btn-eye" ng-click="viewTemplate(template)">
