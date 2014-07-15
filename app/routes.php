@@ -79,15 +79,24 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
     Route::get('/mtest', function () {
         
          $variables = array();
-
-        $variables['name'] = "Robert";
+        $variables['_id'] = 1;
+        $variables['name']['first'] = "Robert";
+        $variables['name']['last'] = "RR";
         $variables['age'] = "30";
+        
 
-        $template = " my name is { name } and my age is { age } . bye { name } ";
+        $template = " My Id is { _id } and my name is { last } and my age is { age } . bye { first } ";
 
         foreach($variables as $key => $value)
         {
-            $template = str_replace('{ '.$key.' }', $value, $template);
+            if(is_array($value)) {
+                foreach($value as $k => $v)
+                {
+                    $template = str_replace('{ '.$k.' }', $v, $template);
+                }    
+            }
+            else
+                $template = str_replace('{ '.$key.' }', $value, $template);
         }
 
         echo $template;
