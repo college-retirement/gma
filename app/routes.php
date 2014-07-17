@@ -78,8 +78,7 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
      */
     Route::get('/mtest', function () {
         
-       $user = User::all();
-       echo count($user);
+       
         return "Hello";
     });
 

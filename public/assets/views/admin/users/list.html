@@ -15,7 +15,12 @@
 	<table class="table-striped table">
 		<thead>
 			<tr>
-				<th>User Id</th>
+				<th ng-click="changeSort('user_id')" ng-dblclick="clearSort('user_id')">
+					User Id
+					<div class="sort">
+						<i ng-class="sortClass('user_id')"></i>
+					</div>
+				</th>
 				<th ng-click="changeSort('name.first')" ng-dblclick="clearSort('name.first')">
 					First Name
 					<div class="sort">
@@ -44,7 +49,7 @@
 		<tbody>
 			<tr ng-repeat="user in users | filter:query" ng-dblclick="viewUser(user)">
 				<td>
-					{{$index + 1000}}
+					{{user.user_id}}
 				</td>
 				<td>
 					{{user.name.first}}
