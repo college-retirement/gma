@@ -31,9 +31,19 @@ class NotifyController extends Controller {
     public function notifyUser()
     {
     	$id = Input::get('userid');
-    	$profile = Profile::with('user')->where('_id', $id)->get()->first();
-        var_dump($profile);
+    	$event = Profile::with('user')->where('_id', $id)->get()->first();
+        $event = $event->toArray();
+        $profile['user']['name'] = $event['name']['first']." ".$event['name']['last'];
+        $profile['_id'] = $event['_id'];
+        $profile['email'] = $event['email'];
+
         
+
+        $subject = Input::get('templateSubject');
+        \Mail::send('emails.notify', ['data' => Input::get('templateBody')], function($mail) use ($profile,$subject){
+            $mail->to($profile['email'], $profile['user']['name'])->subject($subject);
+        });
+
 
     }
 }
