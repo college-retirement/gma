@@ -184,8 +184,10 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
             endif;
         });
 
+        Route::any('notify/sendmail', ['uses' => 'NotifyController@notifyUser']);
+
         Route::get('notify/moreinfo/{id}', ['uses' => 'NotifyController@moreInfo']);
-        Route::post('notify/moreinfo', ['uses' => 'NotifyController@notifyUser']);
+        
     });
 
 });
