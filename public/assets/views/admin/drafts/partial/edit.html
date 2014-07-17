@@ -267,6 +267,17 @@
 	</div>
 
 	<legend>SAT/PSAT Scores</legend>
+	<blockquote>Please share both score or ONLY your best score</blockquote>
+	<div class="form-group">
+		<label></label>
+		<div class="control">
+			<div class="btn-group">
+				<button type="button" class="btn btn-default" ng-model="student.sat.type" btn-radio="'SAT'" required>SAT</button>
+				<button type="button" class="btn btn-default" ng-model="student.sat.type" btn-radio="'PSAT'" required>PSAT</button>
+			</div>
+		</div>
+	</div>
+
 	<div class="form-group">
 		<label>Verbal</label>
 		<div class="control tiny">
