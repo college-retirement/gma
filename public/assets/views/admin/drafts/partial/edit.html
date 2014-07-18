@@ -828,7 +828,6 @@
 				<td>Student</td>
 				<td>{{student.dob | dob}}</td>
 				<td>
-					
 					<select class="form-control inline" ng-model="student.school.current">
 						<option value="true">Yes</option>
 						<option value="false">No</option>
@@ -893,7 +892,11 @@
 					<input type="text" class="form-control inline" ng-model="member.dob" ui-mask="99/99/9999">
 				</td>
 				<td>
-					<input type="checkbox" ng-model="member.student">
+					<select class="form-control inline" ng-model="member.student">
+						<option value="1">Yes</option>
+						<option value="0">No</option>
+						
+					</select>
 				</td>
 				<td>
 					<input type="text" class="form-control inline" ng-model="member.school" ng-disabled="member.student === false">
