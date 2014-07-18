@@ -819,7 +819,7 @@
 			<th>School</th>
 			<th>Grade</th>
 			<th>Tuition Paid by Parents</th>
-			<th>Pertinent Adults</th>
+			<th>Other Care Givers</th>
 			<th>Email</th>
 			<!-- <th>Scholarship/Grants</th> -->
 			<th></th>
@@ -836,7 +836,7 @@
 					</select>
 				</td>
 				<td>
-					<input type="text" class="form-control inline" ng-model="student.school.name" ng-disabled="student.school.current === false">
+					<input type="text" class="form-control inline w130px" ng-model="student.school.name" ng-disabled="student.school.current === false">
 				</td>
 				<td>
 					<select class="form-control inline" ng-model="student.school.grade" ng-disabled="student.school.current === false">
@@ -862,7 +862,7 @@
 					</select>
 				</td>
 				<td>
-					<input type="text" class="form-control" ng-disabled="student.school.current === false" ng-model="student.school.parentContribution">
+					<input type="text" class="form-control w130px" ng-disabled="student.school.current === false" ng-model="student.school.parentContribution">
 				</td>
 				<td>
 					<select class="form-control inline" ng-model="student.school.pertinentadults">
@@ -872,7 +872,7 @@
 					</select>
 				</td>
 				<td>
-					<input type="email" ng-model="student.school.email" placeholder="name@example.com" class="form-control ng-pristine ng-valid-email ng-valid ng-valid-required" required="">
+					<input type="email" ng-model="student.school.email" placeholder="name@example.com" class="form-control w130px ng-valid-email" required="">
 				</td>
 				<!-- <td> -->
 					<!-- <div class="input-group input-append input-prepend"> -->
@@ -900,14 +900,14 @@
 					</select>
 				</td>
 				<td>
-					<input type="text" class="form-control inline" ng-model="member.dob" ui-mask="99/99/9999">
+					<input type="text" class="form-control inline w130px" ng-model="member.dob" ui-mask="99/99/9999">
 				</td>
 				<td>
 					<select class="form-control inline" ng-model="member.student" ng-options="o.v as o.n for o in [{ n: 'No', v: false }, { n: 'Yes', v: true }]">
 					</select>
 				</td>
 				<td>
-					<input type="text" class="form-control inline" ng-model="member.school" ng-disabled="member.student === false">
+					<input type="text" class="form-control inline w130px" ng-model="member.school" ng-disabled="member.student === false">
 				</td>
 				<td>
 					<select class="form-control inline" ng-model="member.grade" ng-disabled="member.student === false">
@@ -935,7 +935,7 @@
 				<td>
 					<div class="input-group input-append input-prepend">
 						<span class="input-group-addon">$</span>
-						<input type="text" class="form-control inline" ng-disabled="member.student === false" ng-model="member.parentContribution">
+						<input type="text" class="form-control inline w130px" ng-disabled="member.student === false" ng-model="member.parentContribution">
 						<span class="input-group-addon">.00</span>
 					</div>
 				</td>
@@ -947,7 +947,7 @@
 					</select>
 				</td>
 				<td>
-					<input type="email" ng-model="member.student.email" placeholder="name@example.com" class="form-control ng-pristine ng-valid-email ng-valid ng-valid-required" required="">
+					<input type="email" ng-model="member.student.email" placeholder="name@example.com" class="form-control w130px" required="">
 				</td>
 				<!-- <td> -->
 					<!-- <div class="input-group input-append input-prepend"> -->
