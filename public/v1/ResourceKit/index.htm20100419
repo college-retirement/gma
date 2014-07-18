@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>College & Retirement Solutions - Resource Kit</title>
+    <SCRIPT LANGUAGE="JavaScript">        
+    var slideShowSpeed = 7000;
+    var crossFadeDuration = 3;
+    var Pic = new Array();
+
+    Pic[0] = 'Images/graduation.jpg';
+    Pic[1] = 'Images/college_graduate_250h.jpg';
+    Pic[2] = 'Images/princeton_blair_1.jpg';
+    Pic[3] = 'Images/grad.jpg';
+    Pic[4] = 'Images/class_8820.jpg';
+    Pic[5] = 'Images/graduation-caps.jpg';
+    Pic[6] = 'Images/college-graduates.jpg';
+    Pic[7] = 'Images/177.jpg';
+    Pic[8] = 'Images/p1000291.jpg';
+
+    var t;
+    var j = 0;
+    var p = Pic.length;
+    var preLoad = new Array();
+    for (i = 0; i < p; i++) {
+        preLoad[i] = new Image();
+        preLoad[i].src = Pic[i];
+    }
+    
+    function runSlideShow() {
+        if (document.all) {
+            document.images.SlideShow.style.filter="blendTrans(duration=2)";
+            document.images.SlideShow.style.filter="blendTrans(duration=" + crossFadeDuration + ")";
+            document.images.SlideShow.filters.blendTrans.Apply();
+        }
+        document.images.SlideShow.src = preLoad[j].src;
+        if (document.all) {
+            document.images.SlideShow.filters.blendTrans.Play();
+        }
+        j = j + 1;
+        if (j > (p - 1)) j = 0;
+        t = setTimeout('runSlideShow()', slideShowSpeed);
+    }
+    function gotoMainMenu()
+    {
+        var x = document.getElementById('menuframe');
+        x.src = 'menu.htm';
+    }
+    </script>
+    
+    <style type="text/css">
+    body {
+        font-family: Calibri, Verdana, Arial;
+    }
+    </style>
+    <script type="text/javascript">
+    var myLoc = '';
+
+	function getPath()
+	{
+	    var URL = unescape(location.href);
+	    var xstart = URL.lastIndexOf("/") + 1;
+	    return URL.substring(0,xstart);
+    }
+    function setupNav()
+    {
+        myLoc = getPath();
+    }
+    </script>
+</head>
+<body onLoad="runSlideShow(); setupNav();">
+    <table border="0" cellpadding="5" cellspacing="0" style="border-right: black 2px solid;
+        border-top: black 2px solid; border-left: black 2px solid; border-bottom: black 2px solid;" align="center" height="430" width="800">
+        <tr>
+            <td style="background-color: #9ac09a; text-align: center"><table border="0" cellpadding="5" cellspacing="0" style="border-right: black 1px solid;
+        border-top: black 1px solid; border-left: black 1px solid; border-bottom: black 1px solid;" height="414" width="784">
+                <tr>
+                    <td style="background-color: #cfe1cf; text-align: center; background-position: left top; background-image: url(Images/back.JPG); background-repeat: repeat-x;" valign="top">
+                        <table border="0" cellpadding="5" cellspacing="0" style="width: 100%; height: 100%">
+                            <tr>
+                                <td nowrap="noWrap">
+                                    <img style="border:0px; cursor:hand;" onclick="gotoMainMenu()" src="Images/CRS3.gif" width="200" /></td>
+                                <td nowrap="noWrap">
+                                    <strong><span style="font-size: 36pt">
+                                    Resource Kit</span></strong></td>
+                            </tr>
+                            <tr>
+                                <td nowrap="nowrap" valign="top">
+                                    <span style="font-size: 10pt;">Clear, Concise Solutions For Your
+                                        Future</span></td>
+                                <td nowrap="nowrap" rowspan="2">
+                                    <img name='SlideShow' src="Images/graduation.JPG" style="border-right: #9ac09a 5px solid; border-top: #9ac09a 5px solid;
+                                        border-left: #9ac09a 5px solid; border-bottom: #9ac09a 5px solid; width:450px; height:349px" /></td>
+                            </tr>
+                            <tr style="font-size: 12pt">
+                                <td valign="top">
+                                    <table border="0" cellpadding="0" cellspacing="0" style="width: 92%; height: 332px">
+                                        <tr>
+                                            <td align="center" colspan="2" style="border-right: black 1px solid; border-top: black 1px solid;
+                                                background-position-y: top; background-image: url(Images/wkmenubg.jpg); border-left: black 1px solid;
+                                                border-bottom: black 1px solid; background-repeat: repeat-x; background-color: #cfe1cf"
+                                                valign="top">
+                                        <iframe name="menuframe" id="menuframe" src="start.htm" frameborder="0" width="99%" allowtransparency="" height="265"></iframe>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right" style="padding-right: 5px; padding-left: 5px;
+                                                padding-top: 5px" valign="middle" nowrap="noWrap">
+                                                <span style="font-size: 10pt;">Many features on this disc<br />
+                                                    require Adobe PDF Reader<br />
+                                                    <a href="http://www.adobe.com/products/acrobat/readstep2_allversions.html"
+                                                        target="_blank">
+                                                    Click Here to Install</a></span></td>
+                                            <td align="left" style="padding-right: 25px; padding-left: 5px; padding-top: 5px" valign="bottom" width="1%">
+                                                <a href="http://www.adobe.com/products/acrobat/readstep2_allversions.html"
+                                                        target="_blank">
+                                                <img border="0" src="Images/adobe.png" width="42" /></a>
+                                                </td>
+                                        </tr>
+                                    </table>
+                                    </td>                                    
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td height="1%" style="background-color: #cfe1cf; text-align: center" valign="top">
+                        <p>
+                            <span style="font-size: 11px; color: #888888">If investment, financial,
+                                mortgage or insurance planning and/or products are required, College and Retirement
+                                Solutions, LLC may refer you to one of its affiliates. Any discussion of the Tax implications of planning is strictly for general
+                                purposes. Neither "CRS" nor its representatives may give specific tax advice. One
+                                should seek the advice and counsel of their accountant and/or tax advisor for information
+                                regarding their particular situation.</span></p>
+                    </td>
+                </tr>
+            </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,210 @@
+body
+{
+	font-family: Calibri, Arial;
+	font-size: 12pt;
+	/*background-color: #337520;*/
+	background-color: #FFFFFF;
+	background-image: url("../../commonImages/backgroundGreen.gif");
+	background-repeat: repeat-x;
+	background-attachment: fixed;
+	text-align: center;
+	/*height: 100%;*/
+	margin: 0;
+	padding: 0;
+}
+
+select
+{
+	font-family: Calibri, Arial;
+	font-size: 11pt;
+}
+
+select.multSelect
+{
+	font-family: Calibri, Arial;
+	font-size: 11pt;
+	width: 300px;
+}
+
+input
+{
+	font-family: Calibri, Arial;
+	font-size: 12pt;
+}
+
+textarea
+{
+	font-family: Calibri, Arial;
+	font-size: 12pt;
+}
+
+ul
+{
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+a.crsWhite
+{
+	color: white;
+}
+
+a.crsMediumBlue
+{
+	font-family: Calibri, Arial;
+	font-size: 14pt;
+	color: blue;
+}
+
+a.crsBlue
+{
+	font-family: Calibri, Arial;
+	color: blue;
+}
+
+#crsWrapper
+{
+	/*background: transparent url("../../images/GreenBackground.jpg") 50% 0 no-repeat fixed;*/
+	height: 100%;
+	min-height: 100%;
+	margin: 0 auto;
+	position: relative;
+}
+
+#crsHeader
+{
+	width: 800px;	
+	font-family: Calibri, Arial;
+	font-size: 12pt;
+	color: #FFFFFF;
+	text-align: center;
+	margin: auto;
+	/*padding: 10px;*/ /*******/
+	position: relative;
+}
+
+#crsContent
+{
+	width: 800px;
+	background-color: #FFFFFF;
+	/*height: 100%;*/
+	font-family: Calibri, Arial;
+	font-size: 12pt;
+	color: #000000;
+	text-align: left;
+	margin: auto;
+	/*padding: 10px;*/ /*******/
+	/*padding-bottom: 20px;*/ /*******/
+	position: relative;
+}
+
+#crsFooter
+{
+	width: 100%;
+	height: 20px;
+	/*background-color: #FFFFFF;*/
+	font-family: Calibri, Arial;
+	font-size: 8pt;
+	color: #000000;
+	text-align: center;
+	margin: auto;
+	position: relative;
+	bottom: 0;
+	left: 0;
+}
+
+.crsButton
+{
+	color: #000000;
+	font-family: Calibri, Arial;
+	font-size: 12pt;
+	border: 1px solid;
+	border-color: #FFFFFF #FFFFFF #FFFFFF #FFFFFF;
+	/*filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr='#FFFFFF',EndColorStr='#0033CC');*/
+	/*filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr='#FFFFFF',EndColorStr='#337520');*/
+	/*background-color: #0033CC;*/
+	background-color: #337520;
+}
+
+.crsCloseButton
+{
+	color: #FFFFFF;
+	font-family: Arial;
+	font-size: 12pt;
+	border: 1px solid;
+	border-color: #FFFFFF #FFFFFF #FFFFFF #FFFFFF;
+	background-color: #000000;
+}
+
+.crsTiny
+{
+	font-family: Calibri, Arial;
+	font-size: 8pt;
+}
+
+.crsSmall
+{
+	font-family: Calibri, Arial;
+	font-size: 10pt;
+}
+
+.crsSmallWhite
+{
+	font-family: Calibri, Arial;
+	font-size: 12pt;
+	color: white;
+}
+
+.crsLarge
+{
+	font-family: Calibri, Arial;
+	font-size: 20pt;
+}
+
+.crsMedium
+{
+	font-family: Calibri, Arial;
+	font-size: 14pt;
+}
+
+.crsLargeWhite
+{
+	font-family: Calibri, Arial;
+	font-size: 20pt;
+	color: white;
+}
+
+.crsCollegeChoice
+{
+	font-family: Calibri, Arial;
+	font-size: 12pt;
+}
+
+.collSelRepHeader
+{
+	/*background-color: #0055AA;*/
+	background-color: #000000;
+}
+
+.collSelRepInfo
+{
+	/*background-color: #88AADD;*/
+	/*background-color: #699858;*/
+}
+
+.transparent
+{
+	filter: alpha(opacity=75);
+	-moz-opacity: .75;
+	opacity: .75;
+}
+
+.tr1
+{
+	background-color: #FFFFFF;
+}
+
+.tr2
+{
+	background-color: #BBC4FD;
+}

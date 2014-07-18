@@ -819,6 +819,8 @@
 			<th>School</th>
 			<th>Grade</th>
 			<th>Tuition Paid by Parents</th>
+			<th>Pertinent Adults</th>
+			<th>Email</th>
 			<!-- <th>Scholarship/Grants</th> -->
 			<th></th>
 		</thead>
@@ -861,6 +863,16 @@
 				</td>
 				<td>
 					<input type="text" class="form-control" ng-disabled="student.school.current === false" ng-model="student.school.parentContribution">
+				</td>
+				<td>
+					<select class="form-control inline" ng-model="student.school.pertinentadults">
+						<option value="guardian">Guardian</option>
+						<option value="non-custodial parent">Non-custodial parent</option>
+						<option value="caretaker">Caretaker</option>
+					</select>
+				</td>
+				<td>
+					<input type="email" ng-model="student.school.email" placeholder="name@example.com" class="form-control ng-pristine ng-valid-email ng-valid ng-valid-required" required="">
 				</td>
 				<!-- <td> -->
 					<!-- <div class="input-group input-append input-prepend"> -->
@@ -926,6 +938,16 @@
 						<input type="text" class="form-control inline" ng-disabled="member.student === false" ng-model="member.parentContribution">
 						<span class="input-group-addon">.00</span>
 					</div>
+				</td>
+				<td>
+					<select class="form-control inline" ng-model="member.student.pertinentadults">
+						<option value="guardian">Guardian</option>
+						<option value="non-custodial parent">Non-custodial parent</option>
+						<option value="caretaker">Caretaker</option>
+					</select>
+				</td>
+				<td>
+					<input type="email" ng-model="member.student.email" placeholder="name@example.com" class="form-control ng-pristine ng-valid-email ng-valid ng-valid-required" required="">
 				</td>
 				<!-- <td> -->
 					<!-- <div class="input-group input-append input-prepend"> -->

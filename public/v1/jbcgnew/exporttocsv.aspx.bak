@@ -1,0 +1,166 @@
+<%@ Page Language="C#" %>
+<%@ Import Namespace="System" %>
+<%@ Import Namespace="System.Data" %>   
+<%@ Import Namespace="System.Data.SqlClient" %>   
+<%@ Import Namespace="System.Configuration" %>
+<%@ Import Namespace="System.Web" %>
+<%@ Import Namespace="System.Web.Security" %>
+<%@ Import Namespace="System.Web.UI" %>
+<%@ Import Namespace="System.Web.UI.WebControls" %>
+<%@ Import Namespace="System.Web.UI.WebControls.WebParts" %>
+<%@ Import Namespace="System.Web.UI.HtmlControls" %>
+<%@ Import Namespace="System.Net.Mail" %>
+<%@ Import Namespace="System.IO" %>
+<%@ Import Namespace="System.Collections" %>
+<%@ Import Namespace="System.IO" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<script runat="server">
+    static DataTable dt_student;
+    
+    SqlConnection sqlcon = new SqlConnection(ConfigurationManager.ConnectionStrings["madison_collegeadvisorsnetworkConnectionString2"].ConnectionString.ToString());
+
+    private void FillStudentGrid()
+    {
+        try
+        {
+            dt_student = new DataTable();
+            string str_stud = "SELECT e.col0002 AS 'FirstName', e.col0004 AS 'LastName', e.col0018 AS 'Email', d.col0020 AS 'yearOfGrad', e.claimid AS 'StudId' FROM madison_sysdba.mfac_client_data2 as d left join madison_sysdba.mfac_parent_info as e ON e.claimid=d.id where e.col0018 is not null and (e.id =1 OR e.id = 2) order by e.claimid";
+            //SELECT col0002 AS 'FirstName', col0004 AS 'LastName', col0014 AS 'Email', col0020 AS 'yearOfGrad', col0089 AS 'StudId' FROM madison_sysdba.mfac_client_data2";
+            SqlDataAdapter da_stud = new SqlDataAdapter(str_stud, sqlcon);
+            da_stud.Fill(dt_student);
+            gvStudent.DataSource = dt_student;
+            gvStudent.DataBind();
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    private void CreateCSVFile(DataTable dt, string str_path)
+    {
+        try
+        {
+            StreamWriter sw = new StreamWriter(str_path, false);
+
+            int colCount = dt.Columns.Count;
+            for (int i = 0; i < colCount; i++)
+            {
+
+                sw.Write(dt.Columns[i]);
+                if (i < colCount - 1)
+                {
+                    sw.Write(",");
+
+                }
+
+            }
+
+            sw.Write(sw.NewLine);
+            // Now write all the rows.
+
+            foreach (DataRow dr in dt.Rows)
+            {
+
+                for (int i = 0; i < colCount; i++)
+                {
+
+                    if (!Convert.IsDBNull(dr[i]))
+                    {
+
+                        sw.Write(dr[i].ToString());
+                    }
+
+                    if (i < colCount - 1)
+                    {
+
+                        sw.Write(",");
+                    }
+
+                }
+                sw.Write(sw.NewLine);
+
+            }
+            sw.Close();
+
+            export_tocsv.Visible = true;
+
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    protected void btnExport_Click(object sender, EventArgs e)
+    {
+        CreateCSVFile(dt_student, Server.MapPath("./uploads/") + "tempCSV.csv");
+    }
+
+
+    protected void gvStudent_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        gvStudent.PageIndex = e.NewPageIndex;
+        gvStudent.DataSource = dt_student;
+        gvStudent.DataBind();
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        FillStudentGrid();
+    }
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+	<title><!--#include file="./title.aspx"--></title>
+	<LINK href="./cssfiles/styledefs.css" type="text/css" rel="stylesheet"></head>
+<body><!--#include file="./images/admin_menu/nav.aspx"-->
+    <form id="form1" runat="server">
+<div style="text-align:center;">
+             
+                <asp:GridView ID="gvStudent" runat="server" AutoGenerateColumns="false" AllowPaging="true"  Style="position: static" OnPageIndexChanging="gvStudent_PageIndexChanging">
+                <Columns>
+                
+                    <asp:TemplateField HeaderText="First Name" ItemStyle-HorizontalAlign="Left" >
+                        <ItemTemplate>
+                            <asp:Label ID="lblFname" runat="Server" Text='<%#Eval("FirstName") %>'></asp:Label>
+                        </ItemTemplate>
+                        
+                    </asp:TemplateField>
+                    
+                    <asp:TemplateField HeaderText="Last Name" ItemStyle-HorizontalAlign="Left">
+                        <ItemTemplate>
+                            <asp:Label ID="lblLname" runat="Server" Text='<%#Eval("LastName") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    
+                    <asp:TemplateField HeaderText="Email" ItemStyle-HorizontalAlign="Left">
+                        <ItemTemplate>
+                            <asp:Label ID="lblEmail" runat="Server" Text='<%#Eval("Email") %>'></asp:Label>
+                        </ItemTemplate>
+                       
+                    </asp:TemplateField>
+                    
+                    <asp:TemplateField HeaderText="Year of Graduation" ItemStyle-HorizontalAlign="Right">
+                        <ItemTemplate>
+                            <asp:Label ID="lblYear" runat="Server" Text='<%#Eval("yearofGrad") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    
+                    <asp:TemplateField HeaderText="Student ID" ItemStyle-HorizontalAlign="Right">
+                        <ItemTemplate>
+                            <asp:Label ID="lblStudid" runat="Server" Text='<%#Eval("StudID") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    
+                    
+                 </Columns>
+                </asp:GridView>
+        
+                <asp:Button ID="btnExport" runat="server" Style="position: static" Text="Export to CSV File" OnClick="btnExport_Click" />
+        
+                <a href="uploads/tempCSV.csv" runat="server" id="export_tocsv" visible="false" target="_parent">Open CSV File </a>
+                </div>
+    </form>
+</body>
+</html>

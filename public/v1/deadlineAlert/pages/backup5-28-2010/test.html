@@ -1,0 +1,803 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"> 
+<html>
+ 
+<head>
+ 
+<link rel="stylesheet" type="text/css" href="../../commonCss/crs.css">
+ 
+<title>College & Retirement Solutions - Deadline Alert</title>
+ 
+<script language="JavaScript" type="text/javascript"> 
+<!--
+var schoolIds="950,2519";
+var schoolIdsArray=new Array("950","2519");
+var url="deadlineAlertUpdate.php";
+var monthArray=new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+var fadeStartColor="70C466";
+ 
+function addSchool(whichButton)
+{
+	var schoolId=document.getElementById("hidSchool"+whichButton).value;
+ 
+	if (schoolId=="")
+		alert("Please select a school.");
+	else if (schoolId!="0")
+	{
+		for (var i=0; i<schoolIdsArray.length; i++)
+		{
+			if (schoolIdsArray[i]==schoolId)
+			{
+				alert("You already have "+document.getElementById("btnAddSchool"+whichButton).value+" in your Deadline Alert list.");
+				return false;
+			}
+		}
+ 
+		schoolIds+=","+schoolId;
+		schoolIdsArray[schoolIdsArray.length]=schoolId;
+ 
+		var params="hidAction=A&schoolId="+schoolId+"&schoolIds="+schoolIds;
+ 
+		var xmlhttp=new XMLHttpRequest();
+ 
+		xmlhttp.onreadystatechange=function()
+		{
+			if (xmlhttp.readyState==4 && xmlhttp.status==200)
+			{
+				var responseString=xmlhttp.responseText;
+				var responseStringArray=responseString.split("|^|");
+				document.getElementById("spnMySchoolsList").innerHTML=responseStringArray[0];
+				document.getElementById("spnDeadlineTable").innerHTML=responseStringArray[1];
+				var fadeEndColor=(document.getElementById("mySchools"+schoolId).className=="tr1" ? "FFFFFF" : "BBC4FD");
+				fadeBackground("mySchools"+schoolId, fadeStartColor, fadeEndColor, 1000, 25, fadeEndColor);
+			}
+		}
+		xmlhttp.open("POST", url, true);
+ 
+		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xmlhttp.setRequestHeader("Content-length", params.length);
+		xmlhttp.setRequestHeader("Connection", "close");
+ 
+		xmlhttp.send(params);
+		
+		btnClearSchools_onclick();
+	}
+}
+ 
+function filterSchool(schoolId)
+{
+	var imgSrc;
+	var url="deadlineAlertUpdate.php";
+ 
+	if (schoolIds.indexOf(schoolId+",")>=0)
+	{
+		schoolIds=schoolIds.replace(schoolId+",","");
+		imgSrc="../images/filter_bw.gif";
+	}
+	else if (schoolIds.indexOf(","+schoolId)>=0)
+	{
+		schoolIds=schoolIds.replace(","+schoolId,"");
+		imgSrc="../images/filter_bw.gif";
+	}
+	else if (schoolIds.indexOf(schoolId)>=0)
+	{
+		schoolIds=schoolIds.replace(schoolId,"");
+		imgSrc="../images/filter_bw.gif";
+	}
+	else
+	{
+		schoolIds+=(schoolIds=="" ? schoolId : ","+schoolId);
+		imgSrc="../images/filter.gif";
+	}
+ 
+	schoolIds=((schoolIds.indexOf(",")==schoolIds.length-1) ? schoolIds.replace(",","") : schoolIds);
+ 
+	var allPendingCompleteValue="A";
+	var allPendingComplete=document.frmDeadlineAlert.radViewAllPendingComplete;
+ 
+	for (i=0; i<allPendingComplete.length; i++)
+	{
+		if (allPendingComplete[i].checked)
+		{
+			allPendingCompleteValue=allPendingComplete[i].value;
+			break;
+		}
+	}
+ 
+	var sortBy=document.frmDeadlineAlert.hidSortBy.value;
+	var params="hidAction=F&schoolIds="+schoolIds+"&viewWhat="+allPendingCompleteValue+"&sortBy="+sortBy;
+ 
+	filterViewSort(params);
+ 
+	document.getElementById("imgFilter"+schoolId).src=imgSrc;
+}
+ 
+function removeSchool(schoolId, schoolName)
+{
+	if (confirm("Are you sure you want to delete "+schoolName+" from your Deadline Alerts?\n\nYou will lose all completed deadlines if you delete this school.\n\nYou can use the filter button to hide deadlines instead of removing the school entirely."))
+	{
+		if (schoolIds.indexOf(schoolId+",")>=0)
+			schoolIds=schoolIds.replace(schoolId+",","");
+		else if (schoolIds.indexOf(","+schoolId)>=0)
+			schoolIds=schoolIds.replace(","+schoolId,"");
+		else if (schoolIds.indexOf(schoolId)>=0)
+			schoolIds=schoolIds.replace(schoolId,"");
+ 
+		for (var i=0; i<schoolIdsArray.length; i++)
+		{
+			if (schoolIdsArray[i]==schoolId)
+			{
+				schoolIdsArray[i]="";
+				break;
+			}
+		}
+ 
+		var params="hidAction=D&schoolId="+schoolId+"&schoolIds="+schoolIds;
+ 
+		var xmlhttp=new XMLHttpRequest();
+ 
+		xmlhttp.onreadystatechange=function()
+		{
+			if (xmlhttp.readyState==4 && xmlhttp.status==200)
+			{
+				var responseString=xmlhttp.responseText;
+				var responseStringArray=responseString.split("|^|");
+				document.getElementById("spnMySchoolsList").innerHTML=responseStringArray[0];
+				document.getElementById("spnDeadlineTable").innerHTML=responseStringArray[1];
+			}
+		}
+		xmlhttp.open("POST", url, true);
+ 
+		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xmlhttp.setRequestHeader("Content-length", params.length);
+		xmlhttp.setRequestHeader("Connection", "close");
+ 
+		xmlhttp.send(params);
+	}
+}
+ 
+function txtSearchSchoolName_onkeyup()
+{
+	var keywords=document.getElementById("txtSearchSchoolName").value;
+ 
+	if (keywords=="")
+		clearSchools();
+	else
+	{
+		var params="keywords="+keywords;
+ 
+		var xmlhttp=new XMLHttpRequest();
+ 
+		xmlhttp.onreadystatechange=function()
+		{
+			if (xmlhttp.readyState==4 && xmlhttp.status==200)
+			{
+				clearSchools();
+				var schoolList=xmlhttp.responseText;
+				var schoolListArray=schoolList.split("|");
+ 
+				document.getElementById("spnSchoolButtons").style.display="inline";
+ 
+				for (var i=0; i<schoolListArray.length; i++)
+				{
+					var schoolIdNameArray=schoolListArray[i].split("^");
+					var schoolId=schoolIdNameArray[0];
+					var schoolName=schoolIdNameArray[1];
+					document.getElementById("hidSchool"+(i+1)).value=schoolId;
+					document.getElementById("btnAddSchool"+(i+1)).value=schoolName;
+					document.getElementById("btnAddSchool"+(i+1)).style.display="block";
+				}
+			}
+		}
+		xmlhttp.open("POST", "deadlineAlertGetSchools.php", true);
+ 
+		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xmlhttp.setRequestHeader("Content-length", params.length);
+		xmlhttp.setRequestHeader("Connection", "close");
+ 
+		xmlhttp.send(params);
+	}
+}
+ 
+function btnClearSchools_onclick()
+{
+	document.getElementById("txtSearchSchoolName").value="";
+	clearSchools();
+}
+ 
+function clearSchools()
+{
+	for (var i=1; i<=10; i++)
+	{
+		document.getElementById("hidSchool"+i).value="";
+		document.getElementById("btnAddSchool"+i).value="";
+		document.getElementById("btnAddSchool"+i).style.display="none";
+	}
+	
+	document.getElementById("spnSchoolButtons").style.display="none";
+	document.getElementById("txtSearchSchoolName").focus();
+}
+ 
+function filterViewSort(params)
+{
+	var xmlhttp=new XMLHttpRequest();
+ 
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+			document.getElementById("spnDeadlineTable").innerHTML=xmlhttp.responseText;
+	}
+	xmlhttp.open("POST", url, true);
+ 
+	xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xmlhttp.setRequestHeader("Content-length", params.length);
+	xmlhttp.setRequestHeader("Connection", "close");
+ 
+	xmlhttp.send(params);
+}
+ 
+function deadline_onmouseover(whichTd)
+{
+	document.getElementById(whichTd.id).className="tdDeadlineAlertMouseover";
+	document.getElementById("spnDeadline"+(whichTd.id.substring(2,whichTd.id.length))).style.display="inline";
+}
+ 
+function deadline_onmouseout(whichTd)
+{
+	document.getElementById(whichTd.id).className="tdDeadlineAlertMouseout";
+	document.getElementById("spnDeadline"+(whichTd.id.substring(2,whichTd.id.length))).style.display="none";
+}
+ 
+function radViewAllPendingComplete_onclick(viewWhat)
+{
+	var sortBy=document.frmDeadlineAlert.hidSortBy.value;
+	var params="hidAction=F&schoolIds="+schoolIds+"&viewWhat="+viewWhat+"&sortBy="+sortBy;
+ 
+	filterViewSort(params);
+}
+ 
+function btnComplete_onclick(whichButton)
+{
+	var buttonId=whichButton.id.substring(11,whichButton.id.length);
+	var params="hidAction=MC&hidComplete="+buttonId;
+ 
+	var xmlhttp=new XMLHttpRequest();
+ 
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+			document.getElementById("spnDeadline"+buttonId).innerHTML="<br><span class=\"crsTiny\">Completed "+xmlhttp.responseText+"</span>&nbsp;&nbsp;<a class=\"crsTinyBlue\" href=\"javascript:lnkClear_onclick('"+buttonId+"');\">Clear</a>";
+	}
+	xmlhttp.open("POST", url, true);
+ 
+	xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xmlhttp.setRequestHeader("Content-length", params.length);
+	xmlhttp.setRequestHeader("Connection", "close");
+ 
+	xmlhttp.send(params);	
+}
+ 
+function lnkClear_onclick(whichLink)
+{
+	if (confirm("Are you sure you want to clear the date completed for this deadline?"))
+	{
+		var params="hidAction=UC&hidComplete="+whichLink;
+ 
+		var xmlhttp=new XMLHttpRequest();
+ 
+		xmlhttp.onreadystatechange=function()
+		{
+			if (xmlhttp.readyState==4 && xmlhttp.status==200)
+			{
+				var respTxt=xmlhttp.responseText;
+				document.getElementById("spnDeadline"+whichLink).innerHTML="<br><input type=\"button\" class=\"crsDAButtonSmall\" name=\"btnComplete"+respTxt+"\" id=\"btnComplete"+respTxt+"\" value=\"Mark as Complete\" onclick=\"btnComplete_onclick(this);\"></span>";
+			}
+		}
+		xmlhttp.open("POST", url, true);
+ 
+		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xmlhttp.setRequestHeader("Content-length", params.length);
+		xmlhttp.setRequestHeader("Connection", "close");
+ 
+		xmlhttp.send(params);	
+	}
+}
+ 
+function sortDeadlines(sortBy)
+{
+	document.frmDeadlineAlert.hidSortBy.value=sortBy;
+ 
+	var allPendingCompleteValue="A";
+	var allPendingComplete=document.frmDeadlineAlert.radViewAllPendingComplete;
+ 
+	for (i=0; i<allPendingComplete.length; i++)
+	{
+		if (allPendingComplete[i].checked)
+		{
+			allPendingCompleteValue=allPendingComplete[i].value;
+			break;
+		}
+	}
+ 
+	var params="hidAction=F&schoolIds="+schoolIds+"&viewWhat="+allPendingCompleteValue+"&sortBy="+sortBy;
+ 
+	filterViewSort(params);
+}
+ 
+function fadeBackground(elementId, startColor, endColor, duration, fps, originalColor) 
+{
+	var fadeElement=document.getElementById(elementId);
+ 
+	if (originalColor==undefined)
+		originalColor="Transparent";
+ 
+	if(duration<=(1000/fps))
+	{
+		fadeElement.style.backgroundColor="#"+originalColor;
+		return;
+	}
+ 
+	fadeElement.style.backgroundColor="#"+startColor;
+ 
+	var rHs=startColor.substring(0,2);
+	var rNs=parseInt(rHs,'16');
+	var rHe=endColor.substring(0,2);
+	var rNe=parseInt(rHe, '16');
+	var gHs=startColor.substring(2,4);
+	var gNs=parseInt(gHs,'16');
+	var gHe=endColor.substring(2,4);
+	var gNe=parseInt(gHe,'16');
+	var bHs=startColor.substring(4,6);
+	var bNs=parseInt(bHs,'16');
+	var bHe=endColor.substring(4,6);
+	var bNe=parseInt(bHe, '16');
+	var deltaR=(rNs-rNe);
+	var deltaG=(gNs-gNe);
+	var deltaB=(bNs-bNe);
+	var nextR=decToHex(rNs-(((1000/fps)/duration))*(deltaR));
+	var nextG=decToHex(gNs-(((1000/fps)/duration))*(deltaG));
+	var nextB=decToHex(bNs-(((1000/fps)/duration))*(deltaB));
+	var nextRGB=nextR+nextG+nextB+"";
+ 
+	duration=(duration-(1000/fps));
+ 
+	setTimeout("fadeBackground('"+elementId+"','"+nextRGB+"','"+endColor+"','"+duration+"','"+fps+"','"+originalColor+"');",(1000/fps));
+}
+ 
+function decToHex(decimal)
+{
+	var a=decimal%16;
+	var b=(decimal-a)/16;
+	var hexChars="0123456789ABCDEF";
+	return hexChars.charAt(b)+hexChars.charAt(a)+"";
+}
+ 
+function testMe()
+{
+	alert(document.getElementById("mySchools2519").className);
+}
+/*
+function getStyle(el, styleProp)
+{
+	if (el.currentStyle)
+		return el.currentStyle[styleProp];
+	else if (window.getComputedStyle)
+		return document.defaultView.getComputedStyle(el,null).getPropertyValue(styleProp);
+}
+*/
+-->
+</script>
+ 
+</head>
+ 
+<body onload="document.frmDeadlineAlert.txtSearchSchoolName.focus();">
+ 
+<!--<div id="crsWrapper">-->
+ 
+<div id="crsContent">
+ 
+<table width="100%" border="0">
+	<tr>
+		<td align="left" width="20%">&nbsp;<!--&nbsp;--></td>
+		<td align="center" class="crsLargeBold">Deadline Alert</td>
+		<td align="right" width="20%">&nbsp;</td>
+	</tr>
+</table>
+ 
+<form name="frmDeadlineAlert" method="POST" action="deadlineAlertUpdate.php">
+<table width="100%" border="0">
+	<tr>
+		<td valign="top" width="50%">
+			<span class="crsMedium" style="font-weight:bold;text-decoration:underline;">My Schools</span>
+			<span id="spnMySchoolsList">
+			<div style="border:2px black solid;">
+			<table width="99%" border="0">
+				<tr id="mySchools950" class="tr1">
+					<td class="deadlineAlertSchool">Drew University</td>
+					<td align="center" valign="middle"><a href="javascript:filterSchool('950');"><img src="../images/filter.gif" id="imgFilter950" border="0" width="26" height="15" alt="Filter your Deadline Alerts for Drew University"></a>&nbsp;&nbsp;<a href="javascript:removeSchool('950', 'Drew University');"><img src="../images/remove.gif" border="0" width="15" height="15" alt="Remove Drew University from your Deadline Alerts"></a></td>
+				</tr>
+				<tr id="mySchools2519" class="tr2">
+					<td class="deadlineAlertSchool">Penn State University Park</td>
+					<td align="center" valign="middle"><a href="javascript:filterSchool('2519');"><img src="../images/filter.gif" id="imgFilter2519" border="0" width="26" height="15" alt="Filter your Deadline Alerts for Penn State University Park"></a>&nbsp;&nbsp;<a href="javascript:removeSchool('2519', 'Penn State University Park');"><img src="../images/remove.gif" border="0" width="15" height="15" alt="Remove Penn State University Park from your Deadline Alerts"></a></td>
+				</tr>
+			</table>
+			</div>
+			</span>
+			<br>
+		</td>
+		<td valign="top">
+			<span class="crsMedium" style="font-weight:bold;text-decoration:underline;">Add Schools</span>
+			<br>
+			<input type="text" name="txtSearchSchoolName" id="txtSearchSchoolName" size="20" maxlength="100" onkeyup="txtSearchSchoolName_onkeyup();">&nbsp;&nbsp;<input type="button" class="crsDAButton" name="btnClearSchools" id="btnClearSchools" value="Clear" onclick="btnClearSchools_onclick();">
+			<br>
+			<span id="spnSchoolButtons" style="border:solid 1px black;position:absolute;background-color:#FFFFCA;z-index:50;display:none;">
+				<input type="button" name="btnAddSchool1" id="btnAddSchool1" class="crsDASchoolButton" onclick="addSchool(1);" value="">
+				<input type="button" name="btnAddSchool2" id="btnAddSchool2" class="crsDASchoolButton" onclick="addSchool(2);" value="">
+				<input type="button" name="btnAddSchool3" id="btnAddSchool3" class="crsDASchoolButton" onclick="addSchool(3);" value="">
+				<input type="button" name="btnAddSchool4" id="btnAddSchool4" class="crsDASchoolButton" onclick="addSchool(4);" value="">
+				<input type="button" name="btnAddSchool5" id="btnAddSchool5" class="crsDASchoolButton" onclick="addSchool(5);" value="">
+				<input type="button" name="btnAddSchool6" id="btnAddSchool6" class="crsDASchoolButton" onclick="addSchool(6);" value="">
+				<input type="button" name="btnAddSchool7" id="btnAddSchool7" class="crsDASchoolButton" onclick="addSchool(7);" value="">
+				<input type="button" name="btnAddSchool8" id="btnAddSchool8" class="crsDASchoolButton" onclick="addSchool(8);" value="">
+				<input type="button" name="btnAddSchool9" id="btnAddSchool9" class="crsDASchoolButton" onclick="addSchool(9);" value="">
+				<input type="button" name="btnAddSchool10" id="btnAddSchool10" class="crsDASchoolButton" onclick="addSchool(10);" value="">
+			</span>
+		</td>
+	</tr>
+	<tr>
+		<td valign="bottom"><span class="crsMedium" style="font-weight:bold;text-decoration:underline;">Deadline List</span>&nbsp;&nbsp;<span class="crsSmall">Click on a column heading to sort</span></td>
+		<td valign="bottom" align="right">
+			<table style="border: solid 1px #7F9DB9;background-color:white;">
+				<tr>
+					<td>View:&nbsp;&nbsp;<input type="radio" name="radViewAllPendingComplete" id="radViewAllPendingComplete" value="A" onclick="radViewAllPendingComplete_onclick(this.value);" checked>All&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="radViewAllPendingComplete" id="radViewAllPendingComplete" value="P" onclick="radViewAllPendingComplete_onclick(this.value);">Pending&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="radViewAllPendingComplete" id="radViewAllPendingComplete" value="C" onclick="radViewAllPendingComplete_onclick(this.value);">Complete</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<span id="spnDeadlineTable">
+			<table width="100%" border="1" bordercolor="grey">
+<!--				<tr class="tr1">
+					<td align="center" valign="middle" nowrap><a href="javascript:sortDeadlines('name');" class="crsBlueBold"><u>School Name</u></a></td>
+					<td align="center" valign="middle" nowrap><a href="javascript:sortDeadlines('deadline');" class="crsBlueBold"><u>Action</u></a><br><span class="crsTiny">(Mouse over for details)</span></td>
+					<td align="center" valign="middle" nowrap><a href="javascript:sortDeadlines('duedate');" class="crsBlueBold"><u>Due Date</u></a></td>
+				</tr>
+-->				<tr class="tr1">
+					<td class="deadlineAlertSchool" style="padding-left:12px;" height="50" colspan="3">Drew University
+						<br>
+						<table width="100%" border="1">
+							<tr class="tr1">
+								<td align="center" valign="middle" nowrap><a href="javascript:sortDeadlines('deadline');" class="crsBlueBold"><u>Action</u></a><br><span class="crsTiny">(Mouse over for details)</span></td>
+								<td align="center" valign="middle" nowrap><a href="javascript:sortDeadlines('duedate');" class="crsBlueBold"><u>Due Date</u></a></td>
+							</tr>
+							<tr class="tr2">
+								<td id="td950^1" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">SAT Reasoning / ACT score report due<span id="spnDeadline950^1" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete950^1" id="btnComplete950^1" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+								<td valign="middle">
+									<table width="100%" style="border-style:none;">
+										<tr>
+											<td width="50" height="50" align="center" valign="top" style="background:url('../images/calendarDay.gif');background-repeat:no-repeat;"><span style="font-size:13;font-weight:bold;">FEB&nbsp;</span><br><span style="font-size:24;font-weight:bold;">15&nbsp;</span></td>
+											<td class="crsSmall">&nbsp;</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tr class="tr1">
+								<td id="td950^2" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">SAT Subject score report due<span id="spnDeadline950^2" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete950^2" id="btnComplete950^2" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+								<td valign="middle">
+									<table width="100%" style="border-style:none;">
+										<tr>
+											<td width="50" height="50" align="center" valign="top" style="background:url('../images/calendarDay.gif');background-repeat:no-repeat;"><span style="font-size:13;font-weight:bold;">FEB&nbsp;</span><br><span style="font-size:24;font-weight:bold;">15&nbsp;</span></td>
+											<td class="crsSmall">&nbsp;</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tr class="tr2">
+								<td id="td950^3" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">Regular application deadline<span id="spnDeadline950^3" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete950^3" id="btnComplete950^3" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+								<td valign="middle">
+									<table width="100%" style="border-style:none;">
+										<tr>
+											<td width="50" height="50" align="center" valign="top" style="background:url('../images/calendarDay.gif');background-repeat:no-repeat;"><span style="font-size:13;font-weight:bold;">FEB&nbsp;</span><br><span style="font-size:24;font-weight:bold;">15&nbsp;</span></td>
+											<td class="crsSmall">&nbsp;</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tr class="tr1">
+								<td id="td950^4" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">Priority application deadline<span id="spnDeadline950^4" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete950^4" id="btnComplete950^4" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+								<td valign="middle">
+									<table width="100%" style="border-style:none;">
+										<tr>
+											<td width="50">&nbsp;</td>
+											<td class="crsSmall"><a href="http://www.drew.edu/" target="_blank" class="deadlineAlertLink">Date unavailable, refer to school web site</a></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tr class="tr2">
+								<td id="td950^5" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">College will notify student<span id="spnDeadline950^5" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete950^5" id="btnComplete950^5" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+								<td valign="middle">
+									<table width="100%" style="border-style:none;">
+										<tr>
+											<td width="50">&nbsp;</td>
+											<td class="crsSmall"><a href="http://www.drew.edu/" target="_blank" class="deadlineAlertLink">Date unavailable, refer to school web site</a></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tr class="tr1">
+								<td id="td950^6" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">Student must reply to acceptance<span id="spnDeadline950^6" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete950^6" id="btnComplete950^6" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+								<td valign="middle">
+									<table width="100%" style="border-style:none;">
+										<tr>
+											<td width="50" height="50" align="center" valign="top" style="background:url('../images/calendarDay.gif');background-repeat:no-repeat;"><span style="font-size:13;font-weight:bold;">MAY&nbsp;</span><br><span style="font-size:24;font-weight:bold;">1&nbsp;</span></td>
+											<td class="crsSmall">&nbsp;</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tr class="tr2">
+								<td id="td950^7" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">Deadline for housing deposit<span id="spnDeadline950^7" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete950^7" id="btnComplete950^7" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+								<td valign="middle">
+									<table width="100%" style="border-style:none;">
+										<tr>
+											<td width="50" height="50" align="center" valign="top" style="background:url('../images/calendarDay.gif');background-repeat:no-repeat;"><span style="font-size:13;font-weight:bold;">MAY&nbsp;</span><br><span style="font-size:24;font-weight:bold;">1&nbsp;</span></td>
+											<td class="crsSmall">&nbsp;</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tr class="tr1">
+								<td id="td950^8" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">Early decision deadline<span id="spnDeadline950^8" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete950^8" id="btnComplete950^8" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+								<td valign="middle">
+									<table width="100%" style="border-style:none;">
+										<tr>
+											<td width="50" height="50" align="center" valign="top" style="background:url('../images/calendarDay.gif');background-repeat:no-repeat;"><span style="font-size:13;font-weight:bold;">DEC&nbsp;</span><br><span style="font-size:24;font-weight:bold;">1&nbsp;</span></td>
+											<td class="crsSmall">&nbsp;</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tr class="tr2">
+								<td id="td950^9" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">College will notify student of early decision<span id="spnDeadline950^9" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete950^9" id="btnComplete950^9" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+								<td valign="middle">
+									<table width="100%" style="border-style:none;">
+										<tr>
+											<td width="50" height="50" align="center" valign="top" style="background:url('../images/calendarDay.gif');background-repeat:no-repeat;"><span style="font-size:13;font-weight:bold;">DEC&nbsp;</span><br><span style="font-size:24;font-weight:bold;">24&nbsp;</span></td>
+											<td class="crsSmall">&nbsp;</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tr class="tr1">
+								<td id="td950^10" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">Early action deadline<span id="spnDeadline950^10" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete950^10" id="btnComplete950^10" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+								<td valign="middle">
+									<table width="100%" style="border-style:none;">
+										<tr>
+											<td width="50">&nbsp;</td>
+											<td class="crsSmall"><a href="http://www.drew.edu/" target="_blank" class="deadlineAlertLink">Date unavailable, refer to school web site</a></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tr class="tr2">
+								<td id="td950^11" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">College will notify student of early action<span id="spnDeadline950^11" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete950^11" id="btnComplete950^11" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+								<td valign="middle">
+									<table width="100%" style="border-style:none;">
+										<tr>
+											<td width="50">&nbsp;</td>
+											<td class="crsSmall"><a href="http://www.drew.edu/" target="_blank" class="deadlineAlertLink">Date unavailable, refer to school web site</a></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tr class="tr1">
+								<td id="td950^12" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">Financial aid deadline<span id="spnDeadline950^12" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete950^12" id="btnComplete950^12" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+								<td valign="middle">
+									<table width="100%" style="border-style:none;">
+										<tr>
+											<td width="50" height="50" align="center" valign="top" style="background:url('../images/calendarDay.gif');background-repeat:no-repeat;"><span style="font-size:13;font-weight:bold;">FEB&nbsp;</span><br><span style="font-size:24;font-weight:bold;">15&nbsp;</span></td>
+											<td class="crsSmall">&nbsp;</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tr class="tr2">
+								<td id="td950^13" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">Financial aid priority deadline<span id="spnDeadline950^13" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete950^13" id="btnComplete950^13" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+								<td valign="middle">
+									<table width="100%" style="border-style:none;">
+										<tr>
+											<td width="50">&nbsp;</td>
+											<td class="crsSmall"><a href="http://www.drew.edu/" target="_blank" class="deadlineAlertLink">Date unavailable, refer to school web site</a></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr class="tr1">
+					<td class="deadlineAlertSchool" style="padding-left:12px;" height="50">Penn State University Park</td>
+					<td id="td2519^1" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">SAT Reasoning / ACT score report due<span id="spnDeadline2519^1" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete2519^1" id="btnComplete2519^1" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+					<td valign="middle">
+						<table width="100%" style="border-style:none;">
+							<tr>
+								<td width="50">&nbsp;</td>
+								<td class="crsSmall"><a href="http://www.psu.edu/" target="_blank" class="deadlineAlertLink">Date unavailable, refer to school web site</a></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr class="tr2">
+					<td class="deadlineAlertSchool" style="padding-left:12px;" height="50">Penn State University Park</td>
+					<td id="td2519^2" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">SAT Subject score report due<span id="spnDeadline2519^2" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete2519^2" id="btnComplete2519^2" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+					<td valign="middle">
+						<table width="100%" style="border-style:none;">
+							<tr>
+								<td width="50">&nbsp;</td>
+								<td class="crsSmall"><a href="http://www.psu.edu/" target="_blank" class="deadlineAlertLink">Date unavailable, refer to school web site</a></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr class="tr1">
+					<td class="deadlineAlertSchool" style="padding-left:12px;" height="50">Penn State University Park</td>
+					<td id="td2519^3" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">Regular application deadline<span id="spnDeadline2519^3" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete2519^3" id="btnComplete2519^3" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+					<td valign="middle">
+						<table width="100%" style="border-style:none;">
+							<tr>
+								<td width="50">&nbsp;</td>
+								<td class="crsSmall">No closing date</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr class="tr2">
+					<td class="deadlineAlertSchool" style="padding-left:12px;" height="50">Penn State University Park</td>
+					<td id="td2519^4" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">Priority application deadline<span id="spnDeadline2519^4" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete2519^4" id="btnComplete2519^4" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+					<td valign="middle">
+						<table width="100%" style="border-style:none;">
+							<tr>
+								<td width="50" height="50" align="center" valign="top" style="background:url('../images/calendarDay.gif');background-repeat:no-repeat;"><span style="font-size:13;font-weight:bold;">NOV&nbsp;</span><br><span style="font-size:24;font-weight:bold;">30&nbsp;</span></td>
+								<td class="crsSmall">&nbsp;</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr class="tr1">
+					<td class="deadlineAlertSchool" style="padding-left:12px;" height="50">Penn State University Park</td>
+					<td id="td2519^5" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">College will notify student<span id="spnDeadline2519^5" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete2519^5" id="btnComplete2519^5" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+					<td valign="middle">
+						<table width="100%" style="border-style:none;">
+							<tr>
+								<td width="50">&nbsp;</td>
+								<td class="crsSmall"><a href="http://www.psu.edu/" target="_blank" class="deadlineAlertLink">Date unavailable, refer to school web site</a></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr class="tr2">
+					<td class="deadlineAlertSchool" style="padding-left:12px;" height="50">Penn State University Park</td>
+					<td id="td2519^6" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">Student must reply to acceptance<span id="spnDeadline2519^6" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete2519^6" id="btnComplete2519^6" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+					<td valign="middle">
+						<table width="100%" style="border-style:none;">
+							<tr>
+								<td width="50">&nbsp;</td>
+								<td class="crsSmall">No set date</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr class="tr1">
+					<td class="deadlineAlertSchool" style="padding-left:12px;" height="50">Penn State University Park</td>
+					<td id="td2519^7" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">Deadline for housing deposit<span id="spnDeadline2519^7" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete2519^7" id="btnComplete2519^7" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+					<td valign="middle">
+						<table width="100%" style="border-style:none;">
+							<tr>
+								<td width="50" height="50" align="center" valign="top" style="background:url('../images/calendarDay.gif');background-repeat:no-repeat;"><span style="font-size:13;font-weight:bold;">MAY&nbsp;</span><br><span style="font-size:24;font-weight:bold;">1&nbsp;</span></td>
+								<td class="crsSmall">&nbsp;</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr class="tr2">
+					<td class="deadlineAlertSchool" style="padding-left:12px;" height="50">Penn State University Park</td>
+					<td id="td2519^8" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">Early decision deadline<span id="spnDeadline2519^8" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete2519^8" id="btnComplete2519^8" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+					<td valign="middle">
+						<table width="100%" style="border-style:none;">
+							<tr>
+								<td width="50">&nbsp;</td>
+								<td class="crsSmall"><a href="http://www.psu.edu/" target="_blank" class="deadlineAlertLink">Date unavailable, refer to school web site</a></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr class="tr1">
+					<td class="deadlineAlertSchool" style="padding-left:12px;" height="50">Penn State University Park</td>
+					<td id="td2519^9" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">College will notify student of early decision<span id="spnDeadline2519^9" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete2519^9" id="btnComplete2519^9" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+					<td valign="middle">
+						<table width="100%" style="border-style:none;">
+							<tr>
+								<td width="50">&nbsp;</td>
+								<td class="crsSmall"><a href="http://www.psu.edu/" target="_blank" class="deadlineAlertLink">Date unavailable, refer to school web site</a></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr class="tr2">
+					<td class="deadlineAlertSchool" style="padding-left:12px;" height="50">Penn State University Park</td>
+					<td id="td2519^10" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">Early action deadline<span id="spnDeadline2519^10" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete2519^10" id="btnComplete2519^10" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+					<td valign="middle">
+						<table width="100%" style="border-style:none;">
+							<tr>
+								<td width="50">&nbsp;</td>
+								<td class="crsSmall"><a href="http://www.psu.edu/" target="_blank" class="deadlineAlertLink">Date unavailable, refer to school web site</a></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr class="tr1">
+					<td class="deadlineAlertSchool" style="padding-left:12px;" height="50">Penn State University Park</td>
+					<td id="td2519^11" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">College will notify student of early action<span id="spnDeadline2519^11" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete2519^11" id="btnComplete2519^11" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+					<td valign="middle">
+						<table width="100%" style="border-style:none;">
+							<tr>
+								<td width="50">&nbsp;</td>
+								<td class="crsSmall"><a href="http://www.psu.edu/" target="_blank" class="deadlineAlertLink">Date unavailable, refer to school web site</a></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr class="tr2">
+					<td class="deadlineAlertSchool" style="padding-left:12px;" height="50">Penn State University Park</td>
+					<td id="td2519^12" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">Financial aid deadline<span id="spnDeadline2519^12" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete2519^12" id="btnComplete2519^12" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+					<td valign="middle">
+						<table width="100%" style="border-style:none;">
+							<tr>
+								<td width="50">&nbsp;</td>
+								<td class="crsSmall"><a href="http://www.psu.edu/" target="_blank" class="deadlineAlertLink">Date unavailable, refer to school web site</a></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr class="tr1">
+					<td class="deadlineAlertSchool" style="padding-left:12px;" height="50">Penn State University Park</td>
+					<td id="td2519^13" class="crsSmall" style="padding-left:12px;" onmouseover="deadline_onmouseover(this);" onmouseout="deadline_onmouseout(this);">Financial aid priority deadline<span id="spnDeadline2519^13" style="position:relative;display:none;"><br><input type="button" class="crsDAButtonSmall" name="btnComplete2519^13" id="btnComplete2519^13" value="Mark as Complete" onclick="btnComplete_onclick(this);"></span></td>
+					<td valign="middle">
+						<table width="100%" style="border-style:none;">
+							<tr>
+								<td width="50" height="50" align="center" valign="top" style="background:url('../images/calendarDay.gif');background-repeat:no-repeat;"><span style="font-size:13;font-weight:bold;">FEB&nbsp;</span><br><span style="font-size:24;font-weight:bold;">15&nbsp;</span></td>
+								<td class="crsSmall">&nbsp;</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+			</span>
+		</td>
+	</tr>
+</table>
+<input type="hidden" name="hidAction" id="hidAction" value="">
+<input type="hidden" name="hidDeleteSchool" id="hidDeleteSchool" value="">
+<input type="hidden" name="hidSortBy" id="hidSortBy" value="name">
+<input type="hidden" name="hidSchool1" id="hidSchool1" value="">
+<input type="hidden" name="hidSchool2" id="hidSchool2" value="">
+<input type="hidden" name="hidSchool3" id="hidSchool3" value="">
+<input type="hidden" name="hidSchool4" id="hidSchool4" value="">
+<input type="hidden" name="hidSchool5" id="hidSchool5" value="">
+<input type="hidden" name="hidSchool6" id="hidSchool6" value="">
+<input type="hidden" name="hidSchool7" id="hidSchool7" value="">
+<input type="hidden" name="hidSchool8" id="hidSchool8" value="">
+<input type="hidden" name="hidSchool9" id="hidSchool9" value="">
+<input type="hidden" name="hidSchool10" id="hidSchool10" value="">
+</form>
+ 
+<br>
+ 
+</div>
+ 
+<!--</div>-->
+ 
+</body>
+ 
+</html>

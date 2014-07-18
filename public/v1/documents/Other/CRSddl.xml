@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="CRS Status Drop Down List" height="25" scaling="false" />
+  <Content type="html">
+  <![CDATA[ 
+	<div style="text-align:center">
+		<select id="CRSddl">
+			<option value="CRS Consultation">CRS Consultation</option>
+			<option value="Qualifier Meeting">Qualifier Meeting</option>
+			<option value="Feasibility/Data Gathering Meeting">Feasibility/Data Gathering Meeting</option>
+			<option value="Concepts Meeting">Concepts Meeting</option>
+			<option value="Integrated Solutions Meeting">Integrated Solutions Meeting</option>
+			<option value="Family Implementation">Family Implementation</option>
+			<option value="Raving Fan Conversion">Raving Fan Conversion</option>
+			<option value="Maybe Later">Maybe Later</option>
+			<option value="Not Interested">Not Interested</option>
+			<option value="Proposal">Proposal</option>
+			<option value="Request for Information">Request for Information</option>
+			<option value="Sale">Sale</option>
+		</select>
+	</div>
+  ]]> 
+  </Content>
+</Module>
