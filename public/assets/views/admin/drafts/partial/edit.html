@@ -433,6 +433,8 @@
 	</table>
 	<legend>Family Information</legend>
 	<div class="form-group">
+		
+
 		<label for="" class=" control-label">Number Living in Household</label>
 		<div class="control tiny">
 			<input type="number" class="form-control" ng-model="student.household.size" ng-blur="checkMember()" required min="0">
@@ -950,6 +952,8 @@
 
 	<div ng-show="student.parents.marital > 3 || student.livingArrangement == 'Father'">
 		<h4>Father's Income</h4>
+
+		<input type="checkbox" ng-model="student.parents.income.father.noincome" ng-value="true">  No Income 
 		<div class="form-group">
 			<label>Current 2013 Earnings</label>
 			<div class="control tiny">
@@ -994,6 +998,7 @@
 
 	<div ng-show="student.parents.marital > 3 || student.livingArrangement == 'Mother'">
 		<h4>Mother's Income</h4>
+		<input type="checkbox" ng-model="student.parents.income.mother.noincome" ng-value="true">  No Income 
 		<div class="form-group">
 			<label>Current 2013 Earnings</label>
 			<div class="control tiny">
