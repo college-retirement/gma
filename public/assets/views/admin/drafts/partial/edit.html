@@ -953,13 +953,19 @@
 	<div ng-show="student.parents.marital > 3 || student.livingArrangement == 'Father'">
 		<h4>Father's Income</h4>
 
-		<input type="checkbox" ng-model="student.parents.income.father.noincome" ng-value="true">  No Income 
+		<div class="form-group">
+			<label></label>
+			<div class="control tiny">
+				<input type="checkbox" ng-model="student.parents.income.father.noincome" ng-change="changeFatherIncome()">  NO income
+			</div>	
+		</div>	
+		
 		<div class="form-group">
 			<label>Current 2013 Earnings</label>
 			<div class="control tiny">
 				<div class="input-prepend input-append input-group">
 					<span class="input-group-addon">$</span>
-					<input type="text" ng-model="student.parents.income.father.current" class="form-control" required>
+					<input type="text" ng-model="student.parents.income.father.current" class="form-control" required ng-disabled="student.parents.income.father.noincome === true">
 					<span class="input-group-addon">.00</span>
 				</div>
 			</div>
@@ -969,7 +975,7 @@
 			<div class="control tiny">
 				<div class="input-prepend input-append input-group">
 					<span class="input-group-addon">$</span>
-					<input type="text" ng-model="student.parents.income.father.anticipated" class="form-control" required>
+					<input type="text" ng-model="student.parents.income.father.anticipated" class="form-control" required ng-disabled="student.parents.income.father.noincome === true">
 					<span class="input-group-addon">.00</span>
 				</div>
 			</div>
@@ -979,7 +985,7 @@
 			<div class="control tiny">
 				<div class="input-prepend input-append input-group">
 					<span class="input-group-addon">$</span>
-					<input type="text" ng-model="student.parents.income.father.retirement" class="form-control" required>
+					<input type="text" ng-model="student.parents.income.father.retirement" class="form-control" required ng-disabled="student.parents.income.father.noincome === true">
 					<span class="input-group-addon">.00</span>
 				</div>
 			</div>
@@ -989,7 +995,7 @@
 			<div class="control tiny">
 				<div class="input-prepend input-append input-group">
 					<span class="input-group-addon">$</span>
-					<input type="text" ng-model="student.parents.income.father.ssBenefits" class="form-control" required>
+					<input type="text" ng-model="student.parents.income.father.ssBenefits" class="form-control" required ng-disabled="student.parents.income.father.noincome === true">
 					<span class="input-group-addon">.00</span>
 				</div>
 			</div>
@@ -998,13 +1004,18 @@
 
 	<div ng-show="student.parents.marital > 3 || student.livingArrangement == 'Mother'">
 		<h4>Mother's Income</h4>
-		<input type="checkbox" ng-model="student.parents.income.mother.noincome" ng-value="true">  No Income 
+		<div class="form-group">
+			<label></label>
+			<div class="control tiny">
+				<input type="checkbox" ng-model="student.parents.income.mother.noincome" ng-change="changeMotherIncome()">  NO income
+			</div>
+		</div> 
 		<div class="form-group">
 			<label>Current 2013 Earnings</label>
 			<div class="control tiny">
 				<div class="input-prepend input-append input-group">
 					<span class="input-group-addon">$</span>
-					<input type="text" ng-model="student.parents.income.mother.current" class="form-control" ng-required="student.parents.marital > 3 || student.livingArrangement =='Mother'">
+					<input type="text" ng-model="student.parents.income.mother.current" class="form-control" ng-required="student.parents.marital > 3 || student.livingArrangement =='Mother'" ng-disabled="student.parents.income.mother.noincome === true">
 					<span class="input-group-addon">.00</span>
 				</div>
 			</div>
@@ -1014,7 +1025,7 @@
 			<div class="control tiny">
 				<div class="input-prepend input-append input-group">
 					<span class="input-group-addon">$</span>
-					<input type="text" ng-model="student.parents.income.mother.anticipated" class="form-control" ng-required="student.parents.marital > 3 || student.livingArrangement =='Mother'">
+					<input type="text" ng-model="student.parents.income.mother.anticipated" class="form-control" ng-required="student.parents.marital > 3 || student.livingArrangement =='Mother'" ng-disabled="student.parents.income.mother.noincome === true">
 					<span class="input-group-addon">.00</span>
 				</div>
 			</div>
@@ -1024,7 +1035,7 @@
 			<div class="control tiny">
 				<div class="input-prepend input-append input-group">
 					<span class="input-group-addon">$</span>
-					<input type="text" ng-model="student.parents.income.mother.retirement" class="form-control" ng-required="student.parents.marital > 3 || student.livingArrangement =='Mother'">
+					<input type="text" ng-model="student.parents.income.mother.retirement" class="form-control" ng-required="student.parents.marital > 3 || student.livingArrangement =='Mother'" ng-disabled="student.parents.income.mother.noincome === true">
 					<span class="input-group-addon">.00</span>
 				</div>
 			</div>
@@ -1034,7 +1045,7 @@
 			<div class="control tiny">
 				<div class="input-prepend input-append input-group">
 					<span class="input-group-addon">$</span>
-					<input type="text" ng-model="student.parents.income.mother.ssBenefits" class="form-control" ng-required="student.parents.marital > 3 || student.livingArrangement =='Mother'">
+					<input type="text" ng-model="student.parents.income.mother.ssBenefits" class="form-control" ng-required="student.parents.marital > 3 || student.livingArrangement =='Mother'" ng-disabled="student.parents.income.mother.noincome === true">
 					<span class="input-group-addon">.00</span>
 				</div>
 			</div>
