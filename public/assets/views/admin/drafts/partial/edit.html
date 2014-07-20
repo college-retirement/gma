@@ -819,8 +819,7 @@
 			<th>School</th>
 			<th>Grade</th>
 			<th>Tuition Paid by Parents</th>
-			<th>Other Care Givers</th>
-			<th>Email</th>
+			
 			<!-- <th>Scholarship/Grants</th> -->
 			<th></th>
 		</thead>
@@ -864,16 +863,7 @@
 				<td>
 					<input type="text" class="form-control w130px" ng-disabled="student.school.current === false" ng-model="student.school.parentContribution">
 				</td>
-				<td>
-					<select class="form-control inline" ng-model="student.school.pertinentadults">
-						<option value="guardian">Guardian</option>
-						<option value="non-custodial parent">Non-custodial parent</option>
-						<option value="caretaker">Caretaker</option>
-					</select>
-				</td>
-				<td>
-					<input type="email" ng-model="student.school.email" placeholder="name@example.com" class="form-control w130px ng-valid-email" required="">
-				</td>
+				
 				<!-- <td> -->
 					<!-- <div class="input-group input-append input-prepend"> -->
 						<!-- <span class="input-group-addon">$</span> -->
