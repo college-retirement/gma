@@ -861,7 +861,7 @@
 					</select>
 				</td>
 				<td>
-					<input type="text" class="form-control w130px" ng-disabled="student.school.current === false" ng-model="student.school.parentContribution">
+					<input type="text" class="form-control" ng-disabled="student.school.current === false" ng-model="student.school.parentContribution">
 				</td>
 				
 				<!-- <td> -->
@@ -929,16 +929,7 @@
 						<span class="input-group-addon">.00</span>
 					</div>
 				</td>
-				<td>
-					<select class="form-control inline" ng-model="member.student.pertinentadults">
-						<option value="guardian">Guardian</option>
-						<option value="non-custodial parent">Non-custodial parent</option>
-						<option value="caretaker">Caretaker</option>
-					</select>
-				</td>
-				<td>
-					<input type="email" ng-model="member.student.email" placeholder="name@example.com" class="form-control w130px" required="">
-				</td>
+				
 				<!-- <td> -->
 					<!-- <div class="input-group input-append input-prepend"> -->
 						<!-- <span class="input-group-addon">$</span> -->
