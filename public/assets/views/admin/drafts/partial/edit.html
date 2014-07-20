@@ -808,6 +808,17 @@
 		</div>
 	</div>
 
+	<div class="form-group">
+			<label>Email (Need for Student Communcation)</label>
+			<div class="control tiny">
+				<div class="input-group input-append">
+					<input type="email" class="form-control inline" ng-model="student.communication.email">
+					
+				</div>
+			</div>
+		</div>
+
+
 	<legend>Family Members</legend>
 	<blockquote>Please give information for all family members, including parents.  For children changing schools from this year to next, please note the name of both schools.</blockquote>
 	<table class="table table-striped">
@@ -885,6 +896,7 @@
 						<option value="">--Select One--</option>
 						<option value="parent">Parent / Step-Parent</option>
 						<option value="sibling">Sibling / Step-Sibling</option>
+						<option value="guardian">Guardian</option>
 						<option value="grandparent">Grandparent</option>
 						<option value="other">Other</option>
 					</select>
@@ -897,7 +909,7 @@
 					</select>
 				</td>
 				<td>
-					<input type="text" class="form-control inline w130px" ng-model="member.school" ng-disabled="member.student === false">
+					<input type="text" class="form-control inline w130px" ng-model="member.school" ng-disabled="member.student === false || member.relationship != 'sibling'">
 				</td>
 				<td>
 					<select class="form-control inline" ng-model="member.grade" ng-disabled="member.student === false">
