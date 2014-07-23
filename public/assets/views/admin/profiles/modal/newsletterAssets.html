@@ -45,6 +45,26 @@
 					</div>
 				</div>
 
+				<div class="form-group">
+					<label>Email To</label>
+					<div class="control">
+					    <select class="form-control inline" ng-model="newsletter.emailTo">
+						
+							<option value="{{student.email}}">User({{student.email}})</option>
+							<option value="{{student.parents.father.email}}">Father({{student.parents.father.email}})</option>
+							<option value="{{student.parents.mother.email}}" >Mother({{student.parents.mother.email}})</option>
+							<option value="{{student.guardian.email}}">Gurdian({{student.guardian.email}})</option>
+					    </select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label>Send Test Email To Admin</label>
+					<div class="control">
+						<input type="checkbox" ng-model="newsletter.testEmail" ng-value="false">
+					</div>
+				</div>
+
 			  
 			  <div class="form-group">
 				<label>Email Body</label>
