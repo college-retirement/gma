@@ -106,6 +106,7 @@ angular.module('gmaApp').controller('AdminEditCtrl', function($scope, $route, $h
 		if (!errors) {
 			$http.put('/admin/profiles', $scope.student).success(function(){
 				$scope.finished = true;
+				toastr.success('Successfully submitted');
 			}).error(function(){
 				toastr.error("Unable to submit profile.");
 			})

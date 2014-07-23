@@ -84,16 +84,22 @@ angular.module('gmaApp').controller('AdminTemplateListCtrl', function($scope, Pe
 			toastr.clear();
 		});
 	};
-	$scope.destroy = function() {
+	$scope.destroy = function(template) {
 		if (confirm('Are you sure you want to delete this template?')) {
 				$http.delete('/admin/newsletter/' + template._id).success(function(){
 					toastr.success('Template deleted.');
-					$http.get('/admin/newsletter/' + id).then(function(obj){
-						$scope.template = obj.data.result;
+					$http.get('/admin/newsletter/' ).then(function(obj){
+						$scope.templates = obj.data.result;
+						$scope.pagination = obj.data.pagination;
 						
 					});
 				}).error(function(){
-					toastr.error('Unable to delete Template.');
+					toastr.error('Template deleted');
+					$http.get('/admin/newsletter/' ).then(function(obj){
+						$scope.templates = obj.data.result;
+						$scope.pagination = obj.data.pagination;
+						
+					});
 				});
 			}
 	}

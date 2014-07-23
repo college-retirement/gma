@@ -7,6 +7,7 @@ angular.module('gmaApp').controller('AdminUserListCtrl', function($scope, $locat
 	});
 
 	$scope.sortable = {
+		'user_id': false,
 		'name.last': false,
 		'name.first': false,
 		'created_at': false,

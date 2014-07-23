@@ -258,7 +258,7 @@ angular.module('gmaApp').controller('ModalDemoCtrl', ['$rootScope','$scope', '$m
 
 
 
-angular.module('gmaApp').controller("PersonaCtrl", function($rootScope, $scope, Persona){
+angular.module('gmaApp').controller("PersonaCtrl", function($rootScope, $scope, $location, Persona){
 	
 	$scope.login = function() {
 		$scope.$emit('loginClick');
@@ -266,6 +266,7 @@ angular.module('gmaApp').controller("PersonaCtrl", function($rootScope, $scope, 
 
 	$scope.logout = function() {
 		Persona.logout();
+		$location.path('/');
 	};
 
 	$scope.status = function() {

@@ -109,7 +109,7 @@
 					{{ profile.status }}
 				</td>
 				<td>
-					{{ profile.updated }}
+					{{ profile.updated | date}}
 				</td>
 				<td>
 					{{ profile.school.name }}
@@ -120,7 +120,7 @@
 				</td>
 					
 				<td>
-                   {{ getGrade(profile) }}
+                   {{ profile.sibgrad }}
 				</td>
 
 				
