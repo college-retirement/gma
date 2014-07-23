@@ -300,6 +300,8 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 		});
 	};
 
+	
+
 	$scope.submitProfile = function() {
 		var errors = false;
 

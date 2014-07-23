@@ -3,7 +3,37 @@ angular.module('gmaApp').controller('AdminSearchCtrl', function($scope, Persona,
     $scope.type = "Search";
 
     $http.get('/admin/clients').then(function(obj){
-		$scope.profiles = obj.data.result;
+
+    	var promises = [];
+
+		jQuery.each(obj.data.result, function(key, val) {
+			
+			var profile = {};
+			
+
+		 profile._id = val._id;	
+		 profile.client_id = val.client_id;
+    	 profile.name = val.name;
+    	
+    	 profile.address.city  = val.address.city;
+    	 profile.address.state  = val.address.state;
+    	 profile.dob  = val.dob;
+    	 profile.phone  = val.phone;
+    	 profile.hsGrad  = val.hsGrad;
+    	 profile.status  = val.status;
+    	 profile.updated  = val.updated;
+    	 profile.school  = val.school;
+    	 profile.has_profile_school  = val.has_profile_school;
+    	 profile.family  = val.family;
+    	 profile.sib_grad  = val.family;
+    	 //call this function from here getGrade(profile)
+
+		  promises.push(profile);
+		});
+    	 
+		//console.log(promises);
+
+		$scope.profiles = promises;
 		$scope.pagination = obj.data.pagination;
 	});
 

@@ -554,6 +554,15 @@
 			</div>
 		</div>
 		<div class="form-group">
+			<label>Email (Need for Student Communcation)</label>
+			<div class="control tiny">
+				<div class="input-group input-append">
+					<input type="email" class="form-control inline" ng-model="student.guardian.email">
+					
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
 			<label>Date of Birth</label>
 			<div class="control tiny">
 				<input type="text" class="form-control" ng-model="student.guardian.dob" ui-mask="99/99/9999" ng-required="student.parents.marital < 4 && student.livingArrangement == 'Guardian'">
@@ -641,6 +650,15 @@
 				<input type="text" ng-model="student.parents.father.name.first" placeholder="First" class="form-control third" ng-required="student.parents.marital > 3 || student.livingArrangement == 'Father'">
 				<input type="text" ng-model="student.parents.father.name.middle" placeholder="Middle" class="form-control third">
 				<input type="text" ng-model="student.parents.father.name.last" placeholder="Last" class="form-control third" ng-required="student.parents.marital > 3 || student.livingArrangement == 'Father'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label>Email (Need for Student Communcation)</label>
+			<div class="control tiny">
+				<div class="input-group input-append">
+					<input type="email" class="form-control inline" ng-model="student.parents.father.email">
+					
+				</div>
 			</div>
 		</div>
 		<div class="form-group">
@@ -732,6 +750,15 @@
 			</div>
 		</div>
 		<div class="form-group">
+			<label>Email (Need for Student Communcation)</label>
+			<div class="control tiny">
+				<div class="input-group input-append">
+					<input type="email" class="form-control inline" ng-model="student.parents.mother.email">
+					
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
 			<label>Date of Birth</label>
 			<div class="control tiny">
 				<input type="text" class="form-control" ng-model="student.parents.mother.dob" ui-mask="99/99/9999" ng-required="student.parents.marital > 3 || student.livingArrangement == 'Mother'">
@@ -808,6 +835,9 @@
 		</div>
 	</div>
 
+	
+
+
 	<legend>Family Members</legend>
 	<blockquote>Please give information for all family members, including parents.  For children changing schools from this year to next, please note the name of both schools.</blockquote>
 	<table class="table table-striped">
@@ -819,8 +849,7 @@
 			<th>School</th>
 			<th>Grade</th>
 			<th>Tuition Paid by Parents</th>
-			<th>Other Care Givers</th>
-			<th>Email</th>
+			
 			<!-- <th>Scholarship/Grants</th> -->
 			<th></th>
 		</thead>
@@ -862,18 +891,9 @@
 					</select>
 				</td>
 				<td>
-					<input type="text" class="form-control w130px" ng-disabled="student.school.current === false" ng-model="student.school.parentContribution">
+					<input type="text" class="form-control" ng-disabled="student.school.current === false" ng-model="student.school.parentContribution">
 				</td>
-				<td>
-					<select class="form-control inline" ng-model="student.school.pertinentadults">
-						<option value="guardian">Guardian</option>
-						<option value="non-custodial parent">Non-custodial parent</option>
-						<option value="caretaker">Caretaker</option>
-					</select>
-				</td>
-				<td>
-					<input type="email" ng-model="student.school.email" placeholder="name@example.com" class="form-control w130px ng-valid-email" required="">
-				</td>
+				
 				<!-- <td> -->
 					<!-- <div class="input-group input-append input-prepend"> -->
 						<!-- <span class="input-group-addon">$</span> -->
@@ -895,6 +915,7 @@
 						<option value="">--Select One--</option>
 						<option value="parent">Parent / Step-Parent</option>
 						<option value="sibling">Sibling / Step-Sibling</option>
+						<option value="guardian">Guardian</option>
 						<option value="grandparent">Grandparent</option>
 						<option value="other">Other</option>
 					</select>
@@ -907,10 +928,10 @@
 					</select>
 				</td>
 				<td>
-					<input type="text" class="form-control inline w130px" ng-model="member.school" ng-disabled="member.student === false">
+					<input type="text" class="form-control inline w130px" ng-model="member.school" ng-disabled="member.student === false && member.relationship != 'sibling'">
 				</td>
 				<td>
-					<select class="form-control inline" ng-model="member.grade" ng-disabled="member.student === false">
+					<select class="form-control inline" ng-model="member.grade" ng-disabled="member.student === false && member.relationship != 'sibling'">
 						<option value="">--Select One--</option>
 						<option>Pre-K</option>
 						<option>K</option>
@@ -935,20 +956,11 @@
 				<td>
 					<div class="input-group input-append input-prepend">
 						<span class="input-group-addon">$</span>
-						<input type="text" class="form-control inline w130px" ng-disabled="member.student === false" ng-model="member.parentContribution">
+						<input type="text" class="form-control inline w130px" ng-disabled="member.student === false && member.relationship != 'sibling'" ng-model="member.parentContribution">
 						<span class="input-group-addon">.00</span>
 					</div>
 				</td>
-				<td>
-					<select class="form-control inline" ng-model="member.student.pertinentadults">
-						<option value="guardian">Guardian</option>
-						<option value="non-custodial parent">Non-custodial parent</option>
-						<option value="caretaker">Caretaker</option>
-					</select>
-				</td>
-				<td>
-					<input type="email" ng-model="member.student.email" placeholder="name@example.com" class="form-control w130px" required="">
-				</td>
+				
 				<!-- <td> -->
 					<!-- <div class="input-group input-append input-prepend"> -->
 						<!-- <span class="input-group-addon">$</span> -->
