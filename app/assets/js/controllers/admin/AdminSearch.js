@@ -3,37 +3,11 @@ angular.module('gmaApp').controller('AdminSearchCtrl', function($scope, Persona,
     $scope.type = "Search";
 
     $http.get('/admin/clients').then(function(obj){
-
-    	var promises = [];
-
-		jQuery.each(obj.data.result, function(key, val) {
-			
-			var profile = {};
-			
-
-		 profile._id = val._id;	
-		 profile.client_id = val.client_id;
-    	 profile.name = val.name;
-    	
-    	 profile.address.city  = val.address.city;
-    	 profile.address.state  = val.address.state;
-    	 profile.dob  = val.dob;
-    	 profile.phone  = val.phone;
-    	 profile.hsGrad  = val.hsGrad;
-    	 profile.status  = val.status;
-    	 profile.updated  = val.updated;
-    	 profile.school  = val.school;
-    	 profile.has_profile_school  = val.has_profile_school;
-    	 profile.family  = val.family;
-    	 profile.sib_grad  = val.family;
-    	 //call this function from here getGrade(profile)
-
-		  promises.push(profile);
-		});
+		
     	 
 		//console.log(promises);
 
-		$scope.profiles = promises;
+		$scope.profiles = $scope.getProfiles(obj.data.result);
 		$scope.pagination = obj.data.pagination;
 	});
 
@@ -50,6 +24,37 @@ angular.module('gmaApp').controller('AdminSearchCtrl', function($scope, Persona,
 		'dob': false,
 		'client_id': false
 	};
+
+	$scope.getProfiles = function(profiles) {
+		var promises = [];
+
+		jQuery.each(profiles, function(key, val) {
+			
+			var profile = {};
+			
+
+		 profile._id = val._id;	
+		 profile.client_id = val.client_id;
+    	 profile.name = val.name;
+    	
+    	 profile.address  = val.address;
+    	 
+    	 profile.dob  = val.dob;
+    	 profile.phone  = val.phone;
+    	 profile.hsGrad  = val.hsGrad;
+    	 profile.status  = val.status;
+    	 profile.updated  = val.updated;
+    	 profile.school  = val.school;
+    	 profile.has_profile_school  = val.has_profile_school;
+    	 //profile.family  = val.family;
+    	 //profile.sib_grad  = val.family;
+    	 profile.sibgrad  = $scope.getGrade2(val.family);
+    	 //call this function from here getGrade(profile)
+
+		  promises.push(profile);
+		});
+		return promises;
+	}
 
 	$scope.checkSort = function (column) {
 		return $scope.sortable[column];
@@ -116,6 +121,30 @@ angular.module('gmaApp').controller('AdminSearchCtrl', function($scope, Persona,
 			}
 		}
 	//return 1;
+	}
+	$scope.getGrade2 = function(family) {
+		
+		if(family && family.members.length > 0){
+			for (var i=0; i< family.members.length ; i++){
+				//console.log(profile.family.members[i].relationship);
+				if(family.members[i].relationship == 'sibling' && family.members[i].grade) {
+					
+					var gd = 0;
+					if(family.members[i].grade == 'Freshman' || 
+						family.members[i].grade == 'Sophomore' || 
+						family.members[i].grade == 'Junior' || 
+						family.members[i].grade == 'Senior' ){
+						gd = 12;
+					} else {
+						gd = parseInt(family.members[i].grade, 10);
+					}
+
+					//console.log(gd);
+					return 2014 + (12- gd);
+				}
+			}
+		}
+	return "";
 	}
 
 	$scope.newPage = function(page) {

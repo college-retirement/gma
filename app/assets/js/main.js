@@ -207,7 +207,7 @@ angular.module('gmaApp').controller('ModalInstanceCtrl', ['$scope', '$modalInsta
 			var promise = Persona.verify($scope.login);
 			promise.then(function(greeting) {
 				$modalInstance.close();
-				console.log(Persona.getUser().is_admin);
+				//console.log(Persona.getUser().is_admin);
 				if(Persona.getUser().is_admin == true){
 					$location.path('/admin/list');
 				}

@@ -3,14 +3,14 @@ angular.module('gmaApp').controller('AdminListCtrl', function($scope, Persona, $
 
 	$scope.getClients = function() {
 		$http.get('/admin/clients').then(function(obj){
-			$scope.profiles = obj.data.result;
+			$scope.profiles = $scope.getProfiles(obj.data.result);
 			$scope.pagination = obj.data.pagination;
 		});
 	};
 
 	$scope.getProspects = function() {
 		$http.get('/admin/prospects').then(function(obj){
-			$scope.profiles = obj.data.result;
+			$scope.profiles = $scope.getProfiles(obj.data.result);
 			$scope.pagination = obj.data.pagination;
 		});
 	};
@@ -27,6 +27,31 @@ angular.module('gmaApp').controller('AdminListCtrl', function($scope, Persona, $
 		'client_id':false
 		//'created_at': false,
 	};
+
+	$scope.getProfiles = function (profiles) {
+		var promises = [];
+
+		jQuery.each(profiles, function(key, val) {
+			
+			var user = {};
+			
+
+		 user._id = val._id;	
+		 user.client_id = val.client_id;
+    	 user.name = val.name;
+    	
+    	 user.address  = val.address;
+    	 
+    	 user.phone  = val.phone;
+    	 user.dob  = val.dob;
+
+    	 user.status  = val.status;
+    	 user.has_profile_school = val.has_profile_school;
+    	 
+    	 promises.push(user);
+		});
+		return promises;
+	}
 
 	$scope.checkSort = function (column) {
 		return $scope.sortable[column];
