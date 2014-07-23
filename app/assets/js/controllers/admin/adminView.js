@@ -12,12 +12,20 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 		else {
 			$scope.clients = false;
 		}
+		if (!$scope.student.hasOwnProperty('schools')) {
+			$scope.student = {
+				schools: []
+			}
+		}
 
 		if (!$scope.student.hasOwnProperty('siblings')) {
 			$scope.student.siblings = {
 				schools: []
 			}
 		}
+		
+
+		
 
 		if (!$scope.student.hasOwnProperty('family')) {
 			$scope.student.family = {
@@ -30,7 +38,7 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 		}
 	});
 
-	$http.get('/admin/newsletters').then(function(obj){
+	$http.get('/admin/newsletters/'+id).then(function(obj){
 		$scope.newsletters = obj.data.result;
 		
 	});
@@ -149,6 +157,9 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 				},
 				http: function() {
 					return $http;
+				},
+				student: function() {
+					return $scope.student;
 				}
 			}
 		});
@@ -235,8 +246,8 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 
 	$scope.checkMember = function() {
 		
-		if($scope.student.household.size != $scope.student.family.members.length){
-			toastr.error('Please add same number family member');
+		if($scope.student.household.size != ($scope.student.family.members.length + 1)){
+			toastr.error('The field "number living in household" ('+$scope.student.household.size +'), needs to match the number of people listed ('+($scope.student.family.members.length + 1)+') in "Family Members" section');
 			jQuery("#addfamily").focus();
 			
 		}
@@ -299,8 +310,32 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 			toastr.error('Unable to update account.');
 		});
 	};
+	$scope.changeFatherIncome = function() {
+		$scope.student.parents.income.father.current = 0;
+		$scope.student.parents.income.father.anticipated = 0;
+		$scope.student.parents.income.father.retirement = 0;
+		$scope.student.parents.income.father.ssBenefits = 0;
+	};
 
-	
+	$scope.changeMotherIncome = function() {
+		$scope.student.parents.income.mother.current = 0;
+		$scope.student.parents.income.mother.anticipated = 0;
+		$scope.student.parents.income.mother.retirement = 0;
+		$scope.student.parents.income.mother.ssBenefits = 0;
+	}
+
+	$scope.changeGuardianIncome = function() {
+		$scope.student.guardian.income.current = 0;
+		$scope.student.guardian.income.anticipated = 0;
+		$scope.student.guardian.income.retirement = 0;
+		$scope.student.guardian.income.ssBenefits = 0;
+	}
+
+	$scope.showSelect = function() {
+		console.log($scope.student.school.current);
+		console.log($scope.student.school.current === false);
+	}
+
 
 	$scope.submitProfile = function() {
 		var errors = false;
@@ -324,9 +359,10 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 
 		jQuery(".ng-invalid:not(form)").first().focus();
 
-		if($scope.student.household.size != $scope.student.family.members.length){
+		if($scope.student.household.size != ($scope.student.family.members.length + 1)){
 			errors = true;
-			toastr.error('Please add same number family member');
+			 
+			toastr.error('The field "number living in household" ('+$scope.student.household.size +'), needs to match the number of people listed ('+($scope.student.family.members.length + 1)+') in "Family Members" section');
 			jQuery("#addfamily").focus();
 
 		}
@@ -335,7 +371,7 @@ angular.module('gmaApp').controller('AdminViewCtrl', function($scope, $route, $h
 		if (!errors) {
 			$http.put('/admin/profiles', $scope.student).success(function(data){
 				$scope.student = data.result;
-				toastr.success('Profile updated.');
+				toastr.success('Profile successfully submitted.');
 			}).error(function(){
 				toastr.error("Unable to update profile.");
 			});
@@ -360,15 +396,21 @@ angular.module('gmaApp').controller('StudentAssetModal', function($scope, $modal
 	};
 });
 
-angular.module('gmaApp').controller('NewsletterAssetModal', function($scope, $modalInstance, newsletter,userid,http){
+angular.module('gmaApp').controller('NewsletterAssetModal', function($scope, $modalInstance, newsletter,userid,http,student){
 	$scope.newsletter = newsletter;
+	$scope.newsletter.userid = userid;
+	$scope.student = student;
+
 	$scope.close = function() {
 		$modalInstance.close();
 	};
 
 	$scope.submit = function() {
-		$modalInstance.close();
-	}
+		
+		http.post('/admin/notify/sendmail', $scope.newsletter).then(function(obj){
+				$modalInstance.close();
+			});
+        }
 });
 angular.module('gmaApp').controller('ParentAssetModal', function($scope, $modalInstance, assets){
 	$scope.assets = [];
