@@ -2,7 +2,7 @@ angular.module('gmaApp').controller('AdminUserListCtrl', function($scope, $locat
 	Persona.status();
 
 	$http.get('/admin/users').then(function(obj){
-		$scope.users = obj.data.result;
+		$scope.users = $scope.getUsers(obj.data.result);
 		$scope.pagination = obj.data.pagination;
 	});
 
@@ -12,6 +12,32 @@ angular.module('gmaApp').controller('AdminUserListCtrl', function($scope, $locat
 		'name.first': false,
 		'created_at': false,
 	};
+
+	$scope.getUsers = function (users){
+
+		var promises = [];
+
+		jQuery.each(users, function(key, val) {
+			
+			var user = {};
+			
+
+		 user._id = val._id;	
+		 user.user_id = val.user_id;
+    	 user.name = val.name;
+    	
+    	 user.email  = val.email;
+    	 
+    	 user.role  = val.role;
+    	 user.drafts  = val.drafts.length;
+    	 user.profiles  = val.profiles.length;
+    	 user.created  = val.created;
+    	 
+
+		  promises.push(user);
+		});
+		return promises;
+	}
 
 	$scope.checkSort = function (column) {
 		return $scope.sortable[column];
