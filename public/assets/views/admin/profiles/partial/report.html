@@ -12,6 +12,10 @@
 					<td>{{student.name.first}} {{student.name.middle}} {{student.name.last}}</td>
 				</tr>
 				<tr>
+					<th>Email</th>
+					<td>{{student.email}}</td>
+				</tr>
+				<tr>
 					<th>Date of Birth</th>
 					<td>{{student.dob | dob}}</td>
 				</tr>
@@ -43,13 +47,28 @@
 						{{student.guardian.name.first}} {{student.guardian.name.last}}
 					</td>
 				</tr>
+				<tr ng-show="student.livingArrangement == 'Guardian'">
+					<th>Guardian's Email</th>
+					<td>
+						{{student.guardian.email}}
+					</td>
+				</tr>
 				<tr>
 					<th>Father's Name</th>
 					<td>{{student.parents.father.name.first}} {{student.parents.father.name.last}}</td>
 				</tr>
 				<tr>
+					<th>Father's Email</th>
+					<td>{{student.parents.father.email}}</td>
+				</tr>
+
+				<tr>
 					<th>Mother's Name</th>
 					<td>{{student.parents.mother.name.first}} {{student.parents.mother.name.last}}</td>
+				</tr>
+				<tr>
+					<th>Mother's Email</th>
+					<td>{{student.parents.mother.email}}</td>
 				</tr>
 				<tr>
 					<th>Marital Status</th>
