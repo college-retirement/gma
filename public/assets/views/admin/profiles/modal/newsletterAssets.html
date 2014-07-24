@@ -5,7 +5,7 @@
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="close()">&times;</button>
 		<h4 class="modal-title">Email Template Preview</h4>
 	  </div>
-	  <div class="modal-body" style="min-height:820px">
+	  <div class="modal-body" style="min-height:920px">
 	  	<div class="template_code">
 {StudentFName}<br />
 {Student F Name }<br />
@@ -50,10 +50,10 @@
 					<div class="control">
 					    <select class="form-control inline" ng-model="newsletter.emailTo">
 						
-							<option value="{{student.email}}">User({{student.email}})</option>
-							<option value="{{student.parents.father.email}}">Father({{student.parents.father.email}})</option>
-							<option value="{{student.parents.mother.email}}" >Mother({{student.parents.mother.email}})</option>
-							<option value="{{student.guardian.email}}">Gurdian({{student.guardian.email}})</option>
+							<option value="{{student.email}}" selected>{{student.name.first}} {{student.name.last}}({{student.email}})</option>
+							<option value="{{student.parents.father.email}}" ng-show="student.parents.marital > 3 || student.livingArrangement == 'Father'">{{student.parents.father.name.first}}  {{student.parents.father.name.last}}({{student.parents.father.email}})</option>
+							<option value="{{student.parents.mother.email}}" ng-show="student.parents.marital > 3 || student.livingArrangement == 'Mother'">{{student.parents.mother.name.first}} {{student.parents.mother.name.last}}({{student.parents.mother.email}})</option>
+							<option value="{{student.guardian.email}}" ng-show="student.parents.marital < 4 && (student.livingArrangement && student.livingArrangement == 'Guardian')">{{student.guardian.name.first}} {{student.guardian.name.last}}({{student.guardian.email}})</option>
 					    </select>
 					</div>
 				</div>

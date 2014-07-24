@@ -31,17 +31,36 @@ class NotifyController extends Controller {
     public function notifyUser()
     {
     	$id = Input::get('userid');
+        $sendTestEmail = Input::get('testEmail');
+        $emailTo = Input::get('emailTo');
+
     	$event = Profile::with('user')->where('_id', $id)->get()->first();
         $event = $event->toArray();
         $profile['user']['name'] = $event['name']['first']." ".$event['name']['last'];
         $profile['_id'] = $event['_id'];
         $profile['email'] = $event['email'];
 
+
         
 
         $subject = Input::get('templateSubject');
-        \Mail::send('emails.notify', ['data' => Input::get('templateBody')], function($mail) use ($profile,$subject){
-            $mail->to($profile['email'], $profile['user']['name'])->subject($subject);
+        \Mail::send('emails.notify', ['data' => Input::get('templateBody')], function($mail) use ($profile,$subject,$emailTo,$sendTestEmail){
+            if($sendTestEmail) {
+
+                if (Session::has('currentUser')) {
+                    $user = User::find(Session::get('currentUser'));
+                    $mail->to($user->email, $user->full_name)->subject($subject);
+                }
+                else {
+                    $mail->to('seanh@weblogixinc.com', $profile['user']['name'])->subject($subject);
+                }
+
+              
+                
+            } else {
+                $mail->to($emailTo, $profile['user']['name'])->subject($subject);
+            }
+            
         });
 
 
