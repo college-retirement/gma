@@ -23,6 +23,8 @@ class AccountsController extends Controller {
             if ($user) {
                 return Response::json(['messages' => ['duplicate_email' => 'An account with that email already exists.']], 409);
             } else {
+            	$user2 = User::orderBy('user_id', 'desc')->get()->first();
+       
                 $user = new User;
                 $user->password = $password = Hash::make(Input::get('password'));
                 $user->email = Input::get('email');
@@ -30,6 +32,7 @@ class AccountsController extends Controller {
                 $user->name = Input::get('name');
                 $user->phone = Input::get('phone');
                 $user->role = Input::get('role');
+                $user->user_id = $user2->user_id + 1;
 
                 if ($user->save()) {
                     $log = new UserLog;

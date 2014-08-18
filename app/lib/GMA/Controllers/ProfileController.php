@@ -4,6 +4,7 @@ use Input;
 use Rest;
 use Session;
 use GMA\Data\Models\Profile;
+use GMA\Data\Models\Log;
 
 class ProfileController extends Base
 {
@@ -14,8 +15,10 @@ class ProfileController extends Base
      * @return Response
      */
     public function create()
-    {
-        $input = array_merge(Input::except($this->exceptions), ['user_id' => Session::get('currentUser')]);
+    {   
+        $profile2 = Profile::where('prospect', false)->orderBy('client_id', 'DESC')->get()->first();
+       
+        $input = array_merge(Input::except($this->exceptions), ['user_id' => Session::get('currentUser'), 'client_id' => $profile2->client_id + 1]);
         $profile = Profile::create($input);
 
         if ($profile) {
