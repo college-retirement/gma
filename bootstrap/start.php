@@ -26,10 +26,10 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-	'local' => ['gma.dev','RUHINA-PC'],
-	'production' => ['college-retirement.com'],
-	'staging' => ['crs.trea.ws'],
-	'development' => ['dev.college-retirement.com','li135-40']
+	'local' => ['gma.dev'],
+	'development' => ['dev.clients.college-retirement.com'],
+	'production' => ['clients.college-retirement.com'],
+	'staging' => ['crs.trea.ws']
 
 ));
 
