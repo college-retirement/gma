@@ -3,7 +3,7 @@
 		<div class="container">
 			<div class="col-lg-6">
 				<div ng-show="getUser() === false">
-					<h3>Create an Account</h3>
+					<h3>Create an Account Testing</h3>
 					<p>To begin working with College & Retirement Solutions, you'll need an account first.</p>
 					<a href="/#/register" class="btn btn-primary">
 						Start Here
@@ -48,5 +48,53 @@
 					</p>
 			</div>
 		</div>
+
+		<section id="modal">
+		<div class="row">
+         <div class="col-md-6 show-grid">
+		<div ng-controller="ModalDemoCtrl">
+		    <script type="text/ng-template" id="myModalContent.html">
+		    	<div class="modal-dialog" ng-class="{'modal-sm': size == 'sm', 'modal-lg': size == 'lg'}">
+		    		<div class="modal-content">
+        
+   
+		    	<div class="modal-body">
+		        <form id="login" novalidate class="form-horizontal">
+				<h3>Please enter your sign in information:</h3>
+
+				<div class="form-group">
+					<label>Email Address</label>
+					<div class="control half">
+						<input type="email" ng-model="login.email" name="email" placeholder="name@example.com" required class="form-control">
+						
+					</div>
+				</div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="control half">
+                        <input type="password" ng-model="login.password"  name="password" required class="form-control">
+                        
+                    </div>
+                </div>
+				<div class="form-group">
+					<label></label>
+					<div class="control">
+					<input type="submit" class="btn btn-primary" value="Login" ng-click="submit();">
+					<a class="btn btn-default" href="#/forgot" ng-click="cancel()">
+			    		<span>Forgot Password</span>
+			    	</a>
+					</div>
+				</div>
+			</form>
+		        
+		        </div>
+		         </div></div>
+		    </script>
+
+		</div>
+		</div>
+		</div>
+	</section>
 	</div>
 </div>
+

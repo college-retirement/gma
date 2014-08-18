@@ -7,22 +7,45 @@ use \DateTime;
 class User extends SortableModel
 {
     protected $collection = 'users';
+    public $timestamps = true;
+    public $appends = array("full_name", "is_admin",'created',"updated");
+    //protected $dates = array('created');
+//    public function getCreatedAttribute($value)
+//    {
+//        
+//        if (array_key_exists('created_at', $this->attributes)) {
+//            if (is_string($this->attributes['created_at'])) {
+//                $dt = new DateTime($this->attributes['created_at']);
+//                return $dt->format('c');
+//            }
+//            if (is_object($this->attributes['created_at'])) {
+//                $dt = new DateTime();
+//                $dt->setTimestamp($this->attributes['created_at']->sec);
+//                return $dt->format('c');
+//            }
+//        }
+//    }
+    
+    public function getCreatedAttribute() { 
 
-    public $appends = array("full_name", "is_admin", "created", "updated");
-
-    public function getCreatedAttribute()
-    {
-        if (array_key_exists('created_at', $this->attributes)) {
-            if (is_string($this->attributes['created_at'])) {
-                $dt = new DateTime($this->attributes['created_at']);
+      if (array_key_exists('created_at', $this->attributes)) {
+       
+        if (is_string($this->attributes['created_at'])) {
+            //var_dump("String");
+           // return $carbonDate = \Carbon\Carbon::createFromDate($this->attributes['created_at']);
+              $dt = new DateTime($this->attributes['created_at']);
                 return $dt->format('c');
-            }
-            if (is_object($this->attributes['created_at'])) {
-                $dt = new DateTime();
-                $dt->setTimestamp($this->attributes['created_at']->sec);
-                return $dt->format('c');
-            }
         }
+        if (is_object($this->attributes['created_at'])) {
+            $dt = new DateTime();
+                $dt->setTimestamp($this->attributes['updated_at']->sec);
+              
+           //$c = new \Carbon\Carbon($this->attributes['created_at']->sec);
+          // return $carbonDate = $c->toDateTimeString();
+                 return $dt->format('c');
+        }
+      }
+       //return true; 
     }
 
     public function getUpdatedAttribute()
@@ -65,5 +88,11 @@ class User extends SortableModel
             return $this->attributes['role'] == 'Administrator';
         }
         return false;
+    }
+    
+    public function getDates()
+    {
+        // only this field will be converted to Carbon
+        return array();
     }
 }

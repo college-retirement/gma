@@ -4,6 +4,9 @@ angular.module('gmaApp').controller('AdminEditCtrl', function($scope, $route, $h
 	$scope.collegeList = {};
 	$scope.collegesLoading = false;
 
+	
+	
+
 	$scope.$watch('currentSchool', function(){
 		if ($scope.currentSchool != "" && typeof $scope.currentSchool !== "object") {
 			
@@ -35,6 +38,7 @@ angular.module('gmaApp').controller('AdminEditCtrl', function($scope, $route, $h
 		$scope.student.schools.splice(index, 1);
 	};
 
+    
 
 	$scope.addFamily = function() {
 		$scope.student.family.members.push({student: false});
@@ -102,6 +106,7 @@ angular.module('gmaApp').controller('AdminEditCtrl', function($scope, $route, $h
 		if (!errors) {
 			$http.put('/admin/profiles', $scope.student).success(function(){
 				$scope.finished = true;
+				toastr.success('Successfully submitted');
 			}).error(function(){
 				toastr.error("Unable to submit profile.");
 			})

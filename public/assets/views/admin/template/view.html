@@ -1,0 +1,77 @@
+<div class="container">
+	<ol class="breadcrumb">
+		<li>
+			<a href="#/admin">Admin</a>
+		</li>
+		<li>
+			<a href="#/admin/templates">Templates</a>
+		</li>
+		
+	</ol>
+</div>
+
+
+<form novalidate class="form-horizontal" id="template" ng-class="{'ng-submitted': submit == true}" ng-submit="submitTemplate();">
+	
+	<div class="template_code">
+{StudentFName}<br />
+{Student F Name }<br />
+{StudentLName}<br />
+{ParentFName}<br />
+{ParentLName}<br />
+{CaseID}<br />
+{Address}<br />
+{City}<br />
+{State}<br />
+{Zip}<br />
+{ApptDate}<br />
+{ApptLocation}<br />
+{ApptGoToMeetingID}<br />
+{Password}<br />
+{EmailAddress}<br />
+{HighSchool}<br />
+{GradYear}<br />
+{DataformLink}<br />
+{LearningStyleLink}<br />
+{WebinarDate}<br />
+{WebinarName}<br />
+{WebinarGoToMeetingID}<br />
+{HomePhone}<br />
+{WorkPhone1}<br />
+{WorkPhone2}<br />
+{BackEndScheduleLink}<br />
+</div><div class="template_form">
+<h3>Edit Template Information</h3>	
+	<div class="form-group">
+		<label>Template Name</label>
+		<div class="control">
+			<input type="text" ng-model="template.templateName"  required class="form-control" required>
+			
+		</div>
+	</div>
+	<div class="form-group">
+		<label>Template Subject</label>
+		<div class="control">
+			<input type="text" ng-model="template.templateSubject"  class="form-control" required>
+		</div>
+	</div>
+         
+	<div class="form-group">
+		<label>Template Body</label>
+		<div class="control">
+			<textarea ng-model="template.templateBody"  rows="20"  class="form-control ck-editor" required></textarea>
+			
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label></label>
+		<div class="control">
+			<input type="submit" class="btn btn-primary" value="Submit">
+			
+		</div>
+	</div></div>
+   
+</form>
+</div>
+</div>

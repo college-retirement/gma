@@ -41,6 +41,12 @@ class AdminProspectsController extends Controller {
 		$newProfile = Profile::find($id);
 
 		if ($update) {
+			$log = new UserLog;
+			$log->action = 'Update';
+			$log->details = "Prospect Profile Update";
+			$log->user_id = Session::get('currentUser');
+			$log->save();
+
 			return Rest::okay($newProfile->toArray());
 		}
 		else {
@@ -54,6 +60,12 @@ class AdminProspectsController extends Controller {
 		if (!$profile) return Rest::notFound();
 
 		if ($profile->delete()) {
+			$log = new UserLog;
+			$log->action = "Delete";
+			$log->details = "Prospect Profile Delete";
+			$log->user_id = Session::get("currentUser");
+			$log->save();
+
 			return Rest::okay([]);
 		}
 		else {

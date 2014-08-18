@@ -9,10 +9,12 @@ class UserController extends Base
     public function all()
     {
         if ($this->isSorting()) {
-            $query = User::with(['drafts', 'profiles'])->withSortables($this->sortableColumns())->paginate(20);
+        	
+            $query = User::with(['profiles'])->withSortables($this->sortableColumns())->paginate(20);
             return Rest::okay($query);
         } else {
-            return Rest::okay(User::with(['drafts', 'profiles'])->paginate(20));
+           
+            return Rest::okay(User::with([ 'profiles'])->paginate(20));
         }
     }
 }

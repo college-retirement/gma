@@ -1,0 +1,503 @@
+<?php
+session_start();
+
+$username=$_SESSION["username"];
+$userid=$_SESSION["userid"];
+
+function checkNull($theValue)
+{
+	return ($theValue==null ? 0 : $theValue);
+}
+
+//initialize global variables
+$homeEquityFactor=.0564;
+$parentsAssetConversionRate=.12;
+$studentIncomeProtectionAllowance=4500;
+$studentAssessmentOfAvailableIncome=.5;
+$studentAssessmentRate=.2;
+$parentStateTaxAllowanceArray=array(
+'Alabama'=>.03,
+'Alaska'=>.02,
+'American Samoa'=>.03,
+'Arizona'=>.04,
+'Arkansas'=>.04,
+'California'=>.09,
+'Canada and Canadian Provinces'=>.03,
+'Colorado'=>.05,
+'Connecticut'=>.08,
+'Delaware'=>.05,
+'District of Columbia'=>.07,
+'Federated States of Micronesia'=>.03,
+'Florida'=>.04,
+'Georgia'=>.05,
+'Guam'=>.03,
+'Hawaii'=>.05,
+'Idaho'=>.05,
+'Illinois'=>.06,
+'Indiana'=>.04,
+'Iowa'=>.05,
+'Kansas'=>.05,
+'Kentucky'=>.05,
+'Louisiana'=>.03,
+'Maine'=>.06,
+'Marshall Islands'=>.03,
+'Maryland'=>.08,
+'Massachusetts'=>.07,
+'Mexico'=>.03,
+'Michigan'=>.05,
+'Minnesota'=>.06,
+'Mississippi'=>.03,
+'Missouri'=>.05,
+'Montana'=>.05,
+'Nebraska'=>.05,
+'Nevada'=>.03,
+'New Hampshire'=>.05,
+'New Jersey'=>.09,
+'New Mexico'=>.03,
+'New York'=>.10,
+'North Carolina'=>.06,
+'North Dakota'=>.03,
+'Northern Mariana Islands'=>.03,
+'Ohio'=>.06,
+'Oklahoma'=>.04,
+'Oregon'=>.07,
+'Palau'=>.03,
+'Pennsylvania'=>.05,
+'Puerto Rico'=>.03,
+'Rhode Island'=>.07,
+'South Carolina'=>.05,
+'South Dakota'=>.02,
+'Tennessee'=>.02,
+'Texas'=>.03,
+'Utah'=>.05,
+'Vermont'=>.06,
+'Virgin Islands'=>.03,
+'Virginia'=>.07,
+'Washington'=>.03,
+'West Virginia'=>.03,
+'Wisconsin'=>.07,
+'Wyoming'=>.02,
+'Blank or Invalid State'=>.03,
+'Other'=>.03
+);
+$studentStateTaxAllowanceArray=array(
+'Alabama'=>.02,
+'Alaska'=>0,
+'American Samoa'=>.02,
+'Arizona'=>.03,
+'Arkansas'=>.03,
+'California'=>.05,
+'Canada and Canadian Provinces'=>.02,
+'Colorado'=>.03,
+'Connecticut'=>.04,
+'Delaware'=>.03,
+'District of Columbia'=>.06,
+'Federated States of Micronesia'=>.02,
+'Florida'=>.01,
+'Georgia'=>.04,
+'Guam'=>.02,
+'Hawaii'=>.04,
+'Idaho'=>.04,
+'Illinois'=>.02,
+'Indiana'=>.03,
+'Iowa'=>.03,
+'Kansas'=>.03,
+'Kentucky'=>.04,
+'Louisiana'=>.02,
+'Maine'=>.04,
+'Marshall Islands'=>.02,
+'Maryland'=>.05,
+'Massachusetts'=>.04,
+'Mexico'=>.02,
+'Michigan'=>.03,
+'Minnesota'=>.04,
+'Mississippi'=>.02,
+'Missouri'=>.03,
+'Montana'=>.03,
+'Nebraska'=>.03,
+'Nevada'=>.01,
+'New Hampshire'=>.01,
+'New Jersey'=>.04,
+'New Mexico'=>.02,
+'New York'=>.06,
+'North Carolina'=>.04,
+'North Dakota'=>.01,
+'Northern Mariana Islands'=>.02,
+'Ohio'=>.04,
+'Oklahoma'=>.03,
+'Oregon'=>.05,
+'Palau'=>.02,
+'Pennsylvania'=>.03,
+'Puerto Rico'=>.02,
+'Rhode Island'=>.04,
+'South Carolina'=>.03,
+'South Dakota'=>.01,
+'Tennessee'=>.01,
+'Texas'=>.01,
+'Utah'=>.04,
+'Vermont'=>.03,
+'Virgin Islands'=>.02,
+'Virginia'=>.04,
+'Washington'=>.01,
+'West Virginia'=>.02,
+'Wisconsin'=>.04,
+'Wyoming'=>.01,
+'Blank or Invalid State'=>.02,
+'Other'=>.02
+);
+$incomeProtectionAllowanceArray=array(
+21=>16230,
+22=>13450,
+31=>20210,
+32=>17450,
+33=>14670,
+41=>24970,
+42=>22190,
+43=>19430,
+44=>16650,
+51=>29460,
+52=>26680,
+53=>23920,
+54=>21140,
+55=>18380,
+61=>34460,
+62=>31680,
+63=>28920,
+64=>26140,
+65=>23380,
+66=>20620,
+71=>38350,
+72=>35590,
+73=>32830,
+74=>30070,
+75=>27310,
+76=>24550,
+77=>21790,
+81=>42240,
+82=>39480,
+83=>36720,
+84=>33960,
+85=>31200,
+86=>28440,
+87=>25680,
+88=>22920,
+91=>46130,
+92=>43370,
+93=>40610,
+94=>37850,
+95=>35090,
+96=>32330,
+97=>29570,
+98=>26810,
+99=>24110,
+101=>50020,
+102=>47260,
+103=>44500,
+104=>41740,
+105=>38980,
+106=>36220,
+107=>33460,
+108=>30700,
+109=>28000,
+1010=>25300,
+);
+$educationSavingsAssetProtectionAllowance1Array=array(
+25=>0,
+26=>1100,
+27=>2200,
+28=>3300,
+29=>4400,
+30=>5500,
+31=>6600,
+32=>7700,
+33=>8700,
+34=>9800,
+35=>10900,
+36=>12000,
+37=>13100,
+38=>14200,
+39=>15300,
+40=>16400,
+41=>16700,
+42=>17100,
+43=>17500,
+44=>17900,
+45=>18300,
+46=>18700,
+47=>19100,
+48=>19600,
+49=>20100,
+50=>21500,
+51=>21000,
+52=>21500,
+53=>22000,
+54=>22600,
+55=>23200,
+56=>23700,
+57=>24300,
+58=>25000,
+59=>25600,
+60=>26300,
+61=>27000,
+62=>27800,
+63=>28500,
+64=>29300,
+65=>30100
+);
+$educationSavingsAssetProtectionAllowance2Array=array(
+25=>0, 
+26=>2800,
+27=>5500,
+28=>8300,
+29=>11100,
+30=>13800,
+31=>16600,
+32=>19400,
+33=>22100,
+34=>24900,
+35=>27700,
+36=>30400,
+37=>33200,
+38=>36000,
+39=>38700,
+40=>41500,
+41=>42200,
+42=>43300,
+43=>44400,
+44=>45500,
+45=>46600,
+46=>47700,
+47=>48900,
+48=>50100,
+49=>51300,
+50=>52900,
+51=>54200,
+52=>55500,
+53=>57100,
+54=>58500,
+55=>60200,
+56=>62000,
+57=>63500,
+58=>65300,
+59=>67200,
+60=>69200,
+61=>71200,
+62=>73200,
+63=>75600,
+64=>77700,
+65=>80300
+);
+
+//get POST variables
+$parentsMaritalWorkingStatus=$_POST["lstParentsMaritalWorkingStatus"];
+$fatherAge=checkNull($_POST["txtFatherAge"]);
+$motherAge=checkNull($_POST["txtMotherAge"]);
+$stateOfResidence=$_POST["lstStateOfResidence"];
+$parentsHouseholdSize=$_POST["lstParentsHouseholdSize"];
+$parentsNumberInCollege=$_POST["lstParentsNumberInCollege"];
+$parentsTaxFilingStatus=$_POST["lstParentsTaxFilingStatus"];
+$parentsAgi=checkNull($_POST["txtParentsAgi"]);
+$fatherIncomeEarned=checkNull($_POST["txtFatherIncomeEarned"]);
+$motherIncomeEarned=checkNull($_POST["txtMotherIncomeEarned"]);
+$parentsTotalUntaxedIncomeBenefits=checkNull($_POST["txtParentsTotalUntaxedIncomeBenefits"]);
+$parentsAdditionalFinancialInformation=checkNull($_POST["txtParentsAdditionalFinancialInformation"]);
+$parentsIncomeTax=checkNull($_POST["txtParentsIncomeTax"]);
+$parentsCashSavingsChecking=checkNull($_POST["txtParentsCashSavingsChecking"]);
+$parentsHomeCurrentMarketValue=checkNull($_POST["txtParentsHomeCurrentMarketValue"]);
+$parentsFirstMortgage=checkNull($_POST["txtParentsFirstMortgage"]);
+$parentsSecondMortgage=checkNull($_POST["txtParentsSecondMortgage"]);
+$parentsHomeEquityLineOfCredit=checkNull($_POST["txtParentsHomeEquityLineOfCredit"]);
+$parentsNetWorthInvestments=checkNull($_POST["txtParentsNetWorthInvestments"]);
+$parentsNetWorthBusinessInvestmentFarm=checkNull($_POST["txtParentsNetWorthBusinessInvestmentFarm"]);
+
+$studentTaxFilingStatus=$_POST["lstStudentTaxFilingStatus"];
+$studentAgi=checkNull($_POST["txtStudentAgi"]);
+$studentIncomeEarned=checkNull($_POST["txtStudentIncomeEarned"]);
+$studentTotalUntaxedIncomeBenefits=checkNull($_POST["txtStudentTotalUntaxedIncomeBenefits"]);
+$studentAdditionalFinancialInformation=checkNull($_POST["txtStudentAdditionalFinancialInformation"]);
+$studentIncomeTax=checkNull($_POST["txtStudentIncomeTax"]);
+$studentCashSavingsChecking=checkNull($_POST["txtStudentCashSavingsChecking"]);
+$studentNetWorthInvestments=checkNull($_POST["txtStudentNetWorthInvestments"]);
+$studentNetWorthBusinessInvestmentFarm=checkNull($_POST["txtStudentNetWorthBusinessInvestmentFarm"]);
+
+//save data to database
+include("../../commonPhp/dbConnect.php");
+
+$sql="SELECT * FROM TCOLLEGECHOICE_PARENT WHERE USER_ID=$userid";
+$result=mysql_query($sql);
+
+if (mysql_num_rows($result))
+	$sql="UPDATE TCOLLEGECHOICE_PARENT SET MARITAL_WORKING_STATUS=$parentsMaritalWorkingStatus, FATHER_AGE=$fatherAge, MOTHER_AGE=$motherAge, STATE_OF_RESIDENCE='$stateOfResidence', HOUSEHOLD_SIZE=$parentsHouseholdSize, NUMBER_IN_COLLEGE=$parentsNumberInCollege, TAX_FILING_STATUS=$parentsTaxFilingStatus, AGI=$parentsAgi, FATHER_INCOME_EARNED=$fatherIncomeEarned, MOTHER_INCOME_EARNED=$motherIncomeEarned, UNTAXED_INCOME=$parentsTotalUntaxedIncomeBenefits, ADDITIONAL_FINANCIAL_INFO=$parentsAdditionalFinancialInformation, INCOME_TAX=$parentsIncomeTax, CASH_SAVINGS_CHECKING=$parentsCashSavingsChecking, HOME_CURRENT_MARKET_VALUE=$parentsHomeCurrentMarketValue, FIRST_MORTGAGE=$parentsFirstMortgage, SECOND_MORTGAGE=$parentsSecondMortgage, HOME_EQUITY_LINE_OF_CREDIT=$parentsHomeEquityLineOfCredit, NET_WORTH_INVESTMENTS=$parentsNetWorthInvestments, NET_WORTH_BUSINESS=$parentsNetWorthBusinessInvestmentFarm, USER_UPDATED='$username', DATE_UPDATED=NOW() WHERE USER_ID=$userid";
+else
+	$sql="INSERT INTO TCOLLEGECHOICE_PARENT (USER_ID, MARITAL_WORKING_STATUS, FATHER_AGE, MOTHER_AGE, STATE_OF_RESIDENCE, HOUSEHOLD_SIZE, NUMBER_IN_COLLEGE, TAX_FILING_STATUS, AGI, FATHER_INCOME_EARNED, MOTHER_INCOME_EARNED, UNTAXED_INCOME, ADDITIONAL_FINANCIAL_INFO, INCOME_TAX, CASH_SAVINGS_CHECKING, HOME_CURRENT_MARKET_VALUE, FIRST_MORTGAGE, SECOND_MORTGAGE, HOME_EQUITY_LINE_OF_CREDIT, NET_WORTH_INVESTMENTS, NET_WORTH_BUSINESS, USER_CREATED, DATE_CREATED, USER_UPDATED, DATE_UPDATED) VALUES ($userid, $parentsMaritalWorkingStatus, $fatherAge, $motherAge, '$stateOfResidence', $parentsHouseholdSize, $parentsNumberInCollege, $parentsTaxFilingStatus, $parentsAgi, $fatherIncomeEarned, $motherIncomeEarned, $parentsTotalUntaxedIncomeBenefits, $parentsAdditionalFinancialInformation, $parentsIncomeTax, $parentsCashSavingsChecking, $parentsHomeCurrentMarketValue, $parentsFirstMortgage, $parentsSecondMortgage, $parentsHomeEquityLineOfCredit, $parentsNetWorthInvestments, $parentsNetWorthBusinessInvestmentFarm, '$username', NOW(), '$username', NOW())";
+
+if (!mysql_query($sql))
+	echo "error in collegeChoiceCalculateEFC.php<br><br>$sql<br><br>" . mysql_error() . "<br><br>";
+
+$sql="SELECT * FROM TCOLLEGECHOICE_STUDENT WHERE USER_ID=$userid";
+$result=mysql_query($sql);
+
+if (mysql_num_rows($result))
+	$sql="UPDATE TCOLLEGECHOICE_STUDENT SET TAX_FILING_STATUS=$studentTaxFilingStatus, AGI=$studentAgi, INCOME_EARNED=$studentIncomeEarned, UNTAXED_INCOME=$studentTotalUntaxedIncomeBenefits, ADDITIONAL_FINANCIAL_INFO=$studentAdditionalFinancialInformation, INCOME_TAX=$studentIncomeTax, CASH_SAVINGS_CHECKING=$studentCashSavingsChecking, NET_WORTH_INVESTMENTS=$studentNetWorthInvestments, NET_WORTH_BUSINESS=$studentNetWorthBusinessInvestmentFarm, USER_UPDATED='$username', DATE_UPDATED=NOW() WHERE USER_ID=$userid";
+else
+	$sql="INSERT INTO TCOLLEGECHOICE_STUDENT (USER_ID, TAX_FILING_STATUS, AGI, INCOME_EARNED, UNTAXED_INCOME, ADDITIONAL_FINANCIAL_INFO, INCOME_TAX, CASH_SAVINGS_CHECKING, NET_WORTH_INVESTMENTS, NET_WORTH_BUSINESS, USER_CREATED, DATE_CREATED, USER_UPDATED, DATE_UPDATED) VALUES ($userid, $studentTaxFilingStatus, $studentAgi, $studentIncomeEarned, $studentTotalUntaxedIncomeBenefits, $studentAdditionalFinancialInformation, $studentIncomeTax, $studentCashSavingsChecking, $studentNetWorthInvestments, $studentNetWorthBusinessInvestmentFarm, '$username', NOW(), '$username', NOW())";
+
+if (!mysql_query($sql))
+	echo "error in collegeChoiceCalculateEFC.php<br><br>$sql<br><br>" . mysql_error() . "<br><br>";
+
+//get IM appeals percentage
+$sql="SELECT IM_APPEALS_PCTG FROM TCOLLEGECHOICE_CONFIG";
+$result=mysql_query($sql);
+$row=mysql_fetch_array($result);
+$imAppealsPctg=$row["IM_APPEALS_PCTG"]/100;
+
+include("../../commonPhp/dbClose.php");
+
+//calculcate parents' total income
+if ($parentsAgi<0)
+	$parentsAgi=0;
+$totalParentsIncomeEarned=$fatherIncomeEarned+$motherIncomeEarned;
+$parentsTaxableIncome=($parentsTaxFilingStatus==0 ? $totalParentsIncomeEarned : $parentsAgi);
+$parentsTaxableAndUntaxedIncome=$parentsTaxableIncome+$parentsTotalUntaxedIncomeBenefits;
+$parentsTotalIncome=$parentsTaxableAndUntaxedIncome-$parentsAdditionalFinancialInformation;
+
+echo "Parents' Total Income=$parentsTotalIncome<br>";
+
+//calculate allowances against parents' income
+if ($parentsIncomeTax<0 || $parentsTaxFilingStatus==0)
+	$parentsIncomeTax=0;
+if ($totalParentsIncomeEarned<0)
+	$parentsStateAllowance=0;
+else if ($totalParentsIncomeEarned<15000)
+	$parentsStateAllowance=$parentsTotalIncome*$parentStateTaxAllowanceArray[$stateOfResidence];
+else
+	$parentsStateAllowance=$parentsTotalIncome*($parentStateTaxAllowanceArray[$stateOfResidence]-.01);
+if ($fatherIncomeEarned<106801)
+	$fatherSocialSecurityTaxAllowance=$fatherIncomeEarned*.0765;
+else
+	$fatherSocialSecurityTaxAllowance=8170.2+(($fatherIncomeEarned-106800)*.0145);
+if ($motherIncomeEarned<106801)
+	$motherSocialSecurityTaxAllowance=$motherIncomeEarned*.0765;
+else
+	$motherSocialSecurityTaxAllowance=8170.2+(($motherIncomeEarned-106800)*.0145);
+$parentsIncomeProtectionAllowance=$incomeProtectionAllowanceArray[$parentsHouseholdSize.$parentsNumberInCollege];
+if ($parentsMaritalWorkingStatus==2)
+	$parentsEmploymentExpenseAllowance=0;
+else
+	$parentsEmploymentExpenseAllowance=min((min($fatherIncomeEarned, $motherIncomeEarned)*.35),3500);
+$parentsTotalAllowances=$parentsIncomeTax+$parentsStateAllowance+$fatherSocialSecurityTaxAllowance+$motherSocialSecurityTaxAllowance+$parentsIncomeProtectionAllowance+$parentsEmploymentExpenseAllowance;
+
+echo "Parents' Total Allowances=$parentsTotalAllowances<br>";
+
+//calculate parents' available income
+$parentsAvailableIncome=$parentsTotalIncome-$parentsTotalAllowances;
+
+echo "Parents' Available Income=$parentsAvailableIncome<br>";
+
+//calculate parents' contribution from assets
+if ($parentsNetWorthInvestments<0)
+	$parentsNetWorthInvestments=0;
+if ($parentsNetWorthBusinessInvestmentFarm<0)
+	$parentsAdjustedNetWorthBusinessFarm=0;
+else if ($parentsNetWorthBusinessInvestmentFarm<115001)
+	$parentsAdjustedNetWorthBusinessFarm=$parentsNetWorthBusinessInvestmentFarm*.4;
+else if ($parentsNetWorthBusinessInvestmentFarm<345001)
+	$parentsAdjustedNetWorthBusinessFarm=46000+($parentsNetWorthBusinessInvestmentFarm-115000)*.5;
+else if ($parentsNetWorthBusinessInvestmentFarm<580001)
+	$parentsAdjustedNetWorthBusinessFarm=161000+($parentsNetWorthBusinessInvestmentFarm-345000)*.6;
+else
+	$parentsAdjustedNetWorthBusinessFarm=302000+($parentsNetWorthBusinessInvestmentFarm-580000);
+$parentsNetWorth=$parentsCashSavingsChecking+$parentsNetWorthInvestments+$parentsAdjustedNetWorthBusinessFarm;
+if ($parentsMaritalWorkingStatus==3)
+	$parentsEducationSavingsAssetProtectionAllowance=$educationSavingsAssetProtectionAllowance1Array[max($fatherAge, $motherAge)];
+else
+	$parentsEducationSavingsAssetProtectionAllowance=$educationSavingsAssetProtectionAllowance2Array[max($fatherAge, $motherAge)];
+$parentsDiscretionayNetWorth=$parentsNetWorth-$parentsEducationSavingsAssetProtectionAllowance;
+$parentsContributionFromAssets=$parentsDiscretionayNetWorth*$parentsAssetConversionRate;
+if ($parentsContributionFromAssets<0)
+	$parentsContributionFromAssets=0;
+
+echo "Parents' Contribution From Assets=$parentsContributionFromAssets<br>";
+
+//calculate parents' contribution
+$parentsAdjustedAvailableIncome=$parentsAvailableIncome+$parentsContributionFromAssets;
+if ($parentsAdjustedAvailableIncome<-3409)
+	$parentsTotalContribution=-750;
+else if ($parentsAdjustedAvailableIncome<14501)
+	$parentsTotalContribution=$parentsAdjustedAvailableIncome*.22;
+else if ($parentsAdjustedAvailableIncome<18201)
+	$parentsTotalContribution=3190+(($parentsAdjustedAvailableIncome-14500)*.25);
+else if ($parentsAdjustedAvailableIncome<21901)
+	$parentsTotalContribution=4115+(($parentsAdjustedAvailableIncome-18200)*.29);
+else if ($parentsAdjustedAvailableIncome<25601)
+	$parentsTotalContribution=5188+(($parentsAdjustedAvailableIncome-21900)*.34);
+else if ($parentsAdjustedAvailableIncome<29301)
+	$parentsTotalContribution=6446+(($parentsAdjustedAvailableIncome-25600)*.40);
+else
+	$parentsTotalContribution=7926+(($parentsAdjustedAvailableIncome-29300)*.47);
+$parentsContribution=$parentsTotalContribution/$parentsNumberInCollege;
+if ($parentsContribution<0)
+	$parentsContribution=0;
+
+echo "Parents' Contribution=$parentsContribution<br><br>";
+
+//calculcate student's total income
+if ($studentAgi<0)
+	$studentAgi=0;
+$studentTaxableIncome=($studentTaxFilingStatus==0 ? $studentIncomeEarned : $studentAgi);
+$studentTaxableAndUntaxedIncome=$studentTaxableIncome+$studentTotalUntaxedIncomeBenefits;
+$studentTotalIncome=$studentTaxableAndUntaxedIncome-$studentAdditionalFinancialInformation;
+
+echo "Student Total Income=$studentTotalIncome<br>";
+
+//calculate allowances against student income
+if ($studentIncomeTax<0 || $studentTaxFilingStatus==0)
+	$studentIncomeTax=0;
+if ($studentIncomeEarned<0)
+	$studentStateAllowance=0;
+else
+	$studentStateAllowance=$studentIncomeEarned*($studentStateTaxAllowanceArray[$stateOfResidence]);
+if ($studentIncomeEarned<106801)
+	$studentSocialSecurityTaxAllowance=$studentIncomeEarned*.0765;
+else
+	$studentSocialSecurityTaxAllowance=8170.2+(($studentIncomeEarned-106800)*.0145);
+$studentAllowanceForParentsNegativeAAI=($parentsAdjustedAvailableIncome<0 ? -$parentsAdjustedAvailableIncome : 0);
+$studentTotalAllowances=$studentIncomeTax+$studentStateAllowance+$studentSocialSecurityTaxAllowance+$studentIncomeProtectionAllowance+$studentAllowanceForParentsNegativeAAI;
+
+echo "Student Total Allowances=$studentTotalAllowances<br>";
+
+//calculate student's contribution from income
+$studentAvailableIncome=$studentTotalIncome-$studentTotalAllowances;
+$studentContributionFromAvailableIncome=$studentAvailableIncome*$studentAssessmentOfAvailableIncome;
+if ($studentContributionFromAvailableIncome<0)
+	$studentContributionFromAvailableIncome=0;
+
+echo "Student Contribution From Available Income=$studentContributionFromAvailableIncome<br>";
+
+//calculate student's contribution from assets
+if ($studentNetWorthInvestments<0)
+	$studentNetWorthInvestments=0;
+if ($studentNetWorthBusinessInvestmentFarm<0)
+	$studentNetWorthBusinessInvestmentFarm=0;
+$studentNetWorth=$studentCashSavingsChecking+$studentNetWorthInvestments+$studentNetWorthBusinessInvestmentFarm;
+$studentContributionFromAssets=$studentNetWorth*$studentAssessmentRate;
+
+echo "Student Contribution From Assets=$studentContributionFromAssets<br><br>";
+
+$efcFm=round($parentsContribution+$studentContributionFromAvailableIncome+$studentContributionFromAssets);
+
+//calculate IM EFC
+$efcIm=$efcFm+round(($parentsHomeCurrentMarketValue-($parentsFirstMortgage+$parentsSecondMortgage+$parentsHomeEquityLineOfCredit))*.0564);
+
+//calculate IM EFC for appeals
+$efcImAppeals=round($efcIm*$imAppealsPctg);
+
+echo "FM EFC=$efcFm<br>";
+echo "IM EFC=$efcIm<br>";
+echo "IM EFC for appeals=$efcImAppeals<br><br>";
+
+$_SESSION["federalEfc"]=$efcFm;
+$_SESSION["institutionalEfc"]=$efcIm;
+
+echo "<a href=\"collegeChoiceInput.php\">continue</a>";
+?>

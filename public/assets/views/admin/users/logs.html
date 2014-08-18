@@ -1,0 +1,66 @@
+<div class="container">
+	
+	<ol class="breadcrumb">
+		
+		<li>
+			<a href="#admin/logs">Logs</a>
+			 
+		</li>
+		<li class="active">
+			 Admin - Logs   
+		</li>
+		<span class="admin-search"> Search - <input type="text" ng-model="query.$"></span>
+	</ol>
+	
+	<table class="table-striped table">
+		<thead>
+			<tr>
+				<th ng-click="changeSort('action')" ng-dblclick="clearSort('action')">
+					Action
+					<div class="sort">
+						<i ng-class="sortClass('action')"></i>
+					</div>
+				</th>	
+				<th ng-click="changeSort('details')" ng-dblclick="clearSort('details')">
+					Details
+					<div class="sort">
+						<i ng-class="sortClass('details')"></i>
+					</div>
+				</th>
+				<th ng-click="changeSort('user.name.first')" ng-dblclick="clearSort('user.name.first')">
+					User
+					<div class="sort">
+						<i ng-class="sortClass('user.name.first')"></i>
+					</div>
+				</th>
+				
+				<th ng-click="changeSort('created_at')" ng-dblclick="clearSort('created_at')">
+					Created
+					<div class="sort">
+						<i ng-class="sortClass('created_at')"></i>
+					</div>
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="log in logs | filter:query">
+				<td>
+					{{ log.action }}
+				</td>
+				<td>
+					{{ log.details }}
+				</td>
+				<td>
+					<a href="#/admin/profiles/{{ log.user._id }}"> {{ log.user.full_name }} </a>
+				</td>
+				
+				<td>
+					{{ log.created | date}}
+				</td>
+				
+			</tr>
+		</tbody>
+	</table>
+	<pagination total-items="pagination.totalItems" page="page" items-per-page="pagination.displayItems" on-select-page="newPage(page)"></pagination>
+</div>

@@ -22,17 +22,25 @@ App::bind('persona.identity', function ($app, $assertion) {
  * Begin Routing
  */
 Route::get('/', function () {
+   
     if (App::environment() == 'production' && !Request::secure()) {
-        return Redirect::to('https://' . Request::getHost() . '/');
+        return Redirect::to('http://' . Request::getHost() . '/');
     }
     return View::make('hello');
 });
+
+ 
 
 /**
  * Enforce HTTPS on all API routes in production
  */
 Route::group(['before' => 'secure'], function () use ($GmaControllers) {
 
+    /**
+    *  For password Reminder
+    */
+    Route::get('reset/{token}', ['uses' => 'AccountsController@getReset']);
+    Route::post('reset/{token}', ['uses' => 'AccountsController@postReset']);
     /**
      * Provides college search for Typeahead
      */
@@ -60,6 +68,20 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
      * Account registration
      */
     Route::post('accounts', ['uses' => 'AccountsController@register']);
+
+    /**
+     * Account forgot password
+     */
+    Route::post('forgot', ['uses' => 'AccountsController@forgot']);
+
+     /**
+     *  Test Route
+     */
+    Route::get('/mtest', function () {
+        
+       
+        return View::make('layout2');
+    });
 
     /**
      * Accounts (For Future Use)
@@ -114,22 +136,38 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
         Route::patch('drafts/{id}', ['before' => 'validUser|adminUser', 'uses' => 'DraftsController@updateOwner']);
         Route::delete('drafts/{id}', ['uses' => 'AdminDraftsController@deleteDraft']);
 
+        Route::get('newsletters', ['uses' => $GmaControllers .'Admin\NewsletterController@all']);
+        Route::get('newsletters/{id}', ['uses' => $GmaControllers .'Admin\NewsletterController@profile']);
+        Route::get('newsletter/{id}', ['uses' => 'AdminNewslettersController@newsletter']);
+        Route::put('newsletter/{id}', ['uses' => 'AdminNewslettersController@saveNewsletter']);
+        Route::delete('newsletter/{id}', ['uses' => 'AdminNewslettersController@deleteNewsletter']);
+
+        Route::get('logs', ['uses' => $GmaControllers . 'Admin\LogController@all']);
+
         Route::get('users', ['uses' => $GmaControllers . 'Admin\UserController@all']);
         Route::get('users/{id}', ['uses' => 'AdminUsersController@user']);
         Route::put('users/{id}', ['uses' => 'AdminUsersController@editUser']);
 
         Route::get('dl/{id}', function ($id) {
             $profile = Profile::find($id);
-            $filename = $profile->name['last'] . '-' . $profile->name['first'] . '.csv';
-            $path = storage_path() . '/' . $filename;
+           
+            if($profile):
+                $filename = $profile->name['last'] . '-' . $profile->name['first'] . '.csv';
+                $path = storage_path() . '/' . $filename;
 
-            $export = new GMA\Data\Export\ExportCSV($profile, $path);
-            $export->export();
+                $export = new GMA\Data\Export\ExportCSV($profile, $path);
+                $export->export();
 
-            return Response::download($path);
+                return Response::download($path);
+            else:
+                return Rest::notFound();
+            endif;
         });
 
+        Route::any('notify/sendmail', ['uses' => 'NotifyController@notifyUser']);
+
         Route::get('notify/moreinfo/{id}', ['uses' => 'NotifyController@moreInfo']);
+        
     });
 
 });

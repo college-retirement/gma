@@ -55,8 +55,8 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'database',
-			'username'  => 'root',
+			'database'  => 'forge',
+			'username'  => 'forge',
 			'password'  => '',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
@@ -66,8 +66,8 @@ return array(
 		'pgsql' => array(
 			'driver'   => 'pgsql',
 			'host'     => 'localhost',
-			'database' => 'database',
-			'username' => 'root',
+			'database' => 'forge',
+			'username' => 'forge',
 			'password' => '',
 			'charset'  => 'utf8',
 			'prefix'   => '',
@@ -82,14 +82,13 @@ return array(
 			'password' => '',
 			'prefix'   => '',
 		),
-
-		'mongodb' => array(
+                'mongodb' => array(
 			'driver' => 'mongodb',
 			'host' => 'localhost',
 			'port' => 27017,
 			'username' => '',
 			'password' => '',
-			'database' => 'gma'
+			'database' => 'dev'
 		)
 
 	),
@@ -101,7 +100,7 @@ return array(
 	|
 	| This table keeps track of all the migrations that have already run for
 	| your application. Using this information, we can determine which of
-	| the migrations on disk have not actually be run in the databases.
+	| the migrations on disk haven't actually been run in the database.
 	|
 	*/
 
@@ -120,7 +119,7 @@ return array(
 
 	'redis' => array(
 
-		'cluster' => true,
+		'cluster' => false,
 
 		'default' => array(
 			'host'     => '127.0.0.1',

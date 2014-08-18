@@ -1,0 +1,48 @@
+<?php
+session_start();
+
+include("../../commonPhp/dbConnect.php");
+
+$username=$_POST["txtUsername"]; 
+$password=$_POST["txtPassword"]; 
+
+$sql="SELECT * FROM TUSER WHERE USERNAME='$username' AND PASSWORD='$password';";
+$result=mysql_query($sql);
+
+$count=mysql_num_rows($result);
+
+if($count==1)
+{
+	$row=mysql_fetch_array($result);
+
+	$usertype=$row["USER_TYPE"];
+	$userid=$row["USER_ID"];
+
+	$_SESSION["username"]=$username;
+	$_SESSION["userid"]=$userid;
+	$_SESSION["usertype"]=$usertype;
+	
+	$sql="UPDATE TUSER SET LAST_LOGIN=NOW() WHERE USERNAME='$userame'";
+
+	if (mysql_query($sql))
+	{
+		include("../../commonPhp/dbClose.php");
+		
+//		if ($usertype=="A")
+//			header("location:collegeChoiceInput.php");
+//		else
+			header("location:collegeChoiceDataForm.php");
+	}
+	else
+	{
+		include("../../commonPhp/dbClose.php");
+		echo "error in collegeChoiceValidate.php<br><br>$sql<br><br>" . mysql_error();
+	}
+}
+else
+{
+	include("../../commonPhp/dbClose.php");
+	header("location:collegeChoiceLogin.php?login=invalid");
+}
+
+?>

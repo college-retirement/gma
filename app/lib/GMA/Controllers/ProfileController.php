@@ -20,6 +20,12 @@ class ProfileController extends Base
 
         if ($profile) {
         
+            $log = new Log;
+            $log->action = 'Add';
+            $log->details = "New Profile Created";
+            $log->user_id =Session::get('currentUser');
+            $log->save();
+
             return Rest::created($profile);
         
         } else {
@@ -72,6 +78,12 @@ class ProfileController extends Base
 
             if ($profile->save()) {
                 
+                $log = new Log;
+                $log->action = 'Update';
+                $log->details = 'Profile Update';
+                $log->user_id = Session::get('currentUser');
+                $log->save();
+
                 return Rest::okay(Input::all());
             
             } else {
@@ -105,6 +117,11 @@ class ProfileController extends Base
             } else {
 
                 if ($profile->delete()) {
+                    $log = new Log;
+                    $log->action = "Deleted";
+                    $log->details = "Profile Deleted";
+                    $log->user_id = Session::get('currentUser');
+                    $log->save();
 
                     return Rest::gone();
 

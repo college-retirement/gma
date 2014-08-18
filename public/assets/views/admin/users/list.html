@@ -1,16 +1,26 @@
 <div class="container">
+	
 	<ol class="breadcrumb">
+		
 		<li>
-			<a href="#/admin">Admin</a>
+			<a href="#admin/users">Users</a>
+			 
 		</li>
 		<li class="active">
-			Users
+			 Admin - Users   
 		</li>
+		<span class="admin-search">Search - <input type="text" ng-model="query.$"></span>
 	</ol>
-	<legend>Users</legend>
+	
 	<table class="table-striped table">
 		<thead>
 			<tr>
+				<th ng-click="changeSort('user_id')" ng-dblclick="clearSort('user_id')">
+					User Id
+					<div class="sort">
+						<i ng-class="sortClass('user_id')"></i>
+					</div>
+				</th>
 				<th ng-click="changeSort('name.first')" ng-dblclick="clearSort('name.first')">
 					First Name
 					<div class="sort">
@@ -37,7 +47,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="user in users" ng-dblclick="viewUser(user)">
+			<tr ng-repeat="user in users | filter:query" ng-dblclick="viewUser(user)">
+				<td>
+					{{user.user_id}}
+				</td>
 				<td>
 					{{user.name.first}}
 				</td>
@@ -51,16 +64,16 @@
 					{{user.role}}
 				</td>
 				<td>
-					{{user.drafts.length}}
+					{{user.drafts}}
 				</td>
 				<td>
-					{{user.profiles.length}}
+					{{user.profiles}}
 				</td>
 				<td>
 					{{user.created | date}}
 				</td>
 				<td>
-					<button class="btn btn-default" ng-click="viewUser(user)">
+					<button class="btn btn-default btn-eye" ng-click="viewUser(user)">
 						<i class="icon-eye-open"></i>
 					</button>
 				</td>

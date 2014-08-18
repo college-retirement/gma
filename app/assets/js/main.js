@@ -38,6 +38,12 @@ angular.module('gmaApp').config(['$routeProvider', '$httpProvider', function($ro
 	}).when('/register', {
 		templateUrl: "assets/views/register.html",
 		controller: "RegisterCtrl"
+	}).when('/forgot', {
+		templateUrl: "assets/views/forgot.html",
+		controller: "ForgotPasswordCtrl"
+	}).when('/reset/:token', {
+		templateUrl: "assets/views/reset.html",
+		controller: "ResetCtrl"
 	}).when('/drafts/:draft',{
 		templateUrl: "assets/views/initialData.html",
 		controller: "ProfileCtrl",
@@ -60,6 +66,10 @@ angular.module('gmaApp').config(['$routeProvider', '$httpProvider', function($ro
 	}).when('/admin/list', {
 		templateUrl: "assets/views/admin/profiles/list.html",
 		controller: "AdminListCtrl"
+	}).when('/admin/search', {
+		templateUrl: "assets/views/admin/profiles/search.html",
+		controller: "AdminSearchCtrl"
+		
 	}).when('/admin/profiles/:profile', {
 		templateUrl: "assets/views/admin/profiles/view.html",
 		controller: "AdminViewCtrl",
@@ -77,6 +87,15 @@ angular.module('gmaApp').config(['$routeProvider', '$httpProvider', function($ro
 	}).when('/admin/users/:user', {
 		templateUrl: "assets/views/admin/users/view.html",
 		controller: "AdminUserViewCtrl"
+	}).when('/admin/logs', {
+		templateUrl: "assets/views/admin/users/logs.html",
+		controller: "AdminUserLogCtrl"
+	}).when('/admin/templates', {
+		templateUrl: "assets/views/admin/template/list.html",
+		controller: "AdminTemplateListCtrl"
+	}).when('/admin/templates/:template', {
+		templateUrl: "assets/views/admin/template/view.html",
+		controller: "AdminTemplateViewCtrl"
 	}).otherwise('/');
 	
 	$httpProvider.interceptors.push('UnauthorizedXHRInterceptor');
@@ -86,7 +105,9 @@ angular.module('gmaApp').config(['$routeProvider', '$httpProvider', function($ro
 angular.module('gmaApp').factory('UnauthorizedXHRInterceptor', function($location, $q){
 	return {
 		'responseError': function(o) {
-			if (o.url !== '/persona/status' && o.status == 401) {
+
+			if (o.url !== '/persona/status'  && o.status == 401) {
+				
 				$q.reject(o);
 				$location.path('/');
 			}
@@ -140,13 +161,112 @@ angular.module('gmaApp').controller("MainCtrl", function($rootScope, $scope, Per
 	};
 });
 
-angular.module('gmaApp').controller("PersonaCtrl", function($rootScope, $scope, Persona){
+
+
+
+
+
+angular.module('gmaApp').controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'items','$location','Persona', function ($scope, $modalInstance, items,$location,Persona) {
+  $scope.items = items;
+  $scope.login = {};
+
+  $scope.done = false;
+    $scope.selected = {
+        item: $scope.items[0]
+    };
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+  $scope.submit = function () {
+  	    var errors = false;
+
+		jQuery('.has-error').removeClass('has-error');
+		
+		jQuery(".ng-invalid").each(function(e){
+			errors = true;
+			jQuery(this).parent('.control').parent('.form-group').addClass('has-error');
+		});
+		
+		jQuery(".btn.ng-invalid").each(function(e){
+			errors = true;
+			jQuery(this).parent('.btn-group').parent('.control').parent('.form-group').addClass('has-error');
+		});
+
+		jQuery('.input-group>.ng-invalid').each(function(e){
+			errors = true;
+			jQuery(this).parent('.input-group').parent('.control').parent('.form-group').addClass('has-error');
+		});
+
+		jQuery(".ng-invalid:not(form)").first().focus();
+		$scope.submitted = true;
+		
+		
+		if (!errors) {
+			
+			var promise = Persona.verify($scope.login);
+			promise.then(function(greeting) {
+				$modalInstance.close();
+				//console.log(Persona.getUser().is_admin);
+				if(Persona.getUser().is_admin == true){
+					$location.path('/admin/list');
+				}
+				else{
+					$location.path('/');
+				}
+    			
+		    
+		  }, function(reason) {
+		  	toastr.error("email or password are not correct");
+		    
+		  }
+			
+		)};
+    };
+
+}]);
+
+angular.module('gmaApp').controller('ModalDemoCtrl', ['$rootScope','$scope', '$modal', '$log', 
+ function ($rootScope,$scope, $modal, $log) {
+ 	$scope.items = ['item1', 'item2', 'item3'];
+ 	
+  $scope.open = function (size) {
+  	
+    var modalInstance = $modal.open({
+      templateUrl: 'myModalContent.html',
+      controller: 'ModalInstanceCtrl',
+      size: 'sm',
+      resolve: {
+            items: function () {
+            return $scope.items;
+            }
+        }
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+      $scope.selected = selectedItem;
+    }, function () {
+      
+    });
+  };
+  
+   
+  $rootScope.$on('loginClick', function(){
+		$scope.open('sm');
+	});
+ }]);
+
+
+
+angular.module('gmaApp').controller("PersonaCtrl", function($rootScope, $scope, $location, Persona){
+	
 	$scope.login = function() {
-		Persona.verify();
+		$scope.$emit('loginClick');
 	};
 
 	$scope.logout = function() {
 		Persona.logout();
+		$location.path('/');
 	};
 
 	$scope.status = function() {
@@ -157,7 +277,6 @@ angular.module('gmaApp').controller("PersonaCtrl", function($rootScope, $scope, 
 		return Persona.getUser();
 	};
 	
-	$rootScope.$on('loginClick', function(){
-		$scope.login();
-	});
+
+
 });

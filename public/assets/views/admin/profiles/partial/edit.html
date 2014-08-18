@@ -422,9 +422,9 @@
 	</table>
 	<legend>Family Information</legend>
 	<div class="form-group">
-		<label for="" class=" control-label">Number Living in Household</label>
+		<label for="" class=" control-label">Number Living in Household ffdf</label>
 		<div class="control tiny">
-			<input type="number" class="form-control" ng-model="student.household.size" required min="0">
+			<input type="number" class="form-control" ng-model="student.household.size" ng-change="checkMember()" required min="0">
 		</div>
 	</div>
 	<div class="form-group">
@@ -815,7 +815,7 @@
 				<td>Student</td>
 				<td>{{student.dob | dob}}</td>
 				<td>
-					<input type="checkbox" ng-model="student.school.current" checked="false">
+					<input type="checkbox" ng-model="student.school.current"  checked="false">
 				</td>
 				<td>
 					<input type="text" class="form-control inline" ng-model="student.school.name" ng-disabled="student.school.current === false">

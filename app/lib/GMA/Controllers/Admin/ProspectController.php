@@ -1,20 +1,26 @@
 <?php namespace GMA\Controllers\Admin;
 
-use GMA\Controllers\Base;
+
 use GMA\Data\Models\Profile;
+use GMA\Controllers\Base;
 use \Rest;
 
-use DB;
 
 class ProspectController extends Base
 {
     public function all()
     {
         if ($this->isSorting()) {
-            $query = Profile::prospect()->withSortables($this->sortableColumns)->paginate(20);
+            //var_dump($this->sortableColumns());
+            //var_dump(Input::get('sort'));
+            $query = Profile::prospect()->with('user')->withSortables($this->sortableColumns())->paginate(20);
             return Rest::okay($query);
         } else {
-            $profiles = Profile::prospect()->with('user')->paginate(20);
+
+            $sortableColumns = [['column' => 'name.first',
+                    'order' => 'DESC']];
+                    
+            $profiles = Profile::prospect()->with('user')->withSortables($sortableColumns)->paginate(20);
             return Rest::okay($profiles);
         }
     }

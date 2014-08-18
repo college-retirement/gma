@@ -17,6 +17,7 @@ class EmailNotify {
 	}
 
 	function moreInfoRequired($event) {
+
 		\Mail::send('emails.moreInfo', ['profile' => $event], function($mail) use ($event){
 			$mail->to($event['user']['email'], $event['user']['name'])->subject('More Information Required');
 		});
@@ -28,8 +29,19 @@ class EmailNotify {
 		});
 	}
 
+	function sendTestEmail($event) {
+		\Mail::send('emails.moreInfo', ['profile' => $event], function($message) use ($event){
+			$email = $event['user']['email'];
+			$name = $event['user']['name'];
+			
+
+            $message->to($email, $name)->subject('More Information Required');
+        });
+	}
+
 	function subscribe($events) {
 		$events->listen('user.create', 'GMA\Events\EmailNotify@userAccountCreated');
+		$events->listen('mmm.test', 'GMA\Events\EmailNotify@sendTestEmail');
 		$events->listen('profile.submit', 'GMA\Events\EmailNotify@profileSubmitted');
 		$events->listen('profile.moreInfoRequired', 'GMA\Events\EmailNotify@moreInfoRequired');
 		$events->listen('profile.moreInfoRcd', 'GMA\Events\EmailNotify@moreInfoRecieved');

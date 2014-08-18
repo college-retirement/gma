@@ -24,11 +24,15 @@ angular.module('gmaApp').controller('RegisterCtrl', function($scope, $http, $loc
 		$scope.submitted = true;
 
 		if (!errors) {
+			//console.log($scope.user);
 			$http.post('/accounts', $scope.user).success(function(){
 				$scope.done = true;
 			}).error(function(obj){
 				if (obj.hasOwnProperty('messages') && obj.messages.hasOwnProperty('duplicate_email')) {
 					toastr.error("There is an account with this email already.");
+				}
+				else if (obj.hasOwnProperty('messages') && obj.messages.hasOwnProperty('validation_error')) {
+					toastr.error(obj.messages.validation_error);
 				}
 				else {
 					toastr.error("Unable to create account.");

@@ -1,30 +1,74 @@
 <div class="container">
+
 	<ol class="breadcrumb">
+		
 		<li>
-			<a href="#/admin">Admin</a>
+			<a href="#/admin/list?clients=false">{{type}}</a>
+			 
 		</li>
 		<li class="active">
-			{{type}}
+			 Admin - {{type}}  
 		</li>
+		<span class="admin-search">Search - <input type="text" ng-model="query.$"></span>
 	</ol>
-	<legend>{{type}}</legend>
+	
 	<table class="table-striped table">
 		<thead>
 			<tr>
-				<th>Name</th>	
-				<th>City</th>
-				<th>State</th>
-				<th>Phone</th>
-				<th>DOB</th>
-				<th>Profile School(s)</th>
+				<th ng-click="changeSort('client_id')" ng-dblclick="clearSort('client_id')">Client Id
+					<div class="sort">
+						<i ng-class="sortClass('client_id')"></i>
+					</div>
+				</th>
+				<th ng-click="changeSort('name.first')" ng-dblclick="clearSort('name.first')">First Name
+					<div class="sort">
+						<i ng-class="sortClass('name.first')"></i>
+					</div>
+				</th>
+				<th ng-click="changeSort('name.last')" ng-dblclick="clearSort('name.last')">Last Name
+					<div class="sort">
+						<i ng-class="sortClass('name.last')"></i>
+					</div>
+				</th>	
+				<th ng-click="changeSort('address.city')" ng-dblclick="clearSort('address.city')">City
+					<div class="sort">
+						<i ng-class="sortClass('address.city')"></i>
+					</div>
+				</th>
+				<th ng-click="changeSort('address.state')" ng-dblclick="clearSort('address.state')">State
+					<div class="sort">
+						<i ng-class="sortClass('address.state')"></i>
+					</div>
+				</th>
+				
+				
+				<th ng-click="changeSort('phone')" ng-dblclick="clearSort('phone')">Phone
+					<div class="sort">
+						<i ng-class="sortClass('phone')"></i>
+					</div>
+				</th>
+				<th ng-click="changeSort('dob')" ng-dblclick="clearSort('dob')">DOB
+					<div class="sort">
+						<i ng-class="sortClass('dob')"></i>
+					</div>
+				</th>
+				
 				<th ng-show="clients">Status</th>
+				<th>Profile School(s)</th>
+				
 				<th></th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="profile in profiles" ng-dblclick="viewProfile(profile)">
+			<tr ng-repeat="profile in profiles | filter:query" ng-dblclick="viewProfile(profile)">
 				<td>
-					{{profile.name.first}}&nbsp;{{profile.name.last}}
+					{{profile.client_id}}
+				</td>
+				<td>
+					{{profile.name.first}}
+				</td>
+				<td>
+					{{profile.name.last}}
 				</td>
 				<td>
 					{{profile.address.city}}
@@ -45,14 +89,15 @@
 					{{profile.status}}
 				</td>
 				<td>
-					<button class="btn btn-default" ng-click="viewProfile(profile)">
+					<button class="btn btn-default btn-eye" ng-click="viewProfile(profile)">
 						<i class="icon-eye-open"></i>
 					</button>
-					<button class="btn btn-danger" ng-click="destroy(profile)" ng-show="!clients">
+					<button class="btn btn-danger btn-eye" ng-click="destroy(profile)" ng-show="!clients">
 						<i class="icon-minus"></i>
 					</button>
 				</td>
 			</tr>
 		</tbody>
 	</table>
+    <pagination total-items="pagination.totalItems" page="page" items-per-page="pagination.displayItems" on-select-page="newPage(page)"></pagination>
 </div>

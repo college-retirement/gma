@@ -2,7 +2,7 @@ angular.module('gmaApp').controller('AdminDraftListCtrl', function($scope, Perso
 	Persona.status();
 
 	$http.get('/admin/drafts').then(function(obj){
-		$scope.profiles = obj.data.result;
+		$scope.profiles = $scope.getDrafts(obj.data.result);
 		$scope.pagination = obj.data.pagination;
 	});
 
@@ -15,6 +15,28 @@ angular.module('gmaApp').controller('AdminDraftListCtrl', function($scope, Perso
 		'created_at': false,
 		'updated_at': false
 	};
+
+	$scope.getDrafts = function (drafts) {
+		var promises = [];
+
+		jQuery.each(drafts, function(key, val) {
+			
+	    var profile = {};
+       profile.user = val.user;
+
+    	 profile.name = val.name;
+    	
+    	 profile.hsGrad  = val.hsGrad;
+    	 
+    	 profile.has_profile_school  = val.has_profile_school;
+    	 profile.created  = val.created;
+
+    	 profile.updated  = val.updated;
+    	 
+    	 promises.push(profile);
+		});
+		return promises;
+	}
 
 	$scope.checkSort = function (column) {
 		return $scope.sortable[column];
@@ -75,12 +97,12 @@ angular.module('gmaApp').controller('AdminDraftListCtrl', function($scope, Perso
 		$http.get('/admin/drafts?page=' + page + '&sort=' + sort.join(',')).then(function(obj){
 			if(!$scope.$$phase) {
 				$scope.$digest(function(){
-					$scope.profiles = obj.data.result;
+					$scope.profiles = $scope.getDrafts(obj.data.result);
 					$scope.pagination = obj.data.pagination;
 				});
 			}
 			else {
-				$scope.profiles = obj.data.result;
+				$scope.profiles = $scope.getDrafts(obj.data.result);
 				$scope.pagination = obj.data.pagination;
 			}
 			toastr.clear();

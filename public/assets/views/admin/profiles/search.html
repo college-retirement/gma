@@ -1,0 +1,137 @@
+<div class="container">
+
+	<ol class="breadcrumb">
+		
+		<li>
+			<a href="#/admin/search">{{type}}</a>
+			 
+		</li>
+		<li class="active">
+			 Admin - {{type}}  
+		</li>
+		<span class="admin-search">Search - <input type="text" ng-model="query.$"></span>
+	</ol>
+	
+	<table class="table-striped table">
+		<thead>
+			<tr>
+				<th ng-click="changeSort('client_id')" ng-dblclick="clearSort('client_id')">Client Id
+					<div class="sort">
+						<i ng-class="sortClass('client_id')"></i>
+					</div>
+				</th>
+				<th ng-click="changeSort('name.first')" ng-dblclick="clearSort('name.first')">First Name
+					<div class="sort">
+						<i ng-class="sortClass('name.first')"></i>
+					</div>
+				</th>
+				<th ng-click="changeSort('name.last')" ng-dblclick="clearSort('name.last')">Last Name
+					<div class="sort">
+						<i ng-class="sortClass('name.last')"></i>
+					</div>
+				</th>	
+				<th ng-click="changeSort('address.city')" ng-dblclick="clearSort('address.city')">City
+					<div class="sort">
+						<i ng-class="sortClass('address.city')"></i>
+					</div>
+				</th>
+				<th ng-click="changeSort('address.state')" ng-dblclick="clearSort('address.state')">State
+					<div class="sort">
+						<i ng-class="sortClass('address.state')"></i>
+					</div>
+				</th>
+				<th ng-click="changeSort('dob')" ng-dblclick="clearSort('dob')">DOB
+					<div class="sort">
+						<i ng-class="sortClass('dob')"></i>
+					</div>
+				</th>
+				
+				<th ng-click="changeSort('phone')" ng-dblclick="clearSort('phone')">Phone
+					<div class="sort">
+						<i ng-class="sortClass('phone')"></i>
+					</div>
+				</th>
+				<th ng-click="changeSort('hsGrad')" ng-dblclick="clearSort('hsGrad')">
+					HS Grad Yr
+					<div class="sort">
+						<i ng-class="sortClass('hsGrad')"></i>
+					</div>
+				</th>
+				
+				<th ng-show="clients">Status</th>
+				<th ng-click="changeSort('created_at')" ng-dblclick="clearSort('created_at')">
+			     Created
+			     <div class="sort">
+			      <i ng-class="sortClass('created_at')"></i>
+			     </div>
+			    </th>
+
+				<th ng-click="changeSort('school.name')" ng-dblclick="clearSort('school.name')">
+			     High School Name
+			     <div class="sort">
+			      <i ng-class="sortClass('school.name')"></i>
+			     </div>
+			    </th>
+			    <th></th>
+				<th>Sib Grad</th>
+				
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="profile in profiles | filter:query" ng-dblclick="viewProfile(profile)">
+				<td>
+					{{ profile.client_id }}
+				</td>
+				<td>
+					{{ profile.name.first }}
+				</td>
+				<td>
+					{{ profile.name.last }}
+				</td>
+				<td>
+					{{ profile.address.city }}
+				</td>
+				<td>
+					{{ profile.address.state }}
+				</td>
+				<td>
+					{{profile.dob | dob}}
+				</td>
+				<td>
+					{{profile.phone | phone}}
+				</td>
+				<td>
+					{{ profile.hsGrad }}
+				</td>
+				
+				<td ng-show="clients">
+					{{ profile.status }}
+				</td>
+				<td>
+					{{ profile.updated | date}}
+				</td>
+				<td>
+					{{ profile.school.name }}
+					
+				</td>
+				<td>
+					<i ng-class="{'icon-question-sign': (profile.has_profile_school === null), 'icon-ok-circle': (profile.has_profile_school === true), 'icon-ban-circle': (profile.has_profile_school === false)}"></i>
+				</td>
+					
+				<td>
+                   {{ profile.sibgrad }}
+				</td>
+
+				
+				<td>
+					<button class="btn btn-default btn-eye" ng-click="viewProfile(profile)">
+						<i class="icon-eye-open"></i>
+					</button>
+					
+				</td>
+			</tr>
+		</tbody>
+	</table>
+    <pagination total-items="pagination.totalItems" page="page" items-per-page="pagination.displayItems" on-select-page="newPage(page)"></pagination>
+</div>

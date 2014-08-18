@@ -37,9 +37,48 @@
 			    	<a class="persona-button dark" ng-click="login()">
 			    		<span>Sign In</span>
 			    	</a>
+			    	<a class="persona-button dark" href="#/forgot">
+			    		<span>Forgot Password</span>
+			    	</a>
 			    </div>
 		    	<ul class="nav navbar-nav navbar-right" ng-cloak ng-hide="getUser() == false">
+		    		
+		    		<li class="dropdown" ng-show="getUser().is_admin == true">
+		    			<a class="dropdown-toggle" data-toggle="dropdown">Change Level
+		    				<b class="caret"></b>
+		    			</a>
+		    			
+
+		    			<ul class="dropdown-menu">
+		    				<li ng-cloak ng-show="getUser().is_admin == true">
+		    					<a href="#/admin/list?clients=false">Prospects</a>
+		    				</li>
+		    				<li ng-cloak ng-show="getUser().is_admin == true">
+		    					<a href="#/admin/list?clients=true">Clients</a>
+		    				</li>
+		    				<li ng-cloak ng-show="getUser().is_admin == true">
+		    					<a href="#/admin/search">Search page</a>
+		    				</li>
+		    				<li ng-cloak ng-show="getUser().is_admin == true">
+		    					<a href="#/admin/drafts">Drafts</a>
+		    				</li>
+		    				<li ng-cloak ng-show="getUser().is_admin == true">
+		    					<a href="#admin/users">Users</a>
+		    				</li>
+		    				<li ng-cloak ng-show="getUser().is_admin == true">
+		    					<a href="#admin/logs">Logs</a>
+		    				</li>
+		    				<li ng-cloak ng-show="getUser().is_admin == true">
+		    					<a href="#admin/templates">Templates</a>
+		    				</li>
+		    			</ul>	
+		    		</li>	
 		    		<li class="dropdown">
+		    			
+		    			
+		    			
+		    			
+		    			
 		    			<a class="dropdown-toggle" data-toggle="dropdown">
 		    				Logged in as {{getUser().name.first}} {{getUser().name.last}}
 		    				<b class="caret"></b>
@@ -85,7 +124,9 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.6.0/ui-bootstrap-tpls.min.js"></script>
 	<script src="/assets/js/vendor/angular-ui-utils.min.js"></script>
-	<script src="https://login.persona.org/include.js"></script>
+	<script src="/assets/js/vendor/ckeditor/ckeditor.js"></script>
+
+	<!-- <script src="https://login.persona.org/include.js"></script> -->
 	<script src="/assets/js/application.min.js"></script>
 </body>
 </html>

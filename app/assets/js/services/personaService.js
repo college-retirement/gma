@@ -11,10 +11,10 @@ angular.module("persona").factory("Persona", ["$http", "$q", function ($http, $q
                 return false;
             }
         },
-        verify:function () {
+        verify:function (user) {
             var deferred = $q.defer();
-            navigator.id.get(function (assertion) {
-                $http.post("/persona/verify", {assertion:assertion})
+            //console.log(user);
+                $http.post("/persona/verify", user)
                     .then(function (response) {
                         if (response.data.status != "okay") {
                             deferred.reject(response.data.reason);
@@ -23,7 +23,7 @@ angular.module("persona").factory("Persona", ["$http", "$q", function ($http, $q
                             deferred.resolve(response.data.email);
                         }
                     });
-            });
+            
             return deferred.promise;
         },
         logout:function () {

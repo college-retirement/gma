@@ -1,0 +1,61 @@
+<div class="container">
+	
+	<ol class="breadcrumb">
+		
+		<li>
+			<a href="#admin/templates">Templates</a>
+			 
+		</li>
+		<li class="active">
+			 Admin - Templates   
+		</li>
+		<span class="admin-search">Search <input type="text" ng-model="query.$"></span>
+	</ol>
+	
+	<table class="table-striped table">
+		<thead>
+			<tr>
+				<th ng-click="changeSort('template.templateName')" ng-dblclick="clearSort('template.templateName')">
+					Template Name
+					<div class="sort">
+						<i ng-class="sortClass('template.templateName')"></i>
+					</div>
+				</th>	
+				<th ng-click="changeSort('template.templateSubject')" ng-dblclick="clearSort('template.templateSubject')">
+					Template Subject
+					<div class="sort">
+						<i ng-class="sortClass('template.templateSubject')"></i>
+					</div>
+				</th>
+				<th>Updated</th>
+				<th>Action	
+				</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="template in templates | filter:query" ng-dblclick="viewTemplate(template)">
+				<td>
+					{{ template.templateName }}
+				</td>
+				<td>
+					{{ template.templateSubject }}
+				</td>
+				
+				<td>
+					{{template.updated | date}}
+				</td>
+				<td>
+					<button class="btn btn-default btn-eye" ng-click="viewTemplate(template)">
+						<i class="icon-eye-open"></i>
+					</button>
+
+					<button class="btn btn-danger btn-eye" ng-click="destroy(template)" >
+						<i class="icon-minus"></i>
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<pagination total-items="pagination.totalItems" page="page" items-per-page="pagination.displayItems" on-select-page="newPage(page)"></pagination>
+</div>

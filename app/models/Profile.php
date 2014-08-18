@@ -5,7 +5,7 @@ use Jenssegers\Mongodb\Model as Eloquent;
 class Profile extends Eloquent
 {
     public $collection = "profiles";
-    public $appends = array('created', 'updated');
+   // public $appends = array('created', 'updated');
     public $guarded = ['_id'];
 
     public function scopeProspect($query)
@@ -72,6 +72,11 @@ class Profile extends Eloquent
     {
         $box = new Stronghold($values);
         $this->attributes['stronghold'] = $box->encryptAll()->toArray();
+    }
+     public function getDates()
+    {
+        // only this field will be converted to Carbon
+        return array();
     }
 
     public static function boot()

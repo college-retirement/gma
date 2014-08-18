@@ -1,0 +1,343 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Cost of Attendance and Financial Need Calculation Worksheet</title>
+    <script type="text/javascript">
+    
+    function stripNonNumeric( str )
+    {
+        str += '';
+        var rgx = /^\d|\.|-$/;
+        var out = '';
+        for( var i = 0; i < str.length; i++ )
+        {
+            if( rgx.test( str.charAt(i) ) )
+            {
+                if( !( ( str.charAt(i) == '.' && out.indexOf( '.' ) != -1 ) ||
+                    ( str.charAt(i) == '-' && out.length != 0 ) ) )
+                {
+                    out += str.charAt(i);
+                }
+            }
+        }
+        return out;
+    }
+    
+    function update(mybox)
+    {
+        mybox.value = stripNonNumeric(mybox.value);
+        mybox.value = parseInt(mybox.value);
+        if (mybox.value == 'NaN') 
+        {
+            mybox.value = '0';
+            alert('Please enter number values only, or the number 0 if not applicable');
+            return;
+        
+        }
+        
+        var myCOA1 = document.getElementById('coa1');
+        var myCOA2 = document.getElementById('coa2');
+        var myCOA3 = document.getElementById('coa3');
+        var myCOA4 = document.getElementById('coa4');
+        var myCOA5 = document.getElementById('coa5');
+        var myCOA6 = document.getElementById('coa6');
+        var myCOA7 = document.getElementById('coa7');
+        var myCOA8 = document.getElementById('coa8');
+        
+        var myCOA = document.getElementById('coa');        
+        
+        var myFAR1 = document.getElementById('far1');
+        var myFAR2 = document.getElementById('far2');
+        var myFAR3 = document.getElementById('far3');
+        var myFAR4 = document.getElementById('far4');
+        var myFAR5 = document.getElementById('far5');
+        var myFAR6 = document.getElementById('far6');
+        
+        var myFAR = document.getElementById('far');
+        
+        var myNFN = document.getElementById('nfn');        
+        var myAFN = document.getElementById('afn');
+        
+        var x = parseInt(myCOA1.value) + parseInt(myCOA2.value) + parseInt(myCOA3.value) + parseInt(myCOA4.value) + parseInt(myCOA5.value) + parseInt(myCOA6.value) + parseInt(myCOA7.value) + parseInt(myCOA8.value);
+        var y = parseInt(myFAR1.value) + parseInt(myFAR2.value) + parseInt(myFAR3.value) + parseInt(myFAR4.value) + parseInt(myFAR5.value) + parseInt(myFAR6.value);
+        var z = x - y;
+        
+        
+        myCOA.innerText = '$' + x;
+        myFAR.innerText = '$' + y;
+        myNFN.innerText = '$' + z;
+        myAFN.innerText = '$' + z;
+    }
+    </script>
+</head>
+<body>
+    <table border="0" cellpadding="5" cellspacing="0" style="width: 95%" align="center">
+        <tr>
+            <td style="border-bottom: black 1px solid">
+                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; height: 100%">
+                    <tr>
+                        <td rowspan="2" valign="top">
+                            <span style="font-size: 16pt; font-family: Calibri">Cost of Attendance and Financial<br />
+                                Need Calculation Worksheet</span></td>
+                        <td style="padding-right: 5px; text-align: right" nowrap="noWrap" valign="top" width="1%">
+                            <span style="font-size: 9pt; font-family: Calibri">College &amp; Retirement Solutions<br />
+                                667 Shunpike Rd, Suite 3<br />
+                                Chatham, NJ 07928<br />
+                                (973) 514-2002</span></td>
+                        <td style="text-align: right" width="100"><img src="../Images/CRS3.gif" width="100" /></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right" colspan="2" valign="top">
+                            <span style="font-size: 9pt; font-family: Calibri"><a href="http://www.college-retirement.com"
+                                target="_blank">www.college-retirement.com</a></span></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center">
+                <table border="0" cellpadding="2" cellspacing="0" style="width: 600px; font-family: Calibri, Verdana">
+                    <tr>
+                        <td align="left" colspan="2" style="border-right: black 1px solid; border-top: black 1px solid;
+                            border-left: black 1px solid; border-bottom: black 1px solid; background-color: #eeeeee"
+                            valign="top">
+                            <strong><span style="font-size: 16pt">Cost of Attendance</span></strong></td>
+                        <td align="left" valign="top">
+                            &nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top">
+                            <span style="font-size: 11pt">Tuition and Fees</span></td>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top" width="130">
+                            <input onfocus="this.select()" onblur="update(this)" id="coa1" style="width: 125px; font-size: 11pt; font-family: Calibri, Verdana; text-decoration: none;" type="text" value="0" /></td>
+                        <td align="left" valign="middle">
+                            +</td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top">
+                            <span style="font-size: 11pt">Class and Lab Fees</span></td>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top" width="130">
+                            <input onfocus="this.select()" onblur="update(this)" id="coa2" style="width: 125px; font-size: 11pt; font-family: Calibri, Verdana; text-decoration: none;" type="text" value="0" /></td>
+                        <td align="left" valign="middle">
+                            +</td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top">
+                            <span style="font-size: 11pt">Books and School Supplies</span></td>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top" width="130">
+                            <input onfocus="this.select()" onblur="update(this)" id="coa3" style="width: 125px; font-size: 11pt; font-family: Calibri, Verdana; text-decoration: none;" type="text" value="0" /></td>
+                        <td align="left" valign="middle">
+                            +</td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top">
+                            <span style="font-size: 11pt">Room and Board</span></td>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top" width="130">
+                            <input onfocus="this.select()" onblur="update(this)" id="coa4" style="width: 125px; font-size: 11pt; font-family: Calibri, Verdana; text-decoration: none;" type="text" value="0" /></td>
+                        <td align="left" valign="middle">
+                            +</td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top">
+                            <span style="font-size: 11pt">Transportation</span></td>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top" width="130">
+                            <input onfocus="this.select()" onblur="update(this)" id="coa5" style="width: 125px; font-size: 11pt; font-family: Calibri, Verdana; text-decoration: none;" type="text" value="0" /></td>
+                        <td align="left" valign="middle">
+                            +</td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top">
+                            <span style="font-size: 11pt">Personal Expense</span></td>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top" width="130">
+                            <input onfocus="this.select()" onblur="update(this)" id="coa6" style="width: 125px; font-size: 11pt; font-family: Calibri, Verdana; text-decoration: none;" type="text" value="0" /></td>
+                        <td align="left" valign="middle">
+                            +</td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top">
+                            <span style="font-size: 11pt">Special Events</span></td>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top" width="130">
+                            <input onfocus="this.select()" onblur="update(this)" id="coa7" style="width: 125px; font-size: 11pt; font-family: Calibri, Verdana; text-decoration: none;" type="text" value="0" /></td>
+                        <td align="left" valign="middle">
+                            +</td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top">
+                            Other Expenses</td>
+                        <td align="left" style="border-right: black 1px solid;" valign="top" width="130">
+                            <input onfocus="this.select()" onblur="update(this)" id="coa8" style="width: 125px; font-size: 11pt; font-family: Calibri, Verdana; text-decoration: none;" type="text" value="0" /></td>
+                        <td align="left" valign="middle">
+                            +</td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top">
+                            <strong>Total Cost of School Attendance</strong></td>
+                        <td align="center" style="border-right: black 1px solid; border-top: black 1px solid;
+                            border-left: black 1px solid; border-bottom: black 1px solid; background-color: #eeeeee; font-weight: bold; font-size: 12pt; color: black; font-family: Calibi, Verdana; text-decoration: none; vertical-align: middle; text-align: center;"
+                            valign="middle" nowrap="noWrap" id="coa" width="130">
+                            $0</td>
+                        <td align="left" valign="middle">
+                            =</td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top" height="20">
+                            &nbsp;</td>
+                        <td align="left" valign="top" height="20" width="130">
+                            &nbsp;</td>
+                        <td align="left" valign="top" height="20">
+                            &nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td align="left" colspan="2" style="border-right: black 1px solid; border-top: black 1px solid;
+                            border-left: black 1px solid; border-bottom: black 1px solid; background-color: #eeeeee"
+                            valign="top">
+                            <span style="font-size: 16pt"><strong>Financial Aid Resources</strong></span></td>
+                        <td align="left" valign="top">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top">
+                            <strong><span style="font-size: 11pt">Federal Stafford Student Loans</span></strong><br />
+                            <span style="font-size: 9pt">Enter amounts for Stafford Student Loans that you have</span></td>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top" width="130">
+                            <input onfocus="this.select()" onblur="update(this)" id="far1" style="width: 125px; font-size: 11pt; font-family: Calibri, Verdana; text-decoration: none;" type="text" value="0" /></td>
+                        <td align="left" valign="middle">
+                            +</td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top">
+                            <strong><span style="font-size: 11pt">Federal PLUS Parent Loans</span></strong><br />
+                            <span style="font-size: 9pt">Enter amounts your parents will borrow with PLUS loans</span></td>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top" width="130">
+                            <input onfocus="this.select()" onblur="update(this)" id="far2" style="width: 125px; font-size: 11pt; font-family: Calibri, Verdana; text-decoration: none;" type="text" value="0" /></td>
+                        <td align="left" valign="middle">
+                            +</td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top">
+                            <strong><span style="font-size: 11pt">Scholarships and Grants</span></strong><br />
+                            <span style="font-size: 9pt">Enter amounts of grants and scholarships awarded</span></td>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top" width="130">
+                            <input onfocus="this.select()" onblur="update(this)" id="far3" style="width: 125px; font-size: 11pt; font-family: Calibri, Verdana; text-decoration: none;" type="text" value="0" /></td>
+                        <td align="left" valign="middle">
+                            +</td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top">
+                            <strong><span style="font-size: 11pt">Other Gift-Aid</span></strong><br />
+                            <span style="font-size: 9pt">Enter any government, state and private gift aid</span></td>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top" width="130">
+                            <input onfocus="this.select()" onblur="update(this)" id="far4" style="width: 125px; font-size: 11pt; font-family: Calibri, Verdana; text-decoration: none;" type="text" value="0" /></td>
+                        <td align="left" valign="middle">
+                            +</td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top">
+                            <strong><span style="font-size: 11pt">Pre-Paid Tuition Plans</span></strong><br />
+                            <span style="font-size: 9pt">Enter funds from pre-paid tuition and 529 plans</span></td>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top" width="130">
+                            <input onfocus="this.select()" onblur="update(this)" id="far5" style="width: 125px; font-size: 11pt; font-family: Calibri, Verdana; text-decoration: none;" type="text" value="0" /></td>
+                        <td align="left" valign="middle">
+                            +</td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="border-right: black 1px solid; border-bottom: gray 1px dotted"
+                            valign="top">
+                            <strong><span style="font-size: 11pt">Personal Savings</span></strong><br />
+                            <span style="font-size: 9pt">Enter personal savings and other contributions</span></td>
+                        <td align="left" style="border-right: black 1px solid;" valign="top" width="130">
+                            <input onfocus="this.select()" onblur="update(this)" id="far6" style="width: 125px; font-size: 11pt; font-family: Calibri, Verdana; text-decoration: none;" type="text" value="0" /></td>
+                        <td align="left" valign="middle">
+                            +</td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top">
+                            <strong>Total Financial Aid</strong></td>
+                        <td align="center" style="border-right: black 1px solid; border-top: black 1px solid;
+                            border-left: black 1px solid; border-bottom: black 1px solid; background-color: #eeeeee; font-weight: bold; font-size: 12pt; color: black; font-family: Calibi, Verdana; text-decoration: none; vertical-align: middle; text-align: center;"
+                            valign="middle" nowrap="noWrap" id="far" width="130">
+                            $0</td>
+                        <td align="left" valign="middle">
+                            =</td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top" height="20">
+                            &nbsp;</td>
+                        <td align="left" valign="top" height="20" width="130">
+                            &nbsp;</td>
+                        <td align="left" valign="top" height="20">
+                            &nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top">
+                            <strong>Net Financial Need</strong><br />
+                            <span style="font-size: 9pt">Cost of attendance minus financial aid</span></td>
+                        <td align="center" style="border-right: black 1px solid; border-top: black 1px solid;
+                            border-left: black 1px solid; border-bottom: black 1px solid; background-color: #eeeeee; font-weight: bold; font-size: 12pt; color: black; font-family: Calibi, Verdana; text-decoration: none; vertical-align: middle; text-align: center;"
+                            valign="middle" nowrap="noWrap" id="nfn" width="130">
+                            $0</td>
+                        <td align="left" valign="middle">
+                            <span style="font-size: 8pt">cost minus aid</span></td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top" height="20">
+                            &nbsp;</td>
+                        <td align="left" valign="top" height="20" width="130">
+                            &nbsp;</td>
+                        <td align="left" valign="top" height="20">
+                            &nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top">
+                            <strong>Additional Funds Needed</strong><br />
+                            <span style="font-size: 9pt"><a href="http://www.simpletuition.com/collegeretirementsolutions/"
+                                target="_blank">Use private student loans to fill the gap (as an <i>option</i>)</a></span></td>
+                        <td align="center" style="border-right: black 1px solid; border-top: black 1px solid;
+                            border-left: black 1px solid; border-bottom: black 1px solid; background-color: #eeeeee; font-weight: bold; font-size: 12pt; color: black; font-family: Calibi, Verdana; text-decoration: none; vertical-align: middle; text-align: center;"
+                            valign="middle" nowrap="noWrap" id="afn" width="130">
+                            $0</td>
+                        <td align="left" valign="top">
+                            &nbsp;</td>
+                    </tr>
+                </table> 
+            </td>
+        </tr>
+        <tr>
+            <td style="border-top: black 1px solid; text-align: center" valign="top">
+                <span style="font-size: 7pt; color: darkgray; font-family: Calibri">If investment, financial,
+                    mortgage or insurance planning and/or products are required, College and Retirement
+                    Solutions, LLC may refer you to one of its affiliates, including The Ziering Insurance
+                    Agency. Any discussion of the Tax implications of planning is strictly for general
+                    purposes. Neither "CRS" nor its representatives may give specific tax advice. One
+                    should seek the advice and counsel of their accountant and/or tax advisor for information
+                    regarding their particular situation.</span></td>
+        </tr>
+    </table>
+
+</body>
+</html>
