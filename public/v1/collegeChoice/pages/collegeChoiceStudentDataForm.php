@@ -2,13 +2,13 @@
 session_start();
 
 if (!isset($_SESSION["username"]))
-	header("location:collegeChoiceLogin.php?login=session");
+	header("location:collegeChoiceLogin2.php?login=session");
 
 $username=$_SESSION["username"];
 $collegeList="";
 $selectedColleges="";
 //$collegeIds=$_SESSION["collegeids"];
-$collegeIdArray=explode(",", $collegeIds);
+//$collegeIdArray=explode(",", $collegeIds);
 
 //print_r($_SESSION);
 
@@ -73,15 +73,10 @@ for ($college_count=0; $college_count < count($colleges_array['colleges']); $col
 }
 
 include("../../commonPhp/mySqlClose.php");
+include_once '../../commonPhp/csrNewHeader.php';
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html>
-
-<head>
 
 <link rel="stylesheet" type="text/css" href="../../commonCss/crs.css">
-
-<title>College & Retirement Solutions - CollegeChoice</title>
 
 <script language="JavaScript" type="text/javascript">
 <!--
@@ -205,11 +200,11 @@ function body_onload()
 	document.frmCollegeChoiceStudentData.txtFamilyName.value=document.frmCollegeChoiceStudentData.txtFamilyName.value;
 }
 -->
+if (window.attachEvent) {window.attachEvent('onload', body_onload);}
+else if (window.addEventListener) {window.addEventListener('load', body_onload, false);}
+else {document.addEventListener('load', body_onload, false);}
 </script>
 
-</head>
-
-<body onLoad="body_onload();">
 
 <!--<div id="crsWrapper">-->
 
@@ -330,9 +325,9 @@ function body_onload()
 			SAT Writing<br><input type="text" name="txtSatWriting" size="5" maxlength="3" value="<?php echo $_SESSION["satwriting"]; ?>">
 		</td>
 		<td valign="top">
-			Federal EFC<br>$<input type="text" name="txtFederalEfc" size="10" maxlength="10" value="<?php echo $_SESSION["efcfm"]; ?>" <?php if ($_SESSION["usertype"]!="A") echo "style=\"background-color:#A3A3A3;\" readonly"; ?>>
+			Federal EFC<br>$<input type="text" name="txtFederalEfc" size="10" maxlength="10" value="<?php echo isset($_SESSION["efcfm"]) ? $_SESSION["efcfm"] : ''; ?>" <?php if ($_SESSION["usertype"]!="A") echo "style=\"background-color:#A3A3A3;\" readonly"; ?>>
 			<br><br>
-			Institutional EFC<br>$<input type="text" name="txtInstitutionalEfc" size="10" maxlength="10" value="<?php echo $_SESSION["efcim"]; ?>" <?php if ($_SESSION["usertype"]!="A") echo "style=\"background-color:#A3A3A3;\" readonly"; ?>>
+			Institutional EFC<br>$<input type="text" name="txtInstitutionalEfc" size="10" maxlength="10" value="<?php echo isset($_SESSION["efcim"]) ? $_SESSION["efcim"] : ''; ?>" <?php if ($_SESSION["usertype"]!="A") echo "style=\"background-color:#A3A3A3;\" readonly"; ?>>
 			<br><br>
 			<a class="crsBlue" href="collegeChoiceEFCDataForm.php">Recalculate EFCs</a>
 		</td>
@@ -424,7 +419,6 @@ echo $selectedColleges;
 </div>
 
 <!--</div>-->
-
-</body>
-
-</html>
+<?php
+include_once '../../commonPhp/crsNewFooter.php';
+?>

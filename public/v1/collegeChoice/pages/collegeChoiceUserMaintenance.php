@@ -4,7 +4,7 @@ session_start();
 if (!isset($_SESSION["username"]))
 	header("location:collegeChoiceLogin.php?login=session");
 
-if ($_SESSION["usertype"]!="A")
+if (isset($_SESSION["usertype"]) && $_SESSION["usertype"]!="A")
 	header("location:collegeChoiceLogin.php");
 
 $userId=$_GET["userId"];
@@ -161,15 +161,12 @@ if ($userId!=null)
 }
 
 include("../../commonPhp/mySqlClose.php");
+include_once '../../commonPhp/csrNewHeader.php';
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"> 
-<html>
 
-<head>
 
 <link rel="stylesheet" type="text/css" href="../../commonCss/crs.css">
 
-<title>College & Retirement Solutions - CollegeChoice</title>
 
 <script language="JavaScript">
 <!--
@@ -276,7 +273,7 @@ function btnUpdateUser_onclick()
 		alert("Please select a user type.");
 		document.frmUserMaintenance.lstUserType.focus();
 	}
-<?php echo $userProductJavascript; ?>
+<?php if(isset($userProductJavascript)) echo $userProductJavascript; ?>
 	else
 	{
 		document.frmUserMaintenance.hidAction.value="U";
@@ -297,8 +294,8 @@ if ($userId!=null)
 else
 	echo "\tdocument.frmUserMaintenance.txtNewUsername.focus();\n";
 
-$add=$_GET["add"];
-$update=$_GET["update"];
+$add= isset($_GET["add"]) ? $_GET["add"] : '';
+$update= isset($_GET["update"]) ? $_GET["update"] : '';
 
 if ($add==2 || $update==2)
 	echo "\talert('That username already exists.');";
@@ -310,11 +307,12 @@ else if ($update==1)
 }
 
 -->
+if (window.attachEvent) {window.attachEvent('onload', body_onload);}
+else if (window.addEventListener) {window.addEventListener('load', body_onload, false);}
+else {document.addEventListener('load', body_onload, false);}
 </script>
 
-</head>
 
-<body onload="body_onload();">
 
 <!--<div id="crsWrapper">-->
 
@@ -384,13 +382,13 @@ echo $usernameList;
 <br>
 <table width="100%" border="0">
 	<tr>
-		<td align="left" valign="top">Username<br><input type="text" name="txtUsername" size="30" maxlength="50" value="<?php echo $username; ?>"></td>
-		<td align="left" valign="top">Password<br><input type="text" name="txtPassword" size="30" maxlength="50" value="<?php echo $password; ?>"></td>
+		<td align="left" valign="top">Username<br><input type="text" name="txtUsername" size="30" maxlength="50" value="<?php echo isset($username) ? $username : ''; ?>"></td>
+		<td align="left" valign="top">Password<br><input type="text" name="txtPassword" size="30" maxlength="50" value="<?php echo isset($password) ? $password : ''; ?>"></td>
 		<td align="left" valign="top">User Type<br>
 			<select name="lstUserType">
 				<option value=""></option>
-				<option value="C" <?php if ($userType=="C") echo "selected"; ?>>Client</option>
-				<option value="A" <?php if ($userType=="A") echo "selected"; ?>>Administrator</option>
+				<option value="C" <?php if (isset($userType) && $userType=="C") echo "selected"; ?>>Client</option>
+				<option value="A" <?php if (isset($userType) && $userType=="A") echo "selected"; ?>>Administrator</option>
 			</select>
 		</td>
 	</tr>
@@ -404,7 +402,7 @@ echo $usernameList;
 		<td>Subscription End Date<br><input type="text" name="txtSubscriptionEndMonth" size="2" maxlength="2" value="<?php echo $userEndMonth; ?>">/<input type="text" name="txtSubscriptionEndDay" size="2" maxlength="2" value="<?php echo $userEndDay; ?>">/<input type="text" name="txtSubscriptionEndYear" size="4" maxlength="4" value="<?php echo $userEndYear; ?>"></td>
 	</tr>
 -->
-<?php echo $userProductHtml; ?>
+<?php if(isset($userProductHtml)) echo $userProductHtml; ?>
 	<tr>
 		<td colspan="3" align="center"><br><input type="button" class="crsButton" name="btnUpdateUser" value=" Update " onclick="btnUpdateUser_onclick();"></td>
 	</tr>
@@ -418,7 +416,6 @@ echo $usernameList;
 </div>
 
 <!--</div>-->
-
-</body>
-
-</html>
+<?php
+include_once '../../commonPhp/crsNewFooter.php';
+?>

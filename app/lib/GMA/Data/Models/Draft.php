@@ -95,4 +95,9 @@ class Draft extends SortableModel
             return false;
         }
     }
+     public function getDates()
+    {
+        // only this field will be converted to Carbon
+        return array();
+    }
 }

@@ -161,69 +161,15 @@ function getCurldata($url) {
 
     return $data;
 }
-
+include_once '../../commonPhp/csrNewHeader.php';
 ?>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html>
-
-<head>
 
 <link rel="stylesheet" type="text/css" href="../../commonCss/crs.css">
 <link rel="stylesheet" type="text/css" href="../../commonCss/subModal.css">
 <script type="text/javascript" src="../../commonJs/common.js"></script>
 <script type="text/javascript" src="../../commonJs/subModal.js"></script>
-
-<title>College & Retirement Solutions - CollegeChoice</title>
 
 <script language="JavaScript" type="text/javascript">
 	<!--
@@ -693,11 +639,23 @@ function getCurldata($url) {
 	?>
 	}
 	-->
+	if (window.attachEvent) {window.attachEvent('onload', body_onload);}
+else if (window.addEventListener) {window.addEventListener('load', body_onload, false);}
+else {document.addEventListener('load', body_onload, false);}
+if (window.matchMedia) {
+                var mediaQueryList = window.matchMedia('print');
+                mediaQueryList.addListener(function(mql) {
+                    if (mql.matches) {
+                        body_onbeforeprint();
+                    } else {
+                        body_onafterprint();
+                    }
+                });
+            }
+
+            window.onbeforeprint = body_onbeforeprint;
+            window.onafterprint = body_onafterprint;
 </script>
-
-</head>
-
-<body onload="body_onload();" onbeforeprint="body_onbeforeprint();" onafterprint="body_onafterprint();">
 
 <!--<div id="crsWrapper">-->
 
@@ -1381,6 +1339,6 @@ echo $jsForCosts;
 -->
 </script>
 
-</body>
-
-</html>
+<?php
+include_once '../../commonPhp/crsNewFooter.php';
+?>

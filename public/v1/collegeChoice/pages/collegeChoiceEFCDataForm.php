@@ -62,18 +62,16 @@ if ($result)
 }
 
 include("../../commonPhp/mySqlClose.php");
+include_once '../../commonPhp/csrNewHeader.php';
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html>
 
-<head>
 
 <link rel="stylesheet" type="text/css" href="../../commonCss/crs.css">
 <link rel="stylesheet" type="text/css" href="../../commonCss/subModal.css">
 <script type="text/javascript" src="../../commonJs/common.js"></script>
 <script type="text/javascript" src="../../commonJs/subModal.js"></script>
 
-<title>College & Retirement Solutions</title>
+
 
 <script language="JavaScript" type="text/javascript">
 <!--
@@ -232,6 +230,7 @@ function validateForm()
 
 function body_onload()
 {
+	
 	document.frmCollegeChoiceDataForm.lstParentsMaritalWorkingStatus.value="<?php echo $parentsMaritalWorkingStatus; ?>";
 	document.frmCollegeChoiceDataForm.lstStateOfResidence.value="<?php echo $stateOfResidence; ?>";
 	document.frmCollegeChoiceDataForm.lstParentsHouseholdSize.value="<?php echo $parentsHouseholdSize; ?>";
@@ -242,11 +241,12 @@ function body_onload()
 	document.frmCollegeChoiceDataForm.lstParentsMaritalWorkingStatus.focus();
 }
 -->
+if (window.attachEvent) {window.attachEvent('onload', body_onload);}
+else if (window.addEventListener) {window.addEventListener('load', body_onload, false);}
+else {document.addEventListener('load', body_onload, false);}
 </script>
 
-</head>
 
-<body onload="body_onload();">
 
 <!--<div id="crsWrapper">-->
 
@@ -533,6 +533,6 @@ function body_onload()
 
 <!--</div>-->
 
-</body>
-
-</html>
+<?php
+include_once '../../commonPhp/crsNewFooter.php';
+?>

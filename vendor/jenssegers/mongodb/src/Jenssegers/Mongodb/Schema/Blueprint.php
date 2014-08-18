@@ -44,7 +44,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint {
 	 *
 	 * @param  string|array  $columns
 	 * @param  array         $options
-	 * @return bool
+	 * @return Blueprint
 	 */
 	public function index($columns = null, $options = array())
 	{
@@ -72,16 +72,26 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint {
 	 * Indicate that the given index should be dropped.
 	 *
 	 * @param  string|array  $columns
-	 * @return bool
+	 * @return Blueprint
 	 */
 	public function dropIndex($columns = null)
 	{
 		$columns = $this->fluent($columns);
 
-		foreach ($columns as $column)
+		// Columns are passed as a default array
+		if (is_array($columns) && is_int(key($columns)))
 		{
-			$this->collection->deleteIndex($column);
+			// Transform the columns to the required array format
+			$transform = array();
+			foreach ($columns as $column)
+			{
+				$transform[$column] = 1;
+			}
+
+			$columns = $transform;
 		}
+
+		$this->collection->deleteIndex($columns);
 
 		return $this;
 	}
@@ -90,7 +100,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint {
 	 * Specify a unique index for the collection.
 	 *
 	 * @param  string|array  $columns
-	 * @return bool
+	 * @return Blueprint
 	 */
 	public function unique($columns = null, $name = null)
 	{
@@ -104,7 +114,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint {
 	 * Specify a non blocking index for the collection.
 	 *
 	 * @param  string|array  $columns
-	 * @return bool
+	 * @return Blueprint
 	 */
 	public function background($columns = null)
 	{
@@ -118,7 +128,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint {
 	 * Specify a sparse index for the collection.
 	 *
 	 * @param  string|array  $columns
-	 * @return bool
+	 * @return Blueprint
 	 */
 	public function sparse($columns = null)
 	{
@@ -134,7 +144,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint {
 	 *
 	 * @param  string|array  $columns
 	 * @param  int           $seconds
-	 * @return bool
+	 * @return Blueprint
 	 */
 	public function expire($columns, $seconds)
 	{
@@ -202,6 +212,16 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint {
 		{
 			return $this->columns = $columns;
 		}
+	}
+
+	/**
+	 * Allows the use of unsupported schema methods.
+	 *
+	 * @return Blueprint
+	 */
+	public function __call($method, $args)
+	{
+		return $this;
 	}
 
 }

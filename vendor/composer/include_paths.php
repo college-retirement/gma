@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     $vendorDir . '/danielmewes/php-rql/src',
+    $vendorDir . '/phpseclib/phpseclib/phpseclib',
 );

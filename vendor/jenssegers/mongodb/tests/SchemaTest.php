@@ -1,11 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
-
-class SchemaTest extends PHPUnit_Framework_TestCase {
-
-	public function setUp() {}
+class SchemaTest extends TestCase {
 
 	public function tearDown()
 	{
@@ -16,6 +11,19 @@ class SchemaTest extends PHPUnit_Framework_TestCase {
 	{
 		Schema::create('newcollection');
 		$this->assertTrue(Schema::hasCollection('newcollection'));
+		$this->assertTrue(Schema::hasTable('newcollection'));
+	}
+
+	public function testCreateWithCallback()
+	{
+		$instance = $this;
+
+		Schema::create('newcollection', function($collection) use ($instance)
+		{
+			$instance->assertInstanceOf('Jenssegers\Mongodb\Schema\Blueprint', $collection);
+		});
+
+		$this->assertTrue(Schema::hasCollection('newcollection'));
 	}
 
 	public function testDrop()
@@ -25,11 +33,34 @@ class SchemaTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse(Schema::hasCollection('newcollection'));
 	}
 
+	public function testBluePrint()
+	{
+		$instance = $this;
+
+		Schema::collection('newcollection', function($collection) use ($instance)
+		{
+			$instance->assertInstanceOf('Jenssegers\Mongodb\Schema\Blueprint', $collection);
+		});
+
+		Schema::table('newcollection', function($collection) use ($instance)
+		{
+			$instance->assertInstanceOf('Jenssegers\Mongodb\Schema\Blueprint', $collection);
+		});
+	}
+
 	public function testIndex()
 	{
 		Schema::collection('newcollection', function($collection)
 		{
 			$collection->index('mykey');
+		});
+
+		$index = $this->getIndex('newcollection', 'mykey');
+		$this->assertEquals(1, $index['key']['mykey']);
+
+		Schema::collection('newcollection', function($collection)
+		{
+			$collection->index(array('mykey'));
 		});
 
 		$index = $this->getIndex('newcollection', 'mykey');
@@ -57,6 +88,15 @@ class SchemaTest extends PHPUnit_Framework_TestCase {
 
 		$index = $this->getIndex('newcollection', 'uniquekey');
 		$this->assertEquals(null, $index);
+
+		Schema::collection('newcollection', function($collection)
+		{
+			$collection->unique('uniquekey');
+			$collection->dropIndex(array('uniquekey'));
+		});
+
+		$index = $this->getIndex('newcollection', 'uniquekey');
+		$this->assertEquals(null, $index);
 	}
 
 	public function testBackground()
@@ -74,11 +114,11 @@ class SchemaTest extends PHPUnit_Framework_TestCase {
 	{
 		Schema::collection('newcollection', function($collection)
 		{
-			$collection->background('backgroundkey');
+			$collection->sparse('sparsekey');
 		});
 
-		$index = $this->getIndex('newcollection', 'backgroundkey');
-		$this->assertEquals(1, $index['background']);
+		$index = $this->getIndex('newcollection', 'sparsekey');
+		$this->assertEquals(1, $index['sparse']);
 	}
 
 	public function testExpire()
@@ -90,6 +130,22 @@ class SchemaTest extends PHPUnit_Framework_TestCase {
 
 		$index = $this->getIndex('newcollection', 'expirekey');
 		$this->assertEquals(60, $index['expireAfterSeconds']);
+	}
+
+	public function testSoftDeletes()
+	{
+		Schema::collection('newcollection', function($collection)
+		{
+			$collection->softDeletes();
+		});
+
+		Schema::collection('newcollection', function($collection)
+		{
+			$collection->string('email')->nullable()->index();
+		});
+
+		$index = $this->getIndex('newcollection', 'email');
+		$this->assertEquals(1, $index['key']['email']);
 	}
 
 	public function testFluent()
@@ -106,6 +162,15 @@ class SchemaTest extends PHPUnit_Framework_TestCase {
 
 		$index = $this->getIndex('newcollection', 'token');
 		$this->assertEquals(1, $index['key']['token']);
+	}
+
+	public function testDummies()
+	{
+		Schema::collection('newcollection', function($collection)
+		{
+			$collection->boolean('activated')->default(0);
+			$collection->integer('user_id')->unsigned();
+		});
 	}
 
 	protected function getIndex($collection, $name)

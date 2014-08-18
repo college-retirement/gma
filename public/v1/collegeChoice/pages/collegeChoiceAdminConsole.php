@@ -28,15 +28,10 @@ $scorePctgForAid3=$row["SCORE_PCTG_FOR_AID3"];
 $scorePctgForAid4=$row["SCORE_PCTG_FOR_AID4"];
 
 include("../../commonPhp/mySqlClose.php");
+include_once '../../commonPhp/csrNewHeader.php';
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"> 
-<html>
-
-<head>
 
 <link rel="stylesheet" type="text/css" href="../../commonCss/crs.css">
-
-<title>College & Retirement Solutions - CollegeChoice</title>
 
 <script language="JavaScript">
 <!--
@@ -136,16 +131,17 @@ function body_onload()
 	document.frmCollegeMaint.txtOutOfStatePercentIncrease.focus();
 	document.frmCollegeMaint.txtOutOfStatePercentIncrease.value=document.frmCollegeMaint.txtOutOfStatePercentIncrease.value;
 <?php
-if ($_GET["update"]==1)
+if (isset($_GET["update"]) && $_GET["update"]==1)
 	echo "\talert(\"Update Successful\");\n";
 ?>
 }
 -->
+if (window.attachEvent) {window.attachEvent('onload', body_onload);}
+else if (window.addEventListener) {window.addEventListener('load', body_onload, false);}
+else {document.addEventListener('load', body_onload, false);}
+
 </script>
 
-</head>
-
-<body onload="body_onload();">
 
 <!--<div id="crsWrapper">-->
 
@@ -293,6 +289,6 @@ if ($_GET["update"]==1)
 
 <!--</div>-->
 
-</body>
-
-</html>
+<?php
+include_once '../../commonPhp/crsNewFooter.php';
+?>

@@ -46,13 +46,30 @@ class RFunction extends FunctionQuery {
         $this->setPositionalArg(0, new ArrayDatum($args));
         $this->setPositionalArg(1, $top);
     }
-    
+
+    public function _hasUnwrappedImplicitVar() {
+        // A function wraps implicit variables
+        return false;
+    }
+
     protected function getTermType() {
         return pb\Term_TermType::PB_FUNC;
     }
 }
 
+function wrapImplicitVar(Query $q) {
+    if ($q->_hasUnwrappedImplicitVar()) {
+        return new RFunction(array(new RVar('_')), $q);
+    } else {
+        return $q;
+    }
+}
+
 function nativeToFunction($f) {
+    if (is_object($f) && is_subclass_of($f, "\\r\\Query")) {
+        return wrapImplicitVar($f);
+    }
+
     $reflection = new \ReflectionFunction($f);
     
     $args = array();
@@ -60,10 +77,33 @@ function nativeToFunction($f) {
         $args[] = new RVar($param->getName());
     }
     $result = $reflection->invokeArgs($args);
-    
-    if (!(is_object($result) && is_subclass_of($result, "\\r\\Query"))) throw new RqlDriverError("The function did not evaluate to a query (missing return? missing r\expr(...)?).");
+
+    if (!(is_object($result) && is_subclass_of($result, "\\r\\Query"))) {
+        if (!isset($result)) {
+            // In case of null, assume that the user forgot to add a return.
+            // If null is the intended value, r\expr() should be wrapped around the return value.
+            throw new RqlDriverError("The function did not evaluate to a query (missing return?).");
+        } else {
+            $result = nativeToDatum($result);
+        }
+    }
 
     return new RFunction($args, $result);
+}
+
+function nativeToDatumOrFunction($f) {
+    if (!(is_object($f) && is_subclass_of($f, "\\r\\Query"))) {
+        try {
+            $f = nativeToDatum($f);
+            if (!is_subclass_of($f, "\\r\\Datum")) {
+                // $f is not a simple datum. Wrap it into a function:
+                $f = new RFunction(array(new RVar('_')), $f);
+            }
+        } catch (RqlDriverError $e) {
+            $f = nativeToFunction($f);
+        }
+    }
+    return wrapImplicitVar($f);
 }
 
 ?>

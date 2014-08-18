@@ -1,26 +1,13 @@
 <?php
 session_start();
-
+ include_once '../../commonPhp/csrNewHeader.php';
 
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"> 
-<html>
 
-<head>
 
 <link rel="stylesheet" type="text/css" href="../../commonCss/crs.css">
 
-<title>College & Retirement Solutions - CollegeChoice</title>
 
-<script language="JavaScript" type="text/javascript">
-<!--
-
--->
-</script>
-
-</head>
-
-<body>
 
 <!--<div id="crsWrapper">-->
 
@@ -59,7 +46,6 @@ Where would you like to go?
 </div>
 
 <!--</div>-->
-
-</body>
-
-</html>
+<?php
+include_once '../../commonPhp/crsNewFooter.php';
+?>

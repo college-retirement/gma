@@ -16,7 +16,7 @@ class AccountsController extends Controller {
         'email' => 'required|email'];
 
         $validator = Validator::make(Input::all(), $rules);
-        if ($validator->fails) {
+        if ($validator->fails()) {
             return Response::json(['messages' => ['validation_error' => $validator->messages()]], 409);
         } else {
 

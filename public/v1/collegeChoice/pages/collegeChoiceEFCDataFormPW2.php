@@ -26,15 +26,11 @@ if ($result)
 }
 
 include("../../commonPhp/mySqlClose.php");
+include_once '../../commonPhp/csrNewHeader.php';
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"> 
-<html>
- 
-<head>
- 
+
 <link rel="stylesheet" type="text/css" href="../../commonCss/crs.css">
  
-<title>College & Retirement Solutions</title>
  
 <script language="JavaScript" type="text/javascript"> 
 <!--
@@ -95,11 +91,11 @@ function body_onload()
 	document.frmCollegeChoiceDataFormPW2.txtParentsEducationCredits.value=document.frmCollegeChoiceDataFormPW2.txtParentsEducationCredits.value;
 }
 -->
+if (window.attachEvent) {window.attachEvent('onload', body_onload);}
+else if (window.addEventListener) {window.addEventListener('load', body_onload, false);}
+else {document.addEventListener('load', body_onload, false);}
 </script>
- 
-</head>
- 
-<body class="worksheet" onload="body_onload();">
+
 
 <form name="frmCollegeChoiceDataFormPW2" method="POST" action="collegeChoiceSaveWorksheet.php">
 <table width="100%" border="0">
@@ -149,6 +145,6 @@ function body_onload()
 
 </form>
 
-</body>
-
-</html>
+<?php
+include_once '../../commonPhp/crsNewFooter.php';
+?>

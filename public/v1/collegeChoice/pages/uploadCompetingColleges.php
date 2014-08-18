@@ -6,15 +6,14 @@ if (!isset($_SESSION["username"]))
 
 if ($_SESSION["usertype"]!="A")
 	header("location:collegeChoiceLogin.php");
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"> 
-<html>
 
-<head>
+ include_once '../../commonPhp/csrNewHeader.php';
+?>
+
 
 <link rel="stylesheet" type="text/css" href="../../commonCss/crs.css">
 
-<title>College & Retirement Solutions - CollegeChoice</title>
+
 
 <script language="JavaScript">
 <!--
@@ -39,9 +38,6 @@ function validateForm()
 -->
 </script>
 
-</head>
-
-<body>
 
 <!--<div id="crsWrapper">-->
 
@@ -83,6 +79,6 @@ function validateForm()
 
 </form>
 <br>
-</body>
-
-</html>
+<?php
+include_once '../../commonPhp/crsNewFooter.php';
+?>

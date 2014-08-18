@@ -1,13 +1,6 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"> 
-<html>
-
-<head>
-
-<title>College & Retirement Solutions - CollegeChoice</title>
-
-</head>
-
-<body style="font-family:Arial;">
+ <?php
+ include_once '../../commonPhp/csrNewHeader.php';
+ ?>
 
 <br>
 <a href="uploadCompetingColleges.php">Back to Upload Competing Colleges</a>
@@ -95,7 +88,5 @@ for ($i=1; $i<=$colCount; $i++)
 }
 
 include("../../commonPhp/mySqlClose.php");
+include_once '../../commonPhp/crsNewFooter.php';
 ?>
-
-</body>
-</html>

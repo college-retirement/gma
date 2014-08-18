@@ -1,12 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"> 
-<html>
-
-<head>
-
+<?php
+ include_once '../../commonPhp/csrNewHeader.php';
+ ?>
 <link rel="stylesheet" type="text/css" href="../../commonCss/crs.css">
-
-<title>College & Retirement Solutions - CollegeChoice</title>
-
 <script language="JavaScript">
 <!--
 function validateForm()
@@ -37,11 +32,7 @@ function validateForm()
 -->
 </script>
 
-</head>
 
-<body onload="document.frmLogin.txtUsername.focus();<?php if ($_GET["login"]=="session") echo "alert('You have been logged out due to inactivity.\\nPlease log in again.');"?>">
-
-<!--<div id="crsWrapper">-->
 
 <div id="crsContent">
 <!--
@@ -75,9 +66,9 @@ Login
 			Password: <input type="password" name="txtPassword" id="txtPassword" size="20" maxlength="50" style="font-family:Arial;">
 			<br><br>
 <?php
-if ($_GET["login"]=="invalid")
+if (isset($_GET["login"]) && $_GET["login"]=="invalid")
 	echo "<font color=\"red\">Invalid username and/or password.<br>Please contact College & Retirement Solutions<br>at 973-514-2002 if you need assistance.</font><br><br>";
-else if ($_GET["login"]=="expired")
+else if (isset($_GET["login"]) && $_GET["login"]=="expired")
 	echo "<font color=\"red\">Your subscription is expired.<br>Please contact College & Retirement Solutions<br>at 973-514-2002 to extend your subscription.</font><br><br>";
 ?>
 			<input type="submit" name="btnSubmit" value="  Log In  " class="crsButton">
@@ -90,7 +81,6 @@ else if ($_GET["login"]=="expired")
 </div>
 
 <!--</div>-->
-
-</body>
-
-</html>
+<?php
+ include_once '../../commonPhp/crsNewFooter.php';
+?>

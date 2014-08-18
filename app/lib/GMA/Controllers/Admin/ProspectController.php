@@ -13,14 +13,14 @@ class ProspectController extends Base
         if ($this->isSorting()) {
             //var_dump($this->sortableColumns());
             //var_dump(Input::get('sort'));
-            $query = Profile::prospect()->with('user')->withSortables($this->sortableColumns())->paginate(30);
+            $query = Profile::prospect()->with('user')->withSortables($this->sortableColumns())->paginate(20);
             return Rest::okay($query);
         } else {
 
             $sortableColumns = [['column' => 'name.first',
                     'order' => 'DESC']];
                     
-            $profiles = Profile::prospect()->with('user')->withSortables($sortableColumns)->paginate(30);
+            $profiles = Profile::prospect()->with('user')->withSortables($sortableColumns)->paginate(20);
             return Rest::okay($profiles);
         }
     }

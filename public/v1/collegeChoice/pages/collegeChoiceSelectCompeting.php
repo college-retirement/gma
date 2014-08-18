@@ -59,15 +59,11 @@ else
 
 //echo $sql;
 $result=mysql_query($sql) or die(mysql_error());
+include_once '../../commonPhp/csrNewHeader.php';
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html>
-
-<head>
-
 <link rel="stylesheet" type="text/css" href="../../commonCss/crs.css">
 
-<title>College & Retirement Solutions - CollegeChoice</title>
+
 
 <script language="JavaScript">
 <!--
@@ -148,9 +144,7 @@ function change2()
 -->
 </script>
 
-</head>
 
-<body>
 
 <!--<div id="crsWrapper">-->
 
@@ -268,6 +262,6 @@ include("../../commonPhp/mySqlClose.php");
 
 <!--</div>-->
 
-</body>
-
-</html>
+<?php
+include_once '../../commonPhp/crsNewFooter.php';
+?>

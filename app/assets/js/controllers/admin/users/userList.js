@@ -29,7 +29,7 @@ angular.module('gmaApp').controller('AdminUserListCtrl', function($scope, $locat
     	 user.email  = val.email;
     	 
     	 user.role  = val.role;
-    	 user.drafts  = val.drafts.length;
+    	 user.drafts  = 0;
     	 user.profiles  = val.profiles.length;
     	 user.created  = val.created;
     	 
@@ -99,12 +99,12 @@ angular.module('gmaApp').controller('AdminUserListCtrl', function($scope, $locat
 		$http.get('/admin/users?page=' + page + '&sort=' + sort.join(',')).then(function(obj){
 			if (!$scope.$$phase) {
 				$scope.$digest(function(){
-					$scope.users = obj.data.result;
+					$scope.users =  $scope.getUsers(obj.data.result);
 					$scope.pagination = obj.data.pagination;
 				});
 			}
 			else {
-				$scope.users = obj.data.result;
+				$scope.users =  $scope.getUsers(obj.data.result);
 				$scope.pagination = obj.data.pagination;
 			}
 			toastr.clear();

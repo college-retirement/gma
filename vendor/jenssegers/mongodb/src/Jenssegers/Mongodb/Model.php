@@ -1,20 +1,18 @@
 <?php namespace Jenssegers\Mongodb;
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-
 use Jenssegers\Mongodb\DatabaseManager as Resolver;
+use Jenssegers\Mongodb\Eloquent\Builder;
 use Jenssegers\Mongodb\Query\Builder as QueryBuilder;
-use Jenssegers\Mongodb\Relations\BelongsTo;
-use Jenssegers\Mongodb\Relations\BelongsToMany;
+use Jenssegers\Mongodb\Relations\EmbedsMany;
+use Jenssegers\Mongodb\Relations\EmbedsOne;
 
 use Carbon\Carbon;
 use DateTime;
 use MongoId;
 use MongoDate;
 
-abstract class Model extends \Illuminate\Database\Eloquent\Model {
+abstract class Model extends \Jenssegers\Eloquent\Model {
 
     /**
      * The collection associated with the model.
@@ -31,11 +29,115 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model {
     protected $primaryKey = '_id';
 
     /**
+     * The attributes that should be exposed for toArray and toJson.
+     *
+     * @var array
+     */
+    protected $exposed = array();
+
+    /**
      * The connection resolver instance.
      *
      * @var \Illuminate\Database\ConnectionResolverInterface
      */
     protected static $resolver;
+
+    /**
+     * Custom accessor for the model's id.
+     *
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    public function getIdAttribute($value)
+    {
+        // If we don't have a value for 'id', we will use the Mongo '_id' value.
+        // This allows us to work with models in a more sql-like way.
+        if ( ! $value and array_key_exists('_id', $this->attributes))
+        {
+            $value = $this->attributes['_id'];
+        }
+
+        // Convert MongoId's to string.
+        if ($value instanceof MongoId)
+        {
+            return (string) $value;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Define an embedded one-to-many relationship.
+     *
+     * @param  string  $related
+     * @param  string  $collection
+     * @return \Illuminate\Database\Eloquent\Relations\EmbedsMany
+     */
+    protected function embedsMany($related, $localKey = null, $foreignKey = null, $relation = null)
+    {
+        // If no relation name was given, we will use this debug backtrace to extract
+        // the calling method's name and use that as the relationship name as most
+        // of the time this will be what we desire to use for the relatinoships.
+        if (is_null($relation))
+        {
+            list(, $caller) = debug_backtrace(false);
+
+            $relation = $caller['function'];
+        }
+
+        if (is_null($localKey))
+        {
+            $localKey = '_' . $relation;
+        }
+
+        if (is_null($foreignKey))
+        {
+            $foreignKey = snake_case(class_basename($this));
+        }
+
+        $query = $this->newQuery();
+
+        $instance = new $related;
+
+        return new EmbedsMany($query, $this, $instance, $localKey, $foreignKey, $relation);
+    }
+
+    /**
+     * Define an embedded one-to-many relationship.
+     *
+     * @param  string  $related
+     * @param  string  $collection
+     * @return \Illuminate\Database\Eloquent\Relations\EmbedsMany
+     */
+    protected function embedsOne($related, $localKey = null, $foreignKey = null, $relation = null)
+    {
+        // If no relation name was given, we will use this debug backtrace to extract
+        // the calling method's name and use that as the relationship name as most
+        // of the time this will be what we desire to use for the relatinoships.
+        if (is_null($relation))
+        {
+            list(, $caller) = debug_backtrace(false);
+
+            $relation = $caller['function'];
+        }
+
+        if (is_null($localKey))
+        {
+            $localKey = '_' . $relation;
+        }
+
+        if (is_null($foreignKey))
+        {
+            $foreignKey = snake_case(class_basename($this));
+        }
+
+        $query = $this->newQuery();
+
+        $instance = new $related;
+
+        return new EmbedsOne($query, $this, $instance, $localKey, $foreignKey, $relation);
+    }
 
     /**
      * Convert a DateTime to a storable MongoDate object.
@@ -45,19 +147,19 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model {
      */
     public function fromDateTime($value)
     {
-        // Convert DateTime to MongoDate
-        if ($value instanceof DateTime)
+        // If the value is already a MongoDate instance, we don't need to parse it.
+        if ($value instanceof MongoDate)
         {
-            $value = new MongoDate($value->getTimestamp());
+            return $value;
         }
 
-        // Convert timestamp to MongoDate
-        elseif (is_numeric($value))
+        // Let Eloquent convert the value to a DateTime instance.
+        if ( ! $value instanceof DateTime)
         {
-            $value = new MongoDate($value);
+            $value = parent::asDateTime($value);
         }
 
-        return $value;
+        return new MongoDate($value->getTimestamp());
     }
 
     /**
@@ -68,25 +170,23 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model {
      */
     protected function asDateTime($value)
     {
-        // Convert timestamp
-        if (is_numeric($value))
-        {
-            return Carbon::createFromTimestamp($value);
-        }
-
-        // Convert string
-        if (is_string($value))
-        {
-            return new Carbon($value);
-        }
-
-        // Convert MongoDate
+        // Convert MongoDate instances.
         if ($value instanceof MongoDate)
         {
             return Carbon::createFromTimestamp($value->sec);
         }
 
-        return Carbon::instance($value);
+        return parent::asDateTime($value);
+    }
+
+    /**
+     * Get the format for database stored dates.
+     *
+     * @return string
+     */
+    protected function getDateFormat()
+    {
+        return 'Y-m-d H:i:s';
     }
 
     /**
@@ -97,16 +197,6 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model {
     public function freshTimestamp()
     {
         return new MongoDate;
-    }
-
-    /**
-     * Get the fully qualified "deleted at" column.
-     *
-     * @return string
-     */
-    public function getQualifiedDeletedAtColumn()
-    {
-        return $this->getDeletedAtColumn();
     }
 
     /**
@@ -122,157 +212,108 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model {
     }
 
     /**
-    * Define a one-to-one relationship.
-    *
-    * @param  string  $related
-    * @param  string  $foreignKey
-    * @param  string  $localKey
-    * @return \Illuminate\Database\Eloquent\Relations\HasOne
-    */
-    public function hasOne($related, $foreignKey = null, $localKey = null)
-    {
-        $foreignKey = $foreignKey ?: $this->getForeignKey();
-
-        $instance = new $related;
-
-        $localKey = $localKey ?: $this->getKeyName();
-
-        return new HasOne($instance->newQuery(), $this, $foreignKey, $localKey);
-    }
-
-    /**
-    * Define a one-to-many relationship.
-    *
-    * @param  string  $related
-    * @param  string  $foreignKey
-    * @param  string  $localKey
-    * @return \Illuminate\Database\Eloquent\Relations\HasMany
-    */
-    public function hasMany($related, $foreignKey = null, $localKey = null)
-    {
-        $foreignKey = $foreignKey ?: $this->getForeignKey();
-
-        $instance = new $related;
-
-        $localKey = $localKey ?: $this->getKeyName();
-
-        return new HasMany($instance->newQuery(), $this, $foreignKey, $localKey);
-    }
-
-    /**
-    * Define an inverse one-to-one or many relationship.
-    *
-    * @param  string  $related
-    * @param  string  $foreignKey
-    * @param  string  $otherKey
-    * @param  string  $relation
-    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-    */
-    public function belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
-    {
-        // If no relation name was given, we will use this debug backtrace to extract
-        // the calling method's name and use that as the relationship name as most
-        // of the time this will be what we desire to use for the relatinoships.
-        if (is_null($relation))
-        {
-            list(, $caller) = debug_backtrace(false);
-
-            $relation = $caller['function'];
-        }
-
-        // If no foreign key was supplied, we can use a backtrace to guess the proper
-        // foreign key name by using the name of the relationship function, which
-        // when combined with an "_id" should conventionally match the columns.
-        if (is_null($foreignKey))
-        {
-            $foreignKey = snake_case($relation).'_id';
-        }
-
-        $instance = new $related;
-
-        // Once we have the foreign key names, we'll just create a new Eloquent query
-        // for the related models and returns the relationship instance which will
-        // actually be responsible for retrieving and hydrating every relations.
-        $query = $instance->newQuery();
-
-        $otherKey = $otherKey ?: $instance->getKeyName();
-
-        return new BelongsTo($query, $this, $foreignKey, $otherKey, $relation);
-    }
-
-    /**
-     * Define a many-to-many relationship.
+     * Get an attribute from the model.
      *
-     * @param  string  $related
-     * @param  string  $table
-     * @param  string  $foreignKey
-     * @param  string  $otherKey
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @param  string  $key
+     * @return mixed
      */
-    public function belongsToMany($related, $collection = null, $foreignKey = null, $otherKey = null)
+    public function getAttribute($key)
     {
-        $caller = $this->getBelongsToManyCaller();
-
-        // First, we'll need to determine the foreign key and "other key" for the
-        // relationship. Once we have determined the keys we'll make the query
-        // instances as well as the relationship instances we need for this.
-        $foreignKey = $foreignKey ?: $this->getForeignKey() . 's';
-
-        $instance = new $related;
-
-        $otherKey = $otherKey ?: $instance->getForeignKey() . 's';
-
-        // If no table name was provided, we can guess it by concatenating the two
-        // models using underscores in alphabetical order. The two model names
-        // are transformed to snake case from their default CamelCase also.
-        if (is_null($collection))
+        // Check if the key is an array dot notation.
+        if (strpos($key, '.') !== false)
         {
-            $collection = $instance->getTable();
+            $attributes = array_dot($this->attributes);
+
+            if (array_key_exists($key, $attributes))
+            {
+                return $this->getAttributeValue($key);
+            }
         }
 
-        // Now we're ready to create a new query builder for the related model and
-        // the relationship instances for the relation. The relations will set
-        // appropriate query constraint and entirely manages the hydrations.
-        $query = $instance->newQuery();
-
-        return new BelongsToMany($query, $this, $collection, $foreignKey, $otherKey, $caller['function']);
+        return parent::getAttribute($key);
     }
 
     /**
-     * Get a new query builder instance for the connection.
+     * Get an attribute from the $attributes array.
      *
-     * @return Builder
+     * @param  string  $key
+     * @return mixed
      */
-    protected function newBaseQueryBuilder()
+    protected function getAttributeFromArray($key)
     {
-        return new QueryBuilder($this->getConnection());
+        if (array_key_exists($key, $this->attributes))
+        {
+            return $this->attributes[$key];
+        }
+
+        else if (strpos($key, '.') !== false)
+        {
+            $attributes = array_dot($this->attributes);
+
+            if (array_key_exists($key, $attributes))
+            {
+                return $attributes[$key];
+            }
+        }
     }
 
     /**
-     * Set the array of model attributes. No checking is done.
+     * Set a given attribute on the model.
      *
-     * @param  array  $attributes
-     * @param  bool   $sync
+     * @param  string  $key
+     * @param  mixed   $value
      * @return void
      */
-    public function setRawAttributes(array $attributes, $sync = false)
+    public function setAttribute($key, $value)
     {
-        foreach($attributes as $key => &$value)
+        // Convert _id to MongoId.
+        if ($key == '_id' and is_string($value))
         {
-            // Convert MongoId to string
+            $builder = $this->newBaseQueryBuilder();
+            $value = $builder->convertKey($value);
+        }
+
+        parent::setAttribute($key, $value);
+    }
+
+    /**
+     * Convert the model's attributes to an array.
+     *
+     * @return array
+     */
+    public function attributesToArray()
+    {
+        $attributes = parent::attributesToArray();
+
+        // Because the original Eloquent never returns objects, we convert
+        // MongoDB related objects to a string representation. This kind
+        // of mimics the SQL behaviour so that dates are formatted
+        // nicely when your models are converted to JSON.
+        foreach ($attributes as $key => &$value)
+        {
             if ($value instanceof MongoId)
             {
                 $value = (string) $value;
             }
 
-            // Convert MongoDate to string
-            else if ($value instanceof MongoDate)
+            // If the attribute starts with an underscore, it might be the
+            // internal array of embedded documents. In that case, we need
+            // to hide these from the output so that the relation-based
+            // attribute can take over.
+            else if (starts_with($key, '_') and ! in_array($key, $this->exposed))
             {
-                $value = $this->asDateTime($value)->format('Y-m-d H:i:s');
+                $camelKey = camel_case($key);
+
+                // If we can find a method that responds to this relation we
+                // will remove it from the output.
+                if (method_exists($this, $camelKey))
+                {
+                    unset($attributes[$key]);
+                }
             }
         }
 
-        parent::setRawAttributes($attributes, $sync);
+        return $attributes;
     }
 
     /**
@@ -281,9 +322,9 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model {
      * @param  mixed $columns
      * @return int
      */
-    public function dropColumn($columns)
+    public function drop($columns)
     {
-        if (!is_array($columns)) $columns = array($columns);
+        if ( ! is_array($columns)) $columns = array($columns);
 
         // Unset attributes
         foreach ($columns as $column)
@@ -292,7 +333,58 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model {
         }
 
         // Perform unset only on current document
-        return $query = $this->newQuery()->where($this->getKeyName(), $this->getKey())->unset($columns);
+        return $this->newQuery()->where($this->getKeyName(), $this->getKey())->unset($columns);
+    }
+
+    /**
+     * Append one or more values to an array.
+     *
+     * @return mixed
+     */
+    public function push()
+    {
+        if ($parameters = func_get_args())
+        {
+            $query = $this->setKeysForSaveQuery($this->newQuery());
+
+            return call_user_func_array(array($query, 'push'), $parameters);
+        }
+
+        return parent::push();
+    }
+
+    /**
+     * Remove one or more values from an array.
+     *
+     * @return mixed
+     */
+    public function pull()
+    {
+        $query = $this->setKeysForSaveQuery($this->newQuery());
+
+        return call_user_func_array(array($query, 'pull'), func_get_args());
+    }
+
+    /**
+     * Set the exposed attributes for the model.
+     *
+     * @param  array  $exposed
+     * @return void
+     */
+    public function setExposed(array $exposed)
+    {
+        $this->exposed = $exposed;
+    }
+
+    /**
+     * Create a new Eloquent query builder for the model.
+     *
+     * @param  \Jenssegers\Mongodb\Query\Builder $query
+     * @return \Jenssegers\Mongodb\Eloquent\Builder|static
+     */
+    public function newEloquentBuilder($query)
+    {
+        return new Builder($query);
     }
 
     /**
@@ -307,7 +399,7 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model {
         // Unset method
         if ($method == 'unset')
         {
-            return call_user_func_array(array($this, 'dropColumn'), $parameters);
+            return call_user_func_array(array($this, 'drop'), $parameters);
         }
 
         return parent::__call($method, $parameters);

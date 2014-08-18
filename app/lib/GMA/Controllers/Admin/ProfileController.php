@@ -8,7 +8,7 @@ class ProfileController extends Controller
 {
     public function all()
     {
-        return Rest::okay(Profile::paginate(60));
+        return Rest::okay(Profile::paginate(20));
     }
 
     public function create()

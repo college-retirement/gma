@@ -1,7 +1,7 @@
 Laravel MongoDB
 ===============
 
-[![Latest Stable Version](https://poser.pugx.org/jenssegers/mongodb/v/stable.png)](https://packagist.org/packages/jenssegers/mongodb) [![Total Downloads](https://poser.pugx.org/jenssegers/mongodb/downloads.png)](https://packagist.org/packages/jenssegers/mongodb) [![Build Status](https://travis-ci.org/jenssegers/Laravel-MongoDB.png?branch=master)](https://travis-ci.org/jenssegers/Laravel-MongoDB)
+[![Latest Stable Version](http://img.shields.io/github/release/jenssegers/laravel-mongodb.svg)](https://packagist.org/packages/jenssegers/mongodb) [![Total Downloads](http://img.shields.io/packagist/dm/jenssegers/mongodb.svg)](https://packagist.org/packages/jenssegers/mongodb) [![Build Status](http://img.shields.io/travis/jenssegers/laravel-mongodb.svg)](https://travis-ci.org/jenssegers/laravel-mongodb) [![Coverage Status](http://img.shields.io/coveralls/jenssegers/laravel-mongodb.svg)](https://coveralls.io/r/jenssegers/laravel-mongodb?branch=master)
 
 An Eloquent model and Query builder with support for MongoDB, inspired by LMongo, but using the original Laravel methods. *This library extends the original Laravel classes, so it uses exactly the same methods.*
 
@@ -44,7 +44,7 @@ You can connect to multiple servers or replica sets with the following configura
 
     'mongodb' => array(
         'driver'   => 'mongodb',
-        'host'     => array('server1', 'server2),
+        'host'     => array('server1', 'server2'),
         'port'     => 27017,
         'username' => 'username',
         'password' => 'password',
@@ -127,6 +127,20 @@ Supported operations are:
 
 Read more about the schema builder on http://laravel.com/docs/schema
 
+Auth
+----
+
+If you want to use Laravel's native Auth functionality, register this included service provider:
+
+    'Jenssegers\Mongodb\Auth\ReminderServiceProvider',
+
+This service provider will slightly modify the internal DatabaseReminderRepository to add support for MongoDB based password reminders. If you don't use password reminders, you don't have to register this service provider and everything else should work just fine.
+
+Sentry
+------
+
+If yo want to use this library with [Sentry](https://cartalyst.com/manual/sentry), then check out https://github.com/jenssegers/Laravel-MongoDB-Sentry
+
 Sessions
 --------
 
@@ -153,6 +167,10 @@ Examples
 
     $users = User::where('votes', '>', 100)->orWhere('name', 'John')->get();
 
+**And Statements**
+
+    $users = User::where('votes', '>', 100)->where('name', '=', 'John')->get();
+    
 **Using Where In With An Array**
 
     $users = User::whereIn('age', array(16, 18, 20))->get();
@@ -235,6 +253,22 @@ You may also specify additional columns to update:
 
     User::where('age', '29')->increment('age', 1, array('group' => 'thirty something'));
     User::where('bmi', 30)->decrement('bmi', 1, array('category' => 'overweight'));
+
+**Soft deleting**
+
+When soft deleting a model, it is not actually removed from your database. Instead, a deleted_at timestamp is set on the record. To enable soft deletes for a model, apply the SoftDeletingTrait to the model:
+
+use Jenssegers\Mongodb\Eloquent\SoftDeletingTrait;
+
+class User extends Eloquent {
+
+    use SoftDeletingTrait;
+
+    protected $dates = ['deleted_at'];
+
+}
+
+For more information check http://laravel.com/docs/eloquent#soft-deleting
 
 ### MongoDB specific operators
 
@@ -348,7 +382,126 @@ The belongsToMany relation will not use a pivot "table", but will push id's to a
 
     }
 
-Other relations are not yet supported, but may be added in the future. Read more about these relations on http://four.laravel.com/docs/eloquent#relationships
+Other relations are not yet supported, but may be added in the future. Read more about these relations on http://laravel.com/docs/eloquent#relationships
+
+### EmbedsMany Relations
+
+If you want to embed documents, rather than referencing them, you can use the `embedsMany` relation:
+
+    use Jenssegers\Mongodb\Model as Eloquent;
+
+    class User extends Eloquent {
+
+        public function books()
+        {
+            return $this->embedsMany('Book');
+        }
+
+    }
+
+Now we can access the user's books through the dynamic property:
+
+    $books = User::first()->books;
+
+When using embedded documents, there will also be an inverse relation available:
+
+    $user = $book->user;
+
+Inserting and updating embedded documents works just like the `belongsTo` relation:
+
+    $book = new Book(array('title' => 'A Game of Thrones'));
+
+    $user = User::first();
+
+    $book = $user->books()->save($book);
+
+You can remove an embedded document by using the `destroy()` method:
+
+    $book = $user->books()->first();
+
+    $user->books()->destroy($book->_id);
+    // or
+    $user->books()->destroy($book);
+
+If you want to add or remove embedded documents, without persistence, you can use the `associate` and `dissociate` methods. To write the changes to the database, save the parent object:
+
+    $user->books()->associate($book);
+    $user->save();
+
+Again, you may override the conventional local key by passing a second argument to the embedsMany method:
+
+    return $this->embedsMany('Book', 'local_key');
+
+When using embedded documents, they will be stored in a _relation attribute of the parent document. This attribute is hidden by default when using `toArray` or `toJson`. If you want the attribute to be exposed, add it to `$exposed` property definition to your model:
+
+    use Jenssegers\Mongodb\Model as Eloquent;
+
+    class User extends Eloquent {
+
+        protected $exposed = array('_books');
+
+    }
+
+### EmbedsOne Relations
+
+There is also an EmbedsOne relation, which works similar to the EmbedsMany relation, but only stores one embedded model.
+
+    use Jenssegers\Mongodb\Model as Eloquent;
+
+    class Book extends Eloquent {
+
+        public function author()
+        {
+            return $this->embedsOne('Author');
+        }
+
+    }
+
+Now we can access the book's author through the dynamic property:
+
+    $author = Book::first()->author;
+
+Inserting and updating embedded documents works just like the `embedsMany` relation:
+
+    $author = new Author(array('name' => 'John Doe'));
+
+    $book = Books::first();
+
+    $author = $user->author()->save($author);
+
+### MySQL Relations
+
+If you're using a hybrid MongoDB and SQL setup, you're in luck! The model will automatically return a MongoDB- or SQL-relation based on the type of the related model. Of course, if you want this functionality to work both ways, your SQL-models will need to extend `Jenssegers\Eloquent\Model`. Note that this functionality only works for hasOne, hasMany and belongsTo relations.
+
+Example SQL-based User model:
+
+    use Jenssegers\Eloquent\Model as Eloquent;
+
+    class User extends Eloquent {
+
+        protected $connection = 'mysql';
+
+        public function messages()
+        {
+            return $this->hasMany('Message');
+        }
+
+    }
+
+And the Mongodb-based Message model:
+
+    use Jenssegers\Mongodb\Model as Eloquent;
+
+    class Message extends Eloquent {
+
+        protected $connection = 'mongodb';
+
+        public function user()
+        {
+            return $this->belongsTo('User');
+        }
+
+    }
 
 ### Raw Expressions
 
@@ -356,16 +509,23 @@ These expressions will be injected directly into the query.
 
     User::whereRaw(array('age' => array('$gt' => 30, '$lt' => 40)))->get();
 
-You can also perform raw expressions on the internal MongoCollection object, note that this will return the original response, and not a collection of models.
+You can also perform raw expressions on the internal MongoCollection object. If this is executed on the model class, it will return a collection of models. If this is executed on the query builder, it will return the original response.
 
-    User::raw(function($collection)
+    // Returns a collection of User models.
+    $models = User::raw(function($collection)
     {
         return $collection->find();
     });
 
-Or you can access the internal MongoCollection object directly:
+    // Returns the original MongoCursor.
+    $cursor = DB::collection('users')->raw(function($collection)
+    {
+        return $collection->find();
+    });
 
-    User::raw()->find();
+Optional: if you don't pass a closure to the raw method, the internal MongoCollection object will be accessible:
+
+    $model = User::raw()->findOne(array('age' => array('$lt' => 18)));
 
 The MongoClient and MongoDB objects can be accessed like this:
 
@@ -387,6 +547,10 @@ Add an items to an array.
 
     DB::collection('users')->where('name', 'John')->push('items', 'boots');
     DB::collection('users')->where('name', 'John')->push('messages', array('from' => 'Jane Doe', 'message' => 'Hi John'));
+
+If you don't want duplicate items, set the third parameter to `true`:
+
+    DB::collection('users')->where('name', 'John')->push('items', 'boots', true);
 
 **Pull**
 

@@ -167,12 +167,12 @@ angular.module('gmaApp').controller('AdminSearchCtrl', function($scope, Persona,
 		$http.get(url + page + '&sort=' + sort.join(',')).then(function(obj){
 			if (!$scope.$$phase) {
 				$scope.$digest(function(){
-					$scope.profiles = obj.data.result;
+					$scope.profiles = $scope.getProfiles(obj.data.result);
 					$scope.pagination = obj.data.pagination;
 				});
 			}
 			else {
-				$scope.profiles = obj.data.result;
+				$scope.profiles = $scope.getProfiles(obj.data.result);
 				$scope.pagination = obj.data.pagination;
 			}
 			toastr.clear();

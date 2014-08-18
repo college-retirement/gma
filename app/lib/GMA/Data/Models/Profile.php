@@ -104,4 +104,9 @@ class Profile extends SortableModel
         $encrypted = $box->encryptAll()->toArray();
         $this->attributes['stronghold'] = $box->encryptAll()->toArray();
     }
+     public function getDates()
+    {
+        // only this field will be converted to Carbon
+        return array();
+    }
 }

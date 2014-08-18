@@ -97,12 +97,12 @@ angular.module('gmaApp').controller('AdminDraftListCtrl', function($scope, Perso
 		$http.get('/admin/drafts?page=' + page + '&sort=' + sort.join(',')).then(function(obj){
 			if(!$scope.$$phase) {
 				$scope.$digest(function(){
-					$scope.profiles = obj.data.result;
+					$scope.profiles = $scope.getDrafts(obj.data.result);
 					$scope.pagination = obj.data.pagination;
 				});
 			}
 			else {
-				$scope.profiles = obj.data.result;
+				$scope.profiles = $scope.getDrafts(obj.data.result);
 				$scope.pagination = obj.data.pagination;
 			}
 			toastr.clear();

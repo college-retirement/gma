@@ -1,11 +1,12 @@
 <?php namespace Jenssegers\Mongodb\Query;
 
-use MongoID;
+use MongoId;
 use MongoRegex;
 use MongoDate;
 use DateTime;
 use Closure;
 
+use Illuminate\Database\Query\Expression;
 use Jenssegers\Mongodb\Connection;
 
 class Builder extends \Illuminate\Database\Query\Builder {
@@ -26,7 +27,10 @@ class Builder extends \Illuminate\Database\Query\Builder {
         '=', '<', '>', '<=', '>=', '<>', '!=',
         'like', 'not like', 'between', 'ilike',
         '&', '|', '^', '<<', '>>',
-        'exists', 'type', 'mod', 'where', 'all', 'size', 'regex',
+        'rlike', 'regexp', 'not regexp',
+        'exists', 'type', 'mod', 'where', 'all', 'size', 'regex', 'text', 'slice', 'elemmatch',
+        'geowithin', 'geointersects', 'near', 'nearsphere', 'geometry',
+        'maxdistance', 'center', 'centersphere', 'box', 'polygon', 'uniquedocs',
     );
 
     /**
@@ -58,11 +62,11 @@ class Builder extends \Illuminate\Database\Query\Builder {
     /**
      * Execute a query for a single record by ID.
      *
-     * @param  int    $id
+     * @param  mixed  $id
      * @param  array  $columns
      * @return mixed
      */
-    public function find($id, $columns = array('*'))
+    public function find($id, $columns = array())
     {
         return $this->where('_id', '=', $this->convertKey($id))->first($columns);
     }
@@ -73,77 +77,76 @@ class Builder extends \Illuminate\Database\Query\Builder {
      * @param  array  $columns
      * @return array|static[]
      */
-    public function getFresh($columns = array('*'))
+    public function getFresh($columns = array())
     {
-        $start = microtime(true);
-
         // If no columns have been specified for the select statement, we will set them
         // here to either the passed columns, or the standard default of retrieving
         // all of the columns on the table using the "wildcard" column character.
         if (is_null($this->columns)) $this->columns = $columns;
 
-        // Drop all columns if * is present, MongoDB does not work this way
+        // Drop all columns if * is present, MongoDB does not work this way.
         if (in_array('*', $this->columns)) $this->columns = array();
 
         // Compile wheres
         $wheres = $this->compileWheres();
 
-        // Aggregation query
-        if ($this->groups || $this->aggregate)
+        // Use MongoDB's aggregation framework when using grouping or aggregation functions.
+        if ($this->groups or $this->aggregate)
         {
             $group = array();
 
-            // Apply grouping
+            // Add grouping columns to the $group part of the aggregation pipeline.
             if ($this->groups)
             {
                 foreach ($this->groups as $column)
                 {
-                    // Mark column as grouped
                     $group['_id'][$column] = '$' . $column;
 
-                    // Aggregate by $last when grouping, this mimics MySQL's behaviour a bit
+                    // When grouping, also add the $last operator to each grouped field,
+                    // this mimics MySQL's behaviour a bit.
                     $group[$column] = array('$last' => '$' . $column);
                 }
             }
             else
             {
                 // If we don't use grouping, set the _id to null to prepare the pipeline for
-                // other aggregation functions
+                // other aggregation functions.
                 $group['_id'] = null;
             }
 
-            // When additional columns are requested, aggregate them by $last as well
-            foreach ($this->columns as $column)
-            {
-                // Replace possible dots in subdocument queries with underscores
-                $key = str_replace('.', '_', $column);
-                $group[$key] = array('$last' => '$' . $column);
-            }
-
-            // Apply aggregation functions, these may override previous aggregations
+            // Add aggregation functions to the $group part of the aggregation pipeline,
+            // these may override previous aggregations.
             if ($this->aggregate)
             {
                 $function = $this->aggregate['function'];
 
                 foreach ($this->aggregate['columns'] as $column)
                 {
-                    // Replace possible dots in subdocument queries with underscores
-                    $key = str_replace('.', '_', $column);
-
-                    // Translate count into sum
+                    // Translate count into sum.
                     if ($function == 'count')
                     {
-                        $group[$key] = array('$sum' => 1);
+                        $group['aggregate'] = array('$sum' => 1);
                     }
-                    // Pass other functions directly
+                    // Pass other functions directly.
                     else
                     {
-                        $group[$key] = array('$' . $function => '$' . $column);
+                        $group['aggregate'] = array('$' . $function => '$' . $column);
                     }
                 }
             }
 
-            // Build pipeline
+            // If no aggregation functions are used, we add the additional select columns
+            // to the pipeline here, aggregating them by $last.
+            else
+            {
+                foreach ($this->columns as $column)
+                {
+                    $key = str_replace('.', '_', $column);
+                    $group[$key] = array('$last' => '$' . $column);
+                }
+            }
+
+            // Build the aggregation pipeline.
             $pipeline = array();
             if ($wheres) $pipeline[] = array('$match' => $wheres);
             $pipeline[] = array('$group' => $group);
@@ -155,11 +158,6 @@ class Builder extends \Illuminate\Database\Query\Builder {
 
             // Execute aggregation
             $results = $this->collection->aggregate($pipeline);
-
-            // Log query
-            $this->connection->logQuery(
-                $this->from . '.aggregate(' . json_encode($pipeline) . ')',
-                array(), $this->connection->getElapsedTime($start));
 
             // Return results
             return $results['result'];
@@ -173,11 +171,6 @@ class Builder extends \Illuminate\Database\Query\Builder {
 
             // Execute distinct
             $result = $this->collection->distinct($column, $wheres);
-
-            // Log query
-            $this->connection->logQuery(
-                $this->from . '.distinct("' . $column . '", ' . json_encode($wheres) . ')',
-                array(), $this->connection->getElapsedTime($start));
 
             return $result;
         }
@@ -198,11 +191,6 @@ class Builder extends \Illuminate\Database\Query\Builder {
             if ($this->orders) $cursor->sort($this->orders);
             if ($this->offset) $cursor->skip($this->offset);
             if ($this->limit)  $cursor->limit($this->limit);
-
-            // Log query
-            $this->connection->logQuery(
-                $this->from . '.find(' . json_encode($wheres) . ', ' . json_encode($columns) . ')',
-                array(), $this->connection->getElapsedTime($start));
 
             // Return results as an array with numeric keys
             return iterator_to_array($cursor, false);
@@ -237,7 +225,7 @@ class Builder extends \Illuminate\Database\Query\Builder {
      * @param  array   $columns
      * @return mixed
      */
-    public function aggregate($function, $columns = array('*'))
+    public function aggregate($function, $columns = array())
     {
         $this->aggregate = compact('function', 'columns');
 
@@ -250,9 +238,9 @@ class Builder extends \Illuminate\Database\Query\Builder {
 
         if (isset($results[0]))
         {
-            // Replace possible dots in subdocument queries with underscores
-            $key = str_replace('.', '_', $columns[0]);
-            return $results[0][$key];
+            $result = (array) $results[0];
+
+            return $result['aggregate'];
         }
     }
 
@@ -282,7 +270,16 @@ class Builder extends \Illuminate\Database\Query\Builder {
      */
     public function orderBy($column, $direction = 'asc')
     {
-        $this->orders[$column] = (strtolower($direction) == 'asc' ? 1 : -1);
+        $direction = (strtolower($direction) == 'asc' ? 1 : -1);
+
+        if ($column == 'natural')
+        {
+            $this->orders['$natural'] = $direction;
+        }
+        else
+        {
+            $this->orders[$column] = $direction;
+        }
 
         return $this;
     }
@@ -313,8 +310,6 @@ class Builder extends \Illuminate\Database\Query\Builder {
      */
     public function insert(array $values)
     {
-        $start = microtime(true);
-
         // Since every insert gets treated like a batch insert, we will have to detect
         // if the user is inserting a single document or an array of documents.
         $batch = true;
@@ -333,12 +328,7 @@ class Builder extends \Illuminate\Database\Query\Builder {
         // Batch insert
         $result = $this->collection->batchInsert($values);
 
-        // Log query
-        $this->connection->logQuery(
-            $this->from . '.batchInsert(' . json_encode($values) . ')',
-            array(), $this->connection->getElapsedTime($start));
-
-        return $result;
+        return (1 == (int) $result['ok']);
     }
 
     /**
@@ -350,14 +340,7 @@ class Builder extends \Illuminate\Database\Query\Builder {
      */
     public function insertGetId(array $values, $sequence = null)
     {
-        $start = microtime(true);
-
         $result = $this->collection->insert($values);
-
-        // Log query
-        $this->connection->logQuery(
-            $this->from . '.insert(' . json_encode($values) . ')',
-            array(), $this->connection->getElapsedTime($start));
 
         if (1 == (int) $result['ok'])
         {
@@ -366,8 +349,8 @@ class Builder extends \Illuminate\Database\Query\Builder {
                 $sequence = '_id';
             }
 
-            // Return id as a string
-            return (string) $values[$sequence];
+            // Return id
+            return $values[$sequence];
         }
     }
 
@@ -391,17 +374,25 @@ class Builder extends \Illuminate\Database\Query\Builder {
      * @param  array   $extra
      * @return int
      */
-    public function increment($column, $amount = 1, array $extra = array())
+    public function increment($column, $amount = 1, array $extra = array(), array $options = array())
     {
         $query = array(
-            '$inc' => array($column => $amount),
-            '$set' => $extra,
+            '$inc' => array($column => $amount)
         );
 
-        // Protect
-        $this->whereNotNull($column);
+        if (!empty($extra))
+        {
+            $query['$set'] = $extra;
+        }
 
-        return $this->performUpdate($query);
+        // Protect
+        $this->where(function($query) use ($column)
+        {
+            $query->where($column, 'exists', false);
+            $query->orWhereNotNull($column);
+        });
+
+        return $this->performUpdate($query, $options);
     }
 
     /**
@@ -412,9 +403,9 @@ class Builder extends \Illuminate\Database\Query\Builder {
      * @param  array   $extra
      * @return int
      */
-    public function decrement($column, $amount = 1, array $extra = array())
+    public function decrement($column, $amount = 1, array $extra = array(), array $options = array())
     {
-        return $this->increment($column, -1 * $amount, $extra);
+        return $this->increment($column, -1 * $amount, $extra, $options);
     }
 
     /**
@@ -445,15 +436,8 @@ class Builder extends \Illuminate\Database\Query\Builder {
      */
     public function delete($id = null)
     {
-        $start = microtime(true);
-
         $wheres = $this->compileWheres();
         $result = $this->collection->remove($wheres);
-
-        // Log query
-        $this->connection->logQuery(
-            $this->from . '.remove(' . json_encode($wheres) . ')',
-            array(), $this->connection->getElapsedTime($start));
 
         if (1 == (int) $result['ok'])
         {
@@ -486,7 +470,7 @@ class Builder extends \Illuminate\Database\Query\Builder {
      */
     public function truncate()
     {
-        $result = $this->collection->drop();
+        $result = $this->collection->remove();
 
         return (1 == (int) $result['ok']);
     }
@@ -499,11 +483,19 @@ class Builder extends \Illuminate\Database\Query\Builder {
      */
     public function raw($expression = null)
     {
+        // Execute the closure on the mongodb collection
         if ($expression instanceof Closure)
         {
             return call_user_func($expression, $this->collection);
         }
 
+        // Create an expression for the given value
+        else if (!is_null($expression))
+        {
+            return new Expression($expression);
+        }
+
+        // Quick access to the mongodb collection
         return $this->collection;
     }
 
@@ -514,15 +506,18 @@ class Builder extends \Illuminate\Database\Query\Builder {
      * @param  mixed   $value
      * @return int
      */
-    public function push($column, $value = null)
+    public function push($column, $value = null, $unique = false)
     {
+        // Use the addToSet operator in case we only want unique items.
+        $operator = $unique ? '$addToSet' : '$push';
+
         if (is_array($column))
         {
-            $query = array('$push' => $column);
+            $query = array($operator => $column);
         }
         else
         {
-            $query = array('$push' => array($column => $value));
+            $query = array($operator => array($column => $value));
         }
 
         return $this->performUpdate($query);
@@ -555,7 +550,7 @@ class Builder extends \Illuminate\Database\Query\Builder {
      * @param  mixed $columns
      * @return int
      */
-    public function dropColumn($columns)
+    public function drop($columns)
     {
         if (!is_array($columns)) $columns = array($columns);
 
@@ -590,8 +585,6 @@ class Builder extends \Illuminate\Database\Query\Builder {
      */
     protected function performUpdate($query, array $options = array())
     {
-        $start = microtime(true);
-
         // Default options
         $default = array('multiple' => true);
 
@@ -600,11 +593,6 @@ class Builder extends \Illuminate\Database\Query\Builder {
 
         $wheres = $this->compileWheres();
         $result = $this->collection->update($wheres, $query, $options);
-
-        // Log query
-        $this->connection->logQuery(
-            $this->from . '.update(' . json_encode($wheres) . ', ' . json_encode($query) . ', ' . json_encode($options) . ')',
-            array(), $this->connection->getElapsedTime($start));
 
         if (1 == (int) $result['ok'])
         {
@@ -620,14 +608,39 @@ class Builder extends \Illuminate\Database\Query\Builder {
      * @param  mixed $id
      * @return mixed
      */
-    protected function convertKey($id)
+    public function convertKey($id)
     {
-        if (is_string($id) && strlen($id) === 24 && ctype_xdigit($id))
+        if (is_string($id) and strlen($id) === 24 and ctype_xdigit($id))
         {
             return new MongoId($id);
         }
 
         return $id;
+    }
+
+    /**
+     * Add a basic where clause to the query.
+     *
+     * @param  string  $column
+     * @param  string  $operator
+     * @param  mixed   $value
+     * @param  string  $boolean
+     * @return \Illuminate\Database\Query\Builder|static
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function where($column, $operator = null, $value = null, $boolean = 'and')
+    {
+        // Remove the leading $ from operators.
+        if (func_num_args() == 3)
+        {
+            if (starts_with($operator, '$'))
+            {
+                $operator = substr($operator, 1);
+            }
+        }
+
+        return parent::where($column, $operator, $value, $boolean);
     }
 
     /**
@@ -637,17 +650,41 @@ class Builder extends \Illuminate\Database\Query\Builder {
      */
     protected function compileWheres()
     {
-        if (!$this->wheres) return array();
+        // The wheres to compile.
+        $wheres = $this->wheres ?: array();
 
-        // The new list of compiled wheres
-        $wheres = array();
+        // We will add all compiled wheres to this array.
+        $compiled = array();
 
-        foreach ($this->wheres as $i => &$where)
+        foreach ($wheres as $i => &$where)
         {
-            // Convert id's
-            if (isset($where['column']) && $where['column'] == '_id')
+            // Make sure the operator is in lowercase.
+            if (isset($where['operator']))
             {
-                // Multiple values
+                $where['operator'] = strtolower($where['operator']);
+
+                // Operator conversions
+                $convert = array(
+                    'regexp' => 'regex',
+                    'elemmatch' => 'elemMatch',
+                    'geointersects' => 'geoIntersects',
+                    'geowithin' => 'geoWithin',
+                    'nearsphere' => 'nearSphere',
+                    'maxdistance' => 'maxDistance',
+                    'centersphere' => 'centerSphere',
+                    'uniquedocs' => 'uniqueDocs',
+                );
+
+                if (array_key_exists($where['operator'], $convert))
+                {
+                    $where['operator'] = $convert[$where['operator']];
+                }
+            }
+
+            // Convert id's.
+            if (isset($where['column']) and $where['column'] == '_id')
+            {
+                // Multiple values.
                 if (isset($where['values']))
                 {
                     foreach ($where['values'] as &$value)
@@ -655,48 +692,57 @@ class Builder extends \Illuminate\Database\Query\Builder {
                         $value = $this->convertKey($value);
                     }
                 }
-                // Single value
-                elseif (isset($where['value']))
+
+                // Single value.
+                else if (isset($where['value']))
                 {
                     $where['value'] = $this->convertKey($where['value']);
                 }
             }
 
-            // Convert dates
-            if (isset($where['value']) && $where['value'] instanceof DateTime)
+            // Convert DateTime values to MongoDate.
+            if (isset($where['value']) and $where['value'] instanceof DateTime)
             {
                 $where['value'] = new MongoDate($where['value']->getTimestamp());
             }
 
-            // First item of chain
-            if ($i == 0 && count($this->wheres) > 1 && $where['boolean'] == 'and')
+            // The next item in a "chain" of wheres devices the boolean of the
+            // first item. So if we see that there are multiple wheres, we will
+            // use the operator of the next where.
+            if ($i == 0 and count($wheres) > 1 and $where['boolean'] == 'and')
             {
-                // Copy over boolean value of next item in chain
-                $where['boolean'] = $this->wheres[$i+1]['boolean'];
+                $where['boolean'] = $wheres[$i+1]['boolean'];
             }
 
-            // Delegate
+            // We use different methods to compile different wheres.
             $method = "compileWhere{$where['type']}";
-            $compiled = $this->{$method}($where);
+            $result = $this->{$method}($where);
 
-            // Check for or
+            // Wrap the where with an $or operator.
             if ($where['boolean'] == 'or')
             {
-                $compiled = array('$or' => array($compiled));
+                $result = array('$or' => array($result));
             }
 
-            // Merge compiled where
-            $wheres = array_merge_recursive($wheres, $compiled);
+            // If there are multiple wheres, we will wrap it with $and. This is needed
+            // to make nested wheres work.
+            else if (count($wheres) > 1)
+            {
+                $result = array('$and' => array($result));
+            }
+
+            // Merge the compiled where with the others.
+            $compiled = array_merge_recursive($compiled, $result);
         }
 
-        return $wheres;
+        return $compiled;
     }
 
     protected function compileWhereBasic($where)
     {
         extract($where);
 
-        // Replace like with MongoRegex
+        // Replace like with a MongoRegex instance.
         if ($operator == 'like')
         {
             $operator = '=';
@@ -709,7 +755,7 @@ class Builder extends \Illuminate\Database\Query\Builder {
             $value = new MongoRegex("/$regex/i");
         }
 
-        if (!isset($operator) || $operator == '=')
+        if ( ! isset($operator) or $operator == '=')
         {
             $query = array($column => $value);
         }
@@ -810,7 +856,7 @@ class Builder extends \Illuminate\Database\Query\Builder {
     {
         if ($method == 'unset')
         {
-            return call_user_func_array(array($this, 'dropColumn'), $parameters);
+            return call_user_func_array(array($this, 'drop'), $parameters);
         }
 
         return parent::__call($method, $parameters);

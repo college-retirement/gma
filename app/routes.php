@@ -22,6 +22,7 @@ App::bind('persona.identity', function ($app, $assertion) {
  * Begin Routing
  */
 Route::get('/', function () {
+   
     if (App::environment() == 'production' && !Request::secure()) {
         return Redirect::to('http://' . Request::getHost() . '/');
     }
@@ -79,7 +80,7 @@ Route::group(['before' => 'secure'], function () use ($GmaControllers) {
     Route::get('/mtest', function () {
         
        
-        return "Hello";
+        return View::make('layout2');
     });
 
     /**
