@@ -13,8 +13,9 @@ class UserController extends Base
             $query = User::with(['profiles'])->withSortables($this->sortableColumns())->paginate(20);
             return Rest::okay($query);
         } else {
-           
-            return Rest::okay(User::with([ 'profiles'])->paginate(20));
+            $sortableColumns = [['column' => 'created_at',
+                    'order' => 'DESC']];
+            return Rest::okay(User::with([ 'profiles'])->withSortables($sortableColumns)->paginate(20));
         }
     }
 }

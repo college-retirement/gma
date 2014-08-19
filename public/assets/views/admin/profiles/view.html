@@ -13,6 +13,20 @@
 		</li>
 	</ol>
 	<div class="pull-right btn-group">
+		<!-- <div class="btn-group">
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+		    	<i class="icon-envelope"></i>
+		      Email User
+		      <span class="caret"></span>
+		    </button>
+		    <ul class="dropdown-menu" role="menu">
+
+				<li ng-repeat="newsletter in newsletters">
+					<a ng-click="previewNewsletter(newsletter)" style="text-align:left">{{newsletter.templateName}}</a>
+				</li>
+				
+			</ul>
+		</div> -->
 		<div class="btn btn-default" ng-click="changeMode('summary')" ng-class="{'active': mode == null || mode == 'summary'}">Summary</div>
 		<div class="btn btn-default" ng-click="changeMode('fafsa')" ng-class="{'active': mode == 'fafsa'}">FAFSA</div>
 		<div class="btn btn-default" ng-click="changeMode('css')" ng-class="{'active': mode == 'css'}">CSS</div>
@@ -26,6 +40,18 @@
 		</div>
 		
 		
+		
+		<!-- <div class="btn btn-default" ng-click="notifyUser()">
+			<i class="icon-envelope"></i>
+			Send Additional Information Email
+		</div> -->
+	</div>
+	<div class="pull-right btn-group" style="margin-right: 10px">
+		<div class="btn btn-primary" ng-click="changeMode('edit')" ng-class="{'active': mode == 'edit'}">
+			<i class="icon-pencil"></i>
+		Edit</div>
+	</div>
+	<div class="pull-right btn-group" style="margin-right: 10px">
 		<div class="btn-group">
 		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 		    	<i class="icon-envelope"></i>
@@ -39,16 +65,7 @@
 				</li>
 				
 			</ul>
-		  </div>
-		<!-- <div class="btn btn-default" ng-click="notifyUser()">
-			<i class="icon-envelope"></i>
-			Send Additional Information Email
-		</div> -->
-	</div>
-	<div class="pull-right btn-group" style="margin-right: 10px">
-		<div class="btn btn-primary" ng-click="changeMode('edit')" ng-class="{'active': mode == 'edit'}">
-			<i class="icon-pencil"></i>
-		Edit</div>
+		</div>
 	</div>
 	<legend>{{type()}} for {{student.name.first}} {{student.name.last}}</legend>
 	<div ng-include="partial()">
