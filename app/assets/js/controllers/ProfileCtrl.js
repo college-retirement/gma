@@ -184,13 +184,15 @@ angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $rout
 			$scope.currentSibSchool = null;
 		}
 		else {
-			var school = Colleges.getSchool($scope.currentSchool.cb_id);
-			school.then(function(obj){
-				$scope.currentSchool.finAid = obj.data.result.college.financial_aid.requirements;
-				$scope.student.schools.push($scope.currentSchool);
-				$scope.checkRequirements();
-				$scope.currentSchool = null;
-			});
+			$scope.student.schools.push($scope.currentSchool);
+			$scope.currentSchool = null;
+			// var school = Colleges.getSchool($scope.currentSchool.cb_id);
+			// school.then(function(obj){
+			// 	$scope.currentSchool.finAid = obj.data.result.college.financial_aid.requirements;
+			// 	$scope.student.schools.push($scope.currentSchool);
+			// 	$scope.checkRequirements();
+			// 	$scope.currentSchool = null;
+			// });
 		}
 
 	};
@@ -213,7 +215,14 @@ angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $rout
 		}
 	};
 
-
+	$scope.checkMember = function() {
+		
+		if($scope.student.household.size != ($scope.student.family.members.length + 1)){
+			toastr.error('The field "number living in household" ('+$scope.student.household.size +'), needs to match the number of people listed ('+($scope.student.family.members.length + 1)+') in "Family Members" section');
+			jQuery("#addfamily").focus();
+			
+		}
+	}
 	$scope.addFamily = function() {
 		$scope.student.family.members.push({student: false});
 	};
@@ -253,6 +262,26 @@ angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $rout
 	$scope.deleteRetirement = function(index) {
 		$scope.student.family.retirement.splice(index, 1);
 	};
+	$scope.changeFatherIncome = function() {
+		$scope.student.parents.income.father.current = 0;
+		$scope.student.parents.income.father.anticipated = 0;
+		$scope.student.parents.income.father.retirement = 0;
+		$scope.student.parents.income.father.ssBenefits = 0;
+	};
+
+	$scope.changeMotherIncome = function() {
+		$scope.student.parents.income.mother.current = 0;
+		$scope.student.parents.income.mother.anticipated = 0;
+		$scope.student.parents.income.mother.retirement = 0;
+		$scope.student.parents.income.mother.ssBenefits = 0;
+	}
+
+	$scope.changeGuardianIncome = function() {
+		$scope.student.guardian.income.current = 0;
+		$scope.student.guardian.income.anticipated = 0;
+		$scope.student.guardian.income.retirement = 0;
+		$scope.student.guardian.income.ssBenefits = 0;
+	}
 
 	$scope.submitProfile = function() {
 		var errors = false;
@@ -275,6 +304,13 @@ angular.module('gmaApp').controller('ProfileCtrl', function($scope, $http, $rout
 		});
 
 		jQuery(".ng-invalid:not(form)").first().focus();
+		if($scope.student.household.size != ($scope.student.family.members.length + 1)){
+			errors = true;
+			 
+			toastr.error('The field "number living in household" ('+$scope.student.household.size +'), needs to match the number of people listed ('+($scope.student.family.members.length + 1)+') in "Family Members" section');
+			jQuery("#addfamily").focus();
+
+		}
 		$scope.submit = true;
 
 		if (!errors) {
