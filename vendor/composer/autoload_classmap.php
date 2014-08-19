@@ -66,7 +66,7 @@ return array(
     'GMA\\Controllers\\Admin\\UserController' => $baseDir . '/app/lib/GMA/Controllers/Admin/UserController.php',
     'GMA\\Controllers\\Base' => $baseDir . '/app/lib/GMA/Controllers/Base.php',
     'GMA\\Controllers\\ProfileController' => $baseDir . '/app/lib/GMA/Controllers/ProfileController.php',
-    'GMA\\Data\\Export\\CSVColumns' => $baseDir . '/app/lib/GMA/Data/Export/CSVColumns-old.php',
+    'GMA\\Data\\Export\\CSVColumns' => $baseDir . '/app/lib/GMA/Data/Export/CSVColumns.php',
     'GMA\\Data\\Export\\ExportCSV' => $baseDir . '/app/lib/GMA/Data/Export/ExportCSV.php',
     'GMA\\Data\\Models\\Account' => $baseDir . '/app/lib/GMA/Data/Models/Account.php',
     'GMA\\Data\\Models\\Common\\FormatTimestamps' => $baseDir . '/app/lib/GMA/Data/Models/Common/FormatTimestamps.php',
