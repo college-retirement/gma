@@ -388,10 +388,11 @@ Use these tools to find colleges based on your search criteria.
 <table width="100%" border="0">
 	<tr>
 		<td align="center" valign="top">
-			Available Schools
+			Available Schoolss
 			<br>
 			<select name="lstCollegeChoices" class="multSelect" size="15" ondblclick="addCollege();" onkeydown="if (event.keyCode==13) addCollege();" onChange="document.getElementById('divCollegeChoicesText').innerHTML=this[selectedIndex].text;" multiple>
 <?php
+echo '<option>NCSU</option>';
 echo $collegeList;
 ?>
 			</select>
