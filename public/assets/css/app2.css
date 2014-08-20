@@ -188,7 +188,7 @@ height: 95px;
 
 
 #page_header {
-min-height: 450px;
+min-height: 300px;
 /* border-bottom: 6px solid #fff; */
 }
 
@@ -208,7 +208,7 @@ background-color:#aaaaaa;}
 display:block;}
 
 #page_header.zn_def_header_style .bgback , #slideshow.zn_def_header_style .bgback , #page_header.uh_zn_def_header_style .bgback , #slideshow.uh_zn_def_header_style .bgback{
-background-image:url("../img/header-350.png");}
+background-image:url("../img/header-350.jpg");}
 
 #page_header, #slideshow {
 position: relative;
