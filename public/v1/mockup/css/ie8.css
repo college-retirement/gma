@@ -1,0 +1,10 @@
+@charset "UTF-8";
+/* Style for IE8 And Bellow */
+
+.input-style {
+    border: solid 1px #888;
+    vertical-align: middle;
+}
+.input-style:focus {
+    border: solid 1px #444;
+}
