@@ -57,18 +57,18 @@ if (!$db_conn) {
   exit;
 }
 
-$qu = pg_query($db_conn, "Select unitid,instnm from colleges_college where active = 'y' Order by instnm");
+$qu = pg_query($db_conn, "Select * from colleges_college where active = 'y' Order by instnm");
 
 
-$data = pg_fetch_object($qu);
+$data = pg_fetch_array($qu);
 echo json_encode($data);
 
 // Request a list of all colleges from the API.
-$colleges_json = getCurldata('http://api.getmoreaid.com/colleges.json?limit=-1');
+//$colleges_json = getCurldata('http://api.getmoreaid.com/colleges.json?limit=-1');
 
 // Load the colleges into an array.
-$colleges_array = json_decode($colleges_json, true);
-
+//$colleges_array = json_decode($colleges_json, true);
+$colleges_array = $data;
 for ($college_count=0; $college_count < count($colleges_array['colleges']); $college_count++) {
 
 	$college_id = $colleges_array['colleges'][$college_count]['cb_id'];
