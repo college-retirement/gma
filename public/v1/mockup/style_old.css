@@ -70,17 +70,12 @@ body {
 .inner-heading, .main-container, .footer {
     background-color: #fff;
 }
-
-.inner-heading{
-	background-color:#c1d4dc;
-}
-	
 .main-container, .footer {
     padding: 20px;
 }
 .main-wrap {
     margin: auto;
-    max-width: 1160px;
+    max-width: 960px;
 }
 .btn-head {
     color: #fff;
@@ -392,4 +387,3 @@ body {
     top: 12%;
     width: 486px;
 }
-
