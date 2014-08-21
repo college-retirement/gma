@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION["username"]))
-	header("location:collegeChoiceLogin2.php?login=session");
+	header("location:collegeChoiceLogin.php?login=session");
 
 $username=$_SESSION["username"];
 $collegeList="";
@@ -388,11 +388,10 @@ Use these tools to find colleges based on your search criteria.
 <table width="100%" border="0">
 	<tr>
 		<td align="center" valign="top">
-			Available Schoolss
+			Available Schools
 			<br>
 			<select name="lstCollegeChoices" class="multSelect" size="15" ondblclick="addCollege();" onkeydown="if (event.keyCode==13) addCollege();" onChange="document.getElementById('divCollegeChoicesText').innerHTML=this[selectedIndex].text;" multiple>
 <?php
-echo '<option>NCSU</option>';
 echo $collegeList;
 ?>
 			</select>

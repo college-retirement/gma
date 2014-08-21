@@ -20,15 +20,11 @@ if ($count>0)
 }
 
 include("../../commonPhp/mySqlClose.php");
+include_once '../../commonPhp/csrNewHeader.php';
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"> 
-<html>
 
-<head>
 
 <link rel="stylesheet" type="text/css" href="crs.css">
-
-<title>College & Retirement Solutions - Learning Style and Brain Hemispheric Preference Test</title>
 
 <script language="JavaScript" type="text/javascript">
 <!--
@@ -41,9 +37,9 @@ function validateForm()
 -->
 </script>
 
-</head>
 
-<body>
+
+
 
 <div id="crsWrapper">
 
@@ -582,6 +578,6 @@ In this section you will be taking the brain hemispheric preference assessment t
 
 </div>
 
-</body>
-
-</html>
+<?php
+   include_once '../../commonPhp/crsNewFooter.php';
+?>
