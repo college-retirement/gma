@@ -51,6 +51,18 @@ function getCurldata($url) {
     return $data;
 }
 
+$db_conn = pg_connect("host=localhost port=5432 user=postgres dbname=gma");
+if (!$db_conn) {
+  echo "Failed connecting to postgres database gma\n";
+  exit;
+}
+
+$qu = pg_query($db_conn, "Select unitid,instnm from colleges_college where active = 'y' Order by instnm");
+
+
+$data = pg_fetch_object($qu);
+echo json_encode($data);
+
 // Request a list of all colleges from the API.
 $colleges_json = getCurldata('http://api.getmoreaid.com/colleges.json?limit=-1');
 
